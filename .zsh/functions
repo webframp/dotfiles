@@ -1,0 +1,31 @@
+function e()  { emacs -nw $@ }
+function ed() { emacs --daemon }
+function ec() { emacsclient -t $@ }
+function es() { e --daemon=$1 && ec -s $1 }
+function el() { ps ax | egrep '[Ee]macs' }
+function ek() { ec -e '(kill-emacs)' -s $1 }
+
+function ssh-reagent () {
+    for agent in /tmp/ssh-*/agent.*; do
+        export SSH_AUTH_SOCK=$agent
+        if ssh-add -l 2>&1 > /dev/null; then
+            echo Found working SSH Agent:
+            ssh-add -l
+            return
+        fi
+    done
+    echo Cannot find ssh agent - maybe you should reconnect and forward it?
+}
+
+function setdsm() {
+    export PYTHONPATH=$PYTHONPATH:$PWD/..
+    export PYTHONPATH=$PYTHONPATH:$PWD
+    if [ -z "$1" ]; then
+        x=${PWD/\/[^\/]*\/}
+        export DJANGO_SETTINGS_MODULE=$x.settings
+    else
+        export DJANGO_SETTINGS_MODULE=$1
+    fi
+    echo "DJANGO_SETTINGS_MODULE set to $DJANGO_SETTINGS_MODULE"
+}
+

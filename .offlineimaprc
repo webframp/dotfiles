@@ -1,0 +1,25 @@
+[general]
+metadata = ~/.offlineimap
+accounts = GmailMain
+ui = basic
+
+[Account GmailMain]
+localrepository = GmailLocal
+remoterepository = GmailRemote
+# run every 15m by cron instead
+# # minutes until next sync
+# autorefresh = 10
+# # number of 'quick' syncs between full syncs, saves time
+# quick = 5
+status_backend = sqlite
+postsynchook = ~/bin/notmuch_sync.sh
+
+[Repository GmailLocal]
+# how we store mail here
+type = Maildir
+localfolders = ~/.mail/GMAIL
+
+[Repository GmailRemote]
+type = Gmail
+remoteuser = sean.escriva@gmail.com
+remotepassfile = ~/.mailpass
