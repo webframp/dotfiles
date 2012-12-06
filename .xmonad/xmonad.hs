@@ -8,6 +8,7 @@ import XMonad.Hooks.UrgencyHook (withUrgencyHook, NoUrgencyHook(..), focusUrgent
 import XMonad.Hooks.ManageDocks (avoidStruts, manageDocks, ToggleStruts(..))
 import XMonad.Hooks.ManageHelpers (isFullscreen, isDialog, doFullFloat, doCenterFloat)
 import XMonad.Hooks.SetWMName
+import XMonad.Hooks.EwmhDesktops
 -- Actions
 import XMonad.Actions.CycleWS (nextScreen, prevScreen, shiftNextScreen, shiftPrevScreen, toggleWS, Direction1D(..), WSType(..), findWorkspace)
 import XMonad.Actions.WindowGo (title, raiseMaybe, runOrRaise) --, (=?))
@@ -73,7 +74,13 @@ zbBrightWhite        = "#ffffff"
 colorNormalBorder    = zbGreen
 colorFocusedBorder   = zbBrightGreen
 
-colorBG              = zbBackground
+colorBG              = tnBackground
+
+tnBackground         = "#1d1f21"
+tnBrightBlue         = "#81a2be"
+tnBrightRed          = "#cc6666"
+tnYellow             = "#ae7b00"
+tnWhite              = "#929593"
 
 -- fonts
 barFont  = "terminus"
@@ -82,7 +89,7 @@ xftFont  = "xft: inconsolata-14"
 
 statusBarCmd = "dzen2" ++
                " -bg '" ++ colorBG ++ "'" ++
-               " -fg '" ++ zbBrightBlue ++ "'" ++
+               " -fg '" ++ tnBrightBlue ++ "'" ++
                " -sa c" ++
                " -fn '" ++ barXFont ++ "'" ++
                " -w 1300 -x 0 -y 0 -ta l -expand r -e ''"
@@ -90,11 +97,11 @@ statusBarCmd = "dzen2" ++
 mTerm    = "urxvtc"
 
 smePP = defaultPP
-        { ppCurrent = dzenColor zbBrightRed colorBG . wrap "" ""
-        , ppVisible = dzenColor zbBrightBlue colorBG . wrap "" ""
-        , ppSep     = dzenColor zbWhite colorBG " ^r(1x8) "
-        , ppUrgent  = dzenColor colorBG zbYellow . wrap "[" "]"
-        , ppTitle   = dzenColor zbWhite "" . trim
+        { ppCurrent = dzenColor tnBrightRed colorBG . wrap "" ""
+        , ppVisible = dzenColor tnBrightBlue colorBG . wrap "" ""
+        , ppSep     = dzenColor tnWhite colorBG " ^r(1x8) "
+        , ppUrgent  = dzenColor colorBG tnYellow . wrap "[" "]"
+        , ppTitle   = dzenColor tnWhite "" . trim
         }
 
 standardLayouts = Mirror tiled |||
@@ -199,5 +206,5 @@ strutsKey XConfig { XMonad.modMask = modMask } = (modMask, xK_b)
 -- Main
 main = do
      h <- spawnPipe statusBarCmd
-     xmonad $ withUrgencyHook NoUrgencyHook $ smeConfig { logHook = smeLogHook h }
+     xmonad $ withUrgencyHook NoUrgencyHook $ ewmh smeConfig { logHook = smeLogHook h }
 
