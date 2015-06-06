@@ -1,0 +1,34 @@
+include "/usr/share/X11/locale/en_US.UTF-8/Compose"
+
+# cute
+<Multi_key> <less> <3>                          : "♥"   U2665 # HEAVY BLACK HEART
+<Multi_key> <colon> <parenright>                : "☺"   U263A # WHITE SMILING FACE
+<Multi_key> <o> <O>                             : "☃"   U2603 # SNOWMAN
+
+# punctuation
+<Multi_key> <question> <exclam>                 : "‽"   U203d # INTERROBANG
+<Multi_key> <exclam> <question>                 : "‽"   U203d # INTERROBANG
+
+# Arrows
+<Multi_key> <minus> <less> : "←" U2190 # LEFTWARDS ARROW
+<Multi_key> <less> <minus> : "←" U2190 # LEFTWARDS ARROW
+<Multi_key> <minus> <asciicircum> : "↑" U2191 # UPWARDS ARROW
+<Multi_key> <minus> <greater> : "→" U2192 # RIGHTWARDS ARROW
+<Multi_key> <minus> <v> : "↓" U2193 # DOWNWARDS ARROW
+<Multi_key> <equal> <less> :  "⇐" U21D0 # LEFTWARDS DOUBLE ARROW
+<Multi_key> <less> <equal> :  "⇐" U21D0 # LEFTWARDS DOUBLE ARROW
+<Multi_key> <equal> <asciicircum> : "⇑" U21D1 # UPWARDS DOUBLE ARROW
+<Multi_key> <equal> <greater> : "⇒" U21D2 # RIGHTWARDS DOUBLE ARROW
+<Multi_key> <equal> <v> : "⇓" U21D3 # DOWNWARDS DOUBLE ARROW
+
+# Equational
+<Multi_key> <asciitilde> <equal> : "≈" U2248 # ALMOST EQUAL TO
+<Multi_key> <equal> <asciitilde> : "≈" U2248 # ALMOST EQUAL TO
+
+<Multi_key> <E> <E> : "∃" U2203 # THERE EXISTS
+<Multi_key> <A> <A> : "∀" U2200 # FOR ALL
+
+<Multi_key> <parenleft> <equal> : "∈" U2208 # ELEMENT OF
+
+<Multi_key> <quotedbl> <tilde> : "⍨" U2368 # APL FUNCTIONAL SYMBOL TILDE DIAERESIS
+<Multi_key> <tilde> <quotedbl> : "⍨" U2368 # APL FUNCTIONAL SYMBOL TILDE DIAERESIS
