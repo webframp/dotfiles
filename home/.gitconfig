@@ -1,0 +1,33 @@
+# -*- gitconfig -*-
+[user]
+  name = Sean Escriva
+  email = sean.escriva@gmail.com
+[color]
+  ui = true
+[alias]
+  in = log ..@{upstream}
+  out = log @{upstream}..
+  st = status
+  co = checkout
+  ci = commit
+  br = branch
+  r = reset
+  rh = reset --hard
+  rh1 = reset --hard HEAD~1
+  rh2 = reset --hard HEAD~2
+  stage = add -p
+  ls = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+  ll = log --pretty=format:'%Cred%h%C(yellow)%d%Creset -%Creset %s %Cgreen(%cr) %C(bold blue)<%cn>%Creset' --decorate --numstat
+  dlc = diff --cached HEAD^
+  filelog = log -u
+  fl = log -u
+  serve = daemon --reuseaddr --base-path=. --export-all --verbose
+[branch]
+  autosetuprebase = always
+[core]
+  excludesfile = ~/.gitignore_global
+  editor = emacsclient -t -a=""
+[push]
+  default = simple
+[help]
+  autocorrect = 1
