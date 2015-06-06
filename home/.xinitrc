@@ -35,9 +35,7 @@ xset r rate 250 50
 xset m 1/1
 # composite manager
 #compton -b TODO
-#launch a browser
-tabbed -c surf -e
-# status bar
-taffybar &
+# clipboard manager
+parcellite&
 # finally start the WM
-exec dbus-launch --auto-syntax --exit-with-session xmonad
+exec dbus-launch --sh-syntax --exit-with-session xmonad

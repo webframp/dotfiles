@@ -31,12 +31,13 @@ import Control.Monad
 import System.Directory (getHomeDirectory)
 
 main = do
-        homedir <- getHomeDirectory
-        xmonad
-            $ withUrgencyHook NoUrgencyHook
-            $ ewmh
-            $ pagerHints
-            $ smeConfig homedir
+  homedir <- getHomeDirectory
+  spawn "taffybar"
+  xmonad
+    $ withUrgencyHook NoUrgencyHook
+    $ ewmh
+    $ pagerHints
+    $ smeConfig homedir
 
 --                [ className =? "HipChat" <&&> isInProperty "_NET_WM_STATE" "_NET_WM_STATE_SKIP_TASKBAR" --> doIgnore
 smeManageHook = composeAll
@@ -83,7 +84,7 @@ smePromptConfig = greenXPConfig {
   , autoComplete = Just 50000
   }
 
-smeWorkspaces = ["web","mail","chat","4","5","6","7","8","9","0"]
+smeWorkspaces = ["term","web","3","4","5","6","7","8","9","0"]
 
 promptedGoto = workspacePrompt smePromptConfig $ windows . W.greedyView
 promptedShift = workspacePrompt smePromptConfig $ windows . W.shift
@@ -108,6 +109,7 @@ smeKeymap homedir =
   , ("M-p", spawn "dmenu_run")
   -- launch browser
   , ("M-b", spawn "tabbed -c surf -e")
+  , ("M-e", spawn "thunar")
     -- Close the focused window
   , ("M-S-c", kill)
     -- Switch to the next layout
