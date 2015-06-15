@@ -1,5 +1,8 @@
 import XMonad
 import qualified XMonad.StackSet as W
+import qualified XMonad.Actions.Search as S
+import qualified Data.Map as M
+import qualified XMonad.Actions.Submap as SM
 import XMonad.Actions.SpawnOn
 import XMonad.Actions.CycleWS
 import XMonad.Actions.PhysicalScreens
@@ -79,7 +82,31 @@ smeLayout homedir =
         myTall = Tall 1 0.05 0.5
         myFullTabbed = simpleTabbed
 
-smePromptConfig = greenXPConfig {
+--Search engines to be selected :  [google (g), wikipedia (w), duckduckgo (d), aur (r), wiki (a)]
+--keybinding: hit mod + s + <searchengine>
+searchEngineMap method = M.fromList $
+                         [ ((0, xK_g), method S.google )
+                         , ((0, xK_w), method S.wikipedia )
+                         , ((0, xK_d), method $ S.searchEngine "duckduckgo" "https://duckduckgo.com/?q=")
+                         , ((0n, xK_b), method $ S.searchEngine "archbbs" "http://bbs.archlinux.org/search.php?action=search&keywords=")
+                         , ((0, xK_r), method $ S.searchEngine "AUR" "http://aur.archlinux.org/packages.php?O=0&L=0&C=0&K=")
+                         , ((0, xK_a), method $ S.searchEngine "archwiki" "http://wiki.archlinux.org/index.php/Special:Search?search=")
+                         ]
+
+pConfig = defaultXPConfig
+       { font = "xft:Bitstream Vera Sans Mono:pixelsize=20:autohint=true"
+       , bgColor           = "#0c1021"
+       , fgColor           = "#f8f8f8"
+       --, fgHLight          = "#f8f8f8"
+       --, bgHLight          = "steelblue3"
+       --, borderColor       = "DarkOrange"
+       , promptBorderWidth = 0
+       , position          = Bottom
+       , height            = 22
+       , defaultText       = []
+       }
+
+smePromptConfig = pConfig {
   font = "xft:Bitstream Vera Sans Mono:pixelsize=20:autohint=true"
   , autoComplete = Just 50000
   }
@@ -106,8 +133,9 @@ smeKeymap homedir =
   , ("M-<F11>", spawn "amixer -q set Master 3%- unmute")
   , ("M-<F12>", spawn "amixer -q set Master 3%+ unmute")
     -- Run dmenu to launch programs
-  , ("M-p", spawn "dmenu_run")
-  -- launch browser
+  , ("M-r", spawn "dmenu_run")
+  , ("M-s", SM.submap $ searchEngineMap $ S.promptSearchBrowser pConfig "/usr/bin/surf")
+-- launch browser
   , ("M-b", spawn "tabbed -c surf -e")
   , ("M-e", spawn "thunar")
     -- Close the focused window
@@ -126,10 +154,9 @@ smeKeymap homedir =
   , ("M-S-k", windows W.swapUp)
 
     -- Shrink the master window
-  , ("M-c", sendMessage Shrink)
+  --, ("M-c", sendMessage Shrink)
     -- Expand the master window
-  , ("M-r", sendMessage Expand)
-
+  --, ("M-r", sendMessage Expand)
     -- Increment the number of windows in the master area
   , ("M-l", sendMessage (IncMasterN 1))
     -- Decrement the number of windows in the master area
@@ -169,10 +196,10 @@ smeKeymap homedir =
   , ("M-<Pause>", spawn "xscreensaver-command -lock")
 
     -- Workspace cycling
-  , ("M-s", nextWS)
-  , ("M-h", prevWS)
-  , ("M-S-s", shiftToNext)
-  , ("M-S-h", shiftToPrev)
+  , ("M-n", nextWS)
+  , ("M-p", prevWS)
+  , ("M-S-n", shiftToNext)
+  , ("M-S-p", shiftToPrev)
   , ("M-z", toggleWS)
   ]
       -- Move between workspaces, move windows between workspaces
