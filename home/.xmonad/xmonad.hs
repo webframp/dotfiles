@@ -33,6 +33,7 @@ import Data.Monoid
 import Control.Monad
 import System.Directory (getHomeDirectory)
 
+main :: IO ()
 main = do
   homedir <- getHomeDirectory
   spawn "taffybar"
@@ -42,11 +43,13 @@ main = do
     $ pagerHints
     $ smeConfig homedir
 
---                [ className =? "HipChat" <&&> isInProperty "_NET_WM_STATE" "_NET_WM_STATE_SKIP_TASKBAR" --> doIgnore
+
+smeManageHook :: ManageHook
 smeManageHook = composeAll
                 [ manageDocks
                 , isFullscreen --> doFullFloat
 --                , className =? "mplayer2" --> doFloat
+--                , className =? "HipChat" <&&> isInProperty "_NET_WM_STATE" "_NET_WM_STATE_SKIP_TASKBAR" --> doIgnore
                 ]
 
 smeConfig homedir = defaultConfig {
@@ -71,8 +74,8 @@ smeLayout homedir =
     smartBorders $                  -- no borders on full-screen
     mkToggle (single REFLECTX) $
     mkToggle (single REFLECTY) $
+    onWorkspace "web" myFullTabbed $
     --    onWorkspace "chat" myThree $  -- use 3-column layout on chat desktop
-
     myGrid
     ||| myTall
     ||| myFullTabbed             -- tall and fullscreen tabbed layouts
@@ -84,15 +87,19 @@ smeLayout homedir =
 
 --Search engines to be selected :  [google (g), wikipedia (w), duckduckgo (d), aur (r), wiki (a)]
 --keybinding: hit mod + s + <searchengine>
+-- searchEngineMap :: forall a t.
+--                    (Num t, Ord t) =>
+--                    (S.SearchEngine -> a) -> M.Map (t, KeySym) a
 searchEngineMap method = M.fromList $
-                         [ ((0, xK_g), method S.google )
+                         [ ((0, xK_g), method S.google )n
                          , ((0, xK_w), method S.wikipedia )
                          , ((0, xK_d), method $ S.searchEngine "duckduckgo" "https://duckduckgo.com/?q=")
-                         , ((0n, xK_b), method $ S.searchEngine "archbbs" "http://bbs.archlinux.org/search.php?action=search&keywords=")
+                         , ((0, xK_b), method $ S.searchEngine "archbbs" "http://bbs.archlinux.org/search.php?action=search&keywords=")
                          , ((0, xK_r), method $ S.searchEngine "AUR" "http://aur.archlinux.org/packages.php?O=0&L=0&C=0&K=")
                          , ((0, xK_a), method $ S.searchEngine "archwiki" "http://wiki.archlinux.org/index.php/Special:Search?search=")
                          ]
 
+pConfig :: XPConfig
 pConfig = defaultXPConfig
        { font = "xft:Bitstream Vera Sans Mono:pixelsize=20:autohint=true"
        , bgColor           = "#0c1021"
@@ -106,16 +113,22 @@ pConfig = defaultXPConfig
        , defaultText       = []
        }
 
+smePromptConfig :: XPConfig
 smePromptConfig = pConfig {
   font = "xft:Bitstream Vera Sans Mono:pixelsize=20:autohint=true"
   , autoComplete = Just 50000
   }
 
+smeWorkspaces :: [[Char]]
 smeWorkspaces = ["term","web","3","4","5","6","7","8","9","0"]
 
+promptedGoto :: X ()
 promptedGoto = workspacePrompt smePromptConfig $ windows . W.greedyView
+
+promptedShift :: X ()
 promptedShift = workspacePrompt smePromptConfig $ windows . W.shift
 
+smeKeymap :: String -> [([Char], X ())]
 smeKeymap homedir =
   -- Macbook Air first row
   [  ("<XF86MonBrightnessDown>", spawn "sudo /home/sme/bin/screen-backlight down")
@@ -136,7 +149,7 @@ smeKeymap homedir =
   , ("M-r", spawn "dmenu_run")
   , ("M-s", SM.submap $ searchEngineMap $ S.promptSearchBrowser pConfig "/usr/bin/surf")
 -- launch browser
-  , ("M-b", spawn "tabbed -c surf -e")
+  , ("M-b", spawn "/usr/bin/surf")
   , ("M-e", spawn "thunar")
     -- Close the focused window
   , ("M-S-c", kill)
