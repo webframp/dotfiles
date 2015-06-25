@@ -192,8 +192,8 @@ promptedShift = workspacePrompt smePromptConfig $ windows . W.shift
 smeKeymap :: String -> [([Char], X ())]
 smeKeymap homedir =
   -- Macbook Air first row
-  [  ("<XF86MonBrightnessDown>", spawn "sudo /home/sme/bin/screen-backlight down")
-  , ("<XF86MonBrightnessUp>", spawn "sudo /home/sme/bin/screen-backlight up")
+  [  ("<XF86MonBrightnessDown>", spawn "xbacklight -10")
+  , ("<XF86MonBrightnessUp>", spawn "xbacklight +10")
   , ("<XF86LaunchA>", spawn "scrot '%Y-%m-%d-%H%M_$wx$h.png' -e 'mv $f ~/screenshots/'")
   , ("<XF86LaunchB>", spawn "")
   , ("<XF86KbdBrightnessDown>", spawn "sudo /home/sme/bin/keyboard-backlight down")
