@@ -19,6 +19,7 @@ import XMonad.Layout.Reflect
 import XMonad.Layout.Renamed
 import XMonad.Layout.ResizableTile
 import XMonad.Layout.Tabbed
+import XMonad.Layout.Decoration
 import XMonad.Layout.ThreeColumns
 import XMonad.Layout.WorkspaceDir
 import XMonad.Prompt
@@ -26,12 +27,13 @@ import XMonad.Prompt.Workspace
 import XMonad.Util.EZConfig
 import XMonad.Util.Run
 import XMonad.Util.Loggers
+
 import System.Taffybar.Hooks.PagerHints (pagerHints)
+import System.Directory (getHomeDirectory)
 import System.Exit
 import System.IO
 import Data.Monoid
-import Control.Monad
-import System.Directory (getHomeDirectory)
+import Data.Maybe (fromJust)
 
 main :: IO ()
 main = do
@@ -52,6 +54,51 @@ smeManageHook = composeAll
 --                , className =? "HipChat" <&&> isInProperty "_NET_WM_STATE" "_NET_WM_STATE_SKIP_TASKBAR" --> doIgnore
                 ]
 
+-- Solarized Colors
+solarizedCommon :: [([Char], [Char])]
+solarizedCommon = [ ("yellow","#b58900")
+                  , ("orange","#cb4b16")
+                  , ("red","#dc322f")
+                  , ("magenta","#d33682")
+                  , ("violet","#6c71c4")
+                  , ("blue","#268bd2")
+                  , ("cyan","#2aa198")
+                  , ("green","#859900")
+                  ]
+
+solarizedDark :: [([Char], [Char])]
+solarizedDark = [ ("S_base03","#002b36")
+                , ("S_base02","#073642")
+                , ("S_base01","#586e75")
+                , ("S_base00","#657b83")
+                , ("S_base0","#839496")
+                , ("S_base1","#93a1a1")
+                , ("S_base2","#eee8d5")
+                , ("S_base3","#fdf6e3")
+                ]
+
+solarizedLight :: [([Char], [Char])]
+solarizedLight = [ ("S_base03","#fdf6e3")
+                 , ("S_base02","#eee8d5")
+                 , ("S_base01","#93a1a1")
+                 , ("S_base00","#839496")
+                 , ("S_base0", "#657b83")
+                 , ("S_base1", "#586e75")
+                 , ("S_base2", "#073642")
+                 , ("S_base3", "#002b36")
+                 ]
+
+-- TODO: join assoc lists?
+-- join: currentTheme = solarizedCommon + solarizedDark
+-- then: getColor "red" currentTheme in decoration theme blocks
+
+-- Lookup color in assoc list or return safe default
+getColor :: String -> [([Char], [Char])] -> String
+getColor name list =
+  case lookup name list of
+  Nothing -> "#cccccc"
+  x -> fromJust x
+
 smeConfig homedir = defaultConfig {
   manageHook = smeManageHook
   , handleEventHook = fullscreenEventHook
@@ -60,13 +107,29 @@ smeConfig homedir = defaultConfig {
   , workspaces = smeWorkspaces
   , borderWidth = 2
   , terminal = "urxvt"
-  , normalBorderColor  = "#2a2b2f"
-  , focusedBorderColor = "DarkOrange"
+  , normalBorderColor  = getColor "S_base01" solarizedDark
+  , focusedBorderColor = getColor "yellow" solarizedCommon
   , keys = \c -> mkKeymap c $ smeKeymap homedir
   , startupHook = do
       return ()
       checkKeymap (smeConfig homedir) (smeKeymap homedir)
   }
+
+solarizedTabs = defaultTheme { activeColor         = getColor "S_base02" solarizedDark
+                             , activeTextColor     = getColor "green" solarizedCommon
+                             , activeBorderColor   = getColor "S_base01" solarizedDark
+                             , inactiveColor       = getColor "S_base03" solarizedDark
+                             , inactiveTextColor   = getColor "S_base01" solarizedDark
+                             , inactiveBorderColor = getColor "S_base01" solarizedDark
+                             , urgentColor         = getColor "cyan" solarizedCommon
+                             , urgentTextColor     = getColor "S_base3" solarizedDark
+                             , urgentBorderColor   = getColor "S_base3" solarizedDark
+                             , fontName            = "xft:Andika:size=8"
+                             -- , decoWidth           = 200
+                             -- , decoHeight          = 20
+                             -- , windowTitleAddons   = []
+                             -- , windowTitleIcons    = []
+                             }
 
 smeLayout homedir =
     avoidStrutsOn [U] $             -- don't map windows over docks, etc.
@@ -83,7 +146,7 @@ smeLayout homedir =
         myThree = ThreeCol 1 0.03 0.50
         myGrid = renamed [Replace "Grid"] $ GridRatio (19 / 21)
         myTall = Tall 1 0.05 0.5
-        myFullTabbed = simpleTabbed
+        myFullTabbed  = tabbed shrinkText solarizedTabs
 
 --Search engines to be selected :  [google (g), wikipedia (w), duckduckgo (d), aur (r), wiki (a)]
 --keybinding: hit mod + s + <searchengine>
@@ -91,21 +154,22 @@ smeLayout homedir =
 --                    (Num t, Ord t) =>
 --                    (S.SearchEngine -> a) -> M.Map (t, KeySym) a
 searchEngineMap method = M.fromList $
-                         [ ((0, xK_g), method S.google )n
+                         [ ((0, xK_g), method S.google )
                          , ((0, xK_w), method S.wikipedia )
                          , ((0, xK_d), method $ S.searchEngine "duckduckgo" "https://duckduckgo.com/?q=")
                          , ((0, xK_b), method $ S.searchEngine "archbbs" "http://bbs.archlinux.org/search.php?action=search&keywords=")
                          , ((0, xK_r), method $ S.searchEngine "AUR" "http://aur.archlinux.org/packages.php?O=0&L=0&C=0&K=")
                          , ((0, xK_a), method $ S.searchEngine "archwiki" "http://wiki.archlinux.org/index.php/Special:Search?search=")
+                         , ((0, xK_h), method $ S.searchEngine "hoogle" "https://www.fpcomplete.com/hoogle?q=")
                          ]
 
 pConfig :: XPConfig
 pConfig = defaultXPConfig
-       { font = "xft:Bitstream Vera Sans Mono:pixelsize=20:autohint=true"
-       , bgColor           = "#0c1021"
-       , fgColor           = "#f8f8f8"
-       --, fgHLight          = "#f8f8f8"
-       --, bgHLight          = "steelblue3"
+       { font = "xft:Andika:pixelsize=16"
+       , bgColor           = getColor "S_base03" solarizedDark
+       , fgColor           = getColor "S_base01" solarizedDark
+       , fgHLight          = getColor "S_base2" solarizedCommon
+       , bgHLight          = getColor "cyan" solarizedCommon
        --, borderColor       = "DarkOrange"
        , promptBorderWidth = 0
        , position          = Bottom
@@ -114,10 +178,7 @@ pConfig = defaultXPConfig
        }
 
 smePromptConfig :: XPConfig
-smePromptConfig = pConfig {
-  font = "xft:Bitstream Vera Sans Mono:pixelsize=20:autohint=true"
-  , autoComplete = Just 50000
-  }
+smePromptConfig = pConfig { autoComplete = Just 50000 }
 
 smeWorkspaces :: [[Char]]
 smeWorkspaces = ["term","web","3","4","5","6","7","8","9","0"]
