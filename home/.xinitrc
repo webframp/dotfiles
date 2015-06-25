@@ -16,7 +16,7 @@ if [ -f $sysmodmap ]; then
 fi
 
 if [ -f "$userresources" ]; then
-    xrdb -merge "$userresources"
+    xrdb -I$HOME -merge "$userresources"
 fi
 
 if [ -f "$usermodmap" ]; then

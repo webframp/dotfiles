@@ -1,0 +1,41 @@
+!-- URXVT --!
+! General
+urxvt*termName:           rxvt-unicode-256color
+urxvt*loginShell:         true
+urxvt*scrollBar:         false
+urxvt*secondaryScroll:    true
+urxvt*saveLines:         65535
+urxvt*cursorBlink:       false
+!urxvt*cursorUnderline:   true
+urxvt*urgentOnBell:       true
+!urxvt*override-redirect:false
+!urxvt*borderLess:       false
+!urxvt*internalBorder:       0
+!urxvt*externalBorder:       0
+URxvt.insecure: 	true
+!
+! Extensions
+urxvt*perl-lib:        /usr/lib/urxvt/perl/
+urxvt*perl-ext-common: default,matcher,searchable-scrollback
+urxvt*urlLauncher:     /usr/bin/surf
+URxvt.underlineURLs:    true
+urxvt*matcher.button:  1
+! disable Keycap Picture insert mode
+URxvt.iso14755:		false
+URxvt.iso14755_52:	false
+! Catch ugly URLs
+urxvt*cutchars:        '"'()*<>[]{|}
+!
+! Appearance
+URxvt.font: xft:Source Code Pro-12:hinting=True;antialias:True
+URxvt.boldFont: xft:Source Code Pro for Powerline-12:bold;hinting=True;antialias:True
+URxvt.letterSpace:      0
+!
+! Cursor
+urxvt*cursorColor: #DCDCCC
+! URLs
+urxvt*.colorUL:    #ffffff
+!
+! Pseudo Transparency
+!urxvt*shading:    50
+!urxvt*transparent:true

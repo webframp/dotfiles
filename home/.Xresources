@@ -1,94 +1,20 @@
-!{{{ XFT
-! Xft.dpi:       96
-! Xft.antialias: 1
-! Xft.hinting:   1
-! Xft.hintstyle: hintfull
-! Xft.rgba:      rgb
-!}}}
-
-Xft.lcdfilter: lcddefault
 !-- Xft settings -- !
+Xft.lcdfilter: lcddefault
 Xft.dpi:        96
 Xft.antialias:  true
 Xft.rgba:       rgb
 Xft.hinting:    true
 Xft.hintstyle:  hintslight
 
-!{{{ EMACS
-!
-!Emacs.font: -xos4-terminus-medium-*-*-*-12-*-*-*-*-*-iso8859-2
-!}}}
-
-
-!{{{ URXVT
-!
-! General
-urxvt*termName:           rxvt-unicode-256color
-urxvt*loginShell:         true
-urxvt*scrollBar:         false
-urxvt*secondaryScroll:    true
-urxvt*saveLines:         65535
-urxvt*cursorBlink:       false
-!urxvt*cursorUnderline:   true
-urxvt*urgentOnBell:       true
-!urxvt*override-redirect:false
-!urxvt*borderLess:       false
-!urxvt*internalBorder:       0
-!urxvt*externalBorder:       0
-URxvt.insecure: 	true
-!
-! Extensions
-urxvt*perl-lib:        /usr/lib/urxvt/perl/
-urxvt*perl-ext-common: default,matcher,searchable-scrollback
-urxvt*urlLauncher:     /usr/bin/surf
-URxvt.underlineURLs:    true
-urxvt*matcher.button:  1
-! disable Keycap Picture insert mode
-URxvt.iso14755:		false
-URxvt.iso14755_52:	false
-! Catch ugly URLs
-urxvt*cutchars:        '"'()*<>[]{|}
-!
-! Appearance
-URxvt.font: xft:Source Code Pro-12:hinting=True;antialias:True
-URxvt.boldFont: xft:Source Code Pro for Powerline-12:bold;hinting=True;antialias:True
-URxvt.letterSpace:      0
-!
-! Cursor
-urxvt*cursorColor: #DCDCCC
-! URLs
-urxvt*.colorUL:    #ffffff
-!
-! Pseudo Transparency
-!urxvt*shading:    50
-!urxvt*transparent:true
-!
-! Zenburn color-scheme
-urxvt*background:  #3f3f3f
-urxvt*foreground:  #dcdccc
-! black + red
-!urxvt*color0:     #3f3f3f
-urxvt*color0:      #1E2320
-urxvt*color1:      #705050
-! green + yellow
-urxvt*color2:      #60b48a
-urxvt*color3:      #dfaf8f
-! blue + purple
-urxvt*color4:      #506070
-urxvt*color5:      #dc8cc3
-! cyan + white
-urxvt*color6:      #8cd0d3
-urxvt*color7:      #dcdccc
-! bright-black + bright-red
-urxvt*color8:      #709080
-urxvt*color9:      #dca3a3
-! bright-green + bright-yellow
-urxvt*color10:     #c3bf9f
-urxvt*color11:     #f0dfaf
-! bright-blue + bright-purple
-urxvt*color12:     #94bff3
-urxvt*color13:     #ec93d3
-! bright-cyan + bright-white
-urxvt*color14:     #93e0e3
-urxvt*color15:     #ffffff
-!}}}
+#include ".Xresources.d/urxvt"
+xpdf*enableFreetype:    yes
+xpdf*antialias:         yes
+xpdf*foreground:        black
+xpdf*background:        white
+xpdf*urlCommand:        /usr/bin/firefox %s
+!-- Theme Selection --!
+!#include ".Xresources.d/zenburn"
+!#include ".Xresources.d/solarized-light"
+#include ".Xresources.d/solarized-dark"
+! enumarate colors:
+!(x=`tput op` y=`printf %76s`;for i in {0..256};do o=00$i;echo -e ${o:${#o}-3:3} `tput setaf $i;tput setab $i`${y// /=}$x;done)
