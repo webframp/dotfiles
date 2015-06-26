@@ -1,30 +1,31 @@
 !-- URXVT --!
 ! General
-urxvt*termName:           rxvt-unicode-256color
-urxvt*loginShell:         true
-urxvt*scrollBar:         false
-urxvt*secondaryScroll:    true
-urxvt*saveLines:         65535
-urxvt*cursorBlink:       false
-!urxvt*cursorUnderline:   true
-urxvt*urgentOnBell:       true
-!urxvt*override-redirect:false
-!urxvt*borderLess:       false
-!urxvt*internalBorder:       0
-!urxvt*externalBorder:       0
+URxvt*termName:           rxvt-unicode-256color
+URxvt*loginShell:         true
+URxvt*scrollBar:         false
+URxvt*secondaryScroll:    true
+URxvt*saveLines:         65535
+URxvt*cursorBlink:       false
+!URxvt*cursorUnderline:   true
+URxvt*urgentOnBell:       true
+!URxvt*override-redirect:false
+!URxvt*borderLess:       false
+!URxvt*internalBorder:       0
+!URxvt*externalBorder:       0
 URxvt.insecure: 	true
 !
 ! Extensions
-urxvt*perl-lib:        /usr/lib/urxvt/perl/
-urxvt*perl-ext-common: default,matcher,searchable-scrollback
-urxvt*urlLauncher:     /usr/bin/conkeror
-URxvt.underlineURLs:    true
-urxvt*matcher.button:  1
+URxvt*perl-lib:             /usr/lib/urxvt/perl/
+URxvt.perl-ext-common:      default,url-select
+URxvt.url-select.launcher:  /usr/bin/conkeror
+URxvt.url-select.underline: true
+URxvt.url-select.button:    1
+URxvt.keysym.M-u:           perl:url-select:select_next
 ! disable Keycap Picture insert mode
 URxvt.iso14755:		false
 URxvt.iso14755_52:	false
 ! Catch ugly URLs
-urxvt*cutchars:        '"'()*<>[]{|}
+URxvt*cutchars:        '"'()*<>[]{|}
 !
 ! Appearance
 URxvt.font: xft:Inconsolata-dz for Powerline:hinting=True;antialias:True
@@ -32,10 +33,10 @@ URxvt.boldFont: xft:Inconsolata-dz for Powerline:bold;hinting=True;antialias:Tru
 URxvt.letterSpace:      0
 !
 ! Cursor
-urxvt*cursorColor: #DCDCCC
+URxvt*cursorColor: #DCDCCC
 ! URLs
-urxvt*.colorUL:    #ffffff
+URxvt*.colorUL:    #ffffff
 !
 ! Pseudo Transparency
-!urxvt*shading:    50
-!urxvt*transparent:true
+!URxvt*shading:    50
+!URxvt*transparent:true
