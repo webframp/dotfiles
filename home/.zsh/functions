@@ -1,6 +1,7 @@
 function e()  { emacs -nw $@ }
 function ed() { emacs --daemon }
 function ec() { emacsclient -t $@ }
+function ew() { emacsclient -n $@ }
 function es() { e --daemon=$1 && ec -s $1 }
 function el() { ps ax | egrep '[Ee]macs' }
 function ek() { ec -e '(kill-emacs)' -s $1 }
