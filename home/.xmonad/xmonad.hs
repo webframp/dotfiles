@@ -208,9 +208,9 @@ smeKeymap homedir =
   , ("M-<F12>", spawn "amixer -q set Master 3%+ unmute")
     -- Run dmenu to launch programs
   , ("M-r", spawn "dmenu_run")
-  , ("M-s", SM.submap $ searchEngineMap $ S.promptSearchBrowser pConfig "/usr/bin/surf")
+  , ("M-s", SM.submap $ searchEngineMap $ S.promptSearchBrowser pConfig "/usr/bin/conkeror")
 -- launch browser
-  , ("M-b", spawn "/usr/bin/surf")
+  , ("M-b", spawn "/usr/bin/conkeror")
   , ("M-e", spawn "thunar")
     -- Close the focused window
   , ("M-S-c", kill)

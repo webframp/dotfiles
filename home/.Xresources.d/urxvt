@@ -17,7 +17,7 @@ URxvt.insecure: 	true
 ! Extensions
 urxvt*perl-lib:        /usr/lib/urxvt/perl/
 urxvt*perl-ext-common: default,matcher,searchable-scrollback
-urxvt*urlLauncher:     /usr/bin/surf
+urxvt*urlLauncher:     /usr/bin/conkeror
 URxvt.underlineURLs:    true
 urxvt*matcher.button:  1
 ! disable Keycap Picture insert mode
@@ -27,8 +27,8 @@ URxvt.iso14755_52:	false
 urxvt*cutchars:        '"'()*<>[]{|}
 !
 ! Appearance
-URxvt.font: xft:Source Code Pro-12:hinting=True;antialias:True
-URxvt.boldFont: xft:Source Code Pro for Powerline-12:bold;hinting=True;antialias:True
+URxvt.font: xft:Inconsolata-dz for Powerline:hinting=True;antialias:True
+URxvt.boldFont: xft:Inconsolata-dz for Powerline:bold;hinting=True;antialias:True
 URxvt.letterSpace:      0
 !
 ! Cursor
