@@ -33,6 +33,8 @@ nitrogen --restore
 xset r rate 250 50
 # 1:1 mouse movement
 xset m 1/1
+# ensure palm detection is enabled
+synclient PalmDetect=1
 # composite manager
 #compton -b TODO
 # clipboard manager
