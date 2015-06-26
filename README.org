@@ -1,1 +1,3 @@
-Just a bunch of junk you probably don't want to waste time with
+* Dotfiles
+  Just a bunch of junk you probably don't want to waste time with.
+  If you decide to waste time, you'll need [[https://github.com/andsens/homeshick][homeshick]]
