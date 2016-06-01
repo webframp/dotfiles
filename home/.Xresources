@@ -13,8 +13,8 @@ xpdf*foreground:        black
 xpdf*background:        white
 xpdf*urlCommand:        /usr/bin/firefox %s
 !-- Theme Selection --!
-!#include ".Xresources.d/zenburn"
+#include ".Xresources.d/zenburn"
 !#include ".Xresources.d/solarized-light"
-#include ".Xresources.d/solarized-dark"
+!#include ".Xresources.d/solarized-dark"
 ! enumarate colors:
 !(x=`tput op` y=`printf %76s`;for i in {0..256};do o=00$i;echo -e ${o:${#o}-3:3} `tput setaf $i;tput setab $i`${y// /=}$x;done)
