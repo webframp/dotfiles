@@ -54,7 +54,7 @@ main = do
   let clock = textClockNew Nothing "<span fgcolor='#cb4b16'>%a %b %_d %H:%M</span>" 1
       pager = taffyPagerNew pagCfg
       note = notifyAreaNew defaultNotificationConfig
-      wea = weatherNew (defaultWeatherConfig "KPDX") 10 -- KJFK
+      wea = weatherNew (defaultWeatherConfig "KJFK") 10 -- KPDX
       mpris = mpris2New
       mem = pollingGraphNew memCfg 1 memCallback
       cpu = pollingGraphNew cpuCfg 0.5 cpuCallback

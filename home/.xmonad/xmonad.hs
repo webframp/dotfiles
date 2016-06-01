@@ -210,7 +210,8 @@ smeKeymap homedir =
   , ("M-r", spawn "dmenu_run")
   , ("M-s", SM.submap $ searchEngineMap $ S.promptSearchBrowser pConfig "/usr/bin/conkeror")
 -- launch browser
-  , ("M-b", spawn "/usr/bin/conkeror")
+  , ("M-b b", spawn "/usr/bin/conkeror")
+  , ("M-b h", spawn "/usr/bin/surf heavywater.slack.com")
   , ("M-e", spawn "thunar")
     -- Close the focused window
   , ("M-S-c", kill)
