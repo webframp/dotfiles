@@ -40,4 +40,4 @@ synclient PalmDetect=1
 # clipboard manager
 parcellite&
 # finally start the WM
-exec dbus-launch --sh-syntax --exit-with-session xmonad
+exec dbus-launch --sh-syntax --exit-with-session i3 #awesome #xmonad
