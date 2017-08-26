@@ -1,3 +1,8 @@
 * Dotfiles
   Just a bunch of junk you probably don't want to waste time with.
-  If you decide to waste time, you'll need [[https://github.com/andsens/homeshick][homeshick]]
+  If you decide to waste time, you'll need [[https://github.nom/andsens/homeshick][homeshick]]
+** Setup
+   1. Install homeshick: ~git clone https://github.com/andsens/homeshick.git $HOME/.homesick/repos/homeshick~
+   1. ~printf '\nsource "$HOME/.homesick/repos/homeshick/homeshick.sh"' >> $HOME/.zshrc~
+   1. Run: ~homeshick clone webframp/dotfiles~
+   1. Link: ~homeshick link dotfiles~
