@@ -33,11 +33,15 @@ nitrogen --restore
 xset r rate 250 50
 # 1:1 mouse movement
 xset m 1/1
-# ensure palm detection is enabled
-synclient PalmDetect=1
-# composite manager
-#compton -b TODO
+# TODO:
+# rofi # dmenu replacement
+# volnoti # volume up/down
+# dunst # dunstrc for theme
+
 # clipboard manager
-parcellite&
+clipit&
 # finally start the WM
-exec dbus-launch --sh-syntax --exit-with-session i3 #awesome #xmonad
+#exec dbus-launch --sh-syntax --exit-with-session i3 #--shmlog-size=26214400
+#i3-msg 'debuglog on; shmlog on; reload'
+
+exec dbus-launch --sh-syntax --exit-with-session xmonad
