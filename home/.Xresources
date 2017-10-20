@@ -1,5 +1,6 @@
 !-- Xft settings -- !
 Xft.lcdfilter: lcddefault
+!Xft.dpi:        143
 Xft.dpi:        96
 Xft.antialias:  true
 Xft.rgba:       rgb
@@ -7,14 +8,16 @@ Xft.hinting:    true
 Xft.hintstyle:  hintslight
 
 #include ".Xresources.d/urxvt"
+
 xpdf*enableFreetype:    yes
 xpdf*antialias:         yes
 xpdf*foreground:        black
 xpdf*background:        white
-xpdf*urlCommand:        /usr/bin/firefox %s
+xpdf*urlCommand:        /usr/bin/chromium %s
 !-- Theme Selection --!
-#include ".Xresources.d/zenburn"
+!#include ".Xresources.d/zenburn"
 !#include ".Xresources.d/solarized-light"
 !#include ".Xresources.d/solarized-dark"
+#include ".Xresources.d/monokai"
 ! enumarate colors:
 !(x=`tput op` y=`printf %76s`;for i in {0..256};do o=00$i;echo -e ${o:${#o}-3:3} `tput setaf $i;tput setab $i`${y// /=}$x;done)
