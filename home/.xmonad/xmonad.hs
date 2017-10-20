@@ -101,7 +101,7 @@ getColor name list =
 
 smeConfig homedir = defaultConfig {
   manageHook = smeManageHook
-  , handleEventHook = fullscreenEventHook
+  , handleEventHook = docksEventHook <+> fullscreenEventHook
   , layoutHook = smeLayout homedir
   , modMask = mod4Mask
   , workspaces = smeWorkspaces

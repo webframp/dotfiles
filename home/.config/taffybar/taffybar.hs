@@ -54,14 +54,14 @@ main = do
   let clock = textClockNew Nothing "<span fgcolor='#cb4b16'>%a %b %_d %H:%M</span>" 1
       pager = taffyPagerNew pagCfg
       note = notifyAreaNew defaultNotificationConfig
-      wea = weatherNew (defaultWeatherConfig "KJFK") 10 -- KPDX
-      mpris = mpris2New
+      -- wea = weatherNew (defaultWeatherConfig "KSWF") 10 -- KPDX
+      mpris = mpris2New -- "Now Playing" feature
       mem = pollingGraphNew memCfg 1 memCallback
       cpu = pollingGraphNew cpuCfg 0.5 cpuCallback
-      bat = batteryBarNew defaultBatteryConfig 30
-      net = netMonitorNew 1 "wlp2s0b1"
-      ap = commandRunnerNew 60 "getap.sh" [""] "offline" "#859900"
+      -- bat = batteryBarNew defaultBatteryConfig 30
+      net = netMonitorNew 1 "wlp3s0"
+      -- ap = commandRunnerNew 60 "getap.sh" [""] "offline" "#859900"
       tray = systrayNew
   defaultTaffybar defaultTaffybarConfig { startWidgets = [ pager, note ]
-                                        , endWidgets = [ ap, tray, bat, wea, clock, net, mem, cpu, mpris ]
+                                        , endWidgets = [ tray, clock, net, mem, cpu, mpris ]
                                         }
