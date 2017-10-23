@@ -24,7 +24,8 @@ if [ -f "$usermodmap" ]; then
 fi
 
 # color calibration
-xcalib .colorprofile/macbook.icc &
+# TODO: do some detection with hwinfo maybe?
+# xcalib .colorprofile/macbook.icc &
 # cursor icon
 xsetroot -cursor_name left_ptr
 # set wallpaper
