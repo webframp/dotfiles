@@ -87,6 +87,13 @@ source $ZSH/oh-my-zsh.sh
 alias h='homeshick'
 alias y='yaourt'
 alias p='pacman'
-alias gst='git status'
 alias x='startx'
+
+# Git
 alias gpo='git push origin HEAD'
+alias gst='git status'
+
+# Source custom functions, longer stuff goes here
+for ZFILE in $HOME/.zsh/*; do
+    source $ZFILE
+done

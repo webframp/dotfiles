@@ -38,11 +38,13 @@ xset m 1/1
 # rofi # dmenu replacement
 # volnoti # volume up/down
 # dunst # dunstrc for theme
-
-# clipboard manager
+# Ensure sound is started
+systemctl --user start pulseaudio
+# Seed a few basic sounds for later use
+for FILE in $HOME/.audio/*; do
+    pactl upload-sample $FILE $(basename ${FILE%.*})
+done
+# clipboard history manager
 clipit&
 # finally start the WM
-#exec dbus-launch --sh-syntax --exit-with-session i3 #--shmlog-size=26214400
-#i3-msg 'debuglog on; shmlog on; reload'
-
 exec dbus-launch --sh-syntax --exit-with-session xmonad
