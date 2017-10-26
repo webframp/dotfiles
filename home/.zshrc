@@ -87,7 +87,10 @@ source $ZSH/oh-my-zsh.sh
 alias h='homeshick'
 alias y='yaourt'
 alias p='pacman'
-alias x='startx'
+alias x='ssh-agent startx'
+alias ls='exa'
+alias ll='exa -lg'
+alias lg='exa -bghHliS'
 
 # Git
 alias gpo='git push origin HEAD'

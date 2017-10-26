@@ -36,7 +36,6 @@ xset r rate 250 50
 xset m 1/1
 # TODO:
 # rofi # dmenu replacement
-# volnoti # volume up/down
 # dunst # dunstrc for theme
 # Ensure sound is started
 systemctl --user start pulseaudio
