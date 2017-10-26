@@ -50,6 +50,9 @@ smeManageHook :: ManageHook
 smeManageHook = composeAll
                 [ manageDocks
                 , isFullscreen --> doFullFloat
+                , className =? "Chromium" --> doShift "web"
+                , className =? "Pidgin" --> doShift "im"
+                , className =? "Spotify" --> doShift "music"
 --                , className =? "mplayer2" --> doFloat
 --                , className =? "HipChat" <&&> isInProperty "_NET_WM_STATE" "_NET_WM_STATE_SKIP_TASKBAR" --> doIgnore
                 ]
@@ -192,27 +195,26 @@ promptedShift = workspacePrompt smePromptConfig $ windows . W.shift
 smeKeymap :: String -> [([Char], X ())]
 smeKeymap homedir =
   -- Macbook Air first row
-  [  ("<XF86MonBrightnessDown>", spawn "xbacklight -10")
+  [ ("<XF86MonBrightnessDown>", spawn "xbacklight -10")
   , ("<XF86MonBrightnessUp>", spawn "xbacklight +10")
-  , ("<XF86LaunchA>", spawn "scrot '%Y-%m-%d-%H%M_$wx$h.png' -e 'mv $f ~/screenshots/'")
-  , ("<XF86LaunchB>", spawn "")
+  -- , ("<XF86LaunchA>", spawn "scrot '%Y-%m-%d-%H%M_$wx$h.png' -e 'mv $f ~/screenshots/'")
+  -- , ("<XF86LaunchB>", spawn "")
   , ("<XF86KbdBrightnessDown>", spawn "sudo /home/sme/bin/keyboard-backlight down")
   , ("<XF86KbdBrightnessUp>", spawn "sudo /home/sme/bin/keyboard-backlight up")
-  , ("<XF86AudioPrev>", spawn "")
-  , ("<XF86AudioPlay>", spawn "")
-  , ("<XF86AudioNext>", spawn "")
-  , ("<XF86AudioMute>", spawn "amixer -q set Master toggle")
-  , ("<XF86AudioLowerVolume>", spawn "amixer -q set Master 2dB-")
-  , ("<XF86AudioRaiseVolume>", spawn "amixer -q set Master 2dB+")
-  , ("M-<F11>", spawn "amixer -q set Master 3%- unmute")
-  , ("M-<F12>", spawn "amixer -q set Master 3%+ unmute")
-    -- Run dmenu to launch programs
-  , ("M-r", spawn "dmenu_run")
-  , ("M-s", SM.submap $ searchEngineMap $ S.promptSearchBrowser pConfig "/usr/bin/conkeror")
+  , ("<XF86AudioPrev>", spawn "playerctl previous")
+  , ("<XF86AudioPlay>", spawn "playerctl play")
+  , ("<XF86AudioNext>", spawn "playerctl next")
+  , ("<XF86AudioMute>", spawn "pamixer -t;volnoti-show -m")
+  , ("<XF86AudioLowerVolume>", spawn "pamixer --decrease 5;volnoti-show $(pamixer --get-volume)")
+  , ("<XF86AudioRaiseVolume>", spawn "pamixer --increase 5;volnoti-show $(pamixer --get-volume)")
+  , ("M-<F9>", spawn "playerctl play-pause")
+  , ("M-<F11>", spawn "pamixer --decrease 5;volnoti-show $(pamixer --get-volume)")
+  , ("M-<F12>", spawn "pamixer --increase 5;volnoti-show $(pamixer --get-volume)")
+    -- Run dmenu wrapper to launch programs
+  , ("M-r", spawn "yegonesh")
+  , ("M-s", SM.submap $ searchEngineMap $ S.promptSearchBrowser pConfig "/usr/bin/chromium")
 -- launch browser
-  , ("M-b b", spawn "/usr/bin/conkeror")
-  , ("M-b h", spawn "/usr/bin/surf heavywater.slack.com")
-  , ("M-e", spawn "thunar")
+  , ("M-b b", spawn "/usr/bin/chromium")
     -- Close the focused window
   , ("M-S-c", kill)
     -- Switch to the next layout
@@ -268,7 +270,7 @@ smeKeymap homedir =
 
   , ("M-w s", spawn "import -window root ~/screenshots/shot.png")
 
-  , ("M-<Pause>", spawn "xscreensaver-command -lock")
+  , ("M-<Pause>", spawn "slock")
 
     -- Workspace cycling
   , ("M-n", nextWS)
