@@ -16,12 +16,14 @@ URxvt.insecure: 	true
 !
 ! Extensions
 URxvt*perl-lib:             /usr/lib/urxvt/perl/
-URxvt.perl-ext-common:      default,url-select
+URxvt.perl-ext-common:      default,url-select,clipboard
 ! URxvt.url-select.launcher:  /usr/bin/conkeror
 URxvt.url-select.launcher:  /usr/bin/chromium
 URxvt.url-select.underline: true
 URxvt.url-select.button:    1
 URxvt.keysym.M-u:           perl:url-select:select_next
+URxvt.keysym.M-c:           perl:clipboard:copy
+URxvt.keysym.M-v:           perl:clipboard:paste
 ! disable Keycap Picture insert mode
 URxvt.iso14755:		false
 URxvt.iso14755_52:	false
@@ -30,6 +32,8 @@ URxvt*cutchars:        '"'()*<>[]{|}
 !
 ! Appearance
 URxvt.font: xft:Iosevka:hinting=True;antialias:True
+!,xft:xos4\ Terminess\ Powerline:hinting=True;antialias=True
+!URxvt*font: xft:Terminus:pixelsize=14:antialias=true,xft:Inconsolata\ for\ Powerline:pixelsize=14:antialias=true
 URxvt.boldFont: xft:Iosevka:bold;hinting=True;antialias:True
 URxvt.letterSpace:      0
 !
