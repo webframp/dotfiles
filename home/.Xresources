@@ -1,6 +1,7 @@
 !-- Xft settings -- !
 Xft.lcdfilter: lcddefault
 Xft.dpi:        143
+! some way to use conditional? https://github.com/altercation/solarized/pull/49/files
 !Xft.dpi:        96
 Xft.antialias:  true
 Xft.rgba:       rgb
@@ -13,7 +14,7 @@ xpdf*enableFreetype:    yes
 xpdf*antialias:         yes
 xpdf*foreground:        black
 xpdf*background:        white
-xpdf*urlCommand:        /usr/bin/chromium %s
+xpdf*urlCommand:        /usr/bin/firefox %s
 !-- Theme Selection --!
 !#include ".Xresources.d/zenburn"
 !#include ".Xresources.d/solarized-light"

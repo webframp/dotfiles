@@ -50,7 +50,7 @@ smeManageHook :: ManageHook
 smeManageHook = composeAll
                 [ manageDocks
                 , isFullscreen --> doFullFloat
-                , className =? "Chromium" --> doShift "web"
+                , className =? "Firefox" --> doShift "web"
                 , className =? "Pidgin" --> doShift "im"
                 , className =? "Spotify" --> doShift "music"
 --                , className =? "mplayer2" --> doFloat
@@ -184,7 +184,9 @@ smePromptConfig :: XPConfig
 smePromptConfig = pConfig { autoComplete = Just 50000 }
 
 smeWorkspaces :: [[Char]]
-smeWorkspaces = ["term","web","3","4","5","6","7","8","9","0"]
+smeWorkspaces = ["term","web","im","music","5","6","7","8","9"]
+-- or greek: alpha, beta, gamma, delta, epsilon, zeta, eta, theta, iota
+-- smeWorkspaces = ["α","β","γ","δ","ε","ζ","η","θ","ι"]
 
 promptedGoto :: X ()
 promptedGoto = workspacePrompt smePromptConfig $ windows . W.greedyView
@@ -212,9 +214,9 @@ smeKeymap homedir =
   , ("M-<F12>", spawn "pamixer --increase 5;volnoti-show $(pamixer --get-volume)")
     -- Run dmenu wrapper to launch programs
   , ("M-r", spawn "yegonesh")
-  , ("M-s", SM.submap $ searchEngineMap $ S.promptSearchBrowser pConfig "/usr/bin/chromium")
+  , ("M-s", SM.submap $ searchEngineMap $ S.promptSearchBrowser pConfig "/usr/bin/firefox")
 -- launch browser
-  , ("M-b b", spawn "/usr/bin/chromium")
+  , ("M-b b", spawn "/usr/bin/firefox")
     -- Close the focused window
   , ("M-S-c", kill)
     -- Switch to the next layout
@@ -235,9 +237,9 @@ smeKeymap homedir =
     -- Expand the master window
   --, ("M-r", sendMessage Expand)
     -- Increment the number of windows in the master area
-  , ("M-l", sendMessage (IncMasterN 1))
+  -- , ("M-l", sendMessage (IncMasterN 1))
     -- Decrement the number of windows in the master area
-  , ("M-/", sendMessage (IncMasterN (-1)))
+  -- , ("M-/", sendMessage (IncMasterN (-1)))
 
     -- Focus urgent window
   , ("M-a", focusUrgent)
@@ -278,11 +280,12 @@ smeKeymap homedir =
   , ("M-S-n", shiftToNext)
   , ("M-S-p", shiftToPrev)
   , ("M-z", toggleWS)
+  , ("M-<Tab>", toggleWS)
   ]
       -- Move between workspaces, move windows between workspaces
       ++
       [("M-" ++ m ++ [k], windows $ f i)
-        | (i, k) <- zip smeWorkspaces "1234567890",
+        | (i, k) <- zip smeWorkspaces "123456789",
           (f, m) <- [(W.greedyView, ""), (W.shift, "S-")]]
       -- Move between screens
       ++
