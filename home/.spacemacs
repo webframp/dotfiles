@@ -340,8 +340,10 @@ you should place your code here."
     (add-to-list 'exec-path "c:/Users/sescriva/.cargo/bin")
     ) ;; end *is-windows*
   (with-eval-after-load "projectile"
-    (spacemacs/set-leader-keys "pss" projectile-ag)
-    (spacemacs/set-leader-keys "psg" projectile-grep))
+    (spacemacs/set-leader-keys "pss" 'projectile-ag)
+    (spacemacs/set-leader-keys "psg" 'projectile-grep))
+  (with-eval-after-load "vc-hooks"
+      (setq vc-follow-symlinks t))
   ;; c# build files
   (add-to-list 'auto-mode-alist '("\\.cake\\'" . csharp-mode))
   ;; Turn on some modes
