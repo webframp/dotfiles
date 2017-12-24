@@ -273,6 +273,7 @@ smeKeymap homedir =
   , ("M-w s", spawn "import -window root ~/screenshots/shot.png")
 
   , ("M-<Pause>", spawn "slock")
+  , ("M-l", spawn "i3lock -c 272822")
 
     -- Workspace cycling
   , ("M-n", nextWS)
