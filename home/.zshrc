@@ -96,6 +96,9 @@ alias lg='exa -bghHliS'
 alias gpo='git push origin HEAD'
 alias gst='git status'
 
+# Golang
+# Rust
+
 # Source custom functions, longer stuff goes here
 for ZFILE in $HOME/.zsh/*; do
     source $ZFILE
