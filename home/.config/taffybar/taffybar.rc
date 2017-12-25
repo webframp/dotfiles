@@ -1,21 +1,21 @@
-gtk_color_scheme = "black:#000000\nwhite:#FFFFFF\ngreen:#00FF00\nred:#FF0000S_yellow:#b58900\nS_orange:#cb4b16\nS_red:#dc322f\nS_magenta:#d33682\nS_violet:#6c71c4\nS_blue:#268bd2\nS_cyan:#2aa198\nS_green:#859900\nS_base03:#002b36\nS_base02:#073642\nS_base01:#586e75\nS_base00:#657b83\nS_base0:#839496\nS_base1:#93a1a1\nS_base2:#eee8d5\nS_base3:#fdf6e3\n"
+gtk_color_scheme = "black:#272822\nwhite:#f9f8f5\ngreen:#a6e22e\nred:#f92672\nyellow:#f4bf75\nlightgrey:#f8f8f2\n"
 
 style "default" {
   font_name = "Iosevka 10"
-  bg[NORMAL]   = @S_base03
-  fg[NORMAL]   = @S_base0
-  text[NORMAL] = @S_base1
-  fg[PRELIGHT] = @S_green
-  bg[PRELIGHT] = @S_base03
+  bg[NORMAL]   = @black
+  fg[NORMAL]   = @lightgrey
+  text[NORMAL] = @lightgrey
+  fg[PRELIGHT] = @green
+  bg[PRELIGHT] = @black
 }
 
 style "active-window" = "default" {
-  fg[NORMAL] = @S_green
+  fg[NORMAL] = @green
 }
 
 style "notification-button" = "default" {
-  text[NORMAL] = @S_red
-  fg[NORMAL]   = @S_red
+  text[NORMAL] = @red
+  fg[NORMAL]   = @red
 }
 
 widget "Taffybar*" style "default"
