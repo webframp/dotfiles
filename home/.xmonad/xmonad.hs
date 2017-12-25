@@ -4,6 +4,7 @@ import qualified XMonad.Actions.Search as S
 import qualified Data.Map as M
 import qualified XMonad.Actions.Submap as SM
 import XMonad.Actions.SpawnOn
+
 import XMonad.Actions.CycleWS
 import XMonad.Actions.PhysicalScreens
 import XMonad.Hooks.DynamicLog
@@ -90,6 +91,27 @@ solarizedLight = [ ("S_base03","#fdf6e3")
                  , ("S_base2", "#073642")
                  , ("S_base3", "#002b36")
                  ]
+-- color names are aligned with xresource colors
+-- see xterm(1) colors
+monokai :: [([Char], [Char])]
+monokai = [ ("black", "#272822")     -- 0
+          , ("red", "#f92672")       -- 1
+          , ("green", "#a6e22e")     -- 2
+          , ("yellow", "#f4bf75")    -- 3
+          , ("blue", "#66d9ef")      -- 4
+          , ("magenta", "#ae81ff")   -- 5
+          , ("cyan", "#a1efe4")      -- 6
+          , ("lightgrey", "#f8f8f2") -- 7
+          -- 8-15
+          , ("grey", "#75715e")         -- 8
+          , ("brightred","#f92672")     -- 9
+          , ("brightgreen", "#a6e22e")  -- 10
+          , ("brightyellow","#f4bf75")  -- 11
+          , ("brightblue","#66d9ef")    -- 12
+          , ("brightmagenta","#ae81ff") -- 13
+          , ("brightcyan","#a1efe4")    -- 14
+          , ("white","#f9f8f5")         -- 15
+          ]
 
 -- TODO: join assoc lists?
 -- join: currentTheme = solarizedCommon + solarizedDark
@@ -110,24 +132,24 @@ smeConfig homedir = defaultConfig {
   , workspaces = smeWorkspaces
   , borderWidth = 2
   , terminal = "urxvt"
-  , normalBorderColor  = getColor "S_base01" solarizedDark
-  , focusedBorderColor = getColor "yellow" solarizedCommon
+  , normalBorderColor  = getColor "grey" monokai
+  , focusedBorderColor = getColor "green" monokai
   , keys = \c -> mkKeymap c $ smeKeymap homedir
   , startupHook = do
       return ()
       checkKeymap (smeConfig homedir) (smeKeymap homedir)
   }
 
-solarizedTabs = defaultTheme { activeColor         = getColor "S_base02" solarizedDark
-                             , activeTextColor     = getColor "green" solarizedCommon
-                             , activeBorderColor   = getColor "S_base01" solarizedDark
-                             , inactiveColor       = getColor "S_base03" solarizedDark
-                             , inactiveTextColor   = getColor "S_base01" solarizedDark
-                             , inactiveBorderColor = getColor "S_base01" solarizedDark
-                             , urgentColor         = getColor "cyan" solarizedCommon
-                             , urgentTextColor     = getColor "S_base3" solarizedDark
-                             , urgentBorderColor   = getColor "S_base3" solarizedDark
-                             , fontName            = "xft:Andika:size=8"
+monokaiTabs = defaultTheme { activeColor         = getColor "lightgrey" monokai
+                             , activeTextColor     = getColor "yellow" monokai
+                             , activeBorderColor   = getColor "lightgrey" monokai
+                             , inactiveColor       = getColor "black" monokai
+                             , inactiveTextColor   = getColor "lightgrey" monokai
+                             , inactiveBorderColor = getColor "lightgrey" monokai
+                             , urgentColor         = getColor "red" monokai
+                             , urgentTextColor     = getColor "lightgrey" monokai
+                             , urgentBorderColor   = getColor "lightgrey" monokai
+                             , fontName            = "xft:Hack:size=8"
                              -- , decoWidth           = 200
                              -- , decoHeight          = 20
                              -- , windowTitleAddons   = []
@@ -149,7 +171,7 @@ smeLayout homedir =
         myThree = ThreeCol 1 0.03 0.50
         myGrid = renamed [Replace "Grid"] $ GridRatio (19 / 21)
         myTall = Tall 1 0.05 0.5
-        myFullTabbed  = tabbed shrinkText solarizedTabs
+        myFullTabbed  = tabbed shrinkText monokaiTabs
 
 --Search engines to be selected :  [google (g), wikipedia (w), duckduckgo (d), aur (r), wiki (a)]
 --keybinding: hit mod + s + <searchengine>
@@ -169,10 +191,10 @@ searchEngineMap method = M.fromList $
 pConfig :: XPConfig
 pConfig = defaultXPConfig
        { font = "xft:Andika:pixelsize=16"
-       , bgColor           = getColor "S_base03" solarizedDark
-       , fgColor           = getColor "S_base01" solarizedDark
-       , fgHLight          = getColor "S_base2" solarizedCommon
-       , bgHLight          = getColor "cyan" solarizedCommon
+       , bgColor           = getColor "black" monokai
+       , fgColor           = getColor "lightgrey" monokai
+       , fgHLight          = getColor "black" monokai
+       , bgHLight          = getColor "red" monokai
        --, borderColor       = "DarkOrange"
        , promptBorderWidth = 0
        , position          = Bottom
