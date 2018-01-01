@@ -164,14 +164,21 @@ smeLayout homedir =
     mkToggle (single REFLECTY) $
     onWorkspace "web" myFullTabbed $
     --    onWorkspace "chat" myThree $  -- use 3-column layout on chat desktop
-    myGrid
-    ||| myTall
-    ||| myFullTabbed             -- tall and fullscreen tabbed layouts
+    myGrid  |||
+    myRatio |||
+    myTall  |||
+    myFullTabbed             -- tall and fullscreen tabbed layouts
     where
         myThree = ThreeCol 1 0.03 0.50
         myGrid = renamed [Replace "Grid"] $ GridRatio (19 / 21)
         myTall = Tall 1 0.05 0.5
         myFullTabbed  = tabbed shrinkText monokaiTabs
+        myRatio = Mirror tiled
+        tiled = Tall nmaster delta ratio
+        nmaster = 1
+        delta = 0.03
+        ratio = toRational (2/(1 + sqrt 5 :: Double)) -- golden, thx Octoploid
+
 
 --Search engines to be selected :  [google (g), wikipedia (w), duckduckgo (d), aur (r), wiki (a)]
 --keybinding: hit mod + s + <searchengine>
