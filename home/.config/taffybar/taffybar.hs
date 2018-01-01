@@ -20,8 +20,7 @@ import System.Information.Memory
 import System.Information.CPU
 
 memCallback :: IO [Double]
-memCallba
-ck = do
+memCallback = do
   mi <- parseMeminfo
   return [memoryUsedRatio mi]
 
@@ -82,10 +81,10 @@ main = do
       mpris = mpris2New -- "Now Playing" feature
       mem = pollingGraphNew memCfg 1 memCallback
       cpu = pollingGraphNew cpuCfg 0.5 cpuCallback
-      -- bat = batteryBarNew defaultBatteryConfig 30
+      bat = batteryBarNew defaultBatteryConfig 30 -- depends on dbus and upower
       net = netMonitorNew 1 "wlp3s0"
       -- ap = commandRunnerNew 60 "getap.sh" [""] "offline" "#859900"
       tray = systrayNew
   defaultTaffybar defaultTaffybarConfig { startWidgets = [ pager, note ]
-                                        , endWidgets = [ tray, clock, net, mem, cpu, mpris ]
+                                        , endWidgets = [ tray, bat, clock, net, mem, cpu, mpris ]
                                         }
