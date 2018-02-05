@@ -2,11 +2,16 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-  export ZSH=/home/sme/.oh-my-zsh
+if test -f "/usr/bin/sw_vers"; then
+    export ZSH=/Users/sme/.oh-my-zsh
+else
+    export ZSH=/home/sme/.oh-my-zsh
+fi
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
+# could be conditional on powerline fonts installed
 ZSH_THEME="agnoster"
 
 # Uncomment the following line to use case-sensitive completion.
@@ -51,7 +56,7 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git archlinux z)
+plugins=(git archlinux z rust)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -88,9 +93,12 @@ alias h='homeshick'
 alias y='yaourt'
 alias p='pacman'
 alias x='ssh-agent startx'
-alias ls='exa'
-alias ll='exa -lg'
-alias lg='exa -bghHliS'
+
+if test -x "$(which exa)"; then
+    alias ls='exa'
+    alias ll='exa -lg'
+    alias lg='exa -bghHliS'
+fi
 
 # Git
 alias gpo='git push origin HEAD'
@@ -98,6 +106,15 @@ alias gst='git status'
 
 # Golang
 # Rust
+
+# Addons
+if test -d "/usr/local/opt/homeshick"; then
+    export HOMESHICK_DIR=/usr/local/opt/homeshick
+    source "/usr/local/opt/homeshick/homeshick.sh"
+fi
+if test -f "/usr/local/etc/profile.d/z.sh"; then
+    source /usr/local/etc/profile.d/z.sh
+fi
 
 # Source custom functions, longer stuff goes here
 for ZFILE in $HOME/.zsh/*; do
