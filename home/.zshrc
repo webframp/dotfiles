@@ -115,6 +115,9 @@ fi
 if test -f "/usr/local/etc/profile.d/z.sh"; then
     source /usr/local/etc/profile.d/z.sh
 fi
+if test -x "$(which chef)"; then
+    eval "$(chef shell-init zsh)"
+fi
 
 # Source custom functions, longer stuff goes here
 for ZFILE in $HOME/.zsh/*; do
