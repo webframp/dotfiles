@@ -25,6 +25,7 @@ brew "zsh-completions"
 brew "crisidev/chunkwm/chunkwm", args: ["with-logging", "with-purify"]
 brew "habitat-sh/habitat/hab"
 brew "koekeishiya/formulae/skhd"
+cask "amethyst"
 cask "avira-antivirus"
 cask "blockblock"
 cask "chefdk"
