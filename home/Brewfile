@@ -1,0 +1,53 @@
+tap "caskroom/cask"
+tap "caskroom/fonts"
+tap "habitat-sh/habitat"
+tap "homebrew/bundle"
+tap "homebrew/core"
+brew "awscli"
+brew "docker"
+brew "exa"
+brew "fpp"
+brew "git"
+brew "homeshick"
+brew "lastpass-cli"
+brew "mas"
+brew "reattach-to-user-namespace"
+brew "rust"
+brew "rustup-init"
+brew "shellcheck"
+brew "the_silver_searcher"
+brew "tmux"
+brew "z"
+brew "zsh"
+brew "zsh-completions"
+brew "habitat-sh/habitat/hab"
+cask "avira-antivirus"
+cask "blockblock"
+cask "chefdk"
+cask "docker"
+cask "emacs"
+cask "google-chrome"
+cask "keybase"
+cask "knockknock"
+cask "microsoft-teams"
+cask "oversight"
+cask "powershell"
+cask "ransomwhere"
+cask "skype-for-business"
+cask "spotify"
+cask "taskexplorer"
+cask "virtualbox"
+cask "virtualbox-extension-pack"
+cask "caskroom/fonts/font-hack"
+cask "caskroom/fonts/font-meslo-for-powerline"
+mas "Alfred", id: 405843582
+mas "Divvy", id: 413857545
+mas "GarageBand", id: 682658836
+mas "iMovie", id: 408981434
+mas "Keynote", id: 409183694
+mas "LastPass", id: 926036361
+mas "Microsoft Remote Desktop", id: 1295203466
+mas "Numbers", id: 409203825
+mas "OneDrive", id: 823766827
+mas "Pages", id: 409201541
+mas "Xcode", id: 497799835
