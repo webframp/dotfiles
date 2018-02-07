@@ -11,7 +11,9 @@ brew "docker"
 brew "exa"
 brew "fpp"
 brew "git"
+brew "gnupg"
 brew "homeshick"
+brew "htop"
 brew "lastpass-cli"
 brew "mas"
 brew "reattach-to-user-namespace"
@@ -20,12 +22,14 @@ brew "rustup-init"
 brew "shellcheck"
 brew "the_silver_searcher"
 brew "tmux"
+brew "urlview"
 brew "z"
 brew "zsh"
 brew "zsh-completions"
 brew "crisidev/chunkwm/chunkwm", args: ["with-logging", "with-purify"]
 brew "habitat-sh/habitat/hab"
 brew "koekeishiya/formulae/skhd"
+cask "alfred"
 cask "amethyst"
 cask "avira-antivirus"
 cask "blockblock"
@@ -47,14 +51,16 @@ cask "virtualbox"
 cask "virtualbox-extension-pack"
 cask "caskroom/fonts/font-hack"
 cask "caskroom/fonts/font-meslo-for-powerline"
-mas "Alfred", id: 405843582
 mas "Divvy", id: 413857545
 mas "GarageBand", id: 682658836
 mas "iMovie", id: 408981434
 mas "Keynote", id: 409183694
 mas "LastPass", id: 926036361
+mas "macOS High Sierra", id: Install
 mas "Microsoft Remote Desktop", id: 1295203466
 mas "Numbers", id: 409203825
 mas "OneDrive", id: 823766827
 mas "Pages", id: 409201541
+mas "Trello", id: 1278508951
+mas "Tweetbot", id: 557168941
 mas "Xcode", id: 497799835
