@@ -117,11 +117,14 @@ if test -d "/usr/local/opt/homeshick"; then
     export HOMESHICK_DIR=/usr/local/opt/homeshick
     source "/usr/local/opt/homeshick/homeshick.sh"
 fi
-if test -x "$(which direnv)"; then
-    eval "$(direnv hook zsh)"
+if [ $commands[direnv] ]; then
+    source <(direnv hook zsh)
 fi
-if test -x "$(which chef)"; then
-    eval "$(chef shell-init zsh)"
+if [ $commands[chef] ]; then
+    source <(chef shell-init zsh)
+fi
+if [ $commands[minikube] ]; then
+    source <(minikube completion zsh)
 fi
 
 # ZSH and OMZ Plugin config
