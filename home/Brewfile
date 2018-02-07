@@ -1,10 +1,10 @@
-tap "caskroom/cask"
-tap "caskroom/fonts"
 tap "crisidev/chunkwm"
-tap "habitat-sh/habitat"
-tap "homebrew/bundle"
 tap "homebrew/core"
+tap "homebrew/bundle"
 tap "koekeishiya/formulae"
+tap "habitat-sh/habitat"
+tap "caskroom/fonts"
+tap "caskroom/cask"
 brew "archey"
 brew "awscli"
 brew "direnv"
@@ -24,6 +24,7 @@ brew "reattach-to-user-namespace"
 brew "rust"
 brew "rustup-init"
 brew "shellcheck"
+brew "swiftlint"
 brew "the_silver_searcher"
 brew "tmux"
 brew "urlview"
@@ -42,6 +43,7 @@ cask "docker"
 cask "emacs"
 cask "google-chrome"
 cask "keybase"
+cask "kitty"
 cask "knockknock"
 cask "microsoft-teams"
 cask "minikube"
@@ -61,7 +63,6 @@ mas "GarageBand", id: 682658836
 mas "iMovie", id: 408981434
 mas "Keynote", id: 409183694
 mas "LastPass", id: 926036361
-mas "macOS High Sierra", id: Install
 mas "Microsoft Remote Desktop", id: 1295203466
 mas "Numbers", id: 409203825
 mas "OneDrive", id: 823766827
