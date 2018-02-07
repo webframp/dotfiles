@@ -56,7 +56,11 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git archlinux z rust)
+plugins=(git ssh-agent z aws vault kops kubectl rust)
+
+if ! test -f "/usr/bin/sw_vers"; then
+    plugins+=archlinux
+fi
 
 source $ZSH/oh-my-zsh.sh
 
@@ -89,6 +93,7 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# Aliases
 alias h='homeshick'
 alias y='yaourt'
 alias p='pacman'
@@ -112,12 +117,17 @@ if test -d "/usr/local/opt/homeshick"; then
     export HOMESHICK_DIR=/usr/local/opt/homeshick
     source "/usr/local/opt/homeshick/homeshick.sh"
 fi
-if test -f "/usr/local/etc/profile.d/z.sh"; then
-    source /usr/local/etc/profile.d/z.sh
+if test -x "$(which direnv)"; then
+    eval "$(direnv hook zsh)"
 fi
 if test -x "$(which chef)"; then
     eval "$(chef shell-init zsh)"
 fi
+
+# ZSH and OMZ Plugin config
+zstyle ':completion:*' rehash true
+# zstyle :omz:plugins:ssh-agent identities id_rsa id_rsa2 id_github
+
 
 # Source custom functions, longer stuff goes here
 for ZFILE in $HOME/.zsh/*; do
