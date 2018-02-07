@@ -112,6 +112,12 @@ alias gst='git status'
 # Golang
 # Rust
 
+# Homebrew
+alias brews='brew list -1'
+alias bubo='brew update && brew outdated'
+alias bubc='brew upgrade && brew cleanup'
+alias bubu='bubo && bubc'
+
 # Addons
 if test -d "/usr/local/opt/homeshick"; then
     export HOMESHICK_DIR=/usr/local/opt/homeshick
