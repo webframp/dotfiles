@@ -8,6 +8,14 @@ else
     export ZSH=/home/sme/.oh-my-zsh
 fi
 
+function is_macbook_pro() {
+    local pro=$(system_profiler SPHardwareDataType|grep -c MacBookPro13,3)
+    if test $pro -eq 1; then
+        return 0
+    fi
+    return 1
+}
+
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
@@ -56,10 +64,14 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git ssh-agent z aws vault kops kubectl rust)
+plugins=(git z aws vault kops kubectl rust)
 
-if ! test -f "/usr/bin/sw_vers"; then
+if test ! -f "/usr/bin/sw_vers"; then
     plugins+=archlinux
+fi
+
+if test ! is_macbook_pro; then
+    plugins+=ssh-agent
 fi
 
 source $ZSH/oh-my-zsh.sh
@@ -135,8 +147,15 @@ fi
 
 # ZSH and OMZ Plugin config
 zstyle ':completion:*' rehash true
-# zstyle :omz:plugins:ssh-agent identities id_rsa id_rsa2 id_github
 
+if test ! is_macbook_pro; then
+    zstyle :omz:plugins:ssh-agent identities id_rsa
+fi
+
+# only export if running latest MacBookPro w/Secure Enclave
+if is_macbook_pro; then
+    export SSH_AUTH_SOCK=$HOME/.sekey/ssh-agent.ssh
+fi
 
 # Source custom functions, longer stuff goes here
 for ZFILE in $HOME/.zsh/*; do
