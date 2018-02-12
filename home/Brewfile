@@ -7,9 +7,11 @@ tap "caskroom/fonts"
 tap "caskroom/cask"
 brew "archey"
 brew "awscli"
+brew "azure-cli"
 brew "direnv"
 brew "docker", link: false
 brew "exa"
+brew "ffmpeg"
 brew "flake8"
 brew "fpp"
 brew "git"
@@ -20,8 +22,10 @@ brew "kubernetes-cli"
 brew "kops"
 brew "lastpass-cli"
 brew "mas"
+brew "nmap"
 brew "node"
 brew "pass"
+brew "pinentry-mac"
 brew "reattach-to-user-namespace"
 brew "rust"
 brew "rustup-init"
@@ -31,6 +35,7 @@ brew "the_silver_searcher"
 brew "tmux"
 brew "urlview"
 brew "wget"
+brew "youtube-dl"
 brew "z"
 brew "zsh"
 brew "zsh-completions"
@@ -60,6 +65,8 @@ cask "taskexplorer"
 cask "vagrant"
 cask "virtualbox"
 cask "virtualbox-extension-pack"
+cask "viscosity"
+cask "vmware-horizon-client"
 cask "caskroom/fonts/font-hack"
 cask "caskroom/fonts/font-meslo-for-powerline"
 mas "Divvy", id: 413857545
@@ -68,6 +75,7 @@ mas "iMovie", id: 408981434
 mas "Keynote", id: 409183694
 mas "LastPass", id: 926036361
 mas "Microsoft Remote Desktop", id: 1295203466
+mas "NetSpot", id: 514951692
 mas "Numbers", id: 409203825
 mas "OneDrive", id: 823766827
 mas "Pages", id: 409201541
