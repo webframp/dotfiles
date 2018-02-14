@@ -65,7 +65,8 @@
      (python :variables
              python-enable-yapf-format-on-save t)
      ruby
-     rust
+     (rust :variables
+           rust-format-on-save t)
      shell-scripts
      sql
      windows-scripts
