@@ -64,7 +64,7 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git z aws vault kops kubectl rust)
+plugins=(git z aws vault kops kubectl rust cargo)
 
 if test ! -f "/usr/bin/sw_vers"; then
     plugins+=archlinux
@@ -137,9 +137,6 @@ if test -d "/usr/local/opt/homeshick"; then
 fi
 if [ $commands[direnv] ]; then
     source <(direnv hook zsh)
-fi
-if [ $commands[chef] ]; then
-    source <(chef shell-init zsh)
 fi
 if [ $commands[minikube] ]; then
     source <(minikube completion zsh)
