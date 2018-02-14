@@ -8,6 +8,7 @@ tap "caskroom/cask"
 brew "archey"
 brew "awscli"
 brew "azure-cli"
+brew "csvkit"
 brew "direnv"
 brew "docker", link: false
 brew "dos2unix"
