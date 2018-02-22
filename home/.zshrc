@@ -113,8 +113,9 @@ alias x='ssh-agent startx'
 
 if test -x "$(which exa)"; then
     alias ls='exa'
-    alias ll='exa -lg'
-    alias lg='exa -bghHliS'
+    alias la='exa -la'
+    alias ll='exa -lag'
+    alias lg='exa -bghHliS --git'
 fi
 
 # Git

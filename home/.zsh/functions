@@ -1,3 +1,4 @@
+# -*- mode: sh -*-
 function e()  { emacs -nw $@ }
 function ed() { emacs --daemon }
 function ec() { emacsclient -n $@ }
@@ -5,3 +6,18 @@ function et() { emacsclient -t $@ }
 function es() { e --daemon=$1 && ec -s $1 }
 function el() { ps ax | egrep '[Ee]macs' }
 function ek() { ec -e '(kill-emacs)' -s $1 }
+
+function aws-windows-admin() {
+         local instance_id=$1
+         local pem_file=$2
+         local aws_profile=$3
+         aws ec2 get-password-data \
+             --instance-id $instance_id \
+             --priv-launch-key $pem_file \
+             --profile $aws_profile \
+             --region us-east-1\
+             |jq '.PasswordData' --raw-output \
+             |tr -d '[:blank:]' \
+             |pbcopy
+         echo "Password placed on clipboard"
+}
