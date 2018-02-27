@@ -159,3 +159,9 @@ fi
 for ZFILE in $HOME/.zsh/*; do
     source $ZFILE
 done
+
+# Delegate color management to 'less'
+export LESS="--RAW-CONTROL-CHARS"
+
+# Load colors from less, and others
+[[ -f ~/.LESS_TERMCAP ]] && . ~/.LESS_TERMCAP
