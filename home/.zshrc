@@ -122,14 +122,21 @@ fi
 alias gpo='git push origin HEAD'
 alias gst='git status'
 
+# Docker
+alias dockerhostshell='docker run -it --privileged --pid=host debian nsenter -t 1 -m -u -n -i sh'
+
 # Golang
 # Rust
+# TODO members, groups, vault
 
 # Homebrew
 alias brews='brew list -1'
 alias bubo='brew update && brew outdated'
 alias bubc='brew upgrade && brew cleanup'
 alias bubu='bubo && bubc'
+
+# Ruby
+alias be='bundle exec'
 
 # Addons
 if test -d "/usr/local/opt/homeshick"; then
@@ -160,8 +167,10 @@ for ZFILE in $HOME/.zsh/*; do
     source $ZFILE
 done
 
-# Delegate color management to 'less'
-export LESS="--RAW-CONTROL-CHARS"
+# Delegate color management to 'less' and highlight source code if possible
+LESSPIPE=$(which src-hilite-lesspipe.sh)
+export LESSOPEN="| ${LESSPIPE} %s"
+export LESS="--RAW-CONTROL-CHARS -X -F"
 
 # Load colors from less, and others
 [[ -f ~/.LESS_TERMCAP ]] && . ~/.LESS_TERMCAP
