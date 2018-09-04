@@ -1,0 +1,12 @@
+package aws
+package direnv
+package emacs
+package hash
+package hub
+package osx
+package rustup
+package z
+theme clearance
+theme default
+theme edan
+theme sushi
