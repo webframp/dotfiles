@@ -23,6 +23,5 @@ if test -f $HOME/.LESS_TERMCAP
     set -x LESS_TERMCAP_ZW (tput rsupm)
 end
 
-
-set -x RUST_SRC_PATH (rustc --print sysroot)/lib/rustlib/src/rust/src
+set -x RUST_SRC_PATH (~/.cargo/bin/rustc --print sysroot)/lib/rustlib/src/rust/src
 set -x GOPATH (/usr/local/bin/go env GOPATH)

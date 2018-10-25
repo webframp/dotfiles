@@ -1,3 +1,3 @@
 function gah
-    command git stash; and git pull --rebase; and git stat pop
+    command git stash; and git pull --rebase; and git stash pop
 end

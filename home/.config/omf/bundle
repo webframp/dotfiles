@@ -6,6 +6,7 @@ package hub
 package osx
 package rustup
 package z
+theme bobthefish
 theme clearance
 theme default
 theme edan
