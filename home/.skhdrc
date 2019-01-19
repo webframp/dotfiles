@@ -1,0 +1,121 @@
+#  NOTE(koekeishiya): A list of all built-in modifier and literal keywords can
+#                     be found at https://github.com/koekeishiya/skhd/issues/1
+#
+#                     A hotkey is written according to the following rules:
+#
+#                       hotkey   = <keysym> ':' <command> |
+#                                  <keysym> '->' ':' <command>
+#
+#                       keysym   = <mod> '-' <key> | <key>
+#
+#                       mod      = 'built-in mod keyword' | <mod> '+' <mod>
+#
+#                       key      = <literal> | <keycode>
+#
+#                       literal  = 'single letter or built-in keyword'
+#
+#                       keycode  = 'apple keyboard kVK_<Key> values (0x3C)'
+#
+#                       ->       = keypress is not consumed by skhd
+#
+#                       command  = command is executed through '$SHELL -c' and
+#                                  follows valid shell syntax. if the $SHELL environment
+#                                  variable is not set, it will default to '/bin/bash'.
+#                                  when bash is used, the ';' delimeter can be specified
+#                                  to chain commands.
+#
+#                                  to allow a command to extend into multiple lines,
+#                                  prepend '\' at the end of the previous line.
+#
+#                                  an EOL character signifies the end of the bind.
+
+# attempting to emulate: https://duckduckgo.com/?q=xmonad+default+keybindings&t=ffab&ia=cheatsheet&iax=cheatsheet
+
+# open terminal
+alt + shift - return : open -na /Applications/Alacritty.app
+
+# program launcher
+alt - p : open /Applications/Alfred\ 3.app
+
+# kill focused window
+alt + shift - c : chunkc tiling::window --close
+
+# restart wm
+alt - q : brew services restart skhd;\
+          brew services restart chunkwm
+
+alt + shift - q : brew services stop chunkwm;\
+                  brew services stop skhd
+
+# change focus
+alt - tab : chunkc tiling:window --focus next
+shift + alt - tab : chunkc tiling:window --focus prev
+
+alt - h : chunkc tiling::monitor -f prev
+alt - j : chunkc tiling::window --focus next # south
+alt - k : chunkc tiling::window --focus prev # north
+alt - l : chunkc tiling::monitor -f next
+
+# move focused window
+shift + alt - h : chunkc tiling::window --warp west
+shift + alt - j : chunkc tiling::window --warp next #south
+shift + alt - k : chunkc tiling::window --warp prev #north
+shift + alt - l : chunkc tiling::window --warp east
+
+#alt - r : chunkc tiling::desktop --rotate 90
+
+# Screen
+alt - w : chunkc tiling::monitor -f 1
+alt - e : chunkc tiling::monitor -f 2
+#alt - r : chunkc tiling::monitor -f 3
+
+# Screen moves
+shift + alt - w : chunkc tiling::window --send-to-monitor 1; chunkc tiling::monitor -f 1
+shift + alt - e : chunkc tiling::window --send-to-monitor 2; chunkc tiling::monitor -f 2
+#shift + alt - r : chunkc tiling::window --send-to-monitor 3; chunkc tiling::monitor -f 3
+
+# toggle window fullscreen
+alt - f : chunkc tiling::window --toggle fullscreen
+
+# toggle window native fullscreen
+shift + alt - f : chunkc tiling::window --toggle native-fullscreen
+
+# toggle window split type
+shift + alt - space : chunkc tiling::window --toggle split
+
+# change layout of desktop - example for complex binding
+alt - space : curr=$(chunkc tiling::query --desktop mode);\
+              chunkc tiling::desktop --layout $(if [[ $curr == "bsp" ]]; then echo "monocle"; else echo "bsp"; fi)
+
+# # fast focus desktop
+# alt - x : chunkc tiling::desktop --focus $(chunkc get _last_active_desktop)
+# alt - z : chunkc tiling::desktop --focus prev
+# alt - c : chunkc tiling::desktop --focus next
+alt - 1 : chunkc tiling::desktop --focus 1
+alt - 2 : chunkc tiling::desktop --focus 2
+alt - 3 : chunkc tiling::desktop --focus 3
+alt - 4 : chunkc tiling::desktop --focus 4
+alt - 5 : chunkc tiling::desktop --focus 5
+alt - 6 : chunkc tiling::desktop --focus 6
+alt - 7 : chunkc tiling::desktop --focus 7
+alt - 8 : chunkc tiling::desktop --focus 8
+alt - 9 : chunkc tiling::desktop --focus 9
+alt - 0 : chunkc tiling::desktop --focus 0
+
+# move focused container to workspace
+shift + alt - tab : chunkc tiling::window --send-to-desktop $(chunkc get _last_active_desktop); chunkc tiling::desktop --focus $(chunkc get _last_active_desktop)
+shift + alt - 1 : chunkc tiling::window --send-to-desktop 1; chunkc tiling::desktop --focus 1
+shift + alt - 2 : chunkc tiling::window --send-to-desktop 2; chunkc tiling::desktop --focus 2
+shift + alt - 3 : chunkc tiling::window --send-to-desktop 3; chunkc tiling::desktop --focus 3
+shift + alt - 4 : chunkc tiling::window --send-to-desktop 4; chunkc tiling::desktop --focus 4
+shift + alt - 5 : chunkc tiling::window --send-to-desktop 5; chunkc tiling::desktop --focus 5
+shift + alt - 6 : chunkc tiling::window --send-to-desktop 6; chunkc tiling::desktop --focus 6
+shift + alt - 7 : chunkc tiling::window --send-to-desktop 7; chunkc tiling::desktop --focus 7
+shift + alt - 8 : chunkc tiling::window --send-to-desktop 8; chunkc tiling::desktop --focus 8
+shift + alt - 9 : chunkc tiling::window --send-to-desktop 9; chunkc tiling::desktop --focus 9
+shift + alt - 0 : chunkc tiling::window --send-to-desktop 0; chunkc tiling::desktop --focus 0
+
+# Allow 'Grab' application
+cmd + shift - 4 -> : chunkc border:clear
+
+# Window Rules
