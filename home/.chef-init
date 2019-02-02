@@ -1,0 +1,41 @@
+export PATH="/opt/chef-workstation/bin:/Users/sme/.chefdk/gem/ruby/2.5.0/bin:/opt/chef-workstation/embedded/bin:/opt/chef-workstation/bin:/Users/sme/.chefdk/gem/ruby/2.5.0/bin:/opt/chef-workstation/embedded/bin:/Users/sme/.local/bin:/Users/sme/.cargo/bin:/Users/sme/bin:/Users/sme/go/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:~/.dotnet/tools:/opt/chef-workstation/gitbin:/opt/chef-workstation/gitbin"
+export GEM_ROOT="/opt/chef-workstation/embedded/lib/ruby/gems/2.5.0"
+export GEM_HOME="/Users/sme/.chefdk/gem/ruby/2.5.0"
+export GEM_PATH="/Users/sme/.chefdk/gem/ruby/2.5.0:/opt/chef-workstation/embedded/lib/ruby/gems/2.5.0"
+function _chef() {
+
+  local -a _1st_arguments
+  _1st_arguments=(
+      'exec:Runs the command in context of the embedded ruby'
+      'env:Prints environment variables used by ChefDK'
+      'gem:Runs the `gem` command in context of the embedded ruby'
+      'generate:Generate a new app, cookbook, or component'
+      'shell-init:Initialize your shell to use ChefDK as your primary ruby'
+      'install:Install cookbooks from a Policyfile and generate a locked cookbook set'
+      'update:Updates a Policyfile.lock.json with latest run_list and cookbooks'
+      'push:Push a local policy lock to a policy group on the server'
+      'push-archive:Push a policy archive to a policy group on the server'
+      'show-policy:Show policyfile objects on your Chef Server'
+      'diff:Generate an itemized diff of two Policyfile lock documents'
+      'provision:Provision VMs and clusters via cookbook'
+      'export:Export a policy lock as a Chef Zero code repo'
+      'clean-policy-revisions:Delete unused policy revisions on the server'
+      'clean-policy-cookbooks:Delete unused policyfile cookbooks on the server'
+      'delete-policy-group:Delete a policy group on the server'
+      'delete-policy:Delete all revisions of a policy on the server'
+      'undelete:Undo a delete command'
+      'describe-cookbook:Prints cookbook checksum information used for cookbook identifier'
+      'verify:Test the embedded ChefDK applications'
+    )
+
+  _arguments \
+    '(-v --version)'{-v,--version}'[version information]' \
+    '*:: :->subcmds' && return 0
+
+  if (( CURRENT == 1 )); then
+    _describe -t commands "chef subcommand" _1st_arguments
+    return
+  fi
+}
+
+compdef _chef chef
