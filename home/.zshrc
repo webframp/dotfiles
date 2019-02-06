@@ -2,15 +2,7 @@
 source $HOME/.zsh/prompt.zsh
 source $HOME/.zsh/config.zsh
 
-## Antibody for zsh plugins
-# dynamic method
-source <(antibody init)
-antibody bundle < ~/.zsh_plugins.txt
-
-# static method
-# run: antibody bundle <~/.zsh_plugins.txt > ~/.zsh_plugins.sh
-#source ~/.zsh_plugins.sh
-
+# completion
 autoload -Uz compinit
 typeset -i updated_at=$(date +'%j' -r ~/.zcompdump 2>/dev/null || stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)
 if [ $(date +'%j') != $updated_at ]; then
@@ -19,11 +11,15 @@ else
     compinit -C -i
 fi
 
+# from: vault -autocomplete-install
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/local/bin/vault vault
+
 # Aliases
 alias reload!='exec "$SHELL" -l'
 # http://zsh.sourceforge.net/Doc/Release/Expansion.html#Parameter-Expansion
 (( $+commands[exa] )) && {
-    alias ls='exa'
+    alias l='exa'
     alias la='exa -la'
     alias ll='exa -lag'
     alias lg='exa -bghHliS --git'
@@ -77,8 +73,17 @@ fi
 source $HOME/.zsh/functions.zsh
 source $HOME/.zsh/correction.zsh
 source $HOME/.zsh/dots.zsh
+source $HOME/.zsh/local.zsh
 
 # Load colors from less, and others.
 [[ -f ~/.LESS_TERMCAP ]] && . ~/.LESS_TERMCAP
 
 unset  updated_at
+
+autoload -U select-word-style
+select-word-style bash
+
+## Source plugins last
+# static method, after updates run:
+# antibody bundle <~/.zsh_plugins.txt > ~/.zsh_plugins.sh
+source ~/.zsh_plugins.sh

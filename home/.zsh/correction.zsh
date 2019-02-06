@@ -1,3 +1,4 @@
+alias antibody='nocorrect antibody'
 alias cp='nocorrect cp'
 alias ebuild='nocorrect ebuild'
 alias gist='nocorrect gist'

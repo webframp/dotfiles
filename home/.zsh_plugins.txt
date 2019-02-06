@@ -1,16 +1,21 @@
 # -*- mode: sh -*-
-# robbyrussell/oh-my-zsh path:plugins/git
-# robbyrussell/oh-my-zsh path:plugins/vault
-# robbyrussell/oh-my-zsh path:plugins/kubectl
-# robbyrussell/oh-my-zsh path:plugins/osx
+robbyrussell/oh-my-zsh path:plugins/chruby
 robbyrussell/oh-my-zsh path:plugins/rust
 robbyrussell/oh-my-zsh path:plugins/cargo
+webyneter/docker-aliases
+rawkode/zsh-docker-run
 mafredri/zsh-async
 rupa/z
 #zsh-users/zsh-completions
 zsh-users/zsh-autosuggestions
 
+willghatch/zsh-cdr
+zsh-users/zaw
+webframp/zsh-zaw-redmine
+
 ## Prompts
 bhilburn/powerlevel9k
-# sindresorhus/pure
+#sindresorhus/pure
+
+## Syntax highlighting - load last!
 zsh-users/zsh-syntax-highlighting
