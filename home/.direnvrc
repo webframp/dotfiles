@@ -1,0 +1,49 @@
+# -*- mode: sh -*-
+# https://github.com/direnv/direnv/blob/master/stdlib.sh
+use_ruby() {
+    # use ruby <ver>
+    source /usr/local/opt/chruby/share/chruby/chruby.sh
+
+    local ver=$1
+    if [[ -z $ver ]] && [[ -f .ruby-version ]]; then
+        ver=$(cat .ruby-version)
+    fi
+    if [[ -z $ver ]]; then
+        echo Unknown ruby version: need to declare a version in .ruby-version or in .envrc
+        exit 1
+    fi
+
+    # switch to the desired ruby
+    chruby "$ver"
+
+    layout ruby
+}
+
+use_chefdk() {
+    # use chefdk
+    EXPANDED_HOME=$(expand_path ~)
+
+    # Override the GEM environment
+
+    log_status "Overriding default Ruby environment to use Chef Workstation"
+
+    RUBY_ABI_VERSION=$(ls /opt/chef-workstation/embedded/lib/ruby/gems/)
+    export GEM_ROOT="/opt/chef-workstation/embedded/lib/ruby/gems/$RUBY_ABI_VERSION"
+    export GEM_HOME="$EXPANDED_HOME/.chefdk/gem/ruby/$RUBY_ABI_VERSION"
+    export GEM_PATH="$EXPANDED_HOME/.chefdk/gem/ruby/$RUBY_ABI_VERSION:/opt/chef-workstation/embedded/lib/ruby/gems/$RUBY_ABI_VERSION"
+
+    # Ensure ChefDK embedded tools are first in the PATH
+
+    log_status "Ensuring Chef Workstation and it's embedded tools are first in the PATH"
+
+    PATH_add "$EXPANDED_HOME/.chefdk/gem/ruby/$RUBY_ABI_VERSION/bin/"
+    PATH_add /opt/chef-workstation/embedded/bin
+    PATH_add /opt/chef-workstation/bin
+}
+
+use_python() {
+    # use python <ver>
+    local python_root=$HOME/.pyenv/versions/$1
+    load_prefix "$python_root"
+    layout_python "$python_root/bin/python"
+}
