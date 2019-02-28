@@ -41,8 +41,8 @@ alt - p : open /Applications/Alfred\ 3.app
 alt + shift - c : chunkc tiling::window --close
 
 # restart wm
-alt - q : brew services restart skhd;\
-          brew services restart chunkwm
+# alt - q : brew services restart skhd;\
+#           brew services restart chunkwm
 
 alt + shift - q : brew services stop chunkwm;\
                   brew services stop skhd
@@ -51,10 +51,10 @@ alt + shift - q : brew services stop chunkwm;\
 alt - tab : chunkc tiling:window --focus next
 shift + alt - tab : chunkc tiling:window --focus prev
 
-alt - h : chunkc tiling::monitor -f prev
+#alt - h : chunkc tiling::monitor -f prev # maybe use to grow frame?
 alt - j : chunkc tiling::window --focus next # south
 alt - k : chunkc tiling::window --focus prev # north
-alt - l : chunkc tiling::monitor -f next
+#alt - l : chunkc tiling::monitor -f next # maybe use to shrink frame?
 
 # move focused window
 shift + alt - h : chunkc tiling::window --warp west
@@ -65,8 +65,8 @@ shift + alt - l : chunkc tiling::window --warp east
 #alt - r : chunkc tiling::desktop --rotate 90
 
 # Screen
-alt - w : chunkc tiling::monitor -f 1
-alt - e : chunkc tiling::monitor -f 2
+# alt - [ : chunkc tiling::monitor -f 1
+# alt - ] : chunkc tiling::monitor -f 2
 #alt - r : chunkc tiling::monitor -f 3
 
 # Screen moves
@@ -75,7 +75,7 @@ shift + alt - e : chunkc tiling::window --send-to-monitor 2; chunkc tiling::moni
 #shift + alt - r : chunkc tiling::window --send-to-monitor 3; chunkc tiling::monitor -f 3
 
 # toggle window fullscreen
-alt - f : chunkc tiling::window --toggle fullscreen
+#alt - f : chunkc tiling::window --toggle fullscreen
 
 # toggle window native fullscreen
 shift + alt - f : chunkc tiling::window --toggle native-fullscreen
