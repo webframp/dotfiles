@@ -1,0 +1,2 @@
+# -*- mode: sh -*-
+ps ax | egrep '[Ee]macs'

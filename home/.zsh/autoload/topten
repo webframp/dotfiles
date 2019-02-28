@@ -1,0 +1,3 @@
+# -*- mode: sh -*-
+# List top ten commands from history
+print -l -- ${(o)history%% *} | uniq -c | sort -nr | head -n 10

@@ -1,7 +1,9 @@
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
-
+# http://zsh.sourceforge.net/Doc/Release/Options.html
+# Protect existing files
+setopt NO_CLOBBER
 # don't nice background tasks
 setopt NO_BG_NICE
 setopt NO_HUP
@@ -14,7 +16,7 @@ setopt LOCAL_TRAPS
 setopt EXTENDED_HISTORY
 setopt PROMPT_SUBST
 setopt COMPLETE_IN_WORD
-setopt correct_all
+setopt CORRECT_ALL
 # adds history
 setopt APPEND_HISTORY
 # adds history incrementally and share it across sessions
@@ -27,3 +29,6 @@ setopt HIST_IGNORE_DUPS
 setopt HIST_IGNORE_SPACE
 setopt HIST_VERIFY
 setopt HIST_EXPIRE_DUPS_FIRST
+# directory navigation
+setopt AUTO_CD
+setopt AUTO_PUSHD
