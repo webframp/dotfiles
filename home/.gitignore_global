@@ -3,3 +3,5 @@
 Session.vim
 .netrwhist
 *~
+.envrc
+.direnv/*
