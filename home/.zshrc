@@ -1,3 +1,5 @@
+## Profiling
+#zmodload zsh/zprof
 # Entirety of my startup file...
 source $HOME/.zsh/prompt.zsh
 source $HOME/.zsh/config.zsh
@@ -76,6 +78,7 @@ alias dockerhostshell='docker run -it --privileged --pid=host debian nsenter -t 
 
 # Kubernetes
 alias k='kubectl'
+compdef k=kubectl
 
 # TODO members, groups, vault, Golang, Rust
 alias cat='bat --plain'
@@ -122,9 +125,11 @@ unset  updated_at
 autoload -U select-word-style
 select-word-style bash
 
+export ZSH_AUTOSUGGEST_USE_ASYNC=1
 ## Source plugins last
 # static method, after updates run:
 # antibody bundle <~/.zsh_plugins.txt > ~/.zsh_plugins.sh
 source ~/.zsh_plugins.sh
 
 bindkey '^Xr' zaw-history
+bindkey '^ ' autosuggest-accept
