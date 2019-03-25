@@ -13,9 +13,8 @@ willghatch/zsh-cdr
 zsh-users/zaw
 webframp/zsh-zaw-redmine
 
-## Prompts
-bhilburn/powerlevel9k
-#sindresorhus/pure
+## Prompt
+romkatv/powerlevel10k
 
 ## Syntax highlighting - load last!
 zsh-users/zsh-syntax-highlighting

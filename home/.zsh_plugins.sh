@@ -18,7 +18,8 @@ source /Users/sme/Library/Caches/antibody/https-COLON--SLASH--SLASH-github.com-S
 fpath+=( /Users/sme/Library/Caches/antibody/https-COLON--SLASH--SLASH-github.com-SLASH-zsh-users-SLASH-zaw )
 source /Users/sme/Library/Caches/antibody/https-COLON--SLASH--SLASH-github.com-SLASH-webframp-SLASH-zsh-zaw-redmine/zaw-redmine.plugin.zsh
 fpath+=( /Users/sme/Library/Caches/antibody/https-COLON--SLASH--SLASH-github.com-SLASH-webframp-SLASH-zsh-zaw-redmine )
-source /Users/sme/Library/Caches/antibody/https-COLON--SLASH--SLASH-github.com-SLASH-bhilburn-SLASH-powerlevel9k/powerlevel9k.zsh-theme
-fpath+=( /Users/sme/Library/Caches/antibody/https-COLON--SLASH--SLASH-github.com-SLASH-bhilburn-SLASH-powerlevel9k )
+source /Users/sme/Library/Caches/antibody/https-COLON--SLASH--SLASH-github.com-SLASH-romkatv-SLASH-powerlevel10k/powerlevel10k.zsh-theme
+source /Users/sme/Library/Caches/antibody/https-COLON--SLASH--SLASH-github.com-SLASH-romkatv-SLASH-powerlevel10k/powerlevel9k.zsh-theme
+fpath+=( /Users/sme/Library/Caches/antibody/https-COLON--SLASH--SLASH-github.com-SLASH-romkatv-SLASH-powerlevel10k )
 source /Users/sme/Library/Caches/antibody/https-COLON--SLASH--SLASH-github.com-SLASH-zsh-users-SLASH-zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
 fpath+=( /Users/sme/Library/Caches/antibody/https-COLON--SLASH--SLASH-github.com-SLASH-zsh-users-SLASH-zsh-syntax-highlighting )
