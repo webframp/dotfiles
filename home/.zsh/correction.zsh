@@ -1,4 +1,3 @@
-alias antibody='nocorrect antibody'
 alias cp='nocorrect cp'
 alias gist='nocorrect gist'
 alias man='nocorrect man'

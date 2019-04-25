@@ -135,9 +135,13 @@ select-word-style bash
 
 export ZSH_AUTOSUGGEST_USE_ASYNC=1
 ## Source plugins last
+# dynamic method
+source <(antibody init)
+antibody bundle <~/.zsh_plugins.txt
+
 # static method, after updates run:
 # antibody bundle <~/.zsh_plugins.txt > ~/.zsh_plugins.sh
-source ~/.zsh_plugins.sh
+#source ~/.zsh_plugins.sh
 
 bindkey '^Xr' zaw-history
 bindkey '^ ' autosuggest-accept
