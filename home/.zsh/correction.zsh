@@ -6,4 +6,6 @@ alias mkdir='nocorrect mkdir'
 alias mv='nocorrect mv'
 alias mysql='nocorrect mysql'
 alias sudo='nocorrect sudo'
-alias brew='nocorrect brew'
+(( $+commands[brew] )) && {
+    alias brew='nocorrect brew'
+}

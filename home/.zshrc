@@ -15,6 +15,7 @@ fi
 unset lazyload_fpath
 
 # completion
+# -i means silently ignore insecure files
 autoload -Uz compinit
 typeset -i updated_at=$(date +'%j' -r ~/.zcompdump 2>/dev/null || stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)
 if [ $(date +'%j') != $updated_at ]; then
@@ -61,6 +62,7 @@ alias reload!='exec "$SHELL" -l'
     alias ll='exa -lag'
     alias lg='exa -bghHliS --git'
 }
+alias alacritty='/Applications/Alacritty.app/Contents/MacOS/alacritty'
 
 # Git
 alias gl='git pull --prune'
@@ -97,6 +99,9 @@ if test -d "/usr/local/opt/homeshick"; then
     export HOMESHICK_DIR=/usr/local/opt/homeshick
     source "/usr/local/opt/homeshick/homeshick.sh"
     alias h='homeshick'
+elif test -d "$HOME/.homesick/repos/homeshick"; then
+    source "$HOME/.homesick/repos/homeshick/homeshick.sh"
+    alias h='homeshick'
 fi
 
 (( $+commands[direnv] )) && {
@@ -115,12 +120,15 @@ fi
 
 source $HOME/.zsh/correction.zsh
 source $HOME/.zsh/dots.zsh
-source $HOME/.zsh/local.zsh
+
+if test -f "$HOME/.zsh/local.zsh"; then
+    source $HOME/.zsh/local.zsh
+fi
 
 # Load colors from less, and others.
 [[ -f ~/.LESS_TERMCAP ]] && . ~/.LESS_TERMCAP
 
-unset  updated_at
+unset updated_at
 
 autoload -U select-word-style
 select-word-style bash

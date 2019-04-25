@@ -1,8 +1,10 @@
 * Dotfiles
   Just a bunch of junk you probably don't want to waste time with.
-  If you decide to waste time, you'll need [[https://github.com/andsens/homeshick][homeshick]]
+  If you decide to waste time, you'll need [[https://github.com/andsens/homeshick][homeshick]] and [[https://getantibody.github.io/install/][antibody]]
 ** Setup
-   1. Install homeshick: ~git clone https://github.com/andsens/homeshick.git $HOME/.homesick/repos/homeshick~
-   1. ~printf '\nsource "$HOME/.homesick/repos/homeshick/homeshick.sh"' >> $HOME/.zshrc~
-   1. Run: ~homeshick clone webframp/dotfiles~
-   1. Link: ~homeshick link dotfiles~
+   1. Install git
+   2. Install homeshick: ~git clone https://github.com/andsens/homeshick.git $HOME/.homesick/repos/homeshick~
+   3. ~source "$HOME/.homesick/repos/homeshick/homeshick.sh"~
+   4. Install antibody: ~curl -sL git.io/antibody | sudo sh -s~
+   5. Run: ~homeshick clone webframp/dotfiles~
+   6. Link: ~homeshick link dotfiles~
