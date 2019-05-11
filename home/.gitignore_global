@@ -4,4 +4,6 @@ Session.vim
 .netrwhist
 *~
 .envrc
-.direnv/*
+.direnv/*taskcat
+.direnv
+.DS_Store

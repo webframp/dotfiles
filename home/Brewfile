@@ -7,7 +7,6 @@ tap "homebrew/bundle"
 tap "homebrew/cask"
 tap "homebrew/cask-fonts"
 tap "homebrew/core"
-tap "homebrew/php"
 tap "homebrew/services"
 tap "jmacdonald/amp"
 tap "koekeishiya/formulae"
@@ -17,12 +16,13 @@ tap "versent/taps"
 tap "weaveworks/tap"
 tap "webframp/gitlab"
 tap "webframp/osxsec"
-cask "java"
+tap "zaquestion/tap"
 brew "antiword"
 brew "archey"
 brew "autoconf"
 brew "automake"
 brew "avrdude", args: ["HEAD", "with-libhid"]
+brew "aws-iam-authenticator", link: false
 brew "gdbm"
 brew "openssl"
 brew "readline"
@@ -54,6 +54,7 @@ brew "ffmpeg"
 brew "flake8"
 brew "fpp"
 brew "git"
+brew "mono", link: false
 brew "gitversion"
 brew "glances"
 brew "gnupg"
@@ -109,6 +110,7 @@ brew "terraform"
 brew "the_silver_searcher"
 brew "tldr"
 brew "tmux"
+brew "travis"
 brew "urlview"
 brew "vault"
 brew "vdirsyncer"
@@ -125,16 +127,17 @@ brew "zsh-completions"
 brew "d12frosted/emacs-plus/emacs-plus"
 brew "getantibody/tap/antibody"
 brew "habitat-sh/habitat/hab"
-brew "koekeishiya/formulae/chunkwm"
+brew "koekeishiya/formulae/chunkwm", args: ["HEAD"]
 brew "koekeishiya/formulae/skhd"
 brew "osx-cross/avr/avr-gcc@7", link: true
 brew "px4/px4/gcc-arm-none-eabi"
 brew "versent/taps/saml2aws"
 brew "weaveworks/tap/eksctl"
+brew "zaquestion/tap/lab"
 cask "alfred"
-cask "amethyst"
 cask "avira-antivirus"
 cask "backblaze"
+cask "balenaetcher"
 cask "bitbar"
 cask "blockblock"
 cask "bloodhound"
@@ -154,7 +157,9 @@ cask "font-sourcecodepro-nerd-font"
 cask "google-chrome"
 cask "grandperspective"
 cask "handbrake"
+cask "java"
 cask "keybase"
+cask "keycastr"
 cask "knockknock"
 cask "krisp"
 cask "microsoft-teams"
@@ -186,22 +191,23 @@ cask "vmware-horizon-client"
 cask "whatsapp"
 cask "zoomus"
 cask "chef/chef/chef-workstation"
-cask "webframp/gitlab/gitlab-lab"
 cask "webframp/osxsec/lockrattler"
 cask "webframp/osxsec/systhist"
-mas "DXF Viewer Pro", id: 1093799308
-mas "GarageBand", id: 682658836
-mas "iMovie", id: 408981434
-mas "Keynote", id: 409183694
-mas "Kindle", id: 405399194
-mas "LastPass", id: 926036361
-mas "LightBlue", id: 639944780
-mas "Microsoft OneNote", id: 784801555
-mas "Microsoft Remote Desktop", id: 1295203466
-mas "MindNode", id: 1289197285
-mas "NetSpot", id: 514951692
-mas "Numbers", id: 409203825
-mas "Pages", id: 409201541
-mas "Trello", id: 1278508951
-mas "Tweetbot", id: 557168941
-mas "Xcode", id: 497799835
+mas "com.amazon.Kindle", id: 405399194
+mas "com.apple.dt.Xcode", id: 497799835
+mas "com.apple.garageband10", id: 682658836
+mas "com.apple.iMovieApp", id: 408981434
+mas "com.apple.iWork.Keynote", id: 409183694
+mas "com.apple.iWork.Numbers", id: 409203825
+mas "com.apple.iWork.Pages", id: 409201541
+mas "com.atlassian.trello", id: 1278508951
+mas "com.etwok.netspotwifi", id: 514951692
+mas "com.firmshell.dxfviewerpro", id: 1093799308
+mas "com.ideasoncanvas.mindnode.macos", id: 1289197285
+mas "com.lastpass.LastPass", id: 926036361
+mas "com.microsoft.onenote.mac", id: 784801555
+mas "com.microsoft.rdc.macos", id: 1295203466
+mas "com.punchthrough.LightBlueMac", id: 639944780
+mas "com.riffsy.GIF-for-Mac", id: 1043270657
+mas "com.Swiftify.Xcode", id: 1183412116
+mas "com.tapbots.TweetbotMac", id: 557168941
