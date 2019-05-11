@@ -10,6 +10,7 @@ source /Users/sme/Library/Caches/antibody/https-COLON--SLASH--SLASH-github.com-S
 fpath+=( /Users/sme/Library/Caches/antibody/https-COLON--SLASH--SLASH-github.com-SLASH-mafredri-SLASH-zsh-async )
 source /Users/sme/Library/Caches/antibody/https-COLON--SLASH--SLASH-github.com-SLASH-rupa-SLASH-z/z.sh
 fpath+=( /Users/sme/Library/Caches/antibody/https-COLON--SLASH--SLASH-github.com-SLASH-rupa-SLASH-z )
+
 source /Users/sme/Library/Caches/antibody/https-COLON--SLASH--SLASH-github.com-SLASH-zsh-users-SLASH-zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
 fpath+=( /Users/sme/Library/Caches/antibody/https-COLON--SLASH--SLASH-github.com-SLASH-zsh-users-SLASH-zsh-autosuggestions )
 source /Users/sme/Library/Caches/antibody/https-COLON--SLASH--SLASH-github.com-SLASH-willghatch-SLASH-zsh-cdr/cdr.plugin.zsh
