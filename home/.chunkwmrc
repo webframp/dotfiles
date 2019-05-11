@@ -114,6 +114,20 @@ chunkc core::load ffm.so
 
 # Window rules
 # https://github.com/koekeishiya/chunkwm/wiki/Useful-tips-and-workarounds
+# https://github.com/koekeishiya/chunkwm/tree/master/src/plugins/tiling#window-rules
 chunkc tiling::rule --owner Finder --name Copy --state float &
 chunkc tiling::rule --owner \"App Store\" --state float &
-chunkc tiling::rule --owner Emacs --except "^$" --state tile &
+chunkc tiling::rule --owner \"System Preferences\" --subrole AXStandardWindow --state tile &
+chunkc tiling::rule --owner \"Microsoft Remote Desktop\" --subrole AXStandardWindow --state tile &
+# Assign applications to specific desktops
+chunkc tiling::rule --owner Alacritty --state tile --desktop 1 &
+chunkc tiling::rule --owner Emacs --except "^$" --state tile --desktop 2 &
+chunkc tiling::rule --owner \"Microsoft Teams\" --except "^.*Notification$" --state tile --desktop 3 &
+chunkc tiling::rule --owner Xcode --state tile --desktop 4 &
+
+# if dual screen, send Firefox to 5 else to 4
+if [[ $(chunkc tiling::query --monitor count) -eq 2 ]]; then
+    chunkc tiling::rule --owner Firefox --subrole AXStandardWindow --except "^$" --state tile --desktop 5 &
+else
+    chunkc tiling::rule --owner Firefox --subrole AXStandardWindow --except "^$" --state tile --desktop 4 &
+fi
