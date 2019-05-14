@@ -146,3 +146,10 @@ antibody bundle <~/.zsh_plugins.txt
 
 bindkey '^Xr' zaw-history
 bindkey '^ ' autosuggest-accept
+
+# Base16 Shell
+# BASE16_SHELL="$HOME/.base16-manager/chriskempson/base16-shell/"
+BASE16_SHELL="$HOME/.config/base16-shell/"
+[ -n "$PS1" ] && \
+    [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
+    eval "$("$BASE16_SHELL/profile_helper.sh")"
