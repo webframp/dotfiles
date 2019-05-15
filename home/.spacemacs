@@ -50,6 +50,7 @@ This function should only modify configuration layer settings."
      ;;         colors-enable-nyan-cat-progress-bar t)
      csv
      emoji
+     multiple-cursors
      ;; deft
      (org :variables
           org-enable-github-support t
@@ -579,6 +580,12 @@ you should place your code here."
     ;; (add-to-list 'exec-path "/Users/sme/.chefdk/gem/ruby/2.5.0/bin")
     ;; (add-to-list 'exec-path "/opt/chefdk/bin")
     ) ;; end *is-osx*
+  ;; Configure bingo language server for go TODO ?
+  (with-eval-after-load "lsp-mode"
+    (setq-default
+     lsp-clients-go-server "gopls"
+
+     ))
   ;; display emoji automatically in magit commit history views
   (with-eval-after-load "magit"
     (add-hook 'magit-status-mode-hook 'emoji-cheat-sheet-plus-display-mode)
