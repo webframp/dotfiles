@@ -5,3 +5,11 @@
   [[https://dustri.org/b/my-zsh-configuration.html][dustri: My zsh configuration]]
   [[http://zdharma.org/Zsh-100-Commits-Club/Zsh-Native-Scripting-Handbook.html][Zsh Native Scripting Handbook]]
   [[https://github.com/romkatv/powerlevel10k#how-fast-is-it][powerlevel10k promptl benchmark]]
+* Load order for interactive user
+  /etc/zshenv
+  ~/.zshenv
+  ~/.zprofile
+  ~/.zshrc
+  ~/.zlogin
+  (post logout)
+  ~/.zlogout

@@ -20,6 +20,13 @@ export GOPATH=$HOME/go
 export HOMEBREW_NO_INSECURE_REDIRECT=1
 export HOMEBREW_CASK_OPTS=--require-sha
 
+# https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/
+unset KUBECONFG
+for file in ~/.kube/config.d/*;do
+    KUBECONFIG+="$file:"
+    export KUBECONFIG
+done
+
 # Eliminate duplicates in *paths
 typeset -gU cdpath fpath path manpath path
 

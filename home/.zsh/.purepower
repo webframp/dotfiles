@@ -166,7 +166,7 @@ fi
   esac
 
   typeset -ga POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
-      dir_writable go_version chruby virtualenv dir vcs)
+      dir_writable go_version chruby virtualenv dir vcs) # TODO: Add kubecontext, but short version
 
   typeset -ga POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(
       status command_execution_time root_indicator background_jobs custom_rprompt time)

@@ -79,8 +79,21 @@ alias gcmh='git commit --amend -C HEAD'
 alias dockerhostshell='docker run -it --privileged --pid=host debian nsenter -t 1 -m -u -n -i sh'
 
 # Kubernetes
-alias k='kubectl'
-compdef k=kubectl
+(( $+commands[kubectl] )) && {
+    alias k='kubectl'
+    alias kshell='k run alpine-tmp-shell --rm -i --tty --image alpine:latest -- /bin/sh'
+    compdef k=kubectl
+}
+
+(( $+commands[kubectx] )) && {
+    alias kx='kubectx'
+    compdef kx=kubectx
+}
+
+(( $+commands[kubens] )) && {
+    alias kn='kubens'
+    compdef kn=kubens
+}
 
 # TODO members, groups, vault, Golang, Rust
 alias cat='bat --plain'
