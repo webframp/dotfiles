@@ -1,4 +1,5 @@
 tap "chef/chef"
+tap "chrokh/tap"
 tap "crisidev/chunkwm"
 tap "d12frosted/emacs-plus"
 tap "getantibody/tap"
@@ -8,6 +9,7 @@ tap "homebrew/cask"
 tap "homebrew/cask-fonts"
 tap "homebrew/core"
 tap "homebrew/services"
+tap "instrumenta/instrumenta"
 tap "jmacdonald/amp"
 tap "koekeishiya/formulae"
 tap "osx-cross/avr"
@@ -52,14 +54,16 @@ brew "envchain"
 brew "exa"
 brew "ffmpeg"
 brew "flake8"
+brew "fluxctl"
 brew "fpp"
+brew "fzf"
 brew "git"
 brew "mono", link: false
 brew "gitversion"
 brew "glances"
 brew "gnupg"
 brew "libtool"
-brew "graphviz", args: ["with-pango"]
+brew "graphviz"
 brew "hadolint"
 brew "haskell-stack"
 brew "homeshick", args: ["with-fish"]
@@ -80,6 +84,7 @@ brew "kustomize"
 brew "lastpass-cli"
 brew "libyaml"
 brew "mas"
+brew "mkcert"
 brew "mr"
 brew "mysql-client"
 brew "mysql@5.6"
@@ -127,6 +132,7 @@ brew "zsh-completions"
 brew "d12frosted/emacs-plus/emacs-plus"
 brew "getantibody/tap/antibody"
 brew "habitat-sh/habitat/hab"
+brew "instrumenta/instrumenta/conftest"
 brew "koekeishiya/formulae/chunkwm", args: ["HEAD"]
 brew "koekeishiya/formulae/skhd"
 brew "osx-cross/avr/avr-gcc@7", link: true
@@ -193,21 +199,22 @@ cask "zoomus"
 cask "chef/chef/chef-workstation"
 cask "webframp/osxsec/lockrattler"
 cask "webframp/osxsec/systhist"
-mas "com.amazon.Kindle", id: 405399194
-mas "com.apple.dt.Xcode", id: 497799835
-mas "com.apple.garageband10", id: 682658836
-mas "com.apple.iMovieApp", id: 408981434
-mas "com.apple.iWork.Keynote", id: 409183694
-mas "com.apple.iWork.Numbers", id: 409203825
-mas "com.apple.iWork.Pages", id: 409201541
-mas "com.atlassian.trello", id: 1278508951
-mas "com.etwok.netspotwifi", id: 514951692
-mas "com.firmshell.dxfviewerpro", id: 1093799308
-mas "com.ideasoncanvas.mindnode.macos", id: 1289197285
-mas "com.lastpass.LastPass", id: 926036361
-mas "com.microsoft.onenote.mac", id: 784801555
-mas "com.microsoft.rdc.macos", id: 1295203466
-mas "com.punchthrough.LightBlueMac", id: 639944780
-mas "com.riffsy.GIF-for-Mac", id: 1043270657
-mas "com.Swiftify.Xcode", id: 1183412116
-mas "com.tapbots.TweetbotMac", id: 557168941
+mas "DXF Viewer Pro", id: 1093799308
+mas "GarageBand", id: 682658836
+mas "GIF Keyboard", id: 1043270657
+mas "iMovie", id: 408981434
+mas "Keynote", id: 409183694
+mas "Kindle", id: 405399194
+mas "LastPass", id: 926036361
+mas "LightBlue", id: 639944780
+mas "Microsoft OneNote", id: 784801555
+mas "Microsoft Remote Desktop", id: 1295203466
+mas "MindNode", id: 1289197285
+mas "NetSpot", id: 514951692
+mas "Numbers", id: 409203825
+mas "Pages", id: 409201541
+mas "Swiftify for Xcode", id: 1183412116
+mas "Trello", id: 1278508951
+mas "Tweetbot", id: 557168941
+mas "WireGuard", id: 1451685025
+mas "Xcode", id: 497799835
