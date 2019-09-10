@@ -2,9 +2,33 @@
   Useful links related to startup performance and scripting optimization
   [[https://htr3n.github.io/2018/07/faster-zsh/][htr3n: Faster and enjoyable ZSH (maybe)]]
   [[https://medium.com/@jzelinskie/please-dont-ship-binaries-with-shell-completion-as-commands-a8b1bcb8a0d0][Please, don’t recommend sourcing shell completion]]
+  [[https://carlosbecker.com/posts/speeding-up-zsh][Speeding up my ZSH load - Carlos Becker]]
+  #+BEGIN_SRC sh
+for i in $(seq 1 10); do /usr/bin/time zsh -i -c exit; done
+  #+END_SRC
   [[https://dustri.org/b/my-zsh-configuration.html][dustri: My zsh configuration]]
   [[http://zdharma.org/Zsh-100-Commits-Club/Zsh-Native-Scripting-Handbook.html][Zsh Native Scripting Handbook]]
   [[https://github.com/romkatv/powerlevel10k#how-fast-is-it][powerlevel10k promptl benchmark]]
+* Extending ZSH
+http://zdharma.org/Zsh-100-Commits-Club/Zsh-Native-Scripting-Handbook.html
+** Pattern matching in zsh parameters
+Example: https://github.com/caarlos0/dotfiles/blob/master/zsh/zshrc.symlink#L17
+Ref:
+http://zsh.sourceforge.net/Doc/Release/Expansion.html#Parameter-Expansion-Flags
+Returns only items from $test_files that match the second pattern
+'*/dots.zsh'
+#+BEGIN_SRC sh
+# home/.zsh/config.zsh
+# home/.zsh/correction.zsh
+# home/.zsh/dots.zsh
+# home/.zsh/helpers.zsh
+# home/.zsh/homebrew.zsh
+# home/.zsh/prompt.zsh
+for file in ${(M)test_files:#*/dots.zsh};do echo $file;done
+# home/.zsh/dots.zsh
+#+END_SRC
+** Writing custom completions
+https://github.com/zsh-users/zsh-completions/blob/master/zsh-completions-howto.org
 * Load order for interactive user
   /etc/zshenv
   ~/.zshenv
