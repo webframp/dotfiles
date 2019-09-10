@@ -33,6 +33,7 @@ typeset -gU cdpath fpath path manpath path
 # Setup path
 path=($HOME/.local/bin
       $HOME/.cargo/bin
+      $HOME/.krew/bin
       $HOME/bin
       $HOME/go/bin
       $path[@])

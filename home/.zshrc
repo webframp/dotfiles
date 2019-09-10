@@ -1,7 +1,6 @@
 ## Profiling
 #zmodload zsh/zprof
 # Entirety of my startup file...
-source $HOME/.zsh/prompt.zsh
 source $HOME/.zsh/config.zsh
 
 # lazy load any custom functions
@@ -14,14 +13,12 @@ if [[ -d "$lazyload_fpath" ]]; then
 fi
 unset lazyload_fpath
 
-# completion
-# -i means silently ignore insecure files
+# # completion
 autoload -Uz compinit
-typeset -i updated_at=$(date +'%j' -r ~/.zcompdump 2>/dev/null || stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)
-if [ $(date +'%j') != $updated_at ]; then
-    compinit -i
+if [ $(date +'%j') != $(/usr/bin/stat -f '%Sm' -t '%j' ${ZDOTDIR:-$HOME}/.zcompdump) ]; then
+  compinit
 else
-    compinit -C -i
+  compinit -C
 fi
 
 # menu select
@@ -78,11 +75,15 @@ alias gcmh='git commit --amend -C HEAD'
 # Docker
 alias dockerhostshell='docker run -it --privileged --pid=host debian nsenter -t 1 -m -u -n -i sh'
 
+# Emacs
+alias doom='~/.emacs.d/bin/doom'
+
 # Kubernetes
 (( $+commands[kubectl] )) && {
-    alias k='kubectl'
+    alias k='nocorrect kubectl'
     alias kshell='k run alpine-tmp-shell --rm -i --tty --image alpine:latest -- /bin/sh'
     compdef k=kubectl
+    # kubectl get --raw /apis/custom.metrics.k8s.io/v1beta1
 }
 
 (( $+commands[kubectx] )) && {
@@ -157,6 +158,9 @@ antibody bundle <~/.zsh_plugins.txt
 # antibody bundle <~/.zsh_plugins.txt > ~/.zsh_plugins.sh
 #source ~/.zsh_plugins.sh
 
+## ZAW settings
+zstyle ':filter-select' case-insensitive yes
+zstyle ':filter-select' hist-find-no-dups yes
 bindkey '^Xr' zaw-history
 bindkey '^ ' autosuggest-accept
 
