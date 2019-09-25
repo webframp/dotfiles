@@ -7,6 +7,12 @@
 
 (package! emoji-cheat-sheet-plus)
 
+(package! counsel-spotify)
+
+(package! typopunct :recipe (:host github :repo "emacsmirror/typopunct" :files (:defaults "*")))
+
+(package! edit-server)
+
 ;; Local Variables:
 ;; flycheck-disabled-checkers: (emacs-lisp-checkdoc)
 ;; End:
