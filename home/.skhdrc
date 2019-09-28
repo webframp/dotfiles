@@ -1,6 +1,7 @@
 # open terminal
-cmd - return : /Applications/Alacritty.app/Contents/MacOS/alacritty
+shift + cmd - return : /Applications/Alacritty.app/Contents/MacOS/alacritty
 
+alt - q : launchctl kickstart -k "gui/${UID}/homebrew.mxcl.yabai"
 shift + alt - q : brew services stop skhd \
                   brew services stop yabai
 
@@ -30,10 +31,10 @@ shift + alt - k : yabai -m window --swap prev #north
 shift + alt - l : yabai -m window --swap east
 
 # move window
-shift + cmd - h : yabai -m window --warp west
+#shift + cmd - h : yabai -m window --warp west
 shift + cmd - j : yabai -m window --warp next #south
 shift + cmd - k : yabai -m window --warp prev #north
-shift + cmd - l : yabai -m window --warp east
+#shift + cmd - l : yabai -m window --warp east
 
 # balance size of windows
 shift + alt - 0 : yabai -m space --balance
@@ -134,17 +135,17 @@ ctrl + alt - l : yabai -m window --insert east
 # rotate tree
 alt - r : yabai -m space --rotate 90
 
-# mirror tree y-axis
-alt - y : yabai -m space --mirror y-axis
+# TODO mirror tree y-axis
+# alt - y : yabai -m space --mirror y-axis
 
-# mirror tree x-axis
-alt - x : yabai -m space --mirror x-axis
+# TODO mirror tree x-axis
+# alt - x : yabai -m space --mirror x-axis
 
-# toggle desktop offset
-alt - a : yabai -m space --toggle padding; yabai -m space --toggle gap
+# TODO toggle desktop offset
+# alt - a : yabai -m space --toggle padding; yabai -m space --toggle gap
 
 # TODO toggle window parent zoom
-#alt - d : yabai -m window --toggle zoom-parent
+# alt - d : yabai -m window --toggle zoom-parent
 
 # toggle window native fullscreen
 shift + alt - return : yabai -m window --toggle native-fullscreen
