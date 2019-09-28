@@ -7,14 +7,44 @@
 ;; https://www.reddit.com/r/emacs/comments/cdf48c/failed_to_download_gnu_archive/
 ;; (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 
+;;; UI
 (when IS-LINUX
   (font-put doom-font :weight 'semi-light))
 (when IS-MAC
-  (setq ns-use-thin-smoothing t)
+  (setq ns-use-thin-smoothing t))
+
+(setq doom-modeline-major-mode-icon t)
+
+;; (setq doom-font (font-spec :family "SauceCodePro Nerd Font" :size 18))
+(setq doom-font (font-spec :family "FuraCode Nerd Font Mono" :size 18)
+      doom-variable-pitch-font (font-spec :family "Noto Sans" :size 18))
+
+;;; Windows/Frames
+;;;
+(add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
+(when IS-MAC
   (add-hook 'window-setup-hook #'toggle-frame-maximized))
 
-;; To modify or add binding for existing modules use add-hook! or after! macros
-;; https://github.com/hlissner/doom-emacs/wiki/Customization#reconfigure-packages
+;;; Keybinds
+;; TODO Combine into single map! use
+(map! :after forge
+      :map forge-post-mode-map
+      :n "ZZ" #'forge-post-submit
+      :n "ZQ" #'forge-post-cancel)
+
+(map! :after forge
+      :map forge-topic-mode-map
+      "c" #'forge-create-post
+      :n "gy" #'forge-copy-url-at-point-as-kill
+      :n "go" #'forge-browse-dwim)
+
+(map! :after forge
+      :map magit-status-mode-map
+      :n "gi" #'forge-jump-to-issues
+      :n "gp" #'forge-jump-to-pullreqs
+      :n "gy" #'forge-copy-url-at-point-as-kill
+      :n "go" #'magit-browse-thing)
+
 
 ;; TODO add mapping for forge-toggle-closed-visibility.
 ;; Place with dispatch: SPC  g ' x ?, @ x ? (visual, normal states too)
@@ -23,12 +53,6 @@
       :after projectile
       (:prefix "p"
         :desc "Save Project Buffers" "s" #'projectile-save-project-buffers))
-
-(setq company-idle-delay 0.1)
-;; (setq auth-sources '("~/.authinfo.gpg" "~/.authinfo"))
-(setq auth-sources '("~/.authinfo.gpg"))
-;; (setq doom-font (font-spec :family "SauceCodePro Nerd Font" :size 18))
-(setq doom-font (font-spec :family "FuraCode Nerd Font Mono" :size 18))
 
 ;; Bind to SPC f F - freshen file from disk
 ;; Source: https://www.emacswiki.org/emacs/download/misc-cmds.el
@@ -41,34 +65,17 @@
       (:prefix "f"
         :desc "Refresh file from disk" "F" #'revert-buffer-no-confirm))
 
-;; Aggressive whitespace cleanups
-(defun sme-untabify-buffer ()
-  (interactive)
-  (untabify (point-min) (point-max)))
-
-(defun sme-indent-buffer ()
-  (interactive)
-  (indent-region (point-min) (point-max)))
-
-(defun sme-cleanup-buffer ()
-  "Automatically cleanup a bunch of whitespace issues"
-  (interactive)
-  (sme-indent-buffer)
-  (sme-untabify-buffer)
-  (delete-trailing-whitespace))
-
-;; TODO rebind org-archive-subtree to SPC m h a
-;; bindings for org-move-subtree-up, down, etc
+;; TODO rebind org-archive-subtree to SPC m h a ?
+;; bindings for org-move-subtree-up, down, etc ?
 ;; http://develop.spacemacs.org/layers/+emacs/org/README.html#trees
 ;; (map! :localleader
 ;;       :map org-mode-map
 ;;       :after org
 ;;       :desc "Archive subtree" "$" #'org-archive-subtree)
 
-;; BUG: https://stackoverflow.com/questions/41741477/emacs-epa-and-gnupg2-no-usable-configuration
-;; can't seem to find gpg
-(custom-set-variables '(epg-gpg-program  "/usr/local/bin/gpg"))
 
+;;; Modules/Packages
+;;
 ;; Emoji Cheatsheet
 ;; https://github.com/syl20bnr/emacs-emoji-cheat-sheet-plus/
 (use-package! emoji-cheat-sheet-plus
@@ -84,12 +91,18 @@
 
 ;; Kubernetes.el
 ;; https://github.com/chrisbarrett/kubernetes-el
-;; TODO setup keybindings
-(use-package! kubernetes) ; :init config? what is :defer-incrementally?
+;; TODO Fix kubeconfig handling with iam-authenticator
+;; :init config? is :defer-incrementally useful here?
+(use-package! kubernetes
+  :config
+  (setq kubernetes-poll-frequency 3600
+        kubernetes-redraw-frequency 3600))
+
 (use-package! kubernetes-evil
   :when (featurep! :editor evil +everywhere)
   :after kubernetes)
 
+;; TODO any more keybindings ?
 (map! :leader
       :after kubernetes
       (:prefix "o"
@@ -125,10 +138,7 @@ See URL 'https://github.com/awslabs/cfn-python-lint'."
 
 ;; Spotify controls
 (use-package! counsel-spotify
-  :after (counsel)
-  :config ;; FIXME move to private config
-  (setq counsel-spotify-client-id "3816394d09994f8dbc5cd86d4ddf518d"
-        counsel-spotify-client-secret "f5d3506b42744f8982e8dfe23e5d083b"))
+  :after (counsel))
 
 (map! :leader
       (:prefix ("o" . "open")
@@ -153,19 +163,28 @@ See URL 'https://github.com/awslabs/cfn-python-lint'."
 (add-hook! 'markdown-mode-hook 'sme-markdown-mode-config)
 (add-hook! 'gfm-mode-hook 'sme-markdown-mode-config)
 
+;;; Edit Server
 ;; Edit with emacs, supports editing textareas from FF in Emacs
 ;; https://github.com/stsquad/emacs_chrome
 ;; https://addons.mozilla.org/en-US/firefox/addon/edit-with-emacs1/
 ;; TODO add hook after edit-server-edit minor mode to turn on autofilll/spellcheck/evil bindings
-;; NOTE how to customize based on buffer type? html email vs markdown vs text
+;; NOTE customize based on buffer type? html email vs markdown vs text
 (use-package! edit-server
   :config
   (edit-server-start))
 
+;; (map! :map edit-server-edit-mode-map
+;;       "ZZ" #'edit-server-done
+;;       "ZQ" #'edit-server-abort)
+
+;; Non git tracked local settings
+(load! "+local")
+
 ;; Finally, keep my configs clean
-;; (setq-default custom-file (concat doom-private-dir "+custom.el"))
-;; (load! "+custom")
+(setq-default custom-file (concat doom-private-dir "+custom.el"))
+(load! "+custom")
 
 ;; Local Variables:
 ;; flycheck-disabled-checkers: (emacs-lisp-checkdoc)
+;; byte-compile-warnings: (not free-vars)
 ;; End:
