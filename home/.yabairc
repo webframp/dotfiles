@@ -6,7 +6,9 @@ yabai -m config status_bar_text_font         "Helvetica Neue:Bold:12.0"
 yabai -m config status_bar_icon_font         "FontAwesome:Regular:12.0"
 yabai -m config status_bar_background_color  0xff202020
 yabai -m config status_bar_foreground_color  0xffa8a8a8
-yabai -m config status_bar_space_icon_strip  I II III IV V VI VII VIII IX X
+#yabai -m config status_bar_space_icon_strip  I II III IV V VI VII VIII IX X
+#greek: alpha, beta, gamma, delta, epsilon, zeta, eta, theta, iota
+yabai -m config status_bar_space_icon_strip  α β γ δ ε ζ η θ ι
 yabai -m config status_bar_power_icon_strip   
 yabai -m config status_bar_space_icon        
 yabai -m config status_bar_clock_icon        
@@ -40,63 +42,59 @@ yabai -m config left_padding                 1
 yabai -m config right_padding                1
 yabai -m config window_gap                   2
 
-# # if dual screen, send Firefox to 5 else to 4
-# if [[ $(chunkc tiling::query --monitor count) -eq 2 ]]; then
-#     chunkc tiling::rule --owner Firefox --subrole AXStandardWindow --except "^$" --state tile --desktop 5 &
-# else
-#     chunkc tiling::rule --owner Firefox --subrole AXStandardWindow --except "^$" --state tile --desktop 4 &
-# fi
- 
 ## Window Rules
-# Desktop assignmentes
+# Desktop assignments
 yabai -m rule --add app=Alacritty space=^1
 yabai -m rule --add app=Emacs manage=on space=2 floating=off
-yabai -m rule --add app="Microsoft Teams" manage=on space=3
-# TODO move FF based on signal when 2nd monitor connected?
-# https://github.com/koekeishiya/yabai/blob/master/doc/yabai.asciidoc#signal
-# yabai -m signal --add event=display_added action="" app="Firefox"
-# yabai -m signal --add event=display_removed action="" app="Firefox"
-yabai -m rule --add app="Firefox" manage=on space=4
+# Manage off until notifications are no longer "subrole":"AXStandardWindow"
+yabai -m rule --add app="Microsoft Teams" manage=off space=3 
 yabai -m rule --add app="Xcode" manage=on space=4
+yabai -m rule --add app="^Spotify$" manage=on space=4
 # TODO "Microsoft Remote Desktop" # a thorn in my side
-# Unmanaged
+# Unmanaged Windows
 yabai -m rule --add app="^System Preferences$" manage=off
 yabai -m rule --add app="Finder" title="Copy" manage=off
 yabai -m rule --add app="App Store" manage=off
-#Microsoft Teams Notification
-yabai -m rule --add label="TeamsNote" app="Microsoft Teams" title="^.*Notification$" manage=off sticky=off
-# This window type causes problems, how to manage?
-# [{
-#     "id":230253,
-#     "pid":63059,
-#     "app":"Microsoft Teams",
-#     "title":"Microsoft Teams Notification",
-#     "frame":{
-#         "x":841.0000,
-#         "y":27.0000,
-#         "w":0.0000,
-#         "h":0.0000
-                
-#     },
-#     "level":3,
-#     "role":"AXWindow",
-#     "subrole":"AXStandardWindow",
-#     "movable":1,
-#     "resizable":0,
-#     "display":1,
-#     "space":4,
-#     "visible":1,
-#     "focused":0,
-#     "split":"vertical",
-#     "floating":1,
-#     "sticky":1,
-#     "border":0,
-#     "shadow":1,
-#     "zoom-parent":0,
-#     "zoom-fullscreen":0,
-#     "native-fullscreen":0
-    
-# }]
+
+# TODO move FF based on signal when 2nd monitor connected?
+# https://github.com/koekeishiya/yabai/blob/master/doc/yabai.asciidoc#signal
+# # if dual screen, send Firefox to 5 else to 4
+if [ "$(yabai -m query --displays |jq '.|length')" -eq 2 ];then
+    yabai -m rule --add label="FFDisplays" app="Firefox" manage=on space=5
+    echo "2 displays, assigning Firefox to desktop 5"
+else
+    yabai -m rule --add label="FFDisplays" app="Firefox" manage=on space=4
+    echo "Single display, assigning Firefox to desktop 4"
+fi
+
+# Microsoft Teams Notification
+# https://github.com/koekeishiya/yabai/issues/74
+# Disable border and float window
+yabai -m rule --add \
+    label=ignoreTeamsNotification \
+    app='^Microsoft Teams$' \
+    title='^Microsoft Teams Notification$' \
+    manage=off \
+    border=off
+
+# Tries to focus the window under the cursor whenever the MS teams notification gains focus
+# Probably conflicts with mouse follows focus in some ways
+yabai -m signal --add \
+    event=window_focused \
+    app='^Microsoft Teams$' \
+    title='^Microsoft Teams Notification$' \
+    action='yabai -m window --focus mouse > /dev/null 2>&1'
+
+# TODO 
+# yabai -m signal --add \
+#     event=display_added \
+#     app='^Firefox$' \
+#     action='yabi -m rule --add app="Firefox" manage=on space=5'
+
+# yabai -m signal --add \
+#     event=display_removed \
+#     app='^Firefox$' \
+#     action='yabi -m rule --add app="Firefox" manage=on space=4'
 
 echo "yabai configuration loaded.."
  
