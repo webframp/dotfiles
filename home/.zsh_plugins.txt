@@ -6,9 +6,14 @@ webyneter/docker-aliases
 rawkode/zsh-docker-run
 mafredri/zsh-async
 rupa/z
+zsh-users/zsh-autosuggestions
+
+# Completions
 jwilm/alacritty path:extra/completions kind:fpath
 zsh-users/zsh-completions path:src kind:fpath
-zsh-users/zsh-autosuggestions
+docker/compose path:contrib/completion/zsh kind:fpath
+docker/cli path:contrib/completion/zsh kind:fpath
+lukechilds/zsh-better-npm-completion
 
 willghatch/zsh-cdr
 zsh-users/zaw

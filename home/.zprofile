@@ -19,9 +19,10 @@ export LESSCHARSET=utf-8
 export GOPATH=$HOME/go
 export HOMEBREW_NO_INSECURE_REDIRECT=1
 export HOMEBREW_CASK_OPTS=--require-sha
+export BAT_THEME=OneHalfDark
 
 # https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/
-unset KUBECONFG
+unset KUBECONFIG
 for file in ~/.kube/config.d/*;do
     KUBECONFIG+="$file:"
     export KUBECONFIG
