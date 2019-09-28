@@ -33,8 +33,8 @@
        (popup            ; tame sudden yet inevitable temporary windows
         +all             ; catch all popups that start with an asterix
         +defaults)       ; default popup rules
-       (pretty-code       ; replace bits of code with pretty symbols
-        +fira)
+       pretty-code       ; replace bits of code with pretty symbols
+       ;;  +fira)
        ;;tabbar            ; FIXME an (incomplete) tab bar for Emacs
        treemacs          ; a project drawer, like neotree but cooler
        ;;unicode           ; extended unicode support for various languages
@@ -58,8 +58,7 @@
        :emacs
        (dired            ; making dired pretty [functional]
        ;;+ranger         ; bringing the goodness of ranger to dired
-       ;;+icons          ; colorful icons for dired-mode
-        )
+       +icons)           ; colorful icons for dired-mode
        electric          ; smarter, keyword-based electric-indent
        vc                ; version-control and Emacs, sitting in a tree
 
@@ -85,7 +84,7 @@
        lsp
        macos             ; MacOS-specific commands
        magit             ; a git porcelain for Emacs
-       ;;make              ; run make tasks from Emacs
+       make              ; run make tasks from Emacs
        ;;pass              ; password manager for nerds
        ;;pdf               ; pdf enhancements
        ;;prodigy           ; FIXME managing external services & code builders
@@ -135,12 +134,13 @@
        ;;php               ; perl's insecure younger brother
        ;;plantuml          ; diagrams for confusing people more
        ;;purescript        ; javascript, but functional
-       ;;python            ; beautiful is better than ugly
+       ;; (python
+       ;;  +pyenv)            ; beautiful is better than ugly
        ;;qt                ; the 'cutest' gui framework ever
        ;;racket            ; a DSL for DSLs
        ;;rest              ; Emacs as a REST client
        ruby              ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
-       ;;rust              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
+       rust              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
        ;;scala             ; java, but good
        ;;scheme            ; a fully conniving family of lisps
        sh                ; she sells {ba,z,fi}sh shells on the C xor
@@ -180,6 +180,9 @@
        ;; provides a Spacemacs-inspired keybinding scheme and a smartparens
        ;; config. Use it as a reference for your own modules.
        (default +bindings +smartparens))
+
+;; (with-eval-after-load 'gnutls
+;;   (add-to-list 'gnutls-trustfiles "/usr/local/etc/libressl/cert.pem"))
 
 ;; Local Variables:
 ;; flycheck-disabled-checkers: (emacs-lisp-checkdoc)
