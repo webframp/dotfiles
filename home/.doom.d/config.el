@@ -177,6 +177,12 @@ See URL 'https://github.com/awslabs/cfn-python-lint'."
 ;;       "ZZ" #'edit-server-done
 ;;       "ZQ" #'edit-server-abort)
 
+(pushnew! auto-mode-alist
+          '("\\.tmpl\\'" . web-mode))
+
+(setq web-mode-engines-alist
+      '(("go" . "\\.tmpl\\'")))
+
 ;; Non git tracked local settings
 (load! "+local")
 
