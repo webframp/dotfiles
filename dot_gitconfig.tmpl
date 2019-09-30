@@ -1,0 +1,48 @@
+[user]
+	name = {{ .name }}
+	email = {{ .email }}
+	signingkey = {{ .keyid }}
+[color]
+	ui = true
+[alias]
+	in = log ..@{upstream}
+	out = log @{upstream}..
+	st = status
+	co = checkout
+	ci = commit
+	br = branch
+	r = reset
+	rh = reset --hard
+	rh1 = reset --hard HEAD~1
+	rh2 = reset --hard HEAD~2
+	stage = add -p
+	ls = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	ll = log --pretty=format:'%Cred%h%C(yellow)%d%Creset -%Creset %s %Cgreen(%cr) %C(bold blue)<%cn>%Creset' --decorate --numstat
+	dlc = diff --cached HEAD^
+	filelog = log -u
+	fl = log -u
+	serve = daemon --reuseaddr --base-path=. --export-all --verbose
+	pos = push -o ci.skip
+[branch]
+	autosetuprebase = always
+[core]
+	excludesfile = ~/.gitignore_global
+	editor = emacsclient -t -a=""
+[merge]
+	conflictStyle = diff3
+[push]
+	default = simple
+[help]
+	autocorrect = 1
+[commit]
+	gpgsign = true
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+{{- /* forges is an array of hashes with keys: type, user, url */ -}}
+{{- range .forges }}
+[{{ .type }}{{- if ne .url "" }} "{{.url}}" {{- end -}}]
+	user = {{ .user }}
+{{- end }}

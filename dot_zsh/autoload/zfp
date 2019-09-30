@@ -1,0 +1,5 @@
+# -*- mode: sh -*-
+source ~/.zsh/helpers.zsh
+
+__info 'zsh $fpath entries:'
+for p in $fpath; do echo $p;done

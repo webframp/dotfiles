@@ -1,10 +1,12 @@
 * Dotfiles
   Just a bunch of junk you probably don't want to waste time with.
-  If you decide to waste time, you'll need [[https://github.com/andsens/homeshick][homeshick]] and [[https://getantibody.github.io/install/][antibody]]
+  If you decide to waste time, you'll need [[https://github.com/twpayne/chezmoi/][chezmoi]] and [[https://getantibody.github.io/install/][antibody]]
 ** Setup
-   1. Install git
-   2. Install homeshick: ~git clone https://github.com/andsens/homeshick.git $HOME/.homesick/repos/homeshick~
-   3. ~source "$HOME/.homesick/repos/homeshick/homeshick.sh"~
-   4. Install antibody: ~curl -sL git.io/antibody | sudo sh -s~
-   5. Run: ~homeshick clone webframp/dotfiles~
-   6. Link: ~homeshick link dotfiles~
+1. Install chezmoi: ~curl -sfL https://git.io/chezmoi | sh~
+2. Install antibody: ~curl -sfL git.io/antibody | sh -s - -b /usr/local/bin~
+3. Install git
+4. Run: ~chezmoi init https://github.com/username/dotfiles.git~
+5. Update: ~chezmoi apply~
+** Keeping up to date
+Use chezmoi to upgrade itself: ~chezmoi upgrade~
+Then: ~chezmoi update~

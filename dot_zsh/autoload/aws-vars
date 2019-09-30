@@ -1,0 +1,15 @@
+# -*- mode: sh -*-
+source ~/.zsh/helpers.zsh
+
+# Maybe: https://www.refining-linux.org/archives/38-ZSH-Gem-3-No-automatic-word-split.html
+set -o shwordsplit
+local _vars
+_vars=$(env | grep -i aws)
+if [[ -z "${_vars}" ]]; then
+    __warn "No AWS_* vars set"
+    return 1
+else
+    for line in ${_vars}; do __info "Found: ${line[(ws:=:)1]}"; done
+    for line in ${_vars}; do printf "export $line\n"; done | pbcopy
+    __info "AWS_* vars copied to clipboard ready for export"
+fi

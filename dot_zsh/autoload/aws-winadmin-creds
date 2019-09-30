@@ -1,0 +1,16 @@
+# -*- mode: sh -*-
+# Fetch admin creds for an aws windows instance and place on clipboard 
+function aws-windows-admin() {
+         local instance_id=$1
+         local pem_file=$2
+         local aws_profile=$3
+         aws ec2 get-password-data \
+             --instance-id $instance_id \
+             --priv-launch-key $pem_file \
+             --profile $aws_profile \
+             --region us-east-1\
+             |jq '.PasswordData' --raw-output \
+             |tr -d '\\\n' \
+             |pbcopy
+         echo "Password placed on clipboard"
+}
