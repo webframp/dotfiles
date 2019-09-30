@@ -1,0 +1,18 @@
+{{- $email := promptString "email" -}}
+{{- $keyid := promptString "GPG KeyID" -}}
+{{- $enable_secrets := promptString "Enable templates that require secrets manager? y/n" -}}
+[data]
+    name = "Sean Escriva"
+    email = "{{ $email }}"
+    keyid = "{{ $keyid }}"
+[data.features]
+    secretsmgr = "{{ $enable_secrets }}"
+# Enable magit forges
+[[data.forges]]
+    type = "github"
+    user = "webframp"
+    url = ""
+#[[data.forges]]
+#    type = "gitlab"
+#    user = "user"
+#    url = "gitlab.private.url/api/v4"

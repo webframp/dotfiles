@@ -1,0 +1,22 @@
+README.org
+{{- if ne .chezmoi.os "linux" }}
+.audio
+.config/clipit
+.config/i3
+.config/taffybar
+.colorprofile
+.conkerrorrc
+.dircolors
+.surf
+.Xcompose
+.xinitrc
+.Xmodmap
+.xmonad
+.Xresources*
+.zsh/pulseaudio
+{{- end }}
+{{- if ne .chezmoi.os "darwin" }}
+Brewfile
+.yabairc
+.skhdrc
+{{- end }}

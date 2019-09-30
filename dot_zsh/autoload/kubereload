@@ -1,0 +1,10 @@
+# -*- mode: sh -*-
+source ~/.zsh/helpers.zsh
+
+# https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/
+unset KUBECONFG
+for file in ~/.kube/config.d/*;do
+    __info "Found: $file"
+    KUBECONFIG+="$file:"
+    export KUBECONFIG
+done

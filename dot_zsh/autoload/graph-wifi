@@ -1,0 +1,5 @@
+# -*- mode: sh -*-
+# https://danielkorn.io/post/termgraph/
+# https://twitter.com/smartwatermelon/status/1140430115295285248
+# TODO: needs some cleanup for current cli output
+/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -s | tail -n +1 | sed 's/ [a-z0-9][a-z0-9]:/,&:/g' | sed 's/ -/, -/g' | cut -d ',' -f1,3 | sed 's/^[[:blank:]]*//;s/[[:blank:]]*$//' | grep -v "SSID" | sed 's/ /,/g' | cut -d ',' -f1,2 | sort -t ',' -k 2
