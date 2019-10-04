@@ -109,17 +109,6 @@ alias yay='bubu'
 # Ruby
 alias be='bundle exec'
 
-# Addons
-# TODO Remove after migation to chezmoi
-if test -d "/usr/local/opt/homeshick"; then
-    export HOMESHICK_DIR=/usr/local/opt/homeshick
-    source "/usr/local/opt/homeshick/homeshick.sh"
-    alias h='homeshick'
-elif test -d "$HOME/.homesick/repos/homeshick"; then
-    source "$HOME/.homesick/repos/homeshick/homeshick.sh"
-    alias h='homeshick'
-fi
-
 (( $+commands[direnv] )) && {
     _direnv_hook() {
         eval "$("/usr/local/bin/direnv" export zsh)";
