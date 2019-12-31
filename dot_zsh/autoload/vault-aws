@@ -6,6 +6,7 @@ if [ -z ${VAULT_ADDR} ];then __error "Must export VAULT_ADDR" && return 1;fi
 if [ $+commands[jq] -ne 1 ];then __error "Missing jq cli" && return 1;fi
 if [ $+commands[vault] -ne 1 ];then __error "Missing vault cli" && return 1;fi
 if [ $+commands[aws] -ne 1 ];then __error "Missing aws cli" && return 1;fi
+if [ $+commands[vault-token-helper] -ne 1 ];then __error "Missing vault-token-helper see: https://github.com/joemiller/vault-token-helper" && return 1;fi
 
 local username=$1
 function __vault_login(){
@@ -18,14 +19,9 @@ function __vault_login(){
 }
 
 __info "Using vault: $VAULT_ADDR"
-if [[ ! -a ~/.vault-token ]];then
-    ## File doesn't exist
-    __warn "Vault token file not found, re-login as $username"
-    __vault_login
-elif [[ $(find ~/.vault-token -mmin +480) ]];then
-    # File modification is older than our token TTL
-    # get a new token with vault login
-    __warn "Vault token beyond TTL, re-login as $username"
+if [[ $(vault-token-helper list --extended|grep -c ERROR) -gt 0 ]];then
+    # Error making API request.
+    __warn "Valid vault token not found, re-login as $username"
     __vault_login
 else
     __info "Vault token valid"
