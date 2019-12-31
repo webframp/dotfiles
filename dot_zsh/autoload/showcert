@@ -1,13 +1,21 @@
 # -*- mode: sh -*-
+source ~/.zsh/helpers.zsh
 # Show all the names (CNs and SANs) listed in the SSL certificate
 # contained in a given file
 if [ -z "${1}" ]; then
-    echo "ERROR: No certificate filename specified."
+    __error "A local file name must be provided"
     return 1
 fi
 
 local crtfile="${1}"
-echo "Reading ${crtfile}…"
+
+if ! [ -f "${crtfile}" ]; then
+    __error "File ${crtfile} is not a regular file"
+    file "${crtfile}"
+    return 1
+fi
+
+__info "Reading ${crtfile}…"
 echo ""; # newline
 
 local tmp
@@ -32,8 +40,11 @@ if [[ "${tmp}" = *"-----BEGIN CERTIFICATE-----"* ]]; then
     echo ""; # newline
     echo "Issued by:"
     echo "${certText}" | grep "Issuer:" | sed -e "s/^.*CN=//"
+    echo ""; # newline
+    echo "Authority Information:"
+    echo "${certText}" | grep "CA Issuers" | sed -e "s/^[\r\n\t\f\v ].*URI://"
     return 0
 else
-    echo "ERROR: Certificate not found."
+    __error "Certificate data not found in file: ${crtfile}"
     return 1
 fi
