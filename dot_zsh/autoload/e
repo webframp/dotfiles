@@ -1,2 +1,2 @@
 # -*- mode: sh -*-
-emacsclient -n $@
+emacs -nw $@

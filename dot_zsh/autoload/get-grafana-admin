@@ -1,0 +1,5 @@
+# -*- mode: sh -*-
+source ~/.zsh/helpers.zsh
+
+__info "Current context: $(kubectx --current)"
+kubectl get secret grafana-credentials -n monitoring -o json |jq -r .data.password |base64 --decode|pbcopy
