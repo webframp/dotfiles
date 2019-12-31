@@ -126,9 +126,16 @@
 ;;                          "~/org/devops.org"
 ;;                          ;; "~/org/sensuwork.org"))
 
+;; Workaround for "Match data clobbered by buffer modification hooks"
+;; https://github.com/hlissner/doom-emacs/issues/1821
+;; https://github.com/syl20bnr/emacs-emoji-cheat-sheet-plus/pull/9
+(defadvice! doom--save-match-data-a (orig-fn &rest args)
+  :around #'emoji-cheat-sheet-plus--display-region
+  (save-match-data (apply orig-fn args)))
+
 (after! org
   ;; FIXME https://emacs.stackexchange.com/questions/38800/match-data-clobbered-by-buffer-modification-hooks
-  ;; (add-hook! 'org-mode-hook 'emoji-cheat-sheet-plus-display-mode)
+  (add-hook! 'org-mode-hook 'emoji-cheat-sheet-plus-display-mode)
   (add-to-list 'org-modules 'org-habit t))
 
 ;; Cloudformation mode
