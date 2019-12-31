@@ -5,6 +5,9 @@ add_newline = true
 # [package]
 # disabled = true
 
+[aws]
+symbol = " "
+
 [golang]
 symbol = " "
 
