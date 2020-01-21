@@ -32,7 +32,8 @@ done
 typeset -gU cdpath fpath path manpath path
 
 # Setup path
-path=($HOME/.local/bin
+path=($HOME/.bash-my-aws/bin
+      $HOME/.local/bin
       $HOME/.cargo/bin
       $HOME/.krew/bin
       $HOME/bin

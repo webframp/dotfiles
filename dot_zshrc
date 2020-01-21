@@ -123,6 +123,15 @@ alias be='bundle exec'
     export SSH_AUTH_SOCK=$HOME/.sekey/ssh-agent.ssh
 }
 
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/local/bin/vault vault
+complete -C /usr/local/bin/terraform terraform
+
+if test -d ~/.bash-my-aws; then
+    source ~/.bash-my-aws/aliases
+    source ~/.bash-my-aws/bash_completion.sh
+fi
+
 source $HOME/.zsh/correction.zsh
 source $HOME/.zsh/dots.zsh
 
@@ -138,7 +147,6 @@ unset updated_at
 autoload -U select-word-style
 select-word-style bash
 
-export ZSH_AUTOSUGGEST_USE_ASYNC=1
 ## Source plugins last
 # dynamic method
 source <(antibody init)
@@ -160,11 +168,6 @@ BASE16_SHELL="$HOME/.config/base16-shell/"
 [ -n "$PS1" ] && \
     [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
     eval "$("$BASE16_SHELL/profile_helper.sh")"
-
-# TODO fix
-function set_win_title(){
-    echo -ne "\033]$USER@zsh: $PWD\007"
-}
 
 # https://starship.rs/
 # see ~/.config/starship.toml
