@@ -23,6 +23,7 @@
 	fl = log -u
 	serve = daemon --reuseaddr --base-path=. --export-all --verbose
 	pos = push -o ci.skip
+	pmr = push origin HEAD --force-with-lease -o merge_request.remove_source_branch -o merge_request.create
 [branch]
 	autosetuprebase = always
 [core]
