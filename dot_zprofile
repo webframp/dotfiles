@@ -17,11 +17,13 @@ export LC_TIME=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export LESSCHARSET=utf-8
 
-export RUST_SRC_PATH="$(rustc --print sysroot)/share/rust/rust_src"
+export RUST_SRC_PATH="$(/usr/local/bin/rustc --print sysroot)/share/rust/rust_src"
 export GOPATH=$HOME/go
 export HOMEBREW_NO_INSECURE_REDIRECT=1
 export HOMEBREW_CASK_OPTS=--require-sha
 export BAT_THEME=OneHalfDark
+
+export ZSH_AUTOSUGGEST_USE_ASYNC=1
 
 # https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/
 unset KUBECONFIG
