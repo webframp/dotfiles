@@ -29,8 +29,6 @@ shift + alt - k : yabai -m window --swap prev
 # move window
 shift + cmd - h : yabai -m window --warp west
 shift + cmd - j : yabai -m window --warp north
-shift + cmd - k : yabai -m window --warp next
-shift + cmd - l : yabai -m window --warp east
 
 # rotate tree
 alt - r : yabai -m space --rotate 90
