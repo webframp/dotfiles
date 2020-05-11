@@ -20,7 +20,7 @@ zsh-users/zaw
 webframp/zsh-zaw-redmine
 
 ## Prompt
-# uses https://github.com/starship/starship
+romkatv/powerlevel10k
 
 ## Syntax highlighting - load last!
 zsh-users/zsh-syntax-highlighting
