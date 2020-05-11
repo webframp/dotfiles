@@ -1,8 +1,40 @@
 # -*- mode: sh -*-
 # https://github.com/direnv/direnv/blob/master/stdlib.sh
+# https://github.com/direnv/direnv/wiki/Find-Up-with-Alternates
+find_up_()
+{
+  (
+    while true; do
+      for v in "${@}"; do
+        if [[ -f "${v}" ]]; then
+          echo "${PWD}/${v}"
+          return 0
+        fi
+      done
+
+      if [[ "${PWD}" == / ]] || [[ "${PWD}" == // ]]; then
+        return 1
+      fi
+
+      cd ..
+    done
+  )
+}
+
+read_version_file()
+{
+  local file
+  file="$(find_up_ "${@}")"
+
+  [[ -z "${file}" ]] && return
+
+  watch_file "${file}"
+  ruby -e "puts ARGF.readline" 2> /dev/null "${file}"
+}
 
 # Usage: use ruby <version>
-use_ruby() {
+use_ruby()
+{
     local ruby_dir=$HOME/.rubies/$1
     load_prefix $ruby_dir
     layout ruby
@@ -13,7 +45,8 @@ use_ruby() {
     export RUBY_ENGINE=$1
 }
 
-use_chefdk() {
+use_chefdk()
+{
     # use chefdk
     EXPANDED_HOME=$(expand_path ~)
 
@@ -35,9 +68,32 @@ use_chefdk() {
     PATH_add /opt/chef-workstation/bin
 }
 
-use_python() {
+use_python()
+{
     # use python <ver>
     local python_root=$HOME/.pyenv/versions/$1
     load_prefix "$python_root"
     layout_python "$python_root/bin/python"
+}
+
+# https://github.com/direnv/direnv/wiki/Node#using-nvm-with-automatic-discovery
+# +brew -fish
+use_nvm()
+{
+  local version
+  version="${1}"
+
+  [[ "${version}" == --auto ]] &&
+      version="$(read_version_file .node-version .nvmrc)"
+  [[ -z "${version}" ]] && return
+
+  export NVM_DIR="$HOME/.nvm"
+
+  # This loads nvm
+  [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"
+  # This loads nvm bash_completion
+  [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] &&
+      . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"
+
+    nvm use "${version}"
 }
