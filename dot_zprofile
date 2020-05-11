@@ -22,7 +22,8 @@ export GOPATH=$HOME/go
 export HOMEBREW_NO_INSECURE_REDIRECT=1
 export HOMEBREW_CASK_OPTS=--require-sha
 export BAT_THEME=OneHalfDark
-
+export PASSWORD_STORE_ENABLE_EXTENSIONS=true
+export PASSWORD_STORE_EXTENSIONS_DIR=/usr/local/lib/password-store/extensions
 export ZSH_AUTOSUGGEST_USE_ASYNC=1
 
 # https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/
