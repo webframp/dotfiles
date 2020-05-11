@@ -312,6 +312,8 @@ unbind C-a
 set -g prefix C-j
 bind C-j send-prefix
 
+set-option -sa terminal-overrides ",xterm-kitty:RGB"
+
 # emacs window navigation
 unbind n
 unbind p
@@ -329,10 +331,15 @@ bind - split-window -v -c "#{pane_current_path}"
 set -g @continuum-restore 'on'
 set -g @resurrect-capture-pane-contents 'on'
 
-# List of plugins
-set -g @plugins 'tmux-plugins/tpm'
-set -g @plugins 'tmux-plugins/tmux-continuum'
-set -g @plugins 'tmux-plugins/tmux-resurrect'
+# Jump char for tmux-jump
+set -g @jump-key '/'
 
+# List of plugins
+set -g @tpm_plugins '          \
+  tmux-plugins/tpm             \
+  tmux-plugins/tmux-resurrect  \
+  tmux-plugins/tmux-continuum  \
+  schasse/tmux-jump            \
+'
 # rebind urlview to <prefix>u since tpm takes over <prefix>U
 bind u run "cut -c3- ~/.tmux.conf | sh -s _urlview #{pane_id}"
