@@ -69,14 +69,11 @@ alias reload!='exec "$SHELL" -l'
 alias alacritty='/Applications/Alacritty.app/Contents/MacOS/alacritty'
 
 # Git
-alias gl='git pull --prune'
-alias gd='git diff'
+alias gpu='git pull --prune --tags --all'
 alias gco='git checkout'
 alias gpo='git push origin HEAD'
-alias gp='git push origin HEAD'
 alias gpa='git push origin --all'
 alias gst='git status'
-alias gs='git status -sb'
 alias gcmh='git commit --amend -C HEAD'
 
 # Docker
@@ -106,6 +103,8 @@ alias doom='~/.emacs.d/bin/doom'
 # TODO members, groups, vault, Golang, Rust
 alias cat='bat --plain'
 
+alias c=chezmoi
+
 # Homebrew
 alias brews='brew list -1'
 alias bubo='brew update && brew outdated'
@@ -115,6 +114,12 @@ alias yay='bubu'
 
 # Ruby
 alias be='bundle exec'
+
+# NPM
+(( $+commands[npm] )) && {
+   alias ng="npm list -g --depth=0 2>/dev/null"
+   alias nl="npm list --depth=0 2>/dev/null"
+}
 
 (( $+commands[direnv] )) && {
     _direnv_hook() {
