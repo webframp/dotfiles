@@ -1,0 +1,10 @@
+# next version removes status_bar_ prefix
+spacebar -m config status_bar_text_font         "Helvetica Neue:Bold:12.0"
+spacebar -m config status_bar_icon_font         "FontAwesome:Regular:12.0"
+spacebar -m config status_bar_background_color  0xff202020
+spacebar -m config status_bar_foreground_color  0xffa8a8a8
+spacebar -m config status_bar_space_icon_strip  α β γ δ ε ζ η θ ι
+spacebar -m config status_bar_power_icon_strip   
+spacebar -m config status_bar_space_icon        
+spacebar -m config status_bar_clock_icon        
+spacebar -m config status_bar_clock_format      "%Y-%m-%d %R"
