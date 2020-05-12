@@ -1,0 +1,29 @@
+# -*- mode: sh -*-
+# https://gist.github.com/nicolasembleton/afc19940da26716f8e90
+# Sometimes bluetooth is annoying and it needs a hard reset
+source ~/.zsh/helpers.zsh
+
+if [ $+commands[blueutil] -ne 1 ];then __error "Missing blueutil cli: brew install blueutil" && return 1;fi
+
+__info "Saving connected devices"
+devices=$(blueutil --paired | grep -v "not connected" | awk -F '[ ,]' '{print $2}')
+
+__info "bluetooth: did you turn it off and on again? ..."
+blueutil -p 0 && sleep 1 && blueutil -p 1
+
+if [ $? -ne 0 ];then
+    __warn "Power off/on failed! Killing bluetoothd the hard way. sudo required"
+    sudo kill -9 $(pgrep bluetoothd)
+else
+    __info "Power off/on worked!"
+fi
+
+# kextstat |rg -i Bluetooth
+# Reconnect known devices
+__info "Reconnecting devices"
+for device in $devices; do
+    for retry in {1..5}; do
+        if blueutil --connect $device 2> /dev/null; then break; fi
+        sleep 1
+    done
+done
