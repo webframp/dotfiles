@@ -101,10 +101,18 @@
         org-html-htmlize-output-type 'css)
   (add-hook! 'org-mode-hook ' emoji-cheat-sheet-plus-display-mode))
 
+;; TODO These should be defaults, why don't they work?
 (after! org
     (setq org-startup-indented t)
     (setq org-indent-mode t)
     (setq org-startup-folded t))
+
+;; (map! :leader
+;;       :after org
+;;       (:prefix "m"
+;;        :desc "MobileOrg push" "p" #'org-mobile-push
+;;        :desc "MobileOrg pull" "u" #'org-mobile-pull))
+
 ;; Popup rules
 ;; https://github.com/hlissner/doom-emacs/tree/develop/modules/ui/popup
 ;; https://discord.com/channels/406534637242810369/603399769015975996/708468856233918534
