@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+limelight -m config width            2
+limelight -m config radius           0
+limelight -m config placement        interior
+# one dark based green/black: https://github.com/joshdick/onedark.vim
+limelight -m config active_color     0xff98c375
+limelight -m config normal_color     0xff282C34
+
+echo "limelight configuration loaded.."
