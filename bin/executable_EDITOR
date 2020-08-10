@@ -1,3 +1,2 @@
 #!/bin/sh
-#/usr/local/bin/emacs -nw -- "$@"
-~/.emacs.d/bin/doom run -nw -- "$@"
+/usr/local/bin/emacsclient -t -- "$@"
