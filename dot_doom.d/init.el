@@ -52,7 +52,7 @@
        ;;objed             ; text object editing for the innocent
        ;;parinfer          ; turn lisp into python, sort of
        ;;rotate-text       ; cycle region at point between text candidates
-       snippets          ; my elves. They type so I don't have to
+       snippets            ; my elves. They type so I don't have to
        ;;word-wrap         ; soft wrapping with language-aware indent
 
        :emacs
@@ -65,19 +65,19 @@
        vc                ; version-control and Emacs, sitting in a tree
 
        :term
-       ;;eshell            ; a consistent, cross-platform shell (WIP)
-       ;;shell             ; a terminal REPL for Emacs
-       ;;term              ; terminals in Emacs
+       ;;eshell          ; a consistent, cross-platform shell (WIP)
+       ;;shell           ; a terminal REPL for Emacs
+       ;;term            ; terminals in Emacs
        vterm             ; another terminals in Emacs
 
        :checkers
-       syntax              ; tasing you for every semicolon you forget
-       spell               ; tasing you for misspelling mispelling
+       syntax            ; tasing you for every semicolon you forget
+       spell             ; tasing you for misspelling mispelling
        grammar           ; tasing grammar mistake every you make
 
        :tools
        ;;ansible
-       ;;debugger          ; FIXME stepping through code, to help you add bugs
+       ;; debugger          ; FIXME stepping through code, to help you add bugs
        direnv
        docker
        editorconfig      ; let someone else argue about tabs vs spaces
@@ -195,6 +195,8 @@
        ;; config. Use it as a reference for your own modules.
        (default +bindings +smartparens))
 
+(when noninteractive
+  (add-to-list 'doom-env-whitelist "^SSH_"))
 ;; (with-eval-after-load 'gnutls
 ;;   (add-to-list 'gnutls-trustfiles "/usr/local/etc/libressl/cert.pem"))
 
