@@ -10,19 +10,32 @@
   (setq ns-use-thin-smoothing t))
 
 (setq doom-modeline-major-mode-icon t)
-
-;;(setq doom-theme 'doom-outrun-electric)
+(setq doom-modeline-bar-width 2)
+(setq doom-theme 'doom-vibrant)
 
 ;; (setq doom-font (font-spec :family "FiraCode Nerd Font Mono" :size 18)
 ;;       doom-variable-pitch-font (font-spec :family "Noto Sans" :size 18))
 
-(setq doom-font (font-spec :family "Iosevka Nerd Font Mono" :size 18)
-      doom-variable-pitch-font (font-spec :family "Iosevka Nerd Font" :size 18))
+;; If solair-mode is a problem
+;;(remove-hook 'doom-load-theme-hook #'solaire-global-mode)
+
+;; If confirm quit is a pain
+;; (setq confirm-kill-emacs nil)
+
+(setq doom-font (font-spec :family "Iosevka" :size 18)
+      doom-variable-pitch-font (font-spec :family "Iosevka" :size 18))
+
+;; Use a smaller font on mode-line
+;; https://github.com/hlissner/doom-emacs/issues/2967#issuecomment-619319082
+(custom-set-faces!
+  '(mode-line :family "Iosevka" :height 0.9)
+  '(mode-line-inactive :family "Iosevka" :height 0.9))
 
 ;;; Windows/Frames
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
-(when IS-MAC
-  (add-hook 'window-setup-hook #'toggle-frame-maximized))
+
+;; Magit - if I want these back
+;(setq magit-revision-show-gravatars '("^Author:     " . "^Commit:     "))
 
 ;;; Keybinds
 ;; TODO Combine into single map! use
@@ -44,6 +57,7 @@
       :n "gy" #'forge-copy-url-at-point-as-kill
       :n "go" #'magit-browse-thing)
 
+;; TODO map ]S and [S to smerge-next and smerge-previous for navigating diffs
 
 ;; TODO add mapping for forge-toggle-closed-visibility.
 ;; Place with dispatch: SPC  g ' x ?, @ x ? (visual, normal states too)
@@ -75,9 +89,32 @@
     (add-hook! 'magit-log-mode-hook 'emoji-cheat-sheet-plus-display-mode)
     (add-hook! 'forge-topic-mode-hook 'emoji-cheat-sheet-plus-display-mode))
 
+;; (use-package! company-emoji
+;;   :defer t
+;;   :config
+;;   (after! company
+;;     (set-company-backend! 'org-mode 'company-emoji)))
+
 (use-package! nyan-mode
-  :hook
-  (doom-modeline-mode . nyan-mode))
+  :hook (doom-modeline-mode . nyan-mode))
+
+(use-package! jsonnet-mode)
+
+;; https://github.com/fxbois/web-mode/blob/master/web-mode.el#L2118
+;; (use-package! polymode
+;;   :defer t
+;;   :mode ("\.tmpl$" . poly-yaml-tmpl-mode)
+;;   :config
+;;   (setq polymode-prefix-key (kbd "C-c n")) ; some doom var to use here?
+;;   (define-hostmode poly-yaml-hostmode :mode 'yaml-mode)
+;;   (define-innermode poly-yaml-expr-tmpl-innermode
+;;     :mode web-mode
+;;     :head-matcher
+;;     :tail-matcher
+;;     :head-mode 'host
+;;     :tail-mode 'host
+;;     )
+;;   )
 
 ;; (map! :leader
 ;;       :after emoji-cheat-sheet-plus
@@ -85,21 +122,28 @@
 ;;         :desc "Insert emoji" "e" #'emoji-cheat-sheet-plus-insert))
 
 ;; Org mode
-;; (setq org-ellipsis " ▼ "
-;;       org-mobile-directory "~/Dropbox/Apps/MobileOrg"
-;;       org-agenda-files '("~/org/todo.org"
-;;                          "~/org/devou.org"
-;;                          "~/org/devops.org"
-;;                          ;; "~/org/sensuwork.org"))
-
 (after! org
   (setq org-mobile-directory (concat
                               (file-name-as-directory (getenv "HOME"))
                               "Dropbox/Apps/MobileOrg")
         org-roam-directory "~/org/"
         org-ellipsis " ▼ "
+        org-agenda-files '("~/org/todo.org"
+                           "~/org/fsg.org"
+                           "~/org/ios.org"
+                           "~/org/notes.org"
+                           "~/org/devou.org"
+                           "~/org/devops.org")
         org-html-htmlize-output-type 'css)
   (add-hook! 'org-mode-hook ' emoji-cheat-sheet-plus-display-mode))
+
+;; TODO org-edit-src-exit not bound like org-edit-src-abort
+(map! :after org
+      :map org-mode-map
+      :localleader
+      (:prefix ("m" . "mobileorg")
+       "p" #'org-mobile-push
+       "P" #'org-mobile-pull))
 
 ;; TODO These should be defaults, why don't they work?
 (after! org
@@ -112,6 +156,7 @@
 ;;       (:prefix "m"
 ;;        :desc "MobileOrg push" "p" #'org-mobile-push
 ;;        :desc "MobileOrg pull" "u" #'org-mobile-pull))
+
 
 ;; Popup rules
 ;; https://github.com/hlissner/doom-emacs/tree/develop/modules/ui/popup
