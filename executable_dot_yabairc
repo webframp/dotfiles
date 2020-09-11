@@ -1,42 +1,43 @@
 #!/usr/bin/env sh
 
-# global settings
-yabai -m config mouse_follows_focus off
-yabai -m config focus_follows_mouse off
-yabai -m config window_placement second_child
-yabai -m config window_topmost off
-yabai -m config window_opacity off
+# window settings
+yabai -m config window_topmost on
 yabai -m config window_opacity_duration 0.0
-yabai -m config window_shadow on
-yabai -m config window_border off
-yabai -m config window_border_width 4
-yabai -m config active_window_border_color 0xff775759
-yabai -m config normal_window_border_color 0xff505050
-yabai -m config insert_window_border_color 0xffd75f5f
+yabai -m config window_shadow float
+# window borders moved to limelight
+# allow space for https://github.com/somdoron/spacebar
+yabai -m config external_bar all:26:0
+# opacity
+yabai -m config window_opacity off
 yabai -m config active_window_opacity 1.0
-yabai -m config normal_window_opacity 0.90
+yabai -m config normal_window_opacity 1.0
+
+# general tiling settings
+yabai -m config layout bsp
+yabai -m config window_placement second_child
+# padding and gaps
+yabai -m config window_gap 2
+yabai -m config top_padding 1
+yabai -m config bottom_padding 1
+yabai -m config left_padding 1
+yabai -m config right_padding 1
+
+# split ratio
 yabai -m config split_ratio 0.50
 yabai -m config auto_balance off
+
+# mouse support
+yabai -m config mouse_follows_focus off
+yabai -m config focus_follows_mouse off
 yabai -m config mouse_modifier fn
 yabai -m config mouse_action1 move
 yabai -m config mouse_action2 resize
 
-# general space settings
-yabai -m config layout bsp
-yabai -m config top_padding 26
-yabai -m config bottom_padding 1
-yabai -m config left_padding 1
-yabai -m config right_padding 1
-yabai -m config window_gap 2
-
 ## Window Rules
 # Desktop assignments
-yabai -m rule --add app=Alacritty space=^1
-yabai -m rule --add app=kitty space=^1
-yabai -m rule --add app=Emacs manage=on space=2
-# Manage off until notifications are no longer "subrole":"AXStandardWindow"
-yabai -m rule --add app="Microsoft Teams" manage=off space=3
-yabai -m rule --add app="Xcode" manage=on space=4
+yabai -m rule --add app=Alacritty title!="popup-prompt" space=^1
+# grid=<rows>:<cols>:<start-x>:<start-y>:<width>:<height>
+yabai -m rule --add label=doom-capture title="doom-capture" manage=off grid=4:4:1:1:2:2
 yabai -m rule --add app="^Spotify$" manage=on space=4
 # TODO "Microsoft Remote Desktop" # a thorn in my side
 # Unmanaged Windows
@@ -44,46 +45,76 @@ yabai -m rule --add app="^System Preferences$" manage=off
 yabai -m rule --add app="Finder" title="Copy" manage=off
 yabai -m rule --add app="App Store" manage=off
 
-# TODO move FF based on signal when 2nd monitor connected?
-# https://github.com/koekeishiya/yabai/blob/master/doc/yabai.asciidoc#signal
-# # if dual screen, send Firefox to last space else to 4
-if [ "$(yabai -m query --displays | jq length)" -eq 2 ]; then
-	yabai -m rule --add label="FFDisplays" app="Firefox" manage=on space=$(yabai -m query --spaces|jq length)
-	echo "2 displays, assigning Firefox to last desktop"
+
+# send Firefox and Emacs to last space when monitor changes otherwise to 4
+display_count=$(yabai -m query --displays|jq length)
+if [ $display_count -ge 2 ]; then
+  second_space=$(yabai -m query --displays | jq 'map(select(."index" == 2))[].spaces[]')
+
+  yabai -m rule --add label="Emacs" app=Emacs \
+	  title!="doom-capture" manage=on space=$second_space
+  yabai -m rule --add label="FFDisplays" app="Firefox" \
+	  manage=on space=$second_space sticky=off
+  echo "Firefox and Emacs moved to second display"
 else
-	yabai -m rule --add label="FFDisplays" app="Firefox" manage=on space=4
-	echo "Single display, assigning Firefox to desktop 4"
+  yabai -m rule --add label="Emacs" app=Emacs title!="doom-capture" manage=on space=^2
+  yabai -m rule --add label="FFDisplays" app="Firefox" manage=on space=4
+  echo "Firefox and Emacs moved to laptop display"
 fi
+
+# move FF based on signal when 2nd monitor connected?
+# https://github.com/koekeishiya/yabai/blob/master/doc/yabai.asciidoc#signal
+yabai -m signal --add event=display_added \
+	action='yabai -m rule --add label="FFDisplays" app="Firefox" manage=on space=$(yabai -m query --spaces|jq length) sticky=off'
+yabai -m signal --add event=display_removed \
+	action='yabai -m rule --add label="FFDisplays" app="Firefox" manage=on space=4 sticky=off'
+# TODO If attached to XPS: system_profiler SPDisplaysDataType|grep 'XPS 2720'
+# then send emacs to last workspace in addition to Firefox, ensure vertical tiling and focus alacritty space 1
+
+# Manage Teams on to tile but not notifications, until they are no longer "subrole":"AXStandardWindow"
+#yabai -m rule --add app="Microsoft Teams" manage=on title!='^Microsoft Teams Notification$' space=3 # layer=below
+#yabai -m rule --add app="Microsoft Teams" manage=off title='^Microsoft Teams Notification$' space=3
+# Ignore Teams tool tips have zero length title
+#yabai -m rule --add app="Microsoft Teams" manage=off title!='^.{0}$' space=3
 
 # Microsoft Teams Notification
 # https://github.com/koekeishiya/yabai/issues/74
 # Disable border and float window
-yabai -m rule --add \
-	label=ignoreTeamsNotification \
-	app='^Microsoft Teams$' \
-	title='^Microsoft Teams Notification$' \
-	manage=off \
-	border=off
+yabai -m rule --add label=ignoreTeamsNotification \
+  app='^Microsoft Teams$' \
+  title='^Microsoft Teams Notification$' \
+  manage=off \
+  border=off
 
 # Tries to focus the window under the cursor whenever the MS teams notification gains focus
 # Probably conflicts with mouse follows focus in some ways
 yabai -m signal --add \
-	event=window_focused \
-	app='^Microsoft Teams$' \
-	title='^Microsoft Teams Notification$' \
-	action='yabai -m window --focus mouse > /dev/null 2>&1'
+  event=window_focused \
+  app='^Microsoft Teams$' \
+  title='^Microsoft Teams Notification$' \
+  action='yabai -m window --focus mouse > /dev/null 2>&1'
 
-# TODO
-# yabai -m signal --add \
-#     event=display_added \
-#     app='^Firefox$' \
-#     action='yabi -m rule --add app="Firefox" manage=on space=5'
+# TODO add rule for FF pop out to do this, but slightly larger?
+# toggle sticky, float and resize to picture-in-picture size
+# shift + alt - p : yabai -m window --toggle sticky;\
+#                   yabai -m window --grid 5:5:4:0:1:1
+# grid=<rows>:<cols>:<start-x>:<start-y>:<width>:<height>
+#yabai -m rule --add label=ffPIP app="Firefox" title="Picture-in-Picture" layer=above sticky=on manage=off grid=5:5:4:0:1:1
+# yabai -m signal --add lable=ffPIP \
+#   event=window_created \
+#   app="Firefox" title="Picture-in-Picture" \
+#   action='yabai -m window --toggle sticky; yabai -m window --grid=5:5:4:0:1:1'
 
-# yabai -m signal --add \
-#     event=display_removed \
-#     app='^Firefox$' \
-#     action='yabi -m rule --add app="Firefox" manage=on space=4'
+# # yabai -m query --spaces --display| jq 'map(select(."focused" == 1))'
 
-# yabai -m query --spaces --display| jq 'map(select(."focused" == 1))'
-#
+# Start limelight for window borders
+# cd ~/src/limelight
+# make && make sign && install -m755 bin/install /usr/local/bin
+killall limelight &> /dev/null
+limelight &> /dev/null &
+
+# Start the statusbar
+killall spacebar &> /dev/null
+spacebar &> /dev/null &
+
 echo "yabai configuration loaded.."
