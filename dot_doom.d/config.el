@@ -11,7 +11,7 @@
 
 (setq doom-modeline-major-mode-icon t)
 (setq doom-modeline-bar-width 2)
-(setq doom-theme 'doom-vibrant)
+(setq doom-theme 'doom-horizon)
 
 ;; (setq doom-font (font-spec :family "FiraCode Nerd Font Mono" :size 18)
 ;;       doom-variable-pitch-font (font-spec :family "Noto Sans" :size 18))
@@ -22,17 +22,21 @@
 ;; If confirm quit is a pain
 ;; (setq confirm-kill-emacs nil)
 
-(setq doom-font (font-spec :family "Iosevka" :size 18)
-      doom-variable-pitch-font (font-spec :family "Iosevka" :size 18))
+(setq doom-font (font-spec :family "Iosevka Nerd Font" :size 18)
+      doom-variable-pitch-font (font-spec :family "Iosevka Nerd Font" :size 18))
 
 ;; Use a smaller font on mode-line
 ;; https://github.com/hlissner/doom-emacs/issues/2967#issuecomment-619319082
 (custom-set-faces!
-  '(mode-line :family "Iosevka" :height 0.9)
-  '(mode-line-inactive :family "Iosevka" :height 0.9))
+  '(mode-line :family "Iosevka Nerd Font" :height 0.9)
+  '(mode-line-inactive :family "Iosevka Nerd Font" :height 0.9))
 
 ;;; Windows/Frames
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
+(add-to-list 'auto-mode-alist '("\\.tmpl\\'" . yaml-mode))
+
+;; Die, Doc-View-mode! die!
+;(defalias 'doc-view-mode #'doc-view-fallback-mode)
 
 ;; Magit - if I want these back
 ;(setq magit-revision-show-gravatars '("^Author:     " . "^Commit:     "))
@@ -80,14 +84,17 @@
 
 ;;; Modules/Packages
 ;;
+(after! emojify
+  (add-hook! 'after-init-hook #'global-emojify-mode))
+
 ;; Emoji Cheatsheet
 ;; https://github.com/syl20bnr/emacs-emoji-cheat-sheet-plus/
-(use-package! emoji-cheat-sheet-plus
-  :after (magit)
-  :config
-    (add-hook! 'magit-status-mode-hook 'emoji-cheat-sheet-plus-display-mode)
-    (add-hook! 'magit-log-mode-hook 'emoji-cheat-sheet-plus-display-mode)
-    (add-hook! 'forge-topic-mode-hook 'emoji-cheat-sheet-plus-display-mode))
+;; (use-package! emoji-cheat-sheet-plus
+;;   :after (magit)
+;;   :config
+;;     (add-hook! 'magit-status-mode-hook 'emoji-cheat-sheet-plus-display-mode)
+;;     (add-hook! 'magit-log-mode-hook 'emoji-cheat-sheet-plus-display-mode)
+;;     (add-hook! 'forge-topic-mode-hook 'emoji-cheat-sheet-plus-display-mode))
 
 ;; (use-package! company-emoji
 ;;   :defer t
@@ -123,6 +130,7 @@
 
 ;; Org mode
 (after! org
+  ;; (setq org-mobile-directory "~/Library/Mobile Documents/iCloud~com~mobileorg~mobileorg/Documents")
   (setq org-mobile-directory (concat
                               (file-name-as-directory (getenv "HOME"))
                               "Dropbox/Apps/MobileOrg")
@@ -135,6 +143,8 @@
                            "~/org/devou.org"
                            "~/org/devops.org")
         org-html-htmlize-output-type 'css)
+  ;; Test with dired and M-x re-builder
+  (add-to-list 'recentf-exclude "org_archive")
   (add-hook! 'org-mode-hook ' emoji-cheat-sheet-plus-display-mode))
 
 ;; TODO org-edit-src-exit not bound like org-edit-src-abort
@@ -150,6 +160,12 @@
     (setq org-startup-indented t)
     (setq org-indent-mode t)
     (setq org-startup-folded t))
+
+(use-package! org-super-agenda
+  :after org-agenda
+  :config
+  (setq org-super-agenda-groups '((:auto-dir-name t)))
+  (org-super-agenda-mode))
 
 ;; (map! :leader
 ;;       :after org

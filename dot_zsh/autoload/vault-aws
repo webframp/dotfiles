@@ -8,6 +8,8 @@ if [ $+commands[vault] -ne 1 ];then __error "Missing vault cli" && return 1;fi
 if [ $+commands[aws] -ne 1 ];then __error "Missing aws cli" && return 1;fi
 if [ $+commands[vault-token-helper] -ne 1 ];then __error "Missing vault-token-helper see: https://github.com/joemiller/vault-token-helper" && return 1;fi
 
+#if [ $+commands[pass] -eq 1 ];then ;fi
+
 local username=$1
 function __vault_login(){
     if (nc -z ${VAULT_ADDR:8} 443 2>/dev/null);then
@@ -71,7 +73,11 @@ if [[ ${_accounts[(ie)$_account]} -le ${#_accounts} ]];then
 
     # Useful for reference and ensures valid credentials when command returns
     export AWS_ACCOUNT_ID=$(until aws sts get-caller-identity --output text --query 'Account' 2>/dev/null; do :; done)
-    # TODO write values to temp file?
+
+    # Also overwrite default credentials file
+    # TODO write credential block named after each account instead of just [default]
+    printf "[default]\n# vault lease: %s\naws_access_key_id=%s\naws_secret_access_key=%s" \
+        $VAULT_LEASE_ID $AWS_ACCESS_KEY_ID $AWS_SECRET_ACCESS_KEY >| ~/.aws/credentials
 else
     __error "Unknown account $account requested for user $username"
 fi

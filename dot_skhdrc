@@ -15,7 +15,7 @@ alt - p : open /Applications/Alfred\ 4.app
 # org-capture: alt - `
 alt - 0x32 : ~/.emacs.d/bin/org-capture
 
-#####################
+####################
 ## Window bindings ##
 #####################
 
@@ -52,8 +52,8 @@ alt - i : yabai -m window --resize bottom:0:-60
 alt - o : yabai -m window --resize bottom:0:60
 
 # float / unfloat window and center on screen
-alt - t : yabai -m window --toggle float;\
-          yabai -m window --grid 4:4:1:1:2:2
+# alt - t : yabai -m window --toggle float;\
+#          yabai -m window --grid 4:4:1:1:2:2
 
 # toggle window fullscreen zoom TODO applies only to current, change this
 # binding to toggle layout between bsp/fullscreen  ?

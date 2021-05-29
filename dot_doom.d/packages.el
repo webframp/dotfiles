@@ -16,6 +16,8 @@
 (package! solaire-mode :disable t)
 
 (package! polymode)
+(package! org-super-agenda)
+
 ;; Local Variables:
 ;; flycheck-disabled-checkers: (emacs-lisp-checkdoc)
 ;; End:

@@ -1,8 +1,10 @@
 #!/usr/bin/env sh
 
+# Debug
+yabai -m config debug_output on
 # window settings
 yabai -m config window_topmost on
-yabai -m config window_opacity_duration 0.0
+#yabai -m config window_opacity_duration 0.0
 yabai -m config window_shadow float
 # window borders moved to limelight
 # allow space for https://github.com/somdoron/spacebar
@@ -44,9 +46,15 @@ yabai -m rule --add app="^Spotify$" manage=on space=4
 yabai -m rule --add app="^System Preferences$" manage=off
 yabai -m rule --add app="Finder" title="Copy" manage=off
 yabai -m rule --add app="App Store" manage=off
+# Inkscape windows are all AXStandardWindow
+yabai -m rule --add app="Inkscape" title="Add Layer" manage=off
+yabai -m rule --add app="Inkscape" title="Select a filename*" manage=off
+yabai -m rule --add app="Inkscape" title="Select file*" manage=off
+yabai -m rule --add app="Inkscape" title="Print" manage=off
+yabai -m rule --add app="Inkscape" title="Move to*" manage=off
+yabai -m rule --add app="Inkscape" title="Preferences*" manage=off
 
-
-# send Firefox and Emacs to last space when monitor changes otherwise to 4
+# send Firefox and Emacs to last space when monitor changes otherwise to 5
 display_count=$(yabai -m query --displays|jq length)
 if [ $display_count -ge 2 ]; then
   second_space=$(yabai -m query --displays | jq 'map(select(."index" == 2))[].spaces[]')
@@ -58,7 +66,7 @@ if [ $display_count -ge 2 ]; then
   echo "Firefox and Emacs moved to second display"
 else
   yabai -m rule --add label="Emacs" app=Emacs title!="doom-capture" manage=on space=^2
-  yabai -m rule --add label="FFDisplays" app="Firefox" manage=on space=4
+  yabai -m rule --add label="FFDisplays" app="Firefox" manage=on space=5
   echo "Firefox and Emacs moved to laptop display"
 fi
 
@@ -110,11 +118,11 @@ yabai -m signal --add \
 # Start limelight for window borders
 # cd ~/src/limelight
 # make && make sign && install -m755 bin/install /usr/local/bin
-killall limelight &> /dev/null
-limelight &> /dev/null &
+# killall limelight &> /dev/null
+# limelight &> /dev/null &
 
 # Start the statusbar
-killall spacebar &> /dev/null
-spacebar &> /dev/null &
+#killall spacebar &> /dev/null
+#spacebar &> /dev/null &
 
 echo "yabai configuration loaded.."
