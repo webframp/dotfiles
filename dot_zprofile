@@ -21,13 +21,14 @@ export LC_ALL=en_US.UTF-8
 export LESSCHARSET=utf-8
 
 export RUST_SRC_PATH="$($HOME/.cargo/bin/rustc --print sysroot)/lib/rustlib/src/rust/src"
-export GOPATH=$HOME/go
+#export GOPATH=$HOME/go
 export HOMEBREW_NO_INSECURE_REDIRECT=1
 export HOMEBREW_CASK_OPTS=--require-sha
-export BAT_THEME=OneHalfDark
+export BAT_THEME=base16-256
 export PASSWORD_STORE_ENABLE_EXTENSIONS=true
 export PASSWORD_STORE_EXTENSIONS_DIR=/usr/local/lib/password-store/extensions
 export ZSH_AUTOSUGGEST_USE_ASYNC=1
+
 
 # https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/
 unset KUBECONFIG
@@ -40,10 +41,10 @@ done
 typeset -gU cdpath fpath path manpath path
 
 # Setup path
-path=($HOME/.bash-my-aws/bin
-      $HOME/.local/bin
+path=($HOME/.local/bin
       $HOME/.cargo/bin
       $HOME/.krew/bin
+      $HOME/.bash-my-aws/bin
       $HOME/bin
       $HOME/go/bin
       /Library/TeX/texbin
