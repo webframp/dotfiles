@@ -1,52 +1,52 @@
 [user]
-	name = {{ .name }}
-	email = {{ .email }}
-	signingkey = {{ .keyid }}
+  name = {{ .name }}
+  email = {{ .email }}
+  signingkey = {{ .keyid }}
 [color]
-	ui = true
+  ui = true
 [alias]
-	in = log ..@{upstream}
-	out = log @{upstream}..
-	st = status
-	co = checkout
-	ci = commit
-	br = branch
-	r = reset
-	rh = reset --hard
-	rh1 = reset --hard HEAD~1
-	rh2 = reset --hard HEAD~2
-	stage = add -p
-	ls = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-	ll = log --pretty=format:'%Cred%h%C(yellow)%d%Creset -%Creset %s %Cgreen(%cr) %C(bold blue)<%cn>%Creset' --decorate --numstat
-	dlc = diff --cached HEAD^
-	filelog = log -u
-	fl = log -u
-	serve = daemon --reuseaddr --base-path=. --export-all --verbose
-	pos = push -o ci.skip
-	pmr = push origin HEAD --force-with-lease -o merge_request.remove_source_branch -o merge_request.create
+  in = log ..@{upstream}
+  out = log @{upstream}..
+  st = status
+  co = checkout
+  ci = commit
+  br = branch
+  r = reset
+  rh = reset --hard
+  rh1 = reset --hard HEAD~1
+  rh2 = reset --hard HEAD~2
+  stage = add -p
+  ls = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+  ll = log --pretty=format:'%Cred%h%C(yellow)%d%Creset -%Creset %s %Cgreen(%cr) %C(bold blue)<%cn>%Creset' --decorate --numstat
+  dlc = diff --cached HEAD^
+  filelog = log -u
+  fl = log -u
+  serve = daemon --reuseaddr --base-path=. --export-all --verbose
+  pos = push -o ci.skip
+  pmr = push origin HEAD --force-with-lease -o merge_request.remove_source_branch -o merge_request.create
 [branch]
-	autosetuprebase = always
+  autosetuprebase = always
 [core]
-	excludesfile = ~/.gitignore_global
+  excludesfile = ~/.gitignore_global
     attributesfile = ~/.gitattributes
-	editor = /Users/sme/bin/EDITOR
+  editor = ~/bin/EDITOR
 [merge]
-	conflictStyle = diff3
+  conflictStyle = diff3
 [push]
-	default = simple
+  default = simple
 [help]
-	autocorrect = 1
+  autocorrect = 1
 [commit]
-	gpgsign = true
+  gpgsign = true
 [filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true
 {{- /* forges is an array of hashes with keys: type, user, url */ -}}
 {{- range .forges }}
 [{{ .type }}{{- if ne .url "" }} "{{.url}}" {{- end -}}]
-	user = {{ .user }}
+  user = {{ .user }}
 {{- end }}
 [protocol]
     version = 2
