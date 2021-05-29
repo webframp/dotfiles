@@ -1,3 +1,10 @@
+# Base16 Shell
+# BASE16_SHELL="$HOME/.base16-manager/chriskempson/base16-shell/"
+BASE16_SHELL="$HOME/.config/base16-shell/"
+[ -n "$PS1" ] && \
+    [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
+    eval "$("$BASE16_SHELL/profile_helper.sh")"
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block, everything else may go below.
@@ -7,7 +14,7 @@ fi
 
 ## Profiling
 #zmodload zsh/zprof
-# Entirety of my startup file...
+# TODO Entirety of my startup file... Still needed?
 source $HOME/.zsh/config.zsh
 
 # lazy load any custom functions
@@ -20,12 +27,14 @@ if [[ -d "$lazyload_fpath" ]]; then
 fi
 unset lazyload_fpath
 
-# # completion
+# # completion https://github.com/getantibody/antibody/issues/242#issuecomment-404588896
 autoload -Uz compinit
-if [ $(date +'%j') != $(/usr/bin/stat -f '%Sm' -t '%j' ${ZDOTDIR:-$HOME}/.zcompdump) ]; then
-  compinit
+typeset -i updated_at=$(date +'%j' -r ~/.zcompdump 2>/dev/null || stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)
+#if [ $(date +'%j') != $(/usr/bin/stat -f '%Sm' -t '%j' ${ZDOTDIR:-$HOME}/.zcompdump) ]; then
+if [ $(date +'%j') != $updated_at ]; then
+  compinit -i
 else
-  compinit -C
+  compinit -C -i
 fi
 
 # menu select
@@ -48,10 +57,12 @@ zstyle ':completion:*:functions' ignored-patterns '(_*|pre(cmd|exec))'
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
 # zstyle ':completion:*:*:*:*:*' menu select
 # zstyle ':completion:*' special-dirs true
-
+#
 # # Colors in the completion list
 # zstyle ':completion:*' list-colors ''
 # zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
+
+zstyle :omz:plugins:ssh-agent identities id_rsa id_ed25519_appsgit id_ed25519_github
 
 # from: vault -autocomplete-install
 # autoload -U +X bashcompinit && bashcompinit
@@ -81,6 +92,10 @@ alias dockerhostshell='docker run -it --privileged --pid=host debian nsenter -t 
 
 # Emacs
 alias doom='~/.emacs.d/bin/doom'
+alias oc='~/.emacs.d/bin/org-capture'
+if [[ "$INSIDE_EMACS" = 'vterm' ]]; then
+    alias clear='vterm_printf "51;Evterm-clear-scrollback";tput clear'
+fi
 
 # Kubernetes
 (( $+commands[kubectl] )) && {
@@ -107,13 +122,14 @@ alias c=chezmoi
 
 # Homebrew
 alias brews='brew list -1'
-alias bubo='brew update && brew outdated'
-alias bubc='brew upgrade && brew cleanup'
-alias bubu='bubo && bubc'
-alias yay='bubu'
+alias yay='brew outdated && brew upgrade && brew cleanup'
 
 # Ruby
 alias be='bundle exec'
+
+# Pass
+alias p=''
+alias potp=''
 
 # NPM
 (( $+commands[npm] )) && {
@@ -129,10 +145,6 @@ alias be='bundle exec'
     if [[ -z ${precmd_functions[(r)_direnv_hook]} ]]; then
         precmd_functions+=_direnv_hook;
     fi
-}
-# only export if sekey exists
-(( $+commands[sekey] )) && {
-    export SSH_AUTH_SOCK=$HOME/.sekey/ssh-agent.ssh
 }
 
 autoload -U +X bashcompinit && bashcompinit
@@ -174,12 +186,37 @@ zstyle ':filter-select' hist-find-no-dups yes
 bindkey '^Xr' zaw-history
 bindkey '^ ' autosuggest-accept
 
-# Base16 Shell
-# BASE16_SHELL="$HOME/.base16-manager/chriskempson/base16-shell/"
-BASE16_SHELL="$HOME/.config/base16-shell/"
-[ -n "$PS1" ] && \
-    [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
-    eval "$("$BASE16_SHELL/profile_helper.sh")"
+# vterm setup
+vterm_printf(){
+    if [ -n "$TMUX" ]; then
+        # Tell tmux to pass the escape sequences through
+        # (Source: http://permalink.gmane.org/gmane.comp.terminal-emulators.tmux.user/1324)
+        printf "\ePtmux;\e\e]%s\007\e\\" "$1"
+    elif [ "${TERM%%-*}" = "screen" ]; then
+        # GNU screen (screen, screen-256color, screen-256color-bce)
+        printf "\eP\e]%s\007\e\\" "$1"
+    else
+        printf "\e]%s\e\\" "$1"
+    fi
+}
+
+if [[ "$INSIDE_EMACS" = 'vterm' ]]; then
+    alias clear='vterm_printf "51;Evterm-clear-scrollback";tput clear'
+fi
+
+vterm_cmd() {
+    local vterm_elisp
+    vterm_elisp=""
+    while [ $# -gt 0 ]; do
+        vterm_elisp="$vterm_elisp""$(printf '"%s" ' "$(printf "%s" "$1" | sed -e 's|\\|\\\\|g' -e 's|"|\\"|g')")"
+        shift
+    done
+    vterm_printf "51;E$vterm_elisp"
+}
+
+find_file() {
+    vterm_cmd find-file "$(realpath "$@")"
+}
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

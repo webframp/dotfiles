@@ -28,7 +28,8 @@
 	autosetuprebase = always
 [core]
 	excludesfile = ~/.gitignore_global
-	editor = emacsclient -t -a=""
+    attributesfile = ~/.gitattributes
+	editor = /Users/sme/bin/EDITOR
 [merge]
 	conflictStyle = diff3
 [push]
@@ -47,3 +48,7 @@
 [{{ .type }}{{- if ne .url "" }} "{{.url}}" {{- end -}}]
 	user = {{ .user }}
 {{- end }}
+[protocol]
+    version = 2
+[credential]
+    helper = osxkeychain # should be per platform value

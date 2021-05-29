@@ -45,9 +45,9 @@ use_ruby()
     export RUBY_ENGINE=$1
 }
 
-use_chefdk()
+use_chef()
 {
-    # use chefdk
+    # use chef workstation
     EXPANDED_HOME=$(expand_path ~)
 
     # Override the GEM environment
@@ -56,14 +56,14 @@ use_chefdk()
 
     RUBY_ABI_VERSION=$(ls /opt/chef-workstation/embedded/lib/ruby/gems/)
     export GEM_ROOT="/opt/chef-workstation/embedded/lib/ruby/gems/$RUBY_ABI_VERSION"
-    export GEM_HOME="$EXPANDED_HOME/.chefdk/gem/ruby/$RUBY_ABI_VERSION"
-    export GEM_PATH="$EXPANDED_HOME/.chefdk/gem/ruby/$RUBY_ABI_VERSION:/opt/chef-workstation/embedded/lib/ruby/gems/$RUBY_ABI_VERSION"
+    export GEM_HOME="$EXPANDED_HOME/.chef-workstation/gem/ruby/$RUBY_ABI_VERSION"
+    export GEM_PATH="$EXPANDED_HOME/.chef-workstation/gem/ruby/$RUBY_ABI_VERSION:/opt/chef-workstation/embedded/lib/ruby/gems/$RUBY_ABI_VERSION"
 
     # Ensure ChefDK embedded tools are first in the PATH
 
     log_status "Ensuring Chef Workstation and it's embedded tools are first in the PATH"
 
-    PATH_add "$EXPANDED_HOME/.chefdk/gem/ruby/$RUBY_ABI_VERSION/bin/"
+    PATH_add "$EXPANDED_HOME/.chef-workstation/gem/ruby/$RUBY_ABI_VERSION/bin/"
     PATH_add /opt/chef-workstation/embedded/bin
     PATH_add /opt/chef-workstation/bin
 }

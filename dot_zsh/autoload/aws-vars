@@ -2,7 +2,6 @@
 source ~/.zsh/helpers.zsh
 
 # Maybe: https://www.refining-linux.org/archives/38-ZSH-Gem-3-No-automatic-word-split.html
-set -o shwordsplit
 local _vars
 local _unset
 _vars=$(env | grep -i ^aws)
@@ -19,7 +18,8 @@ elif [[ $_unset -eq 1 ]]; then
     done
     return 0
 else
-    for line in ${_vars}; do __info "Found: ${line[(ws:=:)1]}"; done
-    for line in ${_vars}; do printf "export $line\n"; done | pbcopy
+    # set -o shwordsplit not needed because of =
+    for line in ${=_vars}; do __info "Found: ${line[(ws:=:)1]}"; done
+    for line in ${=_vars}; do printf "export $line\n"; done | pbcopy
     __info "AWS_* vars copied to clipboard ready for export"
 fi
