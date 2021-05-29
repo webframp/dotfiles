@@ -13,7 +13,7 @@ if [ $+commands[vault-token-helper] -ne 1 ];then __error "Missing vault-token-he
 local username=$1
 function __vault_login(){
     if (nc -z ${VAULT_ADDR:8} 443 2>/dev/null);then
-        vault login -method=ldap -no-print username=$username
+        vault login -method=oidc -no-print 
         # TODO: check return code here and error if failed
     else
         __error "$VAULT_ADDR is unreachable" && return 1

@@ -14,8 +14,43 @@ fi
 
 ## Profiling
 #zmodload zsh/zprof
-# TODO Entirety of my startup file... Still needed?
-source $HOME/.zsh/config.zsh
+
+#source /etc/zshrc
+
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+# http://zsh.sourceforge.net/Doc/Release/Options.html
+# Protect existing files
+setopt NO_CLOBBER
+# don't nice background tasks
+setopt NO_BG_NICE
+setopt NO_HUP
+setopt NO_BEEP
+# allow functions to have local options
+setopt LOCAL_OPTIONS
+# allow functions to have local traps
+setopt LOCAL_TRAPS
+# add timestamps to history
+setopt EXTENDED_HISTORY
+setopt PROMPT_SUBST
+setopt COMPLETE_IN_WORD
+setopt CORRECT
+# adds history
+setopt APPEND_HISTORY
+# adds history incrementally and share it across sessions
+setopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY
+# don't record dupes in history
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_REDUCE_BLANKS
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_VERIFY
+setopt HIST_EXPIRE_DUPS_FIRST
+# directory navigation
+setopt AUTO_CD
+setopt AUTO_PUSHD
 
 # lazy load any custom functions
 lazyload_fpath=$HOME/.zsh/autoload
@@ -27,15 +62,13 @@ if [[ -d "$lazyload_fpath" ]]; then
 fi
 unset lazyload_fpath
 
-# # completion https://github.com/getantibody/antibody/issues/242#issuecomment-404588896
+# completion https://github.com/getantibody/antibody/issues/242#issuecomment-404588896
+# https://github.com/caarlos0/dotfiles/commit/16250fdb5ae2c8f762bb0bfb743bad18e7ae387d
 autoload -Uz compinit
-typeset -i updated_at=$(date +'%j' -r ~/.zcompdump 2>/dev/null || stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)
-#if [ $(date +'%j') != $(/usr/bin/stat -f '%Sm' -t '%j' ${ZDOTDIR:-$HOME}/.zcompdump) ]; then
-if [ $(date +'%j') != $updated_at ]; then
-  compinit -i
-else
-  compinit -C -i
-fi
+for dump in ~/.zcompdump(N.mh+24); do
+  compinit
+done
+compinit -C
 
 # menu select
 unsetopt menu_complete
@@ -63,10 +96,6 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
 # zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
 
 zstyle :omz:plugins:ssh-agent identities id_rsa id_ed25519_appsgit id_ed25519_github
-
-# from: vault -autocomplete-install
-# autoload -U +X bashcompinit && bashcompinit
-# complete -o nospace -C /usr/local/bin/vault vault
 
 # Aliases
 alias reload!='exec "$SHELL" -l'
@@ -100,8 +129,8 @@ fi
 # Kubernetes
 (( $+commands[kubectl] )) && {
     alias k='nocorrect kubectl'
-    alias kshell='k run alpine-tmp-shell --rm -i --tty --image alpine:latest -- /bin/sh'
-    compdef k=kubectl
+    alias kshell='k run alpine-tmp-shell --rm -i --tty --image alpine:latest -- /bin/sh#'
+    #compdef k=kubectl
     # kubectl get --raw /apis/custom.metrics.k8s.io/v1beta1
 }
 
@@ -116,7 +145,7 @@ fi
 }
 
 # TODO members, groups, vault, Golang, Rust
-alias cat='bat --plain'
+cat() {bat $* --plain}
 
 alias c=chezmoi
 
@@ -128,8 +157,8 @@ alias yay='brew outdated && brew upgrade && brew cleanup'
 alias be='bundle exec'
 
 # Pass
-alias p=''
-alias potp=''
+alias qp='pass -c "$(find -L "$HOME/.password-store" \( -name .git\* -o -name .gpg-id \) -prune -o $@ -print 2>/dev/null | sed -e "s#${HOME}/.password-store/\{0,1\}##" -e 's#\.gpg##'|sort|fzf)"'
+alias qpo='pass otp -c "$(find -L "$HOME/.password-store" \( -name .git\* -o -name .gpg-id \) -prune -o $@ -print 2>/dev/null | sed -e "s#${HOME}/.password-store/\{0,1\}##" -e 's#\.gpg##'|sort|fzf)"'
 
 # NPM
 (( $+commands[npm] )) && {
@@ -139,7 +168,7 @@ alias potp=''
 
 (( $+commands[direnv] )) && {
     _direnv_hook() {
-        eval "$("/usr/local/bin/direnv" export zsh)";
+        eval "$(direnv export zsh)";
     }
     typeset -ag precmd_functions;
     if [[ -z ${precmd_functions[(r)_direnv_hook]} ]]; then
@@ -151,7 +180,11 @@ autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/vault vault
 complete -C /usr/local/bin/terraform terraform
 
-if test -d ~/.bash-my-aws; then
+# When from nix pkg
+# https://github.com/NixOS/nixpkgs-channels/blob/nixos-unstable/pkgs/tools/admin/bash-my-aws/default.nix
+#eval "$(bma-init)"
+# When from git repo
+if [ -d ${HOME}/.bash-my-aws ]; then
     source ~/.bash-my-aws/aliases
     source ~/.bash-my-aws/bash_completion.sh
 fi
@@ -166,19 +199,8 @@ fi
 # Load colors from less, and others.
 [[ -f ~/.LESS_TERMCAP ]] && . ~/.LESS_TERMCAP
 
-unset updated_at
-
 autoload -U select-word-style
 select-word-style bash
-
-## Source plugins last
-# dynamic method
-source <(antibody init)
-antibody bundle <~/.zsh_plugins.txt
-
-# static method, after updates run:
-# antibody bundle <~/.zsh_plugins.txt > ~/.zsh_plugins.sh
-#source ~/.zsh_plugins.sh
 
 ## ZAW settings
 zstyle ':filter-select' case-insensitive yes
@@ -217,6 +239,15 @@ vterm_cmd() {
 find_file() {
     vterm_cmd find-file "$(realpath "$@")"
 }
+
+## Source plugins last
+# dynamic method
+# source <(antibody init)
+# antibody bundle <~/.zsh_plugins.txt
+
+# static method, after updates run:
+# antibody bundle <~/.zsh_plugins.txt > ~/.zsh_plugins.sh
+source ~/.zsh_plugins.sh
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

@@ -1,8 +1,12 @@
 # https://blog.patshead.com/2011/04/improve-your-oh-my-zsh-startup-time-maybe.html
+# https://gist.github.com/ctechols/ca1035271ad134841284#gistcomment-3401477
+# Disables global compinit, not needed if noglobrcs is set
 skip_global_compinit=1
 
-# http://disq.us/p/f55b78
-setopt noglobalrcs
+# Skip any global rc files altogether 
+#setopt noglobalrcs
+
+#. /etc/zshenv
 
 # https://github.com/sorin-ionescu/prezto/blob/master/runcoms/zshenv
 # Ensure that a non-login, non-interactive shell has a defined environment.
