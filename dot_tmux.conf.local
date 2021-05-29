@@ -312,13 +312,13 @@ unbind C-a
 set -g prefix C-j
 bind C-j send-prefix
 
-set-option -sa terminal-overrides ",xterm-kitty:RGB"
+#set-option -sa terminal-overrides ",xterm-kitty:RGB"
 
-# emacs window navigation
-unbind n
-unbind p
-bind n next-window
-bind p previous-window
+## emacs window navigation
+#unbind n
+#unbind p
+#bind n next-window
+#bind p previous-window
 
 # memorable splits
 bind | split-window -h -c "#{pane_current_path}"
@@ -341,5 +341,6 @@ set -g @tpm_plugins '          \
   tmux-plugins/tmux-continuum  \
   schasse/tmux-jump            \
 '
+
 # rebind urlview to <prefix>u since tpm takes over <prefix>U
 bind u run "cut -c3- ~/.tmux.conf | sh -s _urlview #{pane_id}"
