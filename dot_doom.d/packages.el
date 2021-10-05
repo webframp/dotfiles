@@ -18,6 +18,9 @@
 (package! polymode)
 (package! org-super-agenda)
 
+(package! atomic-chrome)
+
+;; (package! elpher)
 ;; Local Variables:
 ;; flycheck-disabled-checkers: (emacs-lisp-checkdoc)
 ;; End:
