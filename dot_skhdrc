@@ -15,6 +15,9 @@ alt - p : open /Applications/Alfred\ 4.app
 # org-capture: alt - `
 alt - 0x32 : ~/.emacs.d/bin/org-capture
 
+# emacs-anywhere
+alt - e : emacsclient --eval "(emacs-everywhere)"
+
 ####################
 ## Window bindings ##
 #####################
