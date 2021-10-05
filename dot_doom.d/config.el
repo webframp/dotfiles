@@ -11,7 +11,7 @@
 
 (setq doom-modeline-major-mode-icon t)
 (setq doom-modeline-bar-width 2)
-(setq doom-theme 'doom-horizon)
+;; (setq doom-theme 'doom-horizon)
 
 ;; (setq doom-font (font-spec :family "FiraCode Nerd Font Mono" :size 18)
 ;;       doom-variable-pitch-font (font-spec :family "Noto Sans" :size 18))
@@ -173,6 +173,8 @@
 ;;        :desc "MobileOrg push" "p" #'org-mobile-push
 ;;        :desc "MobileOrg pull" "u" #'org-mobile-pull))
 
+(after! atomic-chrome
+  (atomic-chrome-start-server))
 
 ;; Popup rules
 ;; https://github.com/hlissner/doom-emacs/tree/develop/modules/ui/popup

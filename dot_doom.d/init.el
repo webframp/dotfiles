@@ -17,9 +17,8 @@
        company           ; the ultimate code completion backend
        ;;helm            ; the *other* search engine for love and life
        ;;ido             ; the other *other* search engine...
-       (ivy
-        +fuzzy
-        +prescient
+       ivy               ; a search engine for love and life
+       (vertico
         +icons)               ; a search engine for love and life
 
        :ui
@@ -30,7 +29,6 @@
        (emoji
         +github
         +unicode)        ; 🙂
-       fill-column       ; a `fill-column' indicator
        hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
        ;;hydra
        ;;indent-guides     ; highlighted indent columns
@@ -96,11 +94,12 @@
        lookup            ; helps you navigate your code and documentation
        (lsp +bindings)
        (magit +forge)             ; a git porcelain for Emacs
-       make              ; run make tasks from Emacs
+       ;;make              ; run make tasks from Emacs
        pass              ; password manager for nerds
        ;;pdf               ; pdf enhancements
        ;;prodigy           ; FIXME managing external services & code builders
        ;;rgb               ; creating color strings
+       taskrunner        ; taskrunner for all your projects
        terraform           ; infrastructure as code
        ;;tmux              ; an API for interacting with tmux
        ;;upload            ; map local to remote projects via ssh/ftp
@@ -182,6 +181,8 @@
 
        :app
        ;;calendar
+       ;;emms
+       everywhere        ; *leave* Emacs!? You must be joking
        ;;irc              ; how neckbeards socialize
        ;;(rss +org)       ; emacs as an RSS reader
        ;;twitter          ; twitter client https://twitter.com/vnought
