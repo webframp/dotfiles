@@ -1,20 +1,20 @@
 # -*- mode: sh -*-
-robbyrussell/oh-my-zsh path:plugins/chruby
-robbyrussell/oh-my-zsh path:plugins/rust
-robbyrussell/oh-my-zsh path:plugins/cargo
+#robbyrussell/oh-my-zsh path:plugins/chruby
+#robbyrussell/oh-my-zsh path:plugins/rust
+#robbyrussell/oh-my-zsh path:plugins/cargo
 # https://github.com/Dbz/kube-aliases/blob/master/docs/usage
 dbz/kube-aliases
 webyneter/docker-aliases
 rawkode/zsh-docker-run
 mafredri/zsh-async
-rupa/z
+#rupa/z
 zsh-users/zsh-autosuggestions
 
 # Completions
 alacritty/alacritty path:extra/completions kind:fpath
 zsh-users/zsh-completions path:src kind:fpath
-docker/compose path:contrib/completion/zsh kind:fpath
-docker/cli path:contrib/completion/zsh kind:fpath
+# docker/compose path:contrib/completion/zsh kind:fpath
+# docker/cli path:contrib/completion/zsh kind:fpath
 # TODO rbirnie/oh-my-zsh-keybase path:keybase kind:fpath
 lukechilds/zsh-better-npm-completion
 
