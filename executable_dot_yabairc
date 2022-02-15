@@ -29,7 +29,7 @@ yabai -m config split_ratio 0.50
 yabai -m config auto_balance off
 
 # mouse support
-yabai -m config mouse_follows_focus off
+yabai -m config mouse_follows_focus on
 yabai -m config focus_follows_mouse off
 yabai -m config mouse_modifier fn
 yabai -m config mouse_action1 move
@@ -40,19 +40,16 @@ yabai -m config mouse_action2 resize
 yabai -m rule --add app=Alacritty title!="popup-prompt" space=^1
 # grid=<rows>:<cols>:<start-x>:<start-y>:<width>:<height>
 yabai -m rule --add label=doom-capture title="doom-capture" manage=off grid=4:4:1:1:2:2
-yabai -m rule --add app="^Spotify$" manage=on space=4
+yabai -m rule --add app="^Spotify$" manage=on
 # TODO "Microsoft Remote Desktop" # a thorn in my side
 # Unmanaged Windows
 yabai -m rule --add app="^System Preferences$" manage=off
 yabai -m rule --add app="Finder" title="Copy" manage=off
 yabai -m rule --add app="App Store" manage=off
-# Inkscape windows are all AXStandardWindow
-yabai -m rule --add app="Inkscape" title="Add Layer" manage=off
-yabai -m rule --add app="Inkscape" title="Select a filename*" manage=off
-yabai -m rule --add app="Inkscape" title="Select file*" manage=off
-yabai -m rule --add app="Inkscape" title="Print" manage=off
-yabai -m rule --add app="Inkscape" title="Move to*" manage=off
-yabai -m rule --add app="Inkscape" title="Preferences*" manage=off
+# float emacs popups
+#yabai -m rule --add label="EmacsPopup" app=Emacs title!=".*Doom.*" manage=off
+# TODO fix emacs popups    "title":"  —  (92 × 46)",
+#yabai -m rule --add label="EmacsPopup" title='^  —  \(.*\)$'
 
 # send Firefox and Emacs to last space when monitor changes otherwise to 5
 display_count=$(yabai -m query --displays|jq length)
@@ -61,21 +58,21 @@ if [ $display_count -ge 2 ]; then
 
   yabai -m rule --add label="Emacs" app=Emacs \
 	  title!="doom-capture" manage=on space=$second_space
-  yabai -m rule --add label="FFDisplays" app="Firefox" \
+  yabai -m rule --add label="FFDisplays" app="Firefox" title!="^.{0}$" \
 	  manage=on space=$second_space sticky=off
   echo "Firefox and Emacs moved to second display"
 else
-  yabai -m rule --add label="Emacs" app=Emacs title!="doom-capture" manage=on space=^2
-  yabai -m rule --add label="FFDisplays" app="Firefox" manage=on space=4
+  yabai -m rule --add label="Emacs" app=Emacs title!="doom-capture" manage=on space=^2 
+  yabai -m rule --add label="FFDisplays" app="^Firefox$" title!="^.{0}$" manage=on space=4
   echo "Firefox and Emacs moved to laptop display"
 fi
 
 # move FF based on signal when 2nd monitor connected?
 # https://github.com/koekeishiya/yabai/blob/master/doc/yabai.asciidoc#signal
 yabai -m signal --add event=display_added \
-	action='yabai -m rule --add label="FFDisplays" app="Firefox" manage=on space=$(yabai -m query --spaces|jq length) sticky=off'
+	action='yabai -m rule --add label="FFDisplays" app="Firefox" title!="^.{0}$" manage=on space=$(yabai -m query --spaces|jq length) sticky=off'
 yabai -m signal --add event=display_removed \
-	action='yabai -m rule --add label="FFDisplays" app="Firefox" manage=on space=4 sticky=off'
+	action='yabai -m rule --add label="FFDisplays" app="Firefox" title!="^.{0}$" manage=on space=4 sticky=off'
 # TODO If attached to XPS: system_profiler SPDisplaysDataType|grep 'XPS 2720'
 # then send emacs to last workspace in addition to Firefox, ensure vertical tiling and focus alacritty space 1
 
@@ -94,13 +91,12 @@ yabai -m rule --add label=ignoreTeamsNotification \
   manage=off \
   border=off
 
-# Tries to focus the window under the cursor whenever the MS teams notification gains focus
-# Probably conflicts with mouse follows focus in some ways
+# Tries to focus the main Teams window whenever the notification gains focus, because it always takes focus first.
 yabai -m signal --add \
   event=window_focused \
   app='^Microsoft Teams$' \
   title='^Microsoft Teams Notification$' \
-  action='yabai -m window --focus mouse > /dev/null 2>&1'
+  action="yabai -m window --focus $(yabai -m query --windows --space 3 | jq '.[] |select(.title | contains("| Microsoft Teams"))? | .id')"
 
 # TODO add rule for FF pop out to do this, but slightly larger?
 # toggle sticky, float and resize to picture-in-picture size
@@ -114,15 +110,5 @@ yabai -m signal --add \
 #   action='yabai -m window --toggle sticky; yabai -m window --grid=5:5:4:0:1:1'
 
 # # yabai -m query --spaces --display| jq 'map(select(."focused" == 1))'
-
-# Start limelight for window borders
-# cd ~/src/limelight
-# make && make sign && install -m755 bin/install /usr/local/bin
-# killall limelight &> /dev/null
-# limelight &> /dev/null &
-
-# Start the statusbar
-#killall spacebar &> /dev/null
-#spacebar &> /dev/null &
 
 echo "yabai configuration loaded.."
