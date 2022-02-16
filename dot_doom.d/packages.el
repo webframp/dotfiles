@@ -17,9 +17,16 @@
 
 (package! polymode)
 (package! org-super-agenda)
+(package! ob-mermaid)
+(package! mermaid-mode)
 
-(package! atomic-chrome)
+;; Sound synth with Haskell
+;; http://tidalcycles.org/docs/getting-started/editor/Emacs/#using-doom-emacs-1
+(package! tidal)
 
+(package! flycheck-vale)
+
+(package! go-dlv)
 ;; (package! elpher)
 ;; Local Variables:
 ;; flycheck-disabled-checkers: (emacs-lisp-checkdoc)

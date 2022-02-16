@@ -41,18 +41,16 @@
 ;; Magit - if I want these back
 ;(setq magit-revision-show-gravatars '("^Author:     " . "^Commit:     "))
 
+;; disable some checkers
+(after! flycheck
+  (add-to-list 'flycheck-disabled-checkers 'chef-foodcritic))
+
 ;;; Keybinds
 ;; TODO Combine into single map! use
 (map! :after forge
       :map forge-post-mode-map
       :n "ZZ" #'forge-post-submit
       :n "ZQ" #'forge-post-cancel)
-
-(map! :after forge
-      :map forge-topic-mode-map
-      "c" #'forge-create-post
-      :n "gy" #'forge-copy-url-at-point-as-kill
-      :n "go" #'forge-browse-dwim)
 
 (map! :after forge
       :map magit-status-mode-map
@@ -62,50 +60,61 @@
       :n "go" #'magit-browse-thing)
 
 ;; TODO map ]S and [S to smerge-next and smerge-previous for navigating diffs
+;; or see: https://github.com/emacs-evil/evil-collection/blob/master/modes/smerge/evil-collection-smerge-mode.el
 
 ;; TODO add mapping for forge-toggle-closed-visibility.
 ;; Place with dispatch: SPC  g ' x ?, @ x ? (visual, normal states too)
 ;; NOTE how to customize dispatch menu?
-(map! :leader
-      :after projectile
-      (:prefix "p"
-        :desc "Save Project Buffers" "s" #'projectile-save-project-buffers))
 
-;; Bind to SPC f F - freshen file from disk
 ;; Source: https://www.emacswiki.org/emacs/download/misc-cmds.el
 (defun revert-buffer-no-confirm ()
   "Revert buffer without confirmation."
   (interactive)
   (revert-buffer :ignore-auto :noconfirm))
 
+;; Rebind SPC f F - freshen file from disk
+;; replaces +default/find-file-under-here
+;; TODO can this behavior be made bound elsewhere?
 (map! :leader
       (:prefix "f"
-        :desc "Refresh file from disk" "F" #'revert-buffer-no-confirm))
+       :desc "Refresh file from disk" "F" #'revert-buffer-no-confirm))
 
 ;;; Modules/Packages
 ;;
 (after! emojify
+  ;; SPC i e to insert emoji and display automatically in buffers
   (add-hook! 'after-init-hook #'global-emojify-mode))
-
-;; Emoji Cheatsheet
-;; https://github.com/syl20bnr/emacs-emoji-cheat-sheet-plus/
-;; (use-package! emoji-cheat-sheet-plus
-;;   :after (magit)
-;;   :config
-;;     (add-hook! 'magit-status-mode-hook 'emoji-cheat-sheet-plus-display-mode)
-;;     (add-hook! 'magit-log-mode-hook 'emoji-cheat-sheet-plus-display-mode)
-;;     (add-hook! 'forge-topic-mode-hook 'emoji-cheat-sheet-plus-display-mode))
-
-;; (use-package! company-emoji
-;;   :defer t
-;;   :config
-;;   (after! company
-;;     (set-company-backend! 'org-mode 'company-emoji)))
 
 (use-package! nyan-mode
   :hook (doom-modeline-mode . nyan-mode))
 
 (use-package! jsonnet-mode)
+
+;; TODO Go Development
+;; download vsix from: https://github.com/golang/vscode-go/releases/
+;; cd /Users/sme/.emacs.d/.local/etc/dap-extension/vscode/golang.go
+;; unzip <vsix file>
+;; needs extension folder under golang.go
+;; dap-debug
+;; In Golang test file? Select ’Go Launch File Configuration’ and add your breakpoints
+;; ’Launch File’: buffer with program output
+;; dap-disconnect > stop session
+;; Dap frames:
+;; locals: list with all variables in debug session
+;; args: list function args
+;; expressions: add expression to watch specific vars
+;; SPC m d: hydra for dap-mode (useful to open specific DAP-frames)
+;; Go dap-repl: call <fn>
+
+(after! dap-mode
+  ;;(setq dap-auto-configure-featuressessions (locals breakpoints expressions controls tooltip)))
+  (setq dap-auto-configure-features ())
+  (setq dap-ui-controls-mode nil))
+
+;; Update dap golang plugin: (dap-go-setup 'FORCE)
+
+;; bind to SPC TAB -
+;; (+workspace/other)
 
 ;; https://github.com/fxbois/web-mode/blob/master/web-mode.el#L2118
 ;; (use-package! polymode
@@ -123,10 +132,13 @@
 ;;     )
 ;;   )
 
-;; (map! :leader
-;;       :after emoji-cheat-sheet-plus
-;;       (:prefix "i"
-;;         :desc "Insert emoji" "e" #'emoji-cheat-sheet-plus-insert))
+;;; Tidal setup
+;; ;; Haskell formatting
+;; (after!
+;;   (setq lsp-haskell-formatting-provider "brittany"))
+
+;; ;; Tidal
+;; (setq tidal-boot-script-path "~/.cabal/store/ghc-8.10.7/tdl-1.7.8-1a7352d6/share/BootTidal.hs")
 
 ;; Org mode
 (after! org
@@ -144,8 +156,7 @@
                            "~/org/devops.org")
         org-html-htmlize-output-type 'css)
   ;; Test with dired and M-x re-builder
-  (add-to-list 'recentf-exclude "org_archive")
-  (add-hook! 'org-mode-hook ' emoji-cheat-sheet-plus-display-mode))
+  (add-to-list 'recentf-exclude "org_archive"))
 
 ;; TODO org-edit-src-exit not bound like org-edit-src-abort
 (map! :after org
@@ -157,9 +168,9 @@
 
 ;; TODO These should be defaults, why don't they work?
 (after! org
-    (setq org-startup-indented t)
-    (setq org-indent-mode t)
-    (setq org-startup-folded t))
+  (setq org-startup-indented t)
+  (setq org-indent-mode t)
+  (setq org-startup-folded t))
 
 (use-package! org-super-agenda
   :after org-agenda
@@ -167,14 +178,20 @@
   (setq org-super-agenda-groups '((:auto-dir-name t)))
   (org-super-agenda-mode))
 
-;; (map! :leader
-;;       :after org
-;;       (:prefix "m"
-;;        :desc "MobileOrg push" "p" #'org-mobile-push
-;;        :desc "MobileOrg pull" "u" #'org-mobile-pull))
+(use-package! ob-mermaid
+  :after org
+  :config
+  (add-to-list 'org-babel-load-languages '(mermaid . t)))
 
-(after! atomic-chrome
-  (atomic-chrome-start-server))
+;; (use-package! flycheck-vale
+;;   :init (flycheck-vale-setup))
+
+;; Display ansi color codes, only possible with emacs 28+
+(after! text-mode
+  (add-hook! 'text-mode-hook
+             ;; Apply ANSI color codes
+             (with-silent-modifications
+               (ansi-color-apply-on-region (point-min) (point-max) t))))
 
 ;; Popup rules
 ;; https://github.com/hlissner/doom-emacs/tree/develop/modules/ui/popup
