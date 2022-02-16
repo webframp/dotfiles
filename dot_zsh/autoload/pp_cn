@@ -1,0 +1,2 @@
+# -*- mode: sh -*-
+cut -d'=' -f1,2|sed -e s/CN=// -e s/,OU// -e s/\\\\//

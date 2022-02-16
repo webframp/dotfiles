@@ -37,3 +37,15 @@ https://github.com/zsh-users/zsh-completions/blob/master/zsh-completions-howto.o
   ~/.zlogin
   (post logout)
   ~/.zlogout
+* Plugins
+loaded using [[https://getantibody.github.io/][antibody]]
+forked to personal github org before use
+** [[orgit:~/src/webframp/zsh-async/][zsh-async]]
+** [[orgit:~/src/webframp/zsh-autosuggestions/][zsh-autosuggestions]]
+** [[orgit:~/src/webframp/zsh-completions/][zsh-completions]]
+** [[orgit:~/src/webframp/base16-shell/][base16-shell]]
+basic color setup
+** [[orgit:~/src/webframp/powerlevel10k/][powerlevel10k]]
+prompt theme
+** [[orgit:~/src/webframp/fast-syntax-highlighting/][fast-syntax-highlighting]]
+Must load last in plugins
