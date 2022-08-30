@@ -1,11 +1,11 @@
 * Dotfiles
   Just a bunch of junk you probably don't want to waste time with.
-  If you decide to waste time, you'll need [[https://github.com/twpayne/chezmoi/][chezmoi]] and [[https://getantibody.github.io/install/][antibody]]
+  If you decide to waste time, you'll need [[https://github.com/twpayne/chezmoi/][chezmoi]] and [[https://getantidote.github.io/][antidote]]
 ** Setup
 1. Install chezmoi: ~curl -sfL https://git.io/chezmoi | sh~
 2. Install antibody: ~curl -sfL git.io/antibody | sh -s - -b /usr/local/bin~
 3. Install git
-4. Run: ~chezmoi init https://github.com/username/dotfiles.git~
+4. Run: ~chezmoi init https://github.com/webframp/dotfiles.git~
 5. Update: ~chezmoi apply~
 ** Keeping up to date
 Use chezmoi to upgrade itself: ~chezmoi upgrade~
