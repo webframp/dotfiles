@@ -104,6 +104,7 @@
        taskrunner        ; taskrunner for all your projects
        terraform           ; infrastructure as code
        ;;tmux              ; an API for interacting with tmux
+       tree-sitter       ; syntax and parsing, sitting in a tree...
        ;;upload            ; map local to remote projects via ssh/ftp
 
        :os
@@ -154,6 +155,7 @@
         +dragndrop         ; file drag & drop support
         +hugo              ; use Emacs for hugo blogging
         +pandoc            ; pandoc integration into org's exporter
+        +pretty
         +present)          ; using Emacs for presentations
        ;;php               ; perl's insecure younger brother
        ;;plantuml          ; diagrams for confusing people more
@@ -167,8 +169,7 @@
        rust                ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
        ;;scala             ; java, but good
        ;;scheme            ; a fully conniving family of lisps
-       (sh +lsp
-           +powershell)    ; she sells {ba,z,fi}sh shells on the C xor
+       (sh +powershell)    ; she sells {ba,z,fi}sh shells on the C xor
        ;;sml
        ;;solidity          ; do you need a blockchain? No.
        ;;swift             ; who asked for emoji variables?
@@ -186,7 +187,7 @@
        :app
        ;;calendar
        ;;emms
-       ;;everywhere       ; *leave* Emacs!? You must be joking
+       everywhere       ; *leave* Emacs!? You must be joking
        ;;irc              ; how neckbeards socialize
        ;;(rss +org)       ; emacs as an RSS reader
        ;;twitter          ; twitter client https://twitter.com/vnought
@@ -195,8 +196,11 @@
        ;;literate
        (default +bindings +smartparens))
 
-(when noninteractive
-  (add-to-list 'doom-env-whitelist "^SSH_"))
+;; when this breaks core-* should be renamed doom-cli-env
+;; https://github.com/doomemacs/doomemacs/commit/19ce459138673d6a617fa342c533ee59e20eee86
+(after! core-cli-env 
+  (add-to-list 'doom-env-allow "^SSH_"))
+
 ;; (with-eval-after-load 'gnutls
 ;;   (add-to-list 'gnutls-trustfiles "/usr/local/etc/libressl/cert.pem"))
 

@@ -3,7 +3,10 @@
 ;; To modify or add binding for existing modules use add-hook! or after! macros
 ;; https://github.com/hlissner/doom-emacs/wiki/Customization#reconfigure-packages
 
-;;; UI
+;; https://github.com/d12frosted/homebrew-emacs-plus/issues/433#issuecomment-1025547880
+;;(add-to-list 'default-frame-alist '(undecorated . t))
+
+;;; UI/Appearance
 (when IS-LINUX
   (font-put doom-font :weight 'semi-light))
 (when IS-MAC
@@ -11,7 +14,16 @@
 
 (setq doom-modeline-major-mode-icon t)
 (setq doom-modeline-bar-width 2)
-;; (setq doom-theme 'doom-horizon)
+
+(setq doom-theme 'doom-old-hope)
+(setq doom-font (font-spec :family "Iosevka Nerd Font" :size 18)
+      doom-variable-pitch-font (font-spec :family "Iosevka Nerd Font" :size 18))
+
+;; Use a smaller font on mode-line
+;; https://github.com/hlissner/doom-emacs/issues/2967#issuecomment-619319082
+(custom-set-faces!
+  '(mode-line :family "Iosevka Nerd Font" :height 0.9)
+  '(mode-line-inactive :family "Iosevka Nerd Font" :height 0.9))
 
 ;; (setq doom-font (font-spec :family "FiraCode Nerd Font Mono" :size 18)
 ;;       doom-variable-pitch-font (font-spec :family "Noto Sans" :size 18))
@@ -21,15 +33,6 @@
 
 ;; If confirm quit is a pain
 ;; (setq confirm-kill-emacs nil)
-
-(setq doom-font (font-spec :family "Iosevka Nerd Font" :size 18)
-      doom-variable-pitch-font (font-spec :family "Iosevka Nerd Font" :size 18))
-
-;; Use a smaller font on mode-line
-;; https://github.com/hlissner/doom-emacs/issues/2967#issuecomment-619319082
-(custom-set-faces!
-  '(mode-line :family "Iosevka Nerd Font" :height 0.9)
-  '(mode-line-inactive :family "Iosevka Nerd Font" :height 0.9))
 
 ;;; Windows/Frames
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
@@ -74,7 +77,7 @@
 
 ;; Rebind SPC f F - freshen file from disk
 ;; replaces +default/find-file-under-here
-;; TODO can this behavior be made bound elsewhere?
+;; TODO can this behavior be bound elsewhere?
 (map! :leader
       (:prefix "f"
        :desc "Refresh file from disk" "F" #'revert-buffer-no-confirm))
@@ -89,6 +92,9 @@
   :hook (doom-modeline-mode . nyan-mode))
 
 (use-package! jsonnet-mode)
+
+(setq +lookup-open-url-fn #'eww)
+;; (setq +lookup-open-url-fn #'browse-url) ;; use default browser
 
 ;; TODO Go Development
 ;; download vsix from: https://github.com/golang/vscode-go/releases/
@@ -156,7 +162,35 @@
                            "~/org/devops.org")
         org-html-htmlize-output-type 'css)
   ;; Test with dired and M-x re-builder
-  (add-to-list 'recentf-exclude "org_archive"))
+  (add-to-list 'recentf-exclude "org_archive")
+
+  ;; pdf+latex export
+  ;; https://www.aidanscannell.com/post/org-mode-resume/
+  ;;
+  ;; Import ox-latex to get org-latex-classes and other funcitonality
+  ;; for exporting to LaTeX from org
+  (use-package! ox-latex
+    :init
+    ;; code here will run immediately
+    :config
+    ;; code here will run after the package is loaded
+    (setq org-latex-pdf-process
+          '("pdflatex -interaction nonstopmode -output-directory %o %f"
+            "bibtex %b"
+            "pdflatex -interaction nonstopmode -output-directory %o %f"
+            "pdflatex -interaction nonstopmode -output-directory %o %f"))
+    (setq org-latex-with-hyperref nil) ;; stop org adding hypersetup{author..} to latex export
+    ;; (setq org-latex-prefer-user-labels t)
+
+    ;; deleted unwanted file extensions after latexMK
+    (setq org-latex-logfiles-extensions
+          (quote ("lof" "lot" "tex~" "aux" "idx" "log" "out" "toc" "nav" "snm" "vrb" "dvi" "fdb_latexmk" "blg" "brf" "fls" "entoc" "ps" "spl" "bbl" "xmpi" "run.xml" "bcf" "acn" "acr" "alg" "glg" "gls" "ist")))
+
+    (unless (boundp 'org-latex-classes)
+      (setq org-latex-classes nil)))
+
+  (use-package! ox-extra
+    :config (ox-extras-activate '(latex-header-blocks ignore-headlines))))
 
 ;; TODO org-edit-src-exit not bound like org-edit-src-abort
 (map! :after org
