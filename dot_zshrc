@@ -1,19 +1,29 @@
 # Base16 Shell
 # BASE16_SHELL="$HOME/.base16-manager/chriskempson/base16-shell/"
-BASE16_SHELL="$HOME/.config/base16-shell/"
-[ -n "$PS1" ] && \
-    [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
-    eval "$("$BASE16_SHELL/profile_helper.sh")"
+# BASE16_SHELL="$HOME/.config/base16-shell/"
+# [ -n "$PS1" ] && \
+#     [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
+#     eval "$("$BASE16_SHELL/profile_helper.sh")"
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block, everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+# fi
 
-## Profiling
-#zmodload zsh/zprof
+## Profiling Start
+# https://esham.io/2018/02/zsh-profiling
+# zmodload zsh/zprof
+# zmodload zsh/datetime
+# setopt PROMPT_SUBST
+# PS4='+$EPOCHREALTIME %N:%i> '
+
+# logfile=$(mktemp zsh_profile.XXXXXXXX)
+# echo "Logging to $logfile"
+# exec 3>&2 2>$logfile
+
+# setopt XTRACE
 
 #source /etc/zshrc
 
@@ -62,8 +72,10 @@ if [[ -d "$lazyload_fpath" ]]; then
 fi
 unset lazyload_fpath
 
+## Commpletion setup
 # completion https://github.com/getantibody/antibody/issues/242#issuecomment-404588896
 # https://github.com/caarlos0/dotfiles/commit/16250fdb5ae2c8f762bb0bfb743bad18e7ae387d
+# if completion is failing after new installs run compinit -i once
 autoload -Uz compinit
 for dump in ~/.zcompdump(N.mh+24); do
   compinit
@@ -84,7 +96,6 @@ zstyle ':completion:*' cache-path ~/.local/share/zsh/cache
 zstyle ':completion:*:functions' ignored-patterns '(_*|pre(cmd|exec))'
 #zstyle ':completion:*:functions' ignored-patterns '_*'
 
-
 # completion behavior adjustments
 # Case insensitive, partial-word and substring competion
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
@@ -92,12 +103,42 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
 # zstyle ':completion:*' special-dirs true
 #
 # # Colors in the completion list
-# zstyle ':completion:*' list-colors ''
-# zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
+zstyle ':completion:*' list-colors ''
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
 
 zstyle :omz:plugins:ssh-agent identities id_rsa id_ed25519_appsgit id_ed25519_github
 
-# Aliases
+# source $HOME/.zsh/dots.zsh
+# completion waiting dots, a slight variation of:
+# https://github.com/ohmyzsh/ohmyzsh/blob/40f49342f587167292461242dc13fdb93363278a/lib/completion.zsh#L62
+expand-or-complete-with-dots() {
+    # toggle line-wrapping off and back on again
+    [[ -n "$terminfo[rmam]" && -n "$terminfo[smam]" ]] && echoti rmam
+    # use ellipsis unicode char U+2026
+    print -Pn "%{%F{red}…%f%}"
+    [[ -n "$terminfo[rmam]" && -n "$terminfo[smam]" ]] && echoti smam
+
+    zle expand-or-complete
+    zle redisplay
+}
+# Set the function as the default tab completion widget
+zle -N expand-or-complete-with-dots
+bindkey "^I" expand-or-complete-with-dots
+
+# requires setopt AUTO_CD so check for it
+(( ${(kv)+options[autocd]} )) && {
+    rationalise-dot() {
+        if [[ $LBUFFER = *.. ]]; then
+            LBUFFER+=/..
+        else
+            LBUFFER+=.
+        fi
+    }
+    zle -N rationalise-dot
+    bindkey . rationalise-dot
+}
+
+## Aliases
 alias reload!='exec "$SHELL" -l'
 # http://zsh.sourceforge.net/Doc/Release/Expansion.html#Parameter-Expansion
 (( $+commands[exa] )) && {
@@ -122,16 +163,15 @@ alias dockerhostshell='docker run -it --privileged --pid=host debian nsenter -t 
 # Emacs
 alias doom='~/.emacs.d/bin/doom'
 alias oc='~/.emacs.d/bin/org-capture'
-if [[ "$INSIDE_EMACS" = 'vterm' ]]; then
-    alias clear='vterm_printf "51;Evterm-clear-scrollback";tput clear'
-fi
 
 # Kubernetes
 (( $+commands[kubectl] )) && {
     alias k='nocorrect kubectl'
     alias kshell='k run alpine-tmp-shell --rm -i --tty --image alpine:latest -- /bin/sh#'
+    compdef __start_kubectl k
     #compdef k=kubectl
-    # kubectl get --raw /apis/custom.metrics.k8s.io/v1beta1
+    # k create deployment <name> --image=<image> --dry-run=client -o yaml
+    # k get --raw /apis/custom.metrics.k8s.io/v1beta1
 }
 
 (( $+commands[kubectx] )) && {
@@ -149,6 +189,7 @@ fi
 }
 # TODO members, groups, vault, Golang, Rust
 cat() {bat $* --plain}
+catn() {bat $* --number}
 
 alias c=chezmoi
 
@@ -162,11 +203,26 @@ alias be='bundle exec'
 # Pass
 alias qp='pass -c "$(find -L "$HOME/.password-store" \( -name .git\* -o -name .gpg-id \) -prune -o $@ -print 2>/dev/null | sed -e "s#${HOME}/.password-store/\{0,1\}##" -e 's#\.gpg##'|sort|fzf)"'
 alias qpo='pass otp -c "$(find -L "$HOME/.password-store" \( -name .git\* -o -name .gpg-id \) -prune -o $@ -print 2>/dev/null | sed -e "s#${HOME}/.password-store/\{0,1\}##" -e 's#\.gpg##'|sort|fzf)"'
+alias qpe='EDITOR=vim pass edit "$(find -L "$HOME/.password-store" \( -name .git\* -o -name .gpg-id \) -prune -o $@ -print 2>/dev/null | sed -e "s#${HOME}/.password-store/\{0,1\}##" -e 's#\.gpg##'|sort|fzf)"'
 
 # NPM
 (( $+commands[npm] )) && {
    alias ng="npm list -g --depth=0 2>/dev/null"
    alias nl="npm list --depth=0 2>/dev/null"
+}
+
+## Don't correct a few common commands
+# source $HOME/.zsh/correction.zsh
+alias cp='nocorrect cp'
+alias gist='nocorrect gist'
+alias man='nocorrect man'
+alias mkdir='nocorrect mkdir'
+alias mv='nocorrect mv'
+alias mysql='nocorrect mysql'
+alias sudo='nocorrect sudo'
+
+(( $+commands[brew] )) && {
+    alias brew='nocorrect brew'
 }
 
 (( $+commands[direnv] )) && {
@@ -188,35 +244,43 @@ alias qpo='pass otp -c "$(find -L "$HOME/.password-store" \( -name .git\* -o -na
 #     }
 # }
 
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/local/bin/vault vault
+complete -C /usr/local/bin/terraform terraform
+
+## Source other files as needed
+# zoxide instead of rupa/z
 (( $+commands[zoxide] )) && {
     # zoxide init zsh > ~/.zsh/zoxide.zsh
     source ~/.zsh/zoxide.zsh
 }
 
-autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /usr/local/bin/vault vault
-complete -C /usr/local/bin/terraform terraform
+# TODO fzf widgets
+# antibody plugin: "ytet5uy4/fzf-widgets"
+# bindkey '^r'  fzf-insert-history
+# if [[ -f "/usr/local/opt/fzf/shell/completion.zsh" ]]; then
+#   source /usr/local/opt/fzf/shell/completion.zsh
+# fi
+# export FZF_DEFAULT_COMMAND="rg --files"
 
-# When from nix pkg
-# https://github.com/NixOS/nixpkgs-channels/blob/nixos-unstable/pkgs/tools/admin/bash-my-aws/default.nix
-#eval "$(bma-init)"
-# When from git repo
+# When installed from git repo
 if [ -d ${HOME}/.bash-my-aws ]; then
     source ~/.bash-my-aws/aliases
     source ~/.bash-my-aws/bash_completion.sh
 fi
 
-source $HOME/.zsh/correction.zsh
-source $HOME/.zsh/dots.zsh
-
-if test -f "$HOME/.zsh/local.zsh"; then
+if [[ -f "$HOME/.zsh/local.zsh" ]]; then
     source $HOME/.zsh/local.zsh
 fi
 
-if test -f "$HOME/.profile.d/bethel.sh"; then
+if [[ -f "$HOME/.profile.d/bethel.sh" ]]; then
     source $HOME/.profile.d/bethel.sh
 fi
 
+export NODE_VERSIONS=~/.node-versions
+if [[ ! -d "$NODE_VERSIONS" ]]; then
+    mkdir -p $NODE_VERSIONS
+fi
 # Load colors from less, and others.
 [[ -f ~/.LESS_TERMCAP ]] && . ~/.LESS_TERMCAP
 
@@ -224,54 +288,45 @@ autoload -U select-word-style
 select-word-style bash
 
 ## ZAW settings
-zstyle ':filter-select' case-insensitive yes
-zstyle ':filter-select' hist-find-no-dups yes
-bindkey '^Xr' zaw-history
+# zstyle ':filter-select' case-insensitive yes
+# zstyle ':filter-select' hist-find-no-dups yes
+# bindkey '^Xr' zaw-history
+
+## https://github.com/zsh-users/zsh-autosuggestions#key-bindings
 bindkey '^ ' autosuggest-accept
 
-# vterm setup
-vterm_printf(){
-    if [ -n "$TMUX" ]; then
-        # Tell tmux to pass the escape sequences through
-        # (Source: http://permalink.gmane.org/gmane.comp.terminal-emulators.tmux.user/1324)
-        printf "\ePtmux;\e\e]%s\007\e\\" "$1"
-    elif [ "${TERM%%-*}" = "screen" ]; then
-        # GNU screen (screen, screen-256color, screen-256color-bce)
-        printf "\eP\e]%s\007\e\\" "$1"
-    else
-        printf "\e]%s\e\\" "$1"
-    fi
-}
+## Emacs vterm setup
+#
+if [[ "$INSIDE_EMACS" = 'vterm' ]] &&
+    [[ -n ${EMACS_VTERM_PATH} ]] &&
+    [[ -f ${EMACS_VTERM_PATH}/etc/emacs-vterm-bash.sh ]]; then
+    source ${EMACS_VTERM_PATH}/etc/emacs-vterm-bash.sh
 
-if [[ "$INSIDE_EMACS" = 'vterm' ]]; then
-    alias clear='vterm_printf "51;Evterm-clear-scrollback";tput clear'
+    find_file() {
+        vterm_cmd find-file "$(realpath "$@")"
+    }
 fi
 
-vterm_cmd() {
-    local vterm_elisp
-    vterm_elisp=""
-    while [ $# -gt 0 ]; do
-        vterm_elisp="$vterm_elisp""$(printf '"%s" ' "$(printf "%s" "$1" | sed -e 's|\\|\\\\|g' -e 's|"|\\"|g')")"
-        shift
-    done
-    vterm_printf "51;E$vterm_elisp"
-}
+#[ -f "/Users/sme/.ghcup/env" ] && source "/Users/sme/.ghcup/env" # ghcup-env
 
-find_file() {
-    vterm_cmd find-file "$(realpath "$@")"
-}
+# ZSH plugins https://github.com/mattmc3/antidote
+# clone antidote if necessary
+if ! [[ -e ${ZDOTDIR:-~}/.antidote ]]; then
+  git clone https://github.com/mattmc3/antidote.git ${ZDOTDIR:-~}/.antidote
+fi
 
-## Source plugins last
-# dynamic method
-# source <(antibody init)
-# antibody bundle <~/.zsh_plugins.txt
+# source antidote and load plugins from `${ZDOTDIR:-~}/.zsh_plugins.txt`
+source ${ZDOTDIR:-~}/.antidote/antidote.zsh
+antidote load
 
-# static method, after updates run:
-# antibody bundle <~/.zsh_plugins.txt > ~/.zsh_plugins.sh
-source ~/.zsh_plugins.sh
-# This one comes from docker aliases via dbz/kube-aliases
-# but I have a local function naming collision
-unalias kc
-
+## And finally p10k for prompt setup
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# Profiling End
+# unsetopt XTRACE
+# exec 2>&3 3>&-
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

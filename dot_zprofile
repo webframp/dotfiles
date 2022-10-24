@@ -29,25 +29,28 @@ export PASSWORD_STORE_ENABLE_EXTENSIONS=true
 export PASSWORD_STORE_EXTENSIONS_DIR=/usr/local/lib/password-store/extensions
 export ZSH_AUTOSUGGEST_USE_ASYNC=1
 
-
+# testing using get_kube_configs for now
 # https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/
-unset KUBECONFIG
-for file in ~/.kube/config.d/*;do
-    KUBECONFIG+="$file:"
-    export KUBECONFIG
-done
+# unset KUBECONFIG
+# for file in ~/.kube/bethel_configs/*;do
+#     KUBECONFIG+="$file:"
+#     export KUBECONFIG
+# done
 
 # Eliminate duplicates in *paths
 typeset -gU cdpath fpath path manpath path
 
 # Setup path
 path=($HOME/.local/bin
+      $HOME/.cabal/bin
+      $HOME/.ghcup/bin
       $HOME/.cargo/bin
       $HOME/.krew/bin
       $HOME/.bash-my-aws/bin
       $HOME/bin
       $HOME/go/bin
       /Library/TeX/texbin
+      /Applications/Docker.app/Contents/Resources/bin
       $path[@])
 
 export PATH=/usr/local/sbin:/usr/local/bin:$PATH
