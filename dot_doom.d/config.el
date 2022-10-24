@@ -4,7 +4,7 @@
 ;; https://github.com/hlissner/doom-emacs/wiki/Customization#reconfigure-packages
 
 ;; https://github.com/d12frosted/homebrew-emacs-plus/issues/433#issuecomment-1025547880
-;;(add-to-list 'default-frame-alist '(undecorated . t))
+;; (add-to-list 'default-frame-alist '(undecorated . t))
 
 ;;; UI/Appearance
 (when IS-LINUX
@@ -43,6 +43,11 @@
 
 ;; Magit - if I want these back
 ;(setq magit-revision-show-gravatars '("^Author:     " . "^Commit:     "))
+
+;; Projectile stop looking in $HOME
+;; (after! projectile
+;;   (setq projectile-project-root-files-bottom-up
+;;         (remove ".git" projectile-project-root-files-bottom-up)))
 
 ;; disable some checkers
 (after! flycheck
@@ -159,7 +164,8 @@
                            "~/org/ios.org"
                            "~/org/notes.org"
                            "~/org/devou.org"
-                           "~/org/devops.org")
+                           "~/org/devops.org"
+                           "~/org/orchestration.org")
         org-html-htmlize-output-type 'css)
   ;; Test with dired and M-x re-builder
   (add-to-list 'recentf-exclude "org_archive")
