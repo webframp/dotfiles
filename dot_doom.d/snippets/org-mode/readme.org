@@ -1,4 +1,0 @@
-* org mode custom yasnippets
-* reference
-  https://github.com/doomemacs/snippets
-  https://joaotavora.github.io/yasnippet/snippet-development.html#org9801aa7

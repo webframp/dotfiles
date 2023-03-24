@@ -1,12 +1,12 @@
 * Dotfiles
-  Just a bunch of junk you probably don't want to waste time with.
-  If you decide to waste time, you'll need [[https://github.com/twpayne/chezmoi/][chezmoi]] and [[https://getantidote.github.io/][antidote]]
+  A bunch of junk you probably don't want to waste time with. Using [Nix](https://zero-to-nix.com/) + Flakes
+
 ** Setup
-1. Install chezmoi: ~curl -sfL https://git.io/chezmoi | sh~
-2. Install antibody: ~curl -sfL git.io/antibody | sh -s - -b /usr/local/bin~
-3. Install git
-4. Run: ~chezmoi init https://github.com/webframp/dotfiles.git~
-5. Update: ~chezmoi apply~
-** Keeping up to date
-Use chezmoi to upgrade itself: ~chezmoi upgrade~
-Then: ~chezmoi update~
+1. Install Nix: ~curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install~. Don't @ me.
+2. Install git, clone this repo
+3. Run nix ~run . switch -- --flake .~ and watch it do stuff.
+   - Optionally use ~nix --debug run . switch -- --flake .~ to get verbose output.
+** References
+- https://www.chrisportela.com/posts/home-manager-flake/
+- https://gvolpe.com/blog/nix-flakes/
+- https://nix-community.github.io/home-manager/options.html

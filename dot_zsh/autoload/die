@@ -1,4 +1,0 @@
-# -*- mode: sh -*-
-# Exit
-echo "$1" >&2
-exit "${2-1}"
