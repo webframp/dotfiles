@@ -1,5 +1,0 @@
-# -*- mode: sh -*-
-# nerd-font patched (complete) font required! See
-# https://github.com/ryanoasis/nerd-fonts
-# http://nerdfonts.com/#cheat-sheet
-printf "\e[0;32m\uF00C $@\e[0m\n" # 

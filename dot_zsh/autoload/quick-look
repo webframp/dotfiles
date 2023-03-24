@@ -1,2 +1,0 @@
-# -*- mode: sh -*-
-(( $# > 0 )) && qlmanage -p $* &>/dev/null &

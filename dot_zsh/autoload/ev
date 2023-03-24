@@ -1,4 +1,0 @@
-# -*- mode: sh -*-
-source ~/.zsh/helpers.zsh
-__info "Eval'ing data from clipboard"
-eval $(pbpaste)
