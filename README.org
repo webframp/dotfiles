@@ -1,12 +1,115 @@
 * Dotfiles
   A bunch of junk you probably don't want to waste time with. Using [Nix](https://zero-to-nix.com/) + Flakes
 
+  Bootstrap is still WIP. Don't actually try to use this.
 ** Setup
 1. Install Nix: ~curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install~. Don't @ me.
 2. Install git, clone this repo
-3. Run nix ~run . switch -- --flake .~ and watch it do stuff.
+3. Bootstrap dev shell: ~nix develop .~
+3. Run ~nix run . switch -- --flake .#hostname~ and watch it do stuff.
    - Optionally use ~nix --debug run . switch -- --flake .~ to get verbose output.
+   - For home-manager only configs use ~home-manager switch --flake .#user@hostname~
+** Notes
+*** WSL
+Fix for "Unable to determine time zone: No such file or directory (os error 2)"
+#+begin_src sh
+sudo timedatectl set-timezone America/New_York
+sudo hwclock -s
+#+end_src
+
+#+begin_quote
+The Windows Subsystem for Linux kernel can be manually updated with 'wsl --update', but automatic updates cannot occur due to your system settings.
+To receive automatic kernel updates, please enable the Windows Update setting: 'Receive updates for other Microsoft products when you update Windows'.
+For more information please visit https://aka.ms/wsl2kernel.
+#+end_quote
+**** Windows pre-reqs: scoop
+Install
+#+begin_src powershell
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+irm get.scoop.sh | iex
+#+end_src
+Packages
+#+begin_src sh
+scoop bucket add extras
+scoop bucket add nerd-fonts
+scoop install 7zip audacity aws bat cpu-z dark discord dotnet-sdk firefox fzf git git-credential-manager go helm Inconsolata-NF-Mono Iosevka-NF-Mono jq less neofetch neovim powertoys quicklook ripgrep signal slack spotify starship steam teamviewer terraform vcredist2022 vscode win32yank zoom zoxide
+#+end_src
+Install powershell + profile
+#+begin_src
+winget install --id Microsoft.Powershell --source winget
+# restart terminal
+code $PROFILE
+#+end_src
+*** macOS
+???
+*** Ubuntu
+???
+** SSH Keygen
+Use ed25519 already.
+#+begin_src sh
+ssh-keygen -o -a 100 -t ed25519 -f ~/.ssh/id_ed25519 -C "use@machine: detail"
+#+end_src
+** Emacs
+TODO Setup doom
+#+begin_src sh
+git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.config/emacs
+~/.config/emacs/bin/doom install
+#+end_src
+** Org docs
+Clone org repo into ~/org
+** Password Store
+After GPG setup, clone password store repo from backup drive, run:
+#+begin_src sh
+chown -R $(whoami) ~/.gnupg/
+find ~/.gnupg -type f -exec chmod 600 {} \;
+find ~/.gnupg -type d -exec chmod 700 {} \;
+#+end_src
+Super minimal .bash_profile that most uses nixos defaults
+#+begin_src sh
+#!/usr/bin/env bash
+#
+# ensure defaults are loaded
+if test -f /etc/bashrc; then
+    . /etc/bashrc
+fi
+
+# Pass
+alias qp='pass -c "$(find -L "$HOME/.password-store" \( -name .git\* -o -name .gpg-id \) -prune -o $@ -print 2>/dev/null | sed -e "s#${HOME}/.password-store/\{0,1\}##" -e 's#\.gpg##'|sort|fzf)"'
+alias qpo='pass otp -c "$(find -L "$HOME/.password-store" \( -name .git\* -o -name .gpg-id \) -prune -o $@ -print 2>/dev/null | sed -e "s#${HOME}/.password-store/\{0,1\}##" -e 's#\.gpg##'|sort|fzf)"'
+alias qpe='EDITOR=vim pass edit "$(find -L "$HOME/.password-store" \( -name .git\* -o -name .gpg-id \) -prune -o $@ -print 2>/dev/null | sed -e "s#${HOME}/.password-store/\{0,1\}##" -e 's#\.gpg##'|sort|fzf)"'
+
+#+end_src
+** Terminal and 24bit terminfo
+The 24bit color config depends on a custom terminfo file in this repo. Still need to  find a way to build this for systemwide config with nix.
+
+#+begin_src sh
+/usr/bin/tic -x -o ~/.terminfo xterm-24bit.terminfo
+export TERM=xterm-24bit
+alias ssh="TERM=xterm-256color ssh" # maybe needed
+#+end_src
+
+Tmux needs this, which is handled currently by ~extraConfig~ block:
+#+begin_src sh
+set -g default-terminal "xterm-24bit"
+set -g terminal-overrides ',xterm-24bit:Tc'
+#+end_src
+
+Also make sure locale vars are set correctly
+#+begin_src sh
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LANGUAGE=en_US.UTF-8
+#+end_src
+
+Unclear if this is useful yet: https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/config/terminfo.nix
 ** References
+- https://zero-to-nix.com/
+- https://github.com/Misterio77/nix-starter-configs
+- https://github.com/nix-community/NixOS-WSL
 - https://www.chrisportela.com/posts/home-manager-flake/
 - https://gvolpe.com/blog/nix-flakes/
 - https://nix-community.github.io/home-manager/options.html
+- https://medium.com/risan/upgrade-your-ssh-key-to-ed25519-c6e8d60d3c54
+- https://old.reddit.com/r/tmux/comments/mesrci/tmux_2_doesnt_seem_to_use_256_colors/
+- https://github.com/syl20bnr/spacemacs/wiki/Terminal
+- [[https://discourse.nixos.org/t/nix-flakes-nix-store-source-no-such-file-or-directory/17836/9][a bug I also hit]]
