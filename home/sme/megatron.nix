@@ -67,68 +67,71 @@
       rh1 = "reset --hard HEAD~1";
       rh2 = "reset --hard HEAD~2";
       stage = "add -p";
-      ls = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";
-      ll = "log --pretty=format:'%Cred%h%C(yellow)%d%Creset -%Creset %s %Cgreen(%cr) %C(bold blue)<%cn>%Creset' --decorate --numstat";
+      ls =
+        "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";
+      ll =
+        "log --pretty=format:'%Cred%h%C(yellow)%d%Creset -%Creset %s %Cgreen(%cr) %C(bold blue)<%cn>%Creset' --decorate --numstat";
       dlc = "diff --cached HEAD^";
       filelog = "log -u";
       fl = "log -u";
       serve = "daemon --reuseaddr --base-path=. --export-all --verbose";
       pos = "push -o ci.skip";
-      pmr = "push origin HEAD --force-with-lease -o merge_request.remove_source_branch -o merge_request.create";
+      pmr =
+        "push origin HEAD --force-with-lease -o merge_request.remove_source_branch -o merge_request.create";
     };
 
     extraConfig = {
-# [user]
-#   name = Sean Escriva
-#   email = sean.escriva@gmail.com
-#   signingkey = BE06ADB38C7F719D
-# [color]
-#   ui = true
-# [branch]
-#   autosetuprebase = always
-# [init]
-#   defaultBranch = main
-# [core]
-#   excludesfile = ~/.gitignore_global
-#   attributesfile = ~/.gitattributes
-#   editor = ~/bin/EDITOR
-#   pager = delta
-# [interactive]
-#   diffFilter = delta --color-only
-# [merge]
-#   conflictStyle = diff3
-# [diff]
-#   colorMoved = default
-# [push]
-#   default = simple
-# [help]
-#   autocorrect = 1
-# [commit]
-#   gpgsign = true
-# [filter "lfs"]
-#   clean = git-lfs clean -- %f
-#   smudge = git-lfs smudge -- %f
-#   process = git-lfs filter-process
-#   required = true
-# [github]
-#   user = webframp
-# [gitlab]
-#   user = webframp
-# [gitlab "git.bethelservice.org/api/v4"]
-#   user = sescriva
-# [protocol]
-#     version = 2
-# [credential]
-#     helper = osxkeychain # should be per platform value
-# # For work related paths, conditionally adjust git config
-# [includeIf "gitdir:~/src/o11n/"]
-#   path = ~/.work.gitconfig
-# [includeIf "gitdir:~/src/Orchestration/"]
-#   path = ~/.work.gitconfig
-# [includeIf "gitdir:~/src/appsvc/"]
-#   path = ~/.work.gitconfig
-# [includeIf "gitdir:~/src/Redmine-plugins/"]
-#   path = ~/.work.gitconfig
+      # [user]
+      #   name = Sean Escriva
+      #   email = sean.escriva@gmail.com
+      #   signingkey = BE06ADB38C7F719D
+      # [color]
+      #   ui = true
+      # [branch]
+      #   autosetuprebase = always
+      # [init]
+      #   defaultBranch = main
+      # [core]
+      #   excludesfile = ~/.gitignore_global
+      #   attributesfile = ~/.gitattributes
+      #   editor = ~/bin/EDITOR
+      #   pager = delta
+      # [interactive]
+      #   diffFilter = delta --color-only
+      # [merge]
+      #   conflictStyle = diff3
+      # [diff]
+      #   colorMoved = default
+      # [push]
+      #   default = simple
+      # [help]
+      #   autocorrect = 1
+      # [commit]
+      #   gpgsign = true
+      # [filter "lfs"]
+      #   clean = git-lfs clean -- %f
+      #   smudge = git-lfs smudge -- %f
+      #   process = git-lfs filter-process
+      #   required = true
+      # [github]
+      #   user = webframp
+      # [gitlab]
+      #   user = webframp
+      # [gitlab "git.bethelservice.org/api/v4"]
+      #   user = sescriva
+      # [protocol]
+      #     version = 2
+      # [credential]
+      #     helper = osxkeychain # should be per platform value
+      # # For work related paths, conditionally adjust git config
+      # [includeIf "gitdir:~/src/o11n/"]
+      #   path = ~/.work.gitconfig
+      # [includeIf "gitdir:~/src/Orchestration/"]
+      #   path = ~/.work.gitconfig
+      # [includeIf "gitdir:~/src/appsvc/"]
+      #   path = ~/.work.gitconfig
+      # [includeIf "gitdir:~/src/Redmine-plugins/"]
+      #   path = ~/.work.gitconfig
     };
   };
 
