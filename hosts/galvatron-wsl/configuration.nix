@@ -202,6 +202,7 @@
     # TODO how to enable home-manager as a module to manage user dotfiles?
   ]; # ++ [ (import ./pkg-granted.nix) ];
 
+  environment.pathsToLink = [ "/share/zsh" ];
   environment.shellAliases = {
     # clipboard stuff
     pbpaste = "powershell.exe -noprofile Get-Clipboard";
