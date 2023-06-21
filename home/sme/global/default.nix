@@ -21,9 +21,7 @@
   # for i in $(seq 1 5); do /run/current-system/sw/bin/time -p ~/.nix-profile/bin/zsh -i -c exit; done
   programs.zsh = {
     enable = true;
-    enableAutosuggestions = true;
     enableCompletion = true;
-    enableSyntaxHighlighting = true;
     enableVteIntegration = true;
     autocd = true;
     history = {
@@ -32,6 +30,11 @@
       ignoreDups = true;
       ignoreSpace = true;
     };
+    envExtra = ''
+      export TERM=xterm-24bit
+      export ZSH_AUTOSUGGEST_USE_ASYNC=true;
+    '';
+
     initExtra = builtins.readFile ./includes/zshrc;
     loginExtra = builtins.readFile ./includes/zlogin;
     # https://nixos.wiki/wiki/Zsh#Zplug
@@ -43,7 +46,18 @@
         # Plugins live in their own forks that are kept up to date.
         # I've been bitten by authors removing plugins from upstream before
         { name = "webframp/zsh-async"; }
-        { name = "webframp/zsh-completions"; }
+        {
+          name = "webframp/zsh-completions";
+          tags = [ "defer:0" ];
+        }
+        {
+          name = "webframp/zsh-autosuggestions";
+          tags = [ "defer:2" "on:'webframp/zsh-completions'" ];
+        }
+        {
+          name = "webframp/fast-syntax-highlighting";
+          tags = [ "defer:3" "on:'webframp/zsh-autosuggestions'" ];
+        }
         {
           name = "webframp/powerlevel10k";
           tags = [ "as:theme" "depth:1" ];
@@ -80,6 +94,22 @@
 
   home.file.".gemrc".text = "gem: --no-ri --no-rdoc";
   home.file.".p10k.zsh".source = ./includes/p10k.zsh;
+
+  home.shellAliases = {
+    # git
+    gst = "git status";
+    gpo = "git push origin HEAD";
+    gpu = "git pull --prune --tags --all";
+
+    # exa replaces ls
+    l = "exa";
+    la = "exa -la";
+    ll = "exa -lag";
+    lg = "exa -bghHliS --git";
+    tree = "exa --tree";
+
+    reload = "exec $SHELL -l";
+  };
 
   # Ensure UTF-8
   home.language = {
