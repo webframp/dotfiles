@@ -178,10 +178,8 @@
   environment.shells = with pkgs; [ zsh ];
   environment.pathsToLink = [ "/share/zsh" ];
   environment.variables = {
-    TERM = "xterm-24bit";
     LESSCHARSET = "utf-8";
     BAT_THEME = "base16-256";
-    ZSH_AUTOSUGGEST_USE_ASYNC = "true";
     # Colors for manpages
     # LESS_TERMCAP_mb = "$'E[01;31m'";
     # LESS_TERMCAP_md = "$'E[01;31m'";
@@ -196,19 +194,6 @@
     # clipboard stuff
     pbpaste = "powershell.exe -noprofile Get-Clipboard";
     pbcopy = "clip.exe";
-
-    l = "exa";
-    la = "exa -la";
-    ll = "exa -lag";
-    lg = "exa -bghHliS --git";
-    tree = "exa --tree";
-
-    reload = "exec $SHELL -l";
-
-    # git
-    gst = "git status";
-    gpo = "git push origin HEAD";
-    gpu = "git pull --prune --tags --all";
 
     # doom
     doom = "~/.config/emacs/bin/doom";
