@@ -3,19 +3,13 @@
 { inputs, outputs, lib, config, pkgs, modulesPath, ... }: {
   # You can import other NixOS modules here
   imports = [
-    # If you want to use modules from other flakes (such as nixos-hardware):
-    # inputs.hardware.nixosModules.common-cpu-amd
-    # inputs.hardware.nixosModules.common-ssd
     "${modulesPath}/profiles/minimal.nix"
     inputs.nixos-wsl.nixosModules.wsl
 
     # Import home-manager module
     inputs.home-manager.nixosModules.home-manager
 
-    # You can also split up your configuration and import pieces of it here:
-    # ./users.nix
-
-    # Import your generated (nixos-generate-config) hardware configuration
+    # Generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
 
     ../common/users/sme
@@ -27,6 +21,7 @@
     defaultUser = "sme";
     startMenuLaunchers = true;
 
+    # TODO sort out docker or podman in WSL
     # Enable native Docker support
     # docker-native.enable = true;
 
@@ -36,37 +31,17 @@
   };
 
   nixpkgs = {
-    # You can add overlays here
     overlays = [
-      # Add overlays your own flake exports (from overlays and pkgs dir):
       outputs.overlays.additions
       outputs.overlays.modifications
       outputs.overlays.unstable-packages
-
-      # If you want to use overlays exported from other flakes:
-      # neovim-nightly-overlay.overlays.default
-
-      # Or define it inline, for example:
-      # (final: prev: {
-      #   hi = final.hello.overrideAttrs (oldAttrs: {
-      #     patches = [ ./change-hello-to-hi.patch ];
-      #   });
-      # })
     ];
-    # Configure your nixpkgs instance
-    config = {
-      # Disable if you don't want unfree packages
-      allowUnfree = true;
-    };
+    config = { allowUnfree = true; };
   };
 
   nix = {
-    # This will add each flake input as a registry
-    # To make nix3 commands consistent with your flake
     registry = lib.mapAttrs (_: value: { flake = value; }) inputs;
-
-    # This will additionally add your inputs to the system's legacy channels
-    # Making legacy nix commands consistent as well, awesome!
+    # make legacy nix commands consistent
     nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}")
       config.nix.registry;
 
@@ -77,9 +52,8 @@
     };
 
     settings = {
-      # Enable flakes and new 'nix' command
+      # enable flakes + nix
       experimental-features = "nix-command flakes";
-      # Deduplicate and optimize nix store
       auto-optimise-store = true;
       trusted-users = [ "root" "sme" ];
 
@@ -198,11 +172,12 @@
     # afterwards run: (these should be automatic somehow)
     # granted browser set -b firefox -p /mnt/c/Users/sme/scoop/shims/firefox.exe (if using non-wsl ff)
     # granted browser set-sso -b firefox
+  ];
 
-    # TODO how to enable home-manager as a module to manage user dotfiles?
-  ]; # ++ [ (import ./pkg-granted.nix) ];
-
+  users.users.sme.shell = pkgs.zsh;
+  environment.shells = with pkgs; [ zsh ];
   environment.pathsToLink = [ "/share/zsh" ];
+
   environment.shellAliases = {
     # clipboard stuff
     pbpaste = "powershell.exe -noprofile Get-Clipboard";
@@ -243,11 +218,6 @@
     enableCompletion = true;
     enableLsColors = true;
     interactiveShellInit = ''
-      # Ensure UTF-8
-      export LC_ALL=en_US.UTF-8
-      export LANG=en_US.UTF-8
-      export LANGUAGE=en_US.UTF-8
-
       # Colors for manpages
       export LESS_TERMCAP_mb=$'\E[01;31m'
       export LESS_TERMCAP_md=$'\E[01;31m'
@@ -260,6 +230,7 @@
       # This requires xterm-24bit.terminfo file and
       # running the command: tic -x -o ~/.terminfo xterm-24bit.terminfo
       # no idea yet how to integrate this into nixos
+      # https://github.com/NixOS/nixpkgs/blob/master/pkgs/tools/misc/mtm/default.nix#L24
       export TERM=xterm-24bit
 
       # maybe if ssh breaks
@@ -339,14 +310,7 @@
   programs.browserpass.enable = true;
   programs.firefox.nativeMessagingHosts.browserpass = true;
 
-  # TODO
-  # user.defaultUserShell = pkgs.zsh;
-  programs.zsh = {
-    enable = true;
-    # https://mynixos.com/help/home-manager
-    # https://nixos.wiki/wiki/Zsh
-    # need to setup home-manager?
-  };
+  programs.zsh = { enable = true; };
 
   programs.tmux = {
     enable = true;
