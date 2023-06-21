@@ -71,8 +71,8 @@
   };
 
   networking.hostName = "galvatron-wsl";
-  environment.noXlibs = false;
 
+  environment.noXlibs = false;
   environment.systemPackages = with pkgs; [
     man-pages
     man-pages-posix
@@ -177,6 +177,20 @@
   users.users.sme.shell = pkgs.zsh;
   environment.shells = with pkgs; [ zsh ];
   environment.pathsToLink = [ "/share/zsh" ];
+  environment.variables = {
+    TERM = "xterm-24bit";
+    LESSCHARSET = "utf-8";
+    BAT_THEME = "base16-256";
+    ZSH_AUTOSUGGEST_USE_ASYNC = "true";
+    # Colors for manpages
+    # LESS_TERMCAP_mb = "$'E[01;31m'";
+    # LESS_TERMCAP_md = "$'E[01;31m'";
+    # LESS_TERMCAP_me = "$'E[0m'";
+    # LESS_TERMCAP_se = "$'E[0m'";
+    # LESS_TERMCAP_so = "$'E[01;44;33m'";
+    # LESS_TERMCAP_ue = "$'E[0m'";
+    # LESS_TERMCAP_us = "$'E[01;32m'";
+  };
 
   environment.shellAliases = {
     # clipboard stuff
