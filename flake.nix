@@ -54,7 +54,7 @@
       # Stuff to upstream into nixpkgs
       nixosModules = import ./modules/nixos;
       # Stuff to upstream into home-manager
-      homeManagerModules = import ./modules/home-manager;
+      # homeManagerModules = import ./modules/home-manager;
 
       # NixOS entrypoint
       # Use:'nixos-rebuild --flake .#hostname'
