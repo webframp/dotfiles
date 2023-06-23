@@ -4,14 +4,14 @@
 { lib, stdenv, fetchurl }:
 let
   pname = "granted";
-  version = "0.9.0";
+  version = "0.14.0";
 in stdenv.mkDerivation {
   inherit pname version;
   sourceRoot = ".";
   src = fetchurl {
     url =
       "https://releases.commonfate.io/${pname}/v${version}/${pname}_${version}_linux_x86_64.tar.gz";
-    sha256 = "3398ffd1769216c6162acd7f94e585c0b3d1a1ac79dbd119a373a4f911b45780";
+    hash = "sha256-wHeh+BbeMtbJMEDZxOvihqcNpA4pR0s0Re0vhxcbq88=";
   };
 
   dontConfigure = true;
