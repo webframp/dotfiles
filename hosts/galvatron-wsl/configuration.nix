@@ -179,7 +179,7 @@
   environment.pathsToLink = [ "/share/zsh" ];
   environment.variables = {
     LESSCHARSET = "utf-8";
-    BAT_THEME = "base16-256";
+    # BAT_THEME = "base16-256";
     # Colors for manpages
     # LESS_TERMCAP_mb = "$'E[01;31m'";
     # LESS_TERMCAP_md = "$'E[01;31m'";
