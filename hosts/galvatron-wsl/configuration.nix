@@ -386,6 +386,14 @@
   #  wantedBy = [ "multi-user.target" ];
   #};
 
+  virtualisation = {
+    podman = {
+      enable = true;
+      dockerCompat = true;
+      defaultNetwork.settings = { dns_enabled = true; };
+    };
+  };
+
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "23.05";
 }

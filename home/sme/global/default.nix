@@ -58,7 +58,7 @@
           name = "webframp/fast-syntax-highlighting";
           tags = [ "defer:3" "on:'webframp/zsh-autosuggestions'" ];
         }
-        { name = "webframp/base16-shell"; }
+        # { name = "webframp/base16-shell"; }
         {
           name = "webframp/powerlevel10k";
           tags = [ "as:theme" "depth:1" ];
