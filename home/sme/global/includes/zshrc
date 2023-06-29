@@ -4,5 +4,8 @@ alias qp='pass -c "$(find -L "$HOME/.password-store" \( -name .git\* -o -name .g
 alias qpo='pass otp -c "$(find -L "$HOME/.password-store" \( -name .git\* -o -name .gpg-id \) -prune -o $@ -print 2>/dev/null | sed -e "s#${HOME}/.password-store/\{0,1\}##" -e 's#\.gpg##'|sort|fzf)"'
 alias qpe='EDITOR=vim pass edit "$(find -L "$HOME/.password-store" \( -name .git\* -o -name .gpg-id \) -prune -o $@ -print 2>/dev/null | sed -e "s#${HOME}/.password-store/\{0,1\}##" -e 's#\.gpg##'|sort|fzf)"'
 
+# zsh-autosuggestions
+bindkey '^ ' autosuggest-accept
+
 # https://github.com/romkatv/powerlevel10k
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
