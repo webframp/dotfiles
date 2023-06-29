@@ -20,14 +20,6 @@
     wslConf.automount.root = "/mnt";
     defaultUser = "sme";
     startMenuLaunchers = true;
-
-    # TODO sort out docker or podman in WSL
-    # Enable native Docker support
-    # docker-native.enable = true;
-
-    # Enable integration with Docker Desktop (needs to be installed)
-    # docker-desktop.enable = true;
-
   };
 
   nixpkgs = {
@@ -179,7 +171,14 @@
   environment.pathsToLink = [ "/share/zsh" ];
   environment.variables = {
     LESSCHARSET = "utf-8";
+
+    # Mainly for Emacs 28
+    # https://github.com/emacs-mirror/emacs/blob/master/etc/NEWS.28#L179-L183
+    COLORTERM = "truecolor";
+
     # BAT_THEME = "base16-256";
+
+    # Moved these to shell init
     # Colors for manpages
     # LESS_TERMCAP_mb = "$'E[01;31m'";
     # LESS_TERMCAP_md = "$'E[01;31m'";
