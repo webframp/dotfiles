@@ -351,6 +351,10 @@
       # Mouse enabled
       set-option -g mouse on
 
+      # Set titles
+      tmux set-option -g set-titles on
+      tmux set-option -g set-titles-string "#T / #W"
+
       # copy to X11 clipboard
       if -b 'command -v xsel > /dev/null 2>&1' 'bind y run -b "tmux save-buffer - | xsel -i -b"'
       if -b '! command -v xsel > /dev/null 2>&1 && command -v xclip > /dev/null 2>&1' 'bind y run -b "tmux save-buffer - | xclip -i -selection clipboard >/dev/null 2>&1"'
