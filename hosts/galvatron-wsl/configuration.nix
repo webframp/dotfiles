@@ -323,17 +323,19 @@
     # Force tmux to use /tmp for sockets (WSL2 compat)
     secureSocket = false;
     clock24 = true;
-    plugins = with pkgs; [
-      tmuxPlugins.better-mouse-mode
-      tmuxPlugins.continuum
-      tmuxPlugins.extrakto # prefix + tab
-      tmuxPlugins.fzf-tmux-url
-      tmuxPlugins.onedark-theme
-      tmuxPlugins.pain-control
-      tmuxPlugins.resurrect
-      tmuxPlugins.sensible
-      tmuxPlugins.tmux-thumbs # prefix + I
-      tmuxPlugins.yank
+    plugins = with pkgs.tmuxPlugins; [
+      better-mouse-mode
+      continuum
+      extrakto # prefix + tab
+      fzf-tmux-url
+      # TODO: make a tokyo-night theme based on onedark-theme package?
+      # https://github.com/odedlaz/tmux-onedark-theme/tree/master
+      nord
+      pain-control
+      resurrect
+      sensible
+      tmux-thumbs # prefix + I
+      yank
     ];
 
     extraConfig = ''
