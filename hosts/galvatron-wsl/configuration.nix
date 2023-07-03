@@ -105,6 +105,7 @@
     vault
     zip
     zoxide
+    termdown
     tmux
     emacs-nox
     vault
@@ -119,6 +120,7 @@
     kubectl
     kubectx
     kubernetes-helm
+    kustomize
     go
     clang
     nodejs
