@@ -1,7 +1,7 @@
 # inspired by:
 # https://github.com/NixOS/nixpkgs/blob/nixos-22.11/pkgs/tools/security/vault/vault-bin.nix#L55
 # with import <nixpkgs> {};
-{ lib, stdenv, fetchurl }:
+{ lib, stdenv, fetchurl, installShellFiles }:
 let
   pname = "granted";
   version = "0.14.0";
@@ -34,11 +34,20 @@ in stdenv.mkDerivation {
 
   dontPatchELF = true;
 
+  # TODO: Need to run granted completion -s zsh or enable completion if desired
+  # https://docs.commonfate.io/granted/configuration/#autocompletion
+  ## further optional stuff to add to postInstall
+  ## only if preference is to use non-wsl browser
+  # $out/bin/granted browser set -b firefox -p /mnt/c/Users/sme/scoop/shims/firefox.exe
+  ## only if preference is to use firefox as sso browser
+  # $out/bin/granted browser set-sso -b firefox
+  # NOTE: This doesn't work yet due to how granted completion command only supports writing to specific files
+  # nativeBuildInputs = [ installShellFiles ];
   # postInstall = ''
-  #   # only if preference is to use non-wsl browser
-  #   $out/bin/granted browser set -b firefox -p /mnt/c/Users/sme/scoop/shims/firefox.exe
-  #   # only if preference is to use firefox as sso browser
-  #   $out/bin/granted browser set-sso -b firefox
+  #   installShellCompletion --cmd assume \
+  #     --bash <($out/bin/granted completion -s bash) \
+  #     --fish <($out/bin/granted completsion -s fish) \
+  #     --zsh <($out/bin/granted completion -s zsh)
   # '';
 
   meta = with lib; {
