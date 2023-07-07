@@ -145,6 +145,7 @@
     # TODO how do I get rid of needing to write nodePackages here?
     nodePackages.vscode-json-languageserver-bin
     nodePackages.bash-language-server
+    python3Full
 
     # Fonts
     inconsolata-nerdfont
