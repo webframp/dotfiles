@@ -15,6 +15,7 @@
     username = lib.mkDefault "sme";
     homeDirectory = lib.mkDefault "/home/${config.home.username}";
     stateVersion = lib.mkDefault "23.05";
+    packages = with pkgs; [ git-extras ];
   };
 
   # startup speed checking
@@ -100,6 +101,7 @@
     gst = "git status";
     gpo = "git push origin HEAD";
     gpu = "git pull --prune --tags --all";
+    repo = "git browse >/dev/null";
 
     # exa replaces ls
     l = "exa";
