@@ -105,6 +105,7 @@
     wsl-open
     unzip
     vault
+    xdg-utils
     zip
     zoxide
     termdown
