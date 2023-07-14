@@ -96,11 +96,13 @@
     pass-git-helper
     pinentry
     pinentry-curses
+    pry
     ripgrep
     speedtest-cli
     tree
     urlview
     wget
+    wsl-open
     unzip
     vault
     zip
