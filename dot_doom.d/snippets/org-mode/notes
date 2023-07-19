@@ -1,8 +1,0 @@
-# -*- mode: snippet -*-
-# name: speaker notes block
-# uuid: notes
-# key: notes
-# --
-#+begin_notes
-`%`$0
-#+end_notes

@@ -1,2 +1,0 @@
-# -*- mode: sh -*-
-ec -e '(kill-emacs)' -s $1

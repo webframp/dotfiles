@@ -1,2 +1,0 @@
-# -*- mode: sh -*-
-curl -s "https://www.gitignore.io/api/$*"
