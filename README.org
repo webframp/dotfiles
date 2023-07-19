@@ -1,5 +1,5 @@
 * Dotfiles
-  A bunch of junk you probably don't want to waste time with. Using [Nix](https://zero-to-nix.com/) + Flakes
+  A bunch of junk you probably don't want to waste time with. Using [[https://zero-to-nix.com/][Nix]] + Flakes
 
   Bootstrap is still WIP. Don't actually try to use this.
 ** Setup
