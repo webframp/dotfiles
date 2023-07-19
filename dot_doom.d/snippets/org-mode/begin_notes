@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: #+begin_notes ... block
-# key: <n
-# type: command
-# --
-(doom-snippets-expand :uuid "notes")

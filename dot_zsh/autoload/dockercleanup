@@ -1,6 +1,0 @@
-# -*- mode: sh -*-
-source ~/.zsh/helpers.zsh
-# https://deepu.tech/docker-env-cleanup/
-docker rm -v $(docker ps -a -q -f status=exited);
-docker volume rm $(docker volume ls -q -f dangling=true);
-docker image rm $(docker images -q -f dangling=true);

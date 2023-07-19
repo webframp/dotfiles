@@ -1,2 +1,0 @@
-# -*- mode: sh -*-
-e --daemon=$1 && ec -s $1
