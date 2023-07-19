@@ -142,12 +142,20 @@
   home.file.".gemrc".text = "gem: --no-ri --no-rdoc";
   home.file.".p10k.zsh".source = ./includes/p10k.zsh;
 
+  home.file.".xterm-24bit.terminfo" = {
+    source = ./includes/xterm-24bit.terminfo;
+    onChange = "tic -x -o ~/.terminfo ~/.xterm-24bit.terminfo";
+  };
+
   home.shellAliases = {
     # git
     gst = "git status";
     gpo = "git push origin HEAD";
     gpu = "git pull --prune --tags --all";
     repo = "git browse >/dev/null";
+
+    # SSH
+    ssh = "TERM=xterm-256color ssh";
 
     # exa replaces ls
     l = "exa";
