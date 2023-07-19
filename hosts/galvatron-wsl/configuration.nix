@@ -70,10 +70,12 @@
     man-pages-posix
 
     awscli2
+    awslogs
     azure-cli
     bat
     browserpass
     coreutils
+    csvkit
     delta
     dig
     exa
@@ -91,6 +93,7 @@
     keychain
     mob
     neofetch
+    onefetch
     (pass.withExtensions
       (ext: with ext; [ pass-genphrase pass-otp pass-update ]))
     pass-git-helper
@@ -103,6 +106,7 @@
     urlview
     wget
     wsl-open
+    wslu
     unzip
     vault
     xdg-utils
