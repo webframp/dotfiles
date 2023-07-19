@@ -31,6 +31,7 @@
       git
       git-lfs
       git-extras
+      glibcLocales
       gnupg
       htop
       inetutils
