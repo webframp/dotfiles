@@ -8,7 +8,7 @@
 3. Bootstrap dev shell: ~nix develop .~
 3. Run ~nix run . switch -- --flake .#hostname~ and watch it do stuff.
    - Optionally use ~nix --debug run . switch -- --flake .~ to get verbose output.
-   - For home-manager only configs use ~home-manager switch --flake .#user@hostname~
+   - Non-NixOS, home-manager only configs use ~home-manager switch --flake .#user@hostname~
 ** Notes
 *** WSL
 Fix for "Unable to determine time zone: No such file or directory (os error 2)"
@@ -82,13 +82,25 @@ alias qpe='EDITOR=vim pass edit "$(find -L "$HOME/.password-store" \( -name .git
 ** Terminal and 24bit terminfo
 The 24bit color config depends on a custom terminfo file in this repo. Still need to  find a way to build this for systemwide config with nix.
 
+Unclear if this is useful yet: https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/config/terminfo.nix
+
+For now this is handled per user automatically using home-manager in ~home/sme/global/default.nix~ with:
+
+#+begin_src nix
+  home.file.".xterm-24bit.terminfo" = {
+    source = ./includes/xterm-24bit.terminfo;
+    onChange = "tic -x -o ~/.terminfo ~/.xterm-24bit.terminfo";
+  };
+#+end_src
+
+*** Manual setup
 #+begin_src sh
 /usr/bin/tic -x -o ~/.terminfo xterm-24bit.terminfo
 export TERM=xterm-24bit
 alias ssh="TERM=xterm-256color ssh" # maybe needed
 #+end_src
 
-Tmux needs this, which is handled currently by ~extraConfig~ block:
+Add to tmux config
 #+begin_src sh
 set -g default-terminal "xterm-24bit"
 set -g terminal-overrides ',xterm-24bit:Tc'
@@ -101,7 +113,6 @@ export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
 #+end_src
 
-Unclear if this is useful yet: https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/config/terminfo.nix
 ** References
 - https://zero-to-nix.com/
 - https://github.com/Misterio77/nix-starter-configs
