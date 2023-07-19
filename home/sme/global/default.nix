@@ -15,7 +15,52 @@
     username = lib.mkDefault "sme";
     homeDirectory = lib.mkDefault "/home/${config.home.username}";
     stateVersion = lib.mkDefault "23.05";
-    packages = with pkgs; [ git-extras ];
+    packages = with pkgs; [
+      awscli2
+      azure-cli
+      awslogs
+      bat
+      coreutils
+      csvkit
+      delta
+      dig
+      exa
+      fd
+      file
+      fzf
+      git
+      git-lfs
+      git-extras
+      gnupg
+      htop
+      inetutils
+      ispell
+      jq
+      yq-go
+      keychain
+      mob
+      neofetch
+      onefetch
+      pry
+      ripgrep
+      tmux
+      tree
+      urlview
+      # Instead of: sudo ln -s /mnt/c/WINDOWS/system32/clip.exe /usr/bin/wl-copy
+      wl-clipboard
+      wget
+      unzip
+      vault
+      zip
+      zoxide
+
+      # Nix related
+      cachix
+      direnv
+      nix-index
+      nox
+      patchelf
+    ];
   };
 
   # startup speed checking

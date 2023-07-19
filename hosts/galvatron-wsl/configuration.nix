@@ -69,56 +69,18 @@
     man-pages
     man-pages-posix
 
-    awscli2
-    awslogs
-    azure-cli
-    bat
     browserpass
-    coreutils
-    csvkit
-    delta
-    dig
-    exa
-    fd
-    file
-    fzf
-    git
-    git-lfs
-    gnupg
-    htop
-    inetutils
-    ispell
-    jq
-    yq-go
-    keychain
-    mob
-    neofetch
-    onefetch
     (pass.withExtensions
       (ext: with ext; [ pass-genphrase pass-otp pass-update ]))
     pass-git-helper
     pinentry
     pinentry-curses
-    pry
-    ripgrep
     speedtest-cli
-    tree
-    urlview
-    wget
     wsl-open
     wslu
-    unzip
-    vault
     xdg-utils
-    zip
-    zoxide
     termdown
-    tmux
     emacs-nox
-    vault
-    # Instead of: sudo ln -s /mnt/c/WINDOWS/system32/clip.exe /usr/bin/wl-copy
-    wl-clipboard
-
     podman
     podman-compose
 
