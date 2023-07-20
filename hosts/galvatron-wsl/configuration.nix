@@ -69,7 +69,6 @@
     man-pages
     man-pages-posix
 
-    browserpass
     (pass.withExtensions
       (ext: with ext; [ pass-genphrase pass-otp pass-update ]))
     pass-git-helper
