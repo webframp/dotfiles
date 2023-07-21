@@ -19,7 +19,6 @@
       awscli2
       azure-cli
       awslogs
-      bat
       coreutils
       csvkit
       delta
@@ -111,6 +110,11 @@
         }
       ];
     };
+  };
+
+  programs.bat = {
+    enable = true;
+    extraPackages = with pkgs.bat-extras; [ batdiff batman batgrep batwatch ];
   };
 
   programs.fzf = {
