@@ -160,6 +160,9 @@
     lg = "exa -bghHliS --git";
     tree = "exa --tree";
 
+    # nicer man pages
+    man = "batman";
+
     reload = "exec $SHELL -l";
   };
 

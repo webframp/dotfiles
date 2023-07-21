@@ -173,9 +173,6 @@
     kx = "kubectx";
     kn = "kubens";
 
-    # updates
-    yay = "sudo nixos-rebuild switch --flake .#galvatron";
-
     # granted.dev tools
     assume = "source assume";
 
@@ -187,15 +184,6 @@
     enableCompletion = true;
     enableLsColors = true;
     interactiveShellInit = ''
-      # Colors for manpages
-      export LESS_TERMCAP_mb=$'\E[01;31m'
-      export LESS_TERMCAP_md=$'\E[01;31m'
-      export LESS_TERMCAP_me=$'\E[0m'
-      export LESS_TERMCAP_se=$'\E[0m'
-      export LESS_TERMCAP_so=$'\E[01;44;33m'
-      export LESS_TERMCAP_ue=$'\E[0m'
-      export LESS_TERMCAP_us=$'\E[01;32m'
-
       # This requires xterm-24bit.terminfo file and
       # running the command: tic -x -o ~/.terminfo xterm-24bit.terminfo
       # no idea yet how to integrate this into nixos
