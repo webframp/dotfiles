@@ -9,6 +9,7 @@
     };
   };
 
+  nixpkgs.config.allowUnfreePredicate = _: true;
   programs.home-manager.enable = true;
 
   home = {
@@ -134,6 +135,34 @@
   };
 
   programs.exa = { enable = true; };
+
+  # programs.vscode = {
+  #   enable = true;
+  #   extensions = with pkgs.vscode-extensions;
+  #     [
+  #       asvetliakov.vscode-neovim
+  #       bbenoist.nix
+  #       davidanson.vscode-markdownlint
+  #       eamodio.gitlens
+  #       github.copilot
+  #       ms-vscode.powershell
+  #       ms-vscode-remote.remote-ssh
+  #       streetsidesoftware.code-spell-checker
+  #     ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+  #       {
+  #         name = "copilot-chat";
+  #         publisher = "github";
+  #         version = "0.4.1";
+  #         sha256 = "sha256-qoIkvuPB2Y5Rfpq0vt8/6MzZCBTHRVsIO9e58asWXgU=";
+  #       }
+  #       {
+  #         name = "tokyo-night";
+  #         publisher = "enkia";
+  #         version = "1.0.0";
+  #         sha256 = "sha256-/fM+aUDUzVJ6P38i+GrxhLv2eLJNa8OFkKsM4yPBy4c=";
+  #       }
+  #     ];
+  # };
 
   home.file.".gemrc".text = "gem: --no-ri --no-rdoc";
   home.file.".p10k.zsh".source = ./includes/p10k.zsh;
