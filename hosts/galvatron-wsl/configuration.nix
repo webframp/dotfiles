@@ -64,6 +64,7 @@
 
   networking.hostName = "galvatron-wsl";
 
+  programs.nix-ld.enable = true;
   environment.noXlibs = false;
   environment.systemPackages = with pkgs; [
     man-pages
@@ -148,6 +149,12 @@
     COLORTERM = "truecolor";
 
     # BAT_THEME = "base16-256";
+
+    # nix-ld https://nixos.wiki/wiki/Visual_Studio_Code#nix-ld
+    NIX_LD_LIBRARY_PATH =
+      lib.mkDefault (lib.makeLibraryPath [ pkgs.stdenv.cc.cc ]);
+    NIX_LD = lib.mkDefault
+      (lib.fileContents "${pkgs.stdenv.cc}/nix-support/dynamic-linker");
 
     # Moved these to shell init
     # Colors for manpages
