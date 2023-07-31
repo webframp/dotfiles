@@ -52,6 +52,7 @@
       wget
       unzip
       vault
+      youtube-dl
       zip
       zoxide
 
