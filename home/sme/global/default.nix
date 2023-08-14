@@ -53,6 +53,7 @@
       unzip
       vault
       youtube-dl
+      zbar
       zip
       zoxide
 
