@@ -2,4 +2,5 @@
 # Build using 'nix build .#example' or (legacy) 'nix-build -A example'
 { pkgs ? import <nixpkgs> { } }: rec {
   granted = pkgs.callPackage ./granted { };
+  risor = pkgs.callPackage ./risor { };
 }
