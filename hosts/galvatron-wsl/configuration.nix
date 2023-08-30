@@ -137,6 +137,7 @@
     # granted browser set -b firefox -p /mnt/c/Users/sme/scoop/shims/firefox.exe (if using non-wsl ff)
     # granted browser set-sso -b firefox
     risor
+    iamlive
   ];
 
   users.users.sme.shell = pkgs.zsh;
