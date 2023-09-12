@@ -75,6 +75,7 @@
     pass-git-helper
     pinentry
     pinentry-curses
+    p4
     speedtest-cli
     wsl-open
     wslu
