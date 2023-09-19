@@ -86,6 +86,11 @@
     podman
     podman-compose
 
+    # gui stuff
+    material-icons
+    shared-mime-info
+    super-tiny-icons
+
     # kubernetes
     k9s
     kubectl

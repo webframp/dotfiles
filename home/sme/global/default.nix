@@ -51,6 +51,7 @@
       wl-clipboard
       wget
       unzip
+      vanilla-dmz
       vault
       youtube-dl
       zbar
@@ -65,6 +66,8 @@
       patchelf
     ];
   };
+
+  gtk = { enable = true; };
 
   # startup speed checking
   # for i in $(seq 1 5); do /run/current-system/sw/bin/time -p ~/.nix-profile/bin/zsh -i -c exit; done
@@ -168,6 +171,9 @@
 
   home.file.".gemrc".text = "gem: --no-ri --no-rdoc";
   home.file.".p10k.zsh".source = ./includes/p10k.zsh;
+
+  home.file.".icons/default".source =
+    "${pkgs.vanilla-dmz}/share/icons/Vanilla-DMZ";
 
   home.file.".xterm-24bit.terminfo" = {
     source = ./includes/xterm-24bit.terminfo;
