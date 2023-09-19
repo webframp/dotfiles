@@ -65,6 +65,7 @@
   networking.hostName = "galvatron-wsl";
 
   programs.nix-ld.enable = true;
+  programs.dconf.enable = true;
   environment.noXlibs = false;
   environment.systemPackages = with pkgs; [
     man-pages
@@ -119,13 +120,11 @@
     python3Full
     vale
 
-    # Fonts
-    inconsolata-nerdfont
-
     # Super lightweight browser, small install, fast launch for testing
     dillo
     st
     firefox
+    gnome.gnome-tweaks
 
     # Nix related
     cachix
@@ -142,6 +141,23 @@
     risor
     iamlive
   ];
+
+  fonts = {
+    fontconfig.enable = true;
+    fonts = with pkgs;
+      [
+        (nerdfonts.override {
+          fonts = [
+            "DroidSansMono"
+            "FiraCode"
+            "Hack"
+            "Inconsolata"
+            "Iosevka"
+            "JetBrainsMono"
+          ];
+        })
+      ];
+  };
 
   users.users.sme.shell = pkgs.zsh;
   environment.shells = with pkgs; [ zsh ];
@@ -231,7 +247,7 @@
     configure = {
       customRC = ''
         let mapleader = " "
-        colors onedarkpro
+        "colors onedarkpro
         filetype plugin indent on
         set tabstop=4
         set shiftwidth=4
