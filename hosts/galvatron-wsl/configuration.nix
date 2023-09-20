@@ -253,8 +253,7 @@
 
     configure = {
       customRC = ''
-        let mapleader = " "
-        "colors onedarkpro
+        colors tokyonight-night
         filetype plugin indent on
         set tabstop=4
         set shiftwidth=4
@@ -273,6 +272,7 @@
 
       packages.myVimPackage = with pkgs.vimPlugins; {
         start = [
+          lightspeed-nvim
           plenary-nvim
           neo-tree-nvim
           neovim-sensible
@@ -280,7 +280,7 @@
           nvim-colorizer-lua
           nvim-treesitter.withAllGrammars
           nvim-web-devicons
-          onedarkpro-nvim
+          tokyonight-nvim
           telescope-nvim
           todo-comments-nvim
           vim-commentary
