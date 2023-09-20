@@ -123,6 +123,8 @@
     nodePackages.bash-language-server
     nodePackages.cspell
     python3Full
+    dotnet-runtime_7
+    dotnet-sdk_7
     vale
 
     # Super lightweight browser, small install, fast launch for testing
