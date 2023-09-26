@@ -4,9 +4,9 @@
   Bootstrap is still WIP. Don't actually try to use this.
 ** Setup
 1. Install Nix: ~curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install~. Don't @ me.
-2. Install git, clone this repo
-3. Bootstrap dev shell: ~nix develop .~
-3. Run ~nix run . switch -- --flake .#hostname~ and watch it do stuff.
+2. Start a dev shell: ~nix develop github:webframp/dotfiles~
+3. Or if cloned locally, dev shell: ~nix develop .~
+4. Run ~nix run . switch -- --flake .#hostname~ and watch it do stuff.
    - Optionally use ~nix --debug run . switch -- --flake .~ to get verbose output.
    - Non-NixOS, home-manager only configs use ~home-manager switch --flake .#user@hostname~
 ** Notes
