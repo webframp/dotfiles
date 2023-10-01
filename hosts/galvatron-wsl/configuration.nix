@@ -245,6 +245,7 @@
   };
 
   # A basic neovim config as a backup. I don't use it much
+  # maybe look at https://github.com/jamespwilliams/neovim-go-nix-develop/tree/main
   programs.neovim = {
     enable = true;
 
@@ -280,6 +281,9 @@
           nvim-colorizer-lua
           nvim-treesitter.withAllGrammars
           nvim-web-devicons
+          nvim-lspconfig
+          (nvim-treesitter.withPlugins
+            (plugins: with plugins; [ tree-sitter-go ]))
           tokyonight-nvim
           telescope-nvim
           todo-comments-nvim
