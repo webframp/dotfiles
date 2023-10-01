@@ -328,7 +328,7 @@
       fzf-tmux-url
       # TODO: make a tokyo-night theme based on onedark-theme package?
       # https://github.com/odedlaz/tmux-onedark-theme/tree/master
-      nord
+      catppuccin
       pain-control
       resurrect
       sensible
@@ -372,6 +372,13 @@
 
       bind -r C-h previous-window # select previous window
       bind -r C-l next-window     # select next window
+
+      # set vi-mode
+      set-window-option -g mode-keys vi
+      # keybindings
+      bind-key -T copy-mode-vi v send-keys -X begin-selection
+      bind-key -T copy-mode-vi C-v send-keys -X rectangle-toggle
+      bind-key -T copy-mode-vi y send-keys -X copy-selection-and-cancel
     '';
   };
 
