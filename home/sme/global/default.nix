@@ -141,33 +141,37 @@
 
   programs.exa = { enable = true; };
 
-  # programs.vscode = {
-  #   enable = true;
-  #   extensions = with pkgs.vscode-extensions;
-  #     [
-  #       asvetliakov.vscode-neovim
-  #       bbenoist.nix
-  #       davidanson.vscode-markdownlint
-  #       eamodio.gitlens
-  #       github.copilot
-  #       ms-vscode.powershell
-  #       ms-vscode-remote.remote-ssh
-  #       streetsidesoftware.code-spell-checker
-  #     ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
-  #       {
-  #         name = "copilot-chat";
-  #         publisher = "github";
-  #         version = "0.4.1";
-  #         sha256 = "sha256-qoIkvuPB2Y5Rfpq0vt8/6MzZCBTHRVsIO9e58asWXgU=";
-  #       }
-  #       {
-  #         name = "tokyo-night";
-  #         publisher = "enkia";
-  #         version = "1.0.0";
-  #         sha256 = "sha256-/fM+aUDUzVJ6P38i+GrxhLv2eLJNa8OFkKsM4yPBy4c=";
-  #       }
-  #     ];
-  # };
+  programs.tmux = {
+    enable = true;
+    shortcut = "j";
+    baseIndex = 1;
+    # Stop tmux+escape printing nonsense
+    # https://github.com/tmux-plugins/tmux-sensible/issues/61
+    escapeTime = 1;
+    mouse = true;
+    keyMode = "vi";
+
+    newSession = false;
+    # Force tmux to use /tmp for sockets (WSL2 compat)
+    secureSocket = false;
+    clock24 = true;
+    plugins = with pkgs.tmuxPlugins; [
+      better-mouse-mode
+      continuum
+      extrakto # prefix + tab
+      fzf-tmux-url # prefix + u
+      # TODO: make a tokyo-night theme based on onedark-theme package?
+      # https://github.com/odedlaz/tmux-onedark-theme/tree/master
+      nord
+      pain-control
+      resurrect
+      sensible
+      tmux-thumbs # prefix + space
+      yank
+    ];
+
+    extraConfig = builtins.readFile ./includes/tmux.conf;
+  };
 
   home.file.".gemrc".text = "gem: --no-ri --no-rdoc";
   home.file.".p10k.zsh".source = ./includes/p10k.zsh;

@@ -168,6 +168,7 @@
   };
 
   users.users.sme.shell = pkgs.zsh;
+
   environment.shells = with pkgs; [ zsh ];
   environment.pathsToLink = [ "/share/zsh" ];
   environment.variables = {
@@ -308,80 +309,6 @@
   programs.firefox.nativeMessagingHosts.browserpass = true;
 
   programs.zsh = { enable = true; };
-
-  programs.tmux = {
-    enable = true;
-    shortcut = "j";
-    # aggressiveResize = true; -- Disabled to be iTerm-friendly
-    baseIndex = 1;
-    # Stop tmux+escape printing nonsense
-    # https://github.com/tmux-plugins/tmux-sensible/issues/61
-    escapeTime = 1;
-
-    newSession = false;
-    # Force tmux to use /tmp for sockets (WSL2 compat)
-    secureSocket = false;
-    clock24 = true;
-    plugins = with pkgs.tmuxPlugins; [
-      better-mouse-mode
-      continuum
-      extrakto # prefix + tab
-      fzf-tmux-url
-      # TODO: make a tokyo-night theme based on onedark-theme package?
-      # https://github.com/odedlaz/tmux-onedark-theme/tree/master
-      catppuccin
-      pain-control
-      resurrect
-      sensible
-      tmux-thumbs # prefix + I
-      yank
-    ];
-
-    extraConfig = ''
-      # Use 24bit colors if possible or fallback to 256
-      # https://old.reddit.com/r/tmux/comments/mesrci/tmux_2_doesnt_seem_to_use_256_colors/
-      # https://github.com/syl20bnr/spacemacs/wiki/Terminal
-
-      if -b 'test $TERM = xterm-24bit' 'set -g default-terminal "xterm-24bit"' 'set -g default-terminal "xterm-256color"'
-      if -b 'test $TERM = xterm-24bit' 'set -g terminal-overrides ",xterm-24bit:Tc"' 'set -ga terminal-overrides ",*256col*:Tc"'
-      if -b 'test $TERM = xterm-24bit' 'set -ga terminal-overrides "*:Ss=\E[%p1%d q:Se=\E[ q"'
-      if -b 'test $TERM = xterm-24bit' 'set-environment -g COLORTERM "truecolor"'
-
-      # Mouse enabled
-      set-option -g mouse on
-
-      # Set titles
-      set-option -g set-titles on
-      set-option -g set-titles-string "#T / #W"
-
-      # copy to X11 clipboard
-      if -b 'command -v xsel > /dev/null 2>&1' 'bind y run -b "tmux save-buffer - | xsel -i -b"'
-      if -b '! command -v xsel > /dev/null 2>&1 && command -v xclip > /dev/null 2>&1' 'bind y run -b "tmux save-buffer - | xclip -i -selection clipboard >/dev/null 2>&1"'
-      # copy to Wayland clipboard
-      if -b 'command -v wl-copy > /dev/null 2>&1' 'bind y run -b "tmux save-buffer - | wl-copy"'
-      # copy to macOS clipboard
-      if -b 'command -v pbcopy > /dev/null 2>&1' 'bind y run -b "tmux save-buffer - | pbcopy"'
-      if -b 'command -v reattach-to-user-namespace > /dev/null 2>&1' 'bind y run -b "tmux save-buffer - | reattach-to-user-namespace pbcopy"'
-      # copy to Windows clipboard
-      if -b 'command -v clip.exe > /dev/null 2>&1' 'bind y run -b "tmux save-buffer - | clip.exe"'
-      if -b '[ -c /dev/clipboard ]' 'bind y run -b "tmux save-buffer - > /dev/clipboard"'
-
-      # buffers
-      bind b list-buffers     # list paste buffers
-      bind p paste-buffer -p  # paste from the top paste buffer
-      bind P choose-buffer    # choose which buffer to paste from
-
-      bind -r C-h previous-window # select previous window
-      bind -r C-l next-window     # select next window
-
-      # set vi-mode
-      set-window-option -g mode-keys vi
-      # keybindings
-      bind-key -T copy-mode-vi v send-keys -X begin-selection
-      bind-key -T copy-mode-vi C-v send-keys -X rectangle-toggle
-      bind-key -T copy-mode-vi y send-keys -X copy-selection-and-cancel
-    '';
-  };
 
   # Also include man pages for system docs
   documentation.enable = true;
