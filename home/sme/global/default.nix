@@ -157,16 +157,35 @@
     clock24 = true;
     plugins = with pkgs.tmuxPlugins; [
       better-mouse-mode
-      continuum
+      {
+        plugin = continuum;
+        extraConfig = ''
+          set -g @continuum-restore 'on'
+          set -g @continuum-save-interval '15' # minutes
+        '';
+      }
       extrakto # prefix + tab
       fzf-tmux-url # prefix + u
       # TODO: make a tokyo-night theme based on onedark-theme package?
       # https://github.com/odedlaz/tmux-onedark-theme/tree/master
       nord
       pain-control
+      {
+        plugin = prefix-highlight;
+        extraConfig = ''
+          set -g @prefix_highlight_prefix_prompt ''
+          set -g @prefix_highlight_show_copy_mode 'on'
+          set -g @prefix_highlight_copy_prompt ''
+          set -g @prefix_highlight_show_sync_mode 'on'
+          set -g @prefix_highlight_sync_prompt '󱍸'
+        '';
+      }
       resurrect
       sensible
       tmux-thumbs # prefix + space
+      # TODO: add TMUX_FZF_MENU= for custom menu using extraConfig, for assume and pass
+      # https://github.com/sainnhe/tmux-fzf#user-menu
+      tmux-fzf
       yank
     ];
 
