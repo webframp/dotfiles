@@ -5,7 +5,19 @@
   config,
   outputs,
   ...
-}: {
+}: let
+  tmux-tokyo-night = pkgs.tmuxPlugins.mkTmuxPlugin {
+    pluginName = "tmux-tokyo-night";
+    version = "0.0.1";
+    src = pkgs.fetchFromGitHub {
+      owner = "webframp";
+      repo = "tmux-tokyo-night";
+      rev = "cc3013cca97fcaacdba4ab8c3c4be72131c57490";
+      hash = "sha256-YtW74ju+myyMfyCdH6Oj5fPXhK0PsIuVUnFAMzJ7fjM=";
+    };
+    rtpFilePath = "tmux-tokyo-night.tmux";
+  };
+in {
   nix = {
     package = lib.mkDefault pkgs.nix;
     settings = {
@@ -162,6 +174,12 @@
     secureSocket = false;
     clock24 = true;
     plugins = with pkgs.tmuxPlugins; [
+      {
+        plugin = tmux-tokyo-night;
+        extraConfig = ''
+          set -g @theme_plugin_datetime_format '%b %d %H:%M'
+        '';
+      }
       better-mouse-mode
       {
         plugin = continuum;
@@ -172,11 +190,10 @@
       }
       extrakto # prefix + tab
       fzf-tmux-url # prefix + u
-      # TODO: make a tokyo-night theme based on onedark-theme package?
-      # https://github.com/odedlaz/tmux-onedark-theme/tree/master
-      nord
       pain-control
       {
+        # TODO tmux-tokyo-night doesn't support prefix-highlight plugin
+        # but already has prefix indicator configured, need to add copy mode and sync mode
         plugin = prefix-highlight;
         extraConfig = ''
           set -g @prefix_highlight_prefix_prompt ''
