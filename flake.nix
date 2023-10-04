@@ -22,53 +22,61 @@
     emacs-overlay.url = "github:nix-community/emacs-overlay";
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs:
-    let
-      inherit (self) outputs;
-      forEachSystem = nixpkgs.lib.genAttrs [ "x86_64-linux" "x86_64-darwin" ];
-      forEachPkgs = f: forEachSystem (sys: f nixpkgs.legacyPackages.${sys});
+  outputs = {
+    self,
+    nixpkgs,
+    home-manager,
+    ...
+  } @ inputs: let
+    inherit (self) outputs;
+    forEachSystem = nixpkgs.lib.genAttrs ["x86_64-linux" "x86_64-darwin"];
+    forEachPkgs = f: forEachSystem (sys: f nixpkgs.legacyPackages.${sys});
 
-      mkNixos = modules:
-        nixpkgs.lib.nixosSystem {
-          inherit modules;
-          specialArgs = { inherit inputs outputs; };
-        };
-      mkHome = modules: pkgs:
-        home-manager.lib.homeManagerConfiguration {
-          inherit modules pkgs;
-          extraSpecialArgs = { inherit inputs outputs; };
-        };
-    in {
-      # Custom packages
-      # Acessible through 'nix build', 'nix shell', etc
-      packages = forEachSystem (system:
-        let pkgs = nixpkgs.legacyPackages.${system};
-        in import ./pkgs { inherit pkgs; });
-
-      # Devshell for bootstrapping, use 'nix develop'
-      devShells = forEachPkgs (pkgs: import ./shell.nix { inherit pkgs; });
-      formatter = forEachPkgs (pkgs: pkgs.nixpkgs-fmt);
-
-      # Custom packages and modifications
-      overlays = import ./overlays { inherit inputs; };
-      # Stuff to upstream into nixpkgs
-      nixosModules = import ./modules/nixos;
-      # Stuff to upstream into home-manager
-      # homeManagerModules = import ./modules/home-manager;
-
-      # NixOS entrypoint
-      # Use:'nixos-rebuild --flake .#hostname'
-      nixosConfigurations = { galvatron = mkNixos [ ./hosts/galvatron-wsl ]; };
-
-      # Standalone home-manager entrypoints
-      # Use: 'home-manager --flake .#username@your-hostname'
-      homeConfigurations = {
-        "sme@megatron" = mkHome [ ./home/sme/megatron.nix ]
-          nixpkgs.legacyPackages."x86_64-darwin";
-        "sme@ubuntu" = mkHome [ ./home/sme/ubuntu-wsl.nix ]
-          nixpkgs.legacyPackages."x86_64-linux";
-        "sme@generic" = mkHome [ ./home/sme/generic.nix ]
-          nixpkgs.legacyPackages."x86_64-linux";
+    mkNixos = modules:
+      nixpkgs.lib.nixosSystem {
+        inherit modules;
+        specialArgs = {inherit inputs outputs;};
       };
+    mkHome = modules: pkgs:
+      home-manager.lib.homeManagerConfiguration {
+        inherit modules pkgs;
+        extraSpecialArgs = {inherit inputs outputs;};
+      };
+  in {
+    # Custom packages
+    # Acessible through 'nix build', 'nix shell', etc
+    packages = forEachSystem (system: let
+      pkgs = nixpkgs.legacyPackages.${system};
+    in
+      import ./pkgs {inherit pkgs;});
+
+    # Devshell for bootstrapping, use 'nix develop'
+    devShells = forEachPkgs (pkgs: import ./shell.nix {inherit pkgs;});
+    formatter = forEachPkgs (pkgs: pkgs.alejandra);
+
+    # Custom packages and modifications
+    overlays = import ./overlays {inherit inputs;};
+    # Stuff to upstream into nixpkgs
+    nixosModules = import ./modules/nixos;
+    # Stuff to upstream into home-manager
+    # homeManagerModules = import ./modules/home-manager;
+
+    # NixOS entrypoint
+    # Use:'nixos-rebuild --flake .#hostname'
+    nixosConfigurations = {galvatron = mkNixos [./hosts/galvatron-wsl];};
+
+    # Standalone home-manager entrypoints
+    # Use: 'home-manager --flake .#username@your-hostname'
+    homeConfigurations = {
+      "sme@megatron" =
+        mkHome [./home/sme/megatron.nix]
+        nixpkgs.legacyPackages."x86_64-darwin";
+      "sme@ubuntu" =
+        mkHome [./home/sme/ubuntu-wsl.nix]
+        nixpkgs.legacyPackages."x86_64-linux";
+      "sme@generic" =
+        mkHome [./home/sme/generic.nix]
+        nixpkgs.legacyPackages."x86_64-linux";
     };
+  };
 }

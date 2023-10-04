@@ -1,7 +1,12 @@
 # This is your home-manager configuration file
 # Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
-
-{ inputs, lib, config, pkgs, ... }: {
+{
+  inputs,
+  lib,
+  config,
+  pkgs,
+  ...
+}: {
   # You can import other home-manager modules here
   imports = [
     # If you want to use home-manager modules from other flakes (such as nix-colors):
@@ -29,7 +34,7 @@
       # Disable if you don't want unfree packages
       allowUnfree = true;
       # Workaround for https://github.com/nix-community/home-manager/issues/2942
-      allowUnfreePredicate = (_: true);
+      allowUnfreePredicate = _: true;
     };
   };
 
@@ -40,7 +45,7 @@
 
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
-  home.packages = with pkgs; [ tmux ];
+  home.packages = with pkgs; [tmux];
 
   # Enable home-manager and git
   programs.home-manager.enable = true;
@@ -67,17 +72,14 @@
       rh1 = "reset --hard HEAD~1";
       rh2 = "reset --hard HEAD~2";
       stage = "add -p";
-      ls =
-        "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";
-      ll =
-        "log --pretty=format:'%Cred%h%C(yellow)%d%Creset -%Creset %s %Cgreen(%cr) %C(bold blue)<%cn>%Creset' --decorate --numstat";
+      ls = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";
+      ll = "log --pretty=format:'%Cred%h%C(yellow)%d%Creset -%Creset %s %Cgreen(%cr) %C(bold blue)<%cn>%Creset' --decorate --numstat";
       dlc = "diff --cached HEAD^";
       filelog = "log -u";
       fl = "log -u";
       serve = "daemon --reuseaddr --base-path=. --export-all --verbose";
       pos = "push -o ci.skip";
-      pmr =
-        "push origin HEAD --force-with-lease -o merge_request.remove_source_branch -o merge_request.create";
+      pmr = "push origin HEAD --force-with-lease -o merge_request.remove_source_branch -o merge_request.create";
     };
 
     extraConfig = {
