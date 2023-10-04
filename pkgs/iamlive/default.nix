@@ -1,5 +1,10 @@
-{ lib, stdenv, buildGoModule, fetchFromGitHub, ... }:
-
+{
+  lib,
+  stdenv,
+  buildGoModule,
+  fetchFromGitHub,
+  ...
+}:
 buildGoModule rec {
   pname = "iamlive";
   version = "0.53.0";
@@ -14,8 +19,7 @@ buildGoModule rec {
   vendorHash = null;
 
   meta = with lib; {
-    description =
-      "Generate an IAM policy from AWS calls using client-side monitoring (CSM)";
+    description = "Generate an IAM policy from AWS calls using client-side monitoring (CSM)";
     homepage = "https://github.com/iann0036/iamlive";
     platforms = platforms.linux ++ platforms.darwin;
     license = licenses.asl20;

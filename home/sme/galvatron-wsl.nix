@@ -1,5 +1,5 @@
-{ inputs, ... }: {
-  imports = [ ./global ];
+{inputs, ...}: {
+  imports = [./global];
 
   home.shellAliases = {
     yay = "sudo nixos-rebuild switch --flake .#galvatron";
@@ -9,7 +9,7 @@
   programs.keychain = {
     enable = true;
     enableZshIntegration = true;
-    agents = [ "ssh" "gpg" ];
-    keys = [ "id_ed25519" "BE06ADB38C7F719D" ];
+    agents = ["ssh" "gpg"];
+    keys = ["id_ed25519" "BE06ADB38C7F719D"];
   };
 }

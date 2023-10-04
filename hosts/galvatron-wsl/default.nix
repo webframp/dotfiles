@@ -1,5 +1,9 @@
-{ pkgs, inputs, ... }: {
-  imports = [ ./hardware-configuration.nix ./configuration.nix ];
+{
+  pkgs,
+  inputs,
+  ...
+}: {
+  imports = [./hardware-configuration.nix ./configuration.nix];
 
   # networking = {
   #   hostName = "galvatron-wsl";

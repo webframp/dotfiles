@@ -1,10 +1,15 @@
-{ inputs, lib, pkgs, config, outputs, ... }:
-
 {
+  inputs,
+  lib,
+  pkgs,
+  config,
+  outputs,
+  ...
+}: {
   nix = {
     package = lib.mkDefault pkgs.nix;
     settings = {
-      experimental-features = [ "nix-command" "flakes" "repl-flake" ];
+      experimental-features = ["nix-command" "flakes" "repl-flake"];
       warn-dirty = false;
     };
   };
@@ -59,6 +64,7 @@
       zoxide
 
       # Nix related
+      alejandra
       cachix
       direnv
       nix-index
@@ -67,7 +73,7 @@
     ];
   };
 
-  gtk = { enable = true; };
+  gtk = {enable = true;};
 
   # startup speed checking
   # for i in $(seq 1 5); do /run/current-system/sw/bin/time -p ~/.nix-profile/bin/zsh -i -c exit; done
@@ -97,22 +103,22 @@
       plugins = [
         # Plugins live in their own forks that are kept up to date.
         # I've been bitten by authors removing plugins from upstream before
-        { name = "webframp/zsh-async"; }
+        {name = "webframp/zsh-async";}
         {
           name = "webframp/zsh-completions";
-          tags = [ "defer:0" ];
+          tags = ["defer:0"];
         }
         {
           name = "webframp/zsh-autosuggestions";
-          tags = [ "defer:2" "on:'webframp/zsh-completions'" ];
+          tags = ["defer:2" "on:'webframp/zsh-completions'"];
         }
         {
           name = "webframp/fast-syntax-highlighting";
-          tags = [ "defer:3" "on:'webframp/zsh-autosuggestions'" ];
+          tags = ["defer:3" "on:'webframp/zsh-autosuggestions'"];
         }
         {
           name = "webframp/powerlevel10k";
-          tags = [ "as:theme" "depth:1" ];
+          tags = ["as:theme" "depth:1"];
         }
       ];
     };
@@ -120,7 +126,7 @@
 
   programs.bat = {
     enable = true;
-    extraPackages = with pkgs.bat-extras; [ batdiff batman batgrep batwatch ];
+    extraPackages = with pkgs.bat-extras; [batdiff batman batgrep batwatch];
   };
 
   programs.fzf = {
@@ -139,7 +145,7 @@
     nix-direnv.enable = true;
   };
 
-  programs.exa = { enable = true; };
+  programs.exa = {enable = true;};
 
   programs.tmux = {
     enable = true;
@@ -195,8 +201,7 @@
   home.file.".gemrc".text = "gem: --no-ri --no-rdoc";
   home.file.".p10k.zsh".source = ./includes/p10k.zsh;
 
-  home.file.".icons/default".source =
-    "${pkgs.vanilla-dmz}/share/icons/Vanilla-DMZ";
+  home.file.".icons/default".source = "${pkgs.vanilla-dmz}/share/icons/Vanilla-DMZ";
 
   home.file.".xterm-24bit.terminfo" = {
     source = ./includes/xterm-24bit.terminfo;
