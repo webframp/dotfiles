@@ -6,6 +6,8 @@
   outputs,
   ...
 }: let
+  # Custom tmux theme
+  # Would like to move this to a separate file somehow
   tmux-tokyo-night = pkgs.tmuxPlugins.mkTmuxPlugin {
     pluginName = "tmux-tokyo-night";
     version = "0.0.1";
@@ -174,25 +176,35 @@ in {
     secureSocket = false;
     clock24 = true;
     plugins = with pkgs.tmuxPlugins; [
+      # First plugins that adjust the right status bar
       {
         plugin = tmux-tokyo-night;
         extraConfig = ''
           set -g @theme_plugin_datetime_format '%b %d %H:%M'
+          set -g @theme_left_separator ''
+          set -g @theme_right_separator ''
+        '';
+      }
+      # Then resurrect and continuum pair
+      {
+        plugin = resurrect;
+        extraConfig = ''
+          set -g @resurrect-capture-pane-contents 'on'
         '';
       }
       {
         plugin = continuum;
         extraConfig = ''
           set -g @continuum-restore 'on'
+          set -g @continuum-boot 'on'
           set -g @continuum-save-interval '15' # minutes
         '';
       }
+      sensible
       better-mouse-mode
       extrakto # prefix + tab
       fzf-tmux-url # prefix + u
-      pain-control
-      resurrect
-      sensible
+      pain-control # sensible splits and movement
       tmux-thumbs # prefix + space
       # TODO: add TMUX_FZF_MENU= for custom menu using extraConfig, for assume and pass
       # https://github.com/sainnhe/tmux-fzf#user-menu
