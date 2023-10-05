@@ -180,7 +180,6 @@ in {
           set -g @theme_plugin_datetime_format '%b %d %H:%M'
         '';
       }
-      better-mouse-mode
       {
         plugin = continuum;
         extraConfig = ''
@@ -188,21 +187,10 @@ in {
           set -g @continuum-save-interval '15' # minutes
         '';
       }
+      better-mouse-mode
       extrakto # prefix + tab
       fzf-tmux-url # prefix + u
       pain-control
-      {
-        # TODO tmux-tokyo-night doesn't support prefix-highlight plugin
-        # but already has prefix indicator configured, need to add copy mode and sync mode
-        plugin = prefix-highlight;
-        extraConfig = ''
-          set -g @prefix_highlight_prefix_prompt ''
-          set -g @prefix_highlight_show_copy_mode 'on'
-          set -g @prefix_highlight_copy_prompt ''
-          set -g @prefix_highlight_show_sync_mode 'on'
-          set -g @prefix_highlight_sync_prompt '󱍸'
-        '';
-      }
       resurrect
       sensible
       tmux-thumbs # prefix + space
