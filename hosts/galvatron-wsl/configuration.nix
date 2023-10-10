@@ -1,13 +1,5 @@
 # This replaces /etc/nixos/configuration.nix
-{
-  inputs,
-  outputs,
-  lib,
-  config,
-  pkgs,
-  modulesPath,
-  ...
-}: {
+{ inputs, outputs, lib, config, pkgs, modulesPath, ... }: {
   # You can import other NixOS modules here
   imports = [
     "${modulesPath}/profiles/minimal.nix"
@@ -35,14 +27,13 @@
       outputs.overlays.modifications
       outputs.overlays.unstable-packages
     ];
-    config = {allowUnfree = true;};
+    config = { allowUnfree = true; };
   };
 
   nix = {
-    registry = lib.mapAttrs (_: value: {flake = value;}) inputs;
+    registry = lib.mapAttrs (_: value: { flake = value; }) inputs;
     # make legacy nix commands consistent
-    nixPath =
-      lib.mapAttrsToList (key: value: "${key}=${value.to.path}")
+    nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}")
       config.nix.registry;
 
     gc = {
@@ -55,12 +46,13 @@
       # enable flakes + nix
       experimental-features = "nix-command flakes";
       auto-optimise-store = true;
-      trusted-users = ["root" "sme"];
+      trusted-users = [ "root" "sme" ];
 
       # Binary cache setup
       # Run "cachix use <repo>" take values from ~/.config/nix/nix.conf
       # Then remove generated conf file
-      substituters = ["https://nix-community.cachix.org" "https://cache.nixos.org"];
+      substituters =
+        [ "https://nix-community.cachix.org" "https://cache.nixos.org" ];
       trusted-public-keys = [
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
@@ -78,7 +70,7 @@
     man-pages-posix
 
     (pass.withExtensions
-      (ext: with ext; [pass-genphrase pass-otp pass-update]))
+      (ext: with ext; [ pass-genphrase pass-otp pass-update ]))
     pass-git-helper
     pinentry
     pinentry-curses
@@ -159,25 +151,27 @@
 
   fonts = {
     fontconfig.enable = true;
-    fonts = with pkgs; [
-      (nerdfonts.override {
-        fonts = [
-          "DroidSansMono"
-          "FiraCode"
-          "Hack"
-          "Inconsolata"
-          "Iosevka"
-          "JetBrainsMono"
-        ];
-      })
-    ];
+    fonts = with pkgs;
+      [
+        (nerdfonts.override {
+          fonts = [
+            "DroidSansMono"
+            "FiraCode"
+            "Hack"
+            "Inconsolata"
+            "Iosevka"
+            "JetBrainsMono"
+          ];
+        })
+      ];
   };
 
   users.users.sme.shell = pkgs.zsh;
 
-  environment.shells = with pkgs; [zsh];
-  environment.pathsToLink = ["/share/zsh"];
+  environment.shells = with pkgs; [ zsh ];
+  environment.pathsToLink = [ "/share/zsh" ];
   environment.variables = {
+    MOZ_ENABLE_WAYLAND = "1";
     LESSCHARSET = "utf-8";
 
     # Mainly for Emacs 28
@@ -188,9 +182,8 @@
 
     # nix-ld https://nixos.wiki/wiki/Visual_Studio_Code#nix-ld
     NIX_LD_LIBRARY_PATH =
-      lib.mkDefault (lib.makeLibraryPath [pkgs.stdenv.cc.cc]);
-    NIX_LD =
-      lib.mkDefault
+      lib.mkDefault (lib.makeLibraryPath [ pkgs.stdenv.cc.cc ]);
+    NIX_LD = lib.mkDefault
       (lib.fileContents "${pkgs.stdenv.cc}/nix-support/dynamic-linker");
 
     # Moved these to shell init
@@ -292,7 +285,7 @@
           nvim-web-devicons
           nvim-lspconfig
           (nvim-treesitter.withPlugins
-            (plugins: with plugins; [tree-sitter-go]))
+            (plugins: with plugins; [ tree-sitter-go ]))
           tokyonight-nvim
           telescope-nvim
           todo-comments-nvim
@@ -315,7 +308,7 @@
   programs.browserpass.enable = true;
   programs.firefox.nativeMessagingHosts.browserpass = true;
 
-  programs.zsh = {enable = true;};
+  programs.zsh = { enable = true; };
 
   # Also include man pages for system docs
   documentation.enable = true;
@@ -335,7 +328,7 @@
     podman = {
       enable = true;
       dockerCompat = true;
-      defaultNetwork.settings = {dns_enabled = true;};
+      defaultNetwork.settings = { dns_enabled = true; };
     };
   };
 
