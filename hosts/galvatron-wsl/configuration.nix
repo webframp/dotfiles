@@ -88,7 +88,7 @@
     wslu
     xdg-utils
     termdown
-    emacs29-pgtk
+    emacs29-nox
     podman
     podman-compose
 
@@ -121,6 +121,7 @@
     gotools
     multimarkdown
     nixfmt
+    rnix-lsp
     pandoc
     shfmt
     shellcheck
