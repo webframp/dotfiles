@@ -258,6 +258,8 @@
       customRC = ''
         colors tokyonight-night
         filetype plugin indent on
+        nnoremap <SPACE> <Nop>
+        let mapleader = " "
         set tabstop=4
         set shiftwidth=4
         set expandtab
@@ -305,8 +307,6 @@
   };
 
   programs.bash-my-aws.enable = true;
-  programs.browserpass.enable = true;
-  programs.firefox.nativeMessagingHosts.browserpass = true;
 
   programs.zsh = { enable = true; };
 
