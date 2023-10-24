@@ -39,6 +39,7 @@ in {
       awscli2
       azure-cli
       awslogs
+      aws-vault
       coreutils
       csvkit
       delta
@@ -50,6 +51,7 @@ in {
       git
       git-lfs
       git-extras
+      gitmux
       glibcLocales
       gnupg
       htop
@@ -60,9 +62,11 @@ in {
       keychain
       mob
       neofetch
+      nomad
       onefetch
       pry
       ripgrep
+      terraform
       tmux
       tree
       urlview
