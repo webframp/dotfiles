@@ -14,8 +14,8 @@
     src = pkgs.fetchFromGitHub {
       owner = "webframp";
       repo = "tmux-tokyo-night";
-      rev = "cc3013cca97fcaacdba4ab8c3c4be72131c57490";
-      hash = "sha256-YtW74ju+myyMfyCdH6Oj5fPXhK0PsIuVUnFAMzJ7fjM=";
+      rev = "156a5a010928ebae45f0d26c3af172e0425fdda8";
+      hash = "sha256-tANO0EyXiplXPitLrwfyOEliHUZkCzDJ6nRjEVps180=";
     };
     rtpFilePath = "tmux-tokyo-night.tmux";
   };
