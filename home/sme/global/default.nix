@@ -88,6 +88,9 @@ in {
       nix-index
       nox
       patchelf
+
+      # zplug seems to need
+      perl
     ];
   };
 
@@ -153,7 +156,7 @@ in {
   };
 
   programs.granted = {
-    enabled = true;
+    enable = true;
     enableZshIntegration = true;
   };
 
