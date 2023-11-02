@@ -44,7 +44,6 @@ in {
       csvkit
       delta
       dig
-      exa
       fd
       file
       fzf
@@ -169,7 +168,10 @@ in {
     nix-direnv.enable = true;
   };
 
-  programs.exa = {enable = true;};
+  programs.eza = {
+    enable = true;
+    enableAliases = true;
+  };
 
   programs.tmux = {
     enable = true;
@@ -244,13 +246,6 @@ in {
 
     # SSH
     ssh = "TERM=xterm-256color ssh";
-
-    # exa replaces ls
-    l = "exa";
-    la = "exa -la";
-    ll = "exa -lag";
-    lg = "exa -bghHliS --git";
-    tree = "exa --tree";
 
     # nicer man pages
     man = "batman";
