@@ -153,6 +153,11 @@ in {
     enableZshIntegration = true;
   };
 
+  programs.granted = {
+    enabled = true;
+    enableZshIntegration = true;
+  };
+
   programs.zoxide = {
     enable = true;
     enableZshIntegration = true;
