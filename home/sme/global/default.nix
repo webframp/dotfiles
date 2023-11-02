@@ -71,7 +71,7 @@ in {
       tree
       urlview
       # Instead of: sudo ln -s /mnt/c/WINDOWS/system32/clip.exe /usr/bin/wl-copy
-      wl-clipboard
+      # wl-clipboard
       wget
       unzip
       vanilla-dmz
