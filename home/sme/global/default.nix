@@ -55,6 +55,7 @@ in {
       glibcLocales
       gnupg
       htop
+      hugo
       inetutils
       ispell
       jq
