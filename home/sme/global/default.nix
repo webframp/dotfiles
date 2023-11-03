@@ -68,7 +68,6 @@ in {
       ripgrep
       terraform
       tmux
-      tree
       urlview
       # Instead of: sudo ln -s /mnt/c/WINDOWS/system32/clip.exe /usr/bin/wl-copy
       # wl-clipboard
@@ -153,6 +152,22 @@ in {
   programs.fzf = {
     enable = true;
     enableZshIntegration = true;
+    # CTRL-T
+    fileWidgetOptions = [
+      "--preview 'bat -n --color=always {}'"
+      " --bind 'ctrl-/:change-preview-window(down|hidden|)'"
+    ];
+    # CTRL-R
+    historyWidgetOptions = [
+      "--preview 'echo {}'"
+      "--preview-window up:3:hidden:wrap"
+      "--bind 'ctrl-/:toggle-preview'"
+    ];
+    # ALT-C
+    changeDirWidgetOptions = ["--preview 'eza --tree --icons=auto --color=always {}'"];
+    # tmux
+    tmux.enableShellIntegration = true;
+    tmux.shellIntegrationOptions = ["-p90%,80%"];
   };
 
   programs.granted = {
