@@ -12,6 +12,8 @@
     # If you want to use home-manager modules from other flakes (such as nix-colors):
     # inputs.nix-colors.homeManagerModule
 
+    ./global/default.nix
+
     # You can also split up your configuration and import pieces of it here:
     # ./nvim.nix
   ];
@@ -139,65 +141,65 @@
 
   programs.direnv.enable = true;
 
-  programs.tmux = {
-    enable = true;
-    shortcut = "j";
-    baseIndex = 1;
-    escapeTime = 1;
+  # programs.tmux = {
+  #   enable = true;
+  #   shortcut = "j";
+  #   baseIndex = 1;
+  #   escapeTime = 1;
 
-    # Force tmux to use /tmp for sockets (WSL2 compat)
-    # secureSocket = false;
-    clock24 = true;
-    plugins = with pkgs; [
-      tmuxPlugins.better-mouse-mode
-      tmuxPlugins.continuum
-      tmuxPlugins.extrakto # prefix + tab
-      tmuxPlugins.fzf-tmux-url
-      # tmuxPlugins.nord
-      tmuxPlugins.onedark-theme
-      tmuxPlugins.pain-control
-      tmuxPlugins.resurrect
-      tmuxPlugins.sensible
-      tmuxPlugins.tmux-thumbs # prefix + I
-      tmuxPlugins.yank
-    ];
-    # TODO the 24bit color config depends on custom terminfo file
-    # find a way to build this for systemwide config with nix
-    # https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/config/terminfo.nix maybe?
-    extraConfig = ''
-      # Use 24bit colors if possible or fallback to 256
-      # https://old.reddit.com/r/tmux/comments/mesrci/tmux_2_doesnt_seem_to_use_256_colors/
-      # https://github.com/syl20bnr/spacemacs/wiki/Terminal
+  #   # Force tmux to use /tmp for sockets (WSL2 compat)
+  #   # secureSocket = false;
+  #   clock24 = true;
+  #   plugins = with pkgs; [
+  #     tmuxPlugins.better-mouse-mode
+  #     tmuxPlugins.continuum
+  #     tmuxPlugins.extrakto # prefix + tab
+  #     tmuxPlugins.fzf-tmux-url
+  #     # tmuxPlugins.nord
+  #     tmuxPlugins.onedark-theme
+  #     tmuxPlugins.pain-control
+  #     tmuxPlugins.resurrect
+  #     tmuxPlugins.sensible
+  #     tmuxPlugins.tmux-thumbs # prefix + I
+  #     tmuxPlugins.yank
+  #   ];
+  #   # TODO the 24bit color config depends on custom terminfo file
+  #   # find a way to build this for systemwide config with nix
+  #   # https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/config/terminfo.nix maybe?
+  #   extraConfig = ''
+  #     # Use 24bit colors if possible or fallback to 256
+  #     # https://old.reddit.com/r/tmux/comments/mesrci/tmux_2_doesnt_seem_to_use_256_colors/
+  #     # https://github.com/syl20bnr/spacemacs/wiki/Terminal
 
-      if -b 'test $TERM = xterm-24bit' 'set -g default-terminal "xterm-24bit"' 'set -g default-terminal "xterm-256color"'
-      if -b 'test $TERM = xterm-24bit' 'set -g terminal-overrides ",xterm-24bit:Tc"' 'set -ga terminal-overrides ",*256col*:Tc"'
-      if -b 'test $TERM = xterm-24bit' 'set -ga terminal-overrides "*:Ss=\E[%p1%d q:Se=\E[ q"'
-      if -b 'test $TERM = xterm-24bit' 'set-environment -g COLORTERM "truecolor"'
+  #     if -b 'test $TERM = xterm-24bit' 'set -g default-terminal "xterm-24bit"' 'set -g default-terminal "xterm-256color"'
+  #     if -b 'test $TERM = xterm-24bit' 'set -g terminal-overrides ",xterm-24bit:Tc"' 'set -ga terminal-overrides ",*256col*:Tc"'
+  #     if -b 'test $TERM = xterm-24bit' 'set -ga terminal-overrides "*:Ss=\E[%p1%d q:Se=\E[ q"'
+  #     if -b 'test $TERM = xterm-24bit' 'set-environment -g COLORTERM "truecolor"'
 
-      # Mouse enabled
-      set-option -g mouse on
+  #     # Mouse enabled
+  #     set-option -g mouse on
 
-      # copy to X11 clipboard
-      if -b 'command -v xsel > /dev/null 2>&1' 'bind y run -b "tmux save-buffer - | xsel -i -b"'
-      if -b '! command -v xsel > /dev/null 2>&1 && command -v xclip > /dev/null 2>&1' 'bind y run -b "tmux save-buffer - | xclip -i -selection clipboard >/dev/null 2>&1"'
-      # copy to Wayland clipboard
-      if -b 'command -v wl-copy > /dev/null 2>&1' 'bind y run -b "tmux save-buffer - | wl-copy"'
-      # copy to macOS clipboard
-      if -b 'command -v pbcopy > /dev/null 2>&1' 'bind y run -b "tmux save-buffer - | pbcopy"'
-      if -b 'command -v reattach-to-user-namespace > /dev/null 2>&1' 'bind y run -b "tmux save-buffer - | reattach-to-user-namespace pbcopy"'
-      # copy to Windows clipboard
-      if -b 'command -v clip.exe > /dev/null 2>&1' 'bind y run -b "tmux save-buffer - | clip.exe"'
-      if -b '[ -c /dev/clipboard ]' 'bind y run -b "tmux save-buffer - > /dev/clipboard"'
+  #     # copy to X11 clipboard
+  #     if -b 'command -v xsel > /dev/null 2>&1' 'bind y run -b "tmux save-buffer - | xsel -i -b"'
+  #     if -b '! command -v xsel > /dev/null 2>&1 && command -v xclip > /dev/null 2>&1' 'bind y run -b "tmux save-buffer - | xclip -i -selection clipboard >/dev/null 2>&1"'
+  #     # copy to Wayland clipboard
+  #     if -b 'command -v wl-copy > /dev/null 2>&1' 'bind y run -b "tmux save-buffer - | wl-copy"'
+  #     # copy to macOS clipboard
+  #     if -b 'command -v pbcopy > /dev/null 2>&1' 'bind y run -b "tmux save-buffer - | pbcopy"'
+  #     if -b 'command -v reattach-to-user-namespace > /dev/null 2>&1' 'bind y run -b "tmux save-buffer - | reattach-to-user-namespace pbcopy"'
+  #     # copy to Windows clipboard
+  #     if -b 'command -v clip.exe > /dev/null 2>&1' 'bind y run -b "tmux save-buffer - | clip.exe"'
+  #     if -b '[ -c /dev/clipboard ]' 'bind y run -b "tmux save-buffer - > /dev/clipboard"'
 
-      # buffers
-      bind b list-buffers     # list paste buffers
-      bind p paste-buffer -p  # paste from the top paste buffer
-      bind P choose-buffer    # choose which buffer to paste from
+  #     # buffers
+  #     bind b list-buffers     # list paste buffers
+  #     bind p paste-buffer -p  # paste from the top paste buffer
+  #     bind P choose-buffer    # choose which buffer to paste from
 
-      bind -r C-h previous-window # select previous window
-      bind -r C-l next-window     # select next window
-    '';
-  };
+  #     bind -r C-h previous-window # select previous window
+  #     bind -r C-l next-window     # select next window
+  #   '';
+  # };
 
   # Nicely reload system units when changing configs
   # systemd.user.startServices = "sd-switch";

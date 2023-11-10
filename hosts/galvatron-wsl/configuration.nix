@@ -97,6 +97,11 @@
     podman
     podman-compose
 
+    neofetch
+    nomad
+    onefetch
+    pry
+    glibcLocales
     # gui stuff
     material-icons
     shared-mime-info

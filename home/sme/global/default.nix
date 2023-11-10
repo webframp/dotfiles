@@ -50,8 +50,7 @@ in {
       git
       git-lfs
       git-extras
-      gitmux
-      glibcLocales
+      # gitmux
       gnupg
       htop
       hugo
@@ -61,13 +60,10 @@ in {
       yq-go
       keychain
       mob
-      neofetch
       nomad
-      onefetch
       pry
       ripgrep
       terraform
-      tmux
       urlview
       # Instead of: sudo ln -s /mnt/c/WINDOWS/system32/clip.exe /usr/bin/wl-copy
       # wl-clipboard
