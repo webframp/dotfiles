@@ -189,6 +189,7 @@
   environment.variables = {
     MOZ_ENABLE_WAYLAND = "1";
     LESSCHARSET = "utf-8";
+    AWS_VAULT_BACKEND = "pass";
 
     # Mainly for Emacs 28
     # https://github.com/emacs-mirror/emacs/blob/master/etc/NEWS.28#L179-L183
