@@ -51,6 +51,7 @@ in {
       git-lfs
       git-extras
       # gitmux
+      gnumake
       gnupg
       htop
       hugo
@@ -64,6 +65,10 @@ in {
       pry
       ripgrep
       terraform
+      terraform-docs
+      tflint
+      tflint-plugins.tflint-ruleset-aws
+      tfsec
       urlview
       # Instead of: sudo ln -s /mnt/c/WINDOWS/system32/clip.exe /usr/bin/wl-copy
       # wl-clipboard
