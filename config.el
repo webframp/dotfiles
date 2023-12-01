@@ -35,6 +35,11 @@
 
 (setq org-directory "~/org/")
 
+(after! org
+  (setq org-startup-indented t
+        org-indent-mode t
+        org-startup-folded t))
+
 (use-package! org-super-agenda
   :after org-agenda
   :init
@@ -91,7 +96,19 @@
            "%?" :target
            (file+head "pages/${slug}.org" "#+title: ${title}\n")
            :unnarrowed t)
+          ;; TODO look at how filetags work
+          ;; https://d12frosted.io/posts/2020-06-25-task-management-with-roam-vol3.html
+          ("c" "Add a new contact")
+          ("cc" "Normal contact" plain
+           "One date stamped heading for last contact %?" :target
+           (file+head "pages/contacts/${slug}.org" "#+title: ${title}\n")
+           :unnarrowed t)
+          ("co" "o11n contact" plain
+           "\nOne date stamped heading for last contact\n %?" :target
+           (file+head "pages/contacts/${slug}.org" "#+title: ${title}\n#+filetags: o11n\n")
+           :unnarrowed t)
           ;; TODO add an agenda specific capture?
+          ;; https://systemcrafters.net/build-a-second-brain-in-emacs/capturing-notes-efficiently/
           ("p" "Project specific notes capture")
           ("pp" "o11n projects - primary" plain
            "%?" :target
@@ -175,6 +192,9 @@
 (after! csharp-mode
   (add-to-list 'auto-mode-alist '("\\.csx\\'" . csharp-mode)))
 
+(global-set-key (kbd "<mouse-4>") 'scroll-down-line)
+(global-set-key (kbd "<mouse-5>") 'scroll-up-line)
+
 (map! :after forge
       :map forge-post-mode-map
       :n "ZZ" #'forge-post-submit
@@ -255,9 +275,18 @@
 
 (setq +doom-dashboard-ascii-banner-fn #'sme-dashboard-draw-ascii-banner-fn)
 
-;; TODO figure out why this doesn't work like it's supposed to
-;; (after! nix
-;;   (set-formatter! 'alejandra "alejandra --quiet" :modes '(nix-mode)))
+(set-formatter! 'alejandra '("alejandra" "--quiet") :modes '(nix-mode))
+
+(after! aphelia
+  (push '(alejandra . ("alejandra" "-")) aphelia-formatters)
+  (setf (alist-get 'nix aphelia-mode-alist) 'alejandra))
+
+;; Display ansi color codes, only possible with emacs 28+
+(after! text-mode
+  (add-hook! 'text-mode-hook
+             ;; Apply ANSI color codes
+             (with-silent-modifications
+               (ansi-color-apply-on-region (point-min) (point-max) t))))
 
 ;; Non git tracked setttings
 (load! "+local")
