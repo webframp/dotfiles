@@ -139,6 +139,7 @@
     nodePackages.vscode-json-languageserver-bin
     nodePackages.bash-language-server
     nodePackages.cspell
+    nodePackages.prettier
     python3Full
     dotnet-runtime_7
     dotnet-sdk_7
