@@ -69,7 +69,7 @@ in {
       tflint
       tflint-plugins.tflint-ruleset-aws
       tfsec
-      urlview
+      urlscan
       # Instead of: sudo ln -s /mnt/c/WINDOWS/system32/clip.exe /usr/bin/wl-copy
       # wl-clipboard
       wget
