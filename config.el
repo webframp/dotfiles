@@ -29,6 +29,9 @@
 ;; (setq doom-font (font-spec :family "Inconsolata Nerd Font" :size 18 :weight 'semi-light)
 ;;       doom-variable-pitch-font (font-spec :family "Inconsolata Nerd Font" :size 16))
 
+;; TODO future ideas
+;; https://github.com/psibi/justl.el
+
 ;; Appearance
 (setq doom-theme 'doom-tokyo-night)
 (setq display-line-numbers-type 'relative)
@@ -135,7 +138,43 @@
        (when (> level 1) (concat (string-join (org-roam-node-olp node) " > ") " > "))
        (org-roam-node-title node))))
   ;; (setq org-roam-node-display-template "${hierarchy:*} ${tags:20}")
+
+  ;; Taken from https://systemcrafters.net/build-a-second-brain-in-emacs/5-org-roam-hacks/
+  ;; trying it mostly as default for now
+  (defun sme/org-roam-o11n-finalize-hook ()
+    "Adds the captured project file to `org-agenda-files' if the
+capture was not aborted."
+    ;; Remove the hook since it was added temporarily
+    (remove-hook 'org-capture-after-finalize-hook #'sme/org-roam-o11n-finalize-hook)
+
+    ;; Add o11n file to the agenda list if the capture was confirmed
+    (unless org-note-abort
+      (with-current-buffer (org-capture-get :buffer)
+        (add-to-list 'org-agenda-files (buffer-file-name)))))
+
+  (defun sme/org-roam-find-project ()
+    (interactive)
+    ;; Add the project file to the agenda after capture is finished
+    (add-hook 'org-capture-after-finalize-hook #'sme/org-roam-o11n-finalize-hook)
+
+    ;; Select a project file to open, creating it if necessary
+    (org-roam-node-find
+     nil
+     nil
+     (my/org-roam-filter-by-tag "o11n")
+     :templates
+     '(("p" "project" plain "* Goals\n\n%?\n\n* Tasks\n\n** TODO Add initial tasks\n\n* Dates\n\n"
+        :if-new (file+head "projects/%<%Y%m%d%H%M%S>-o11n-${slug}.org" "#+title: ${title}\n#+category: ${title}\n#+filetags: project:o11n\n")
+        :unnarrowed t)))
+    )
+
+  ;; after org-roam ends here
   )
+
+;; (map! :after org-roam
+;;       :map doom-leader-notes-map
+;;       :desc "Find o11n project"
+;;       :n "nrx" #'sme/org-roam-find-project)
 
 ;; NOTE fix for "cannot find entry with id", eval this line or use M-:
 ;; from: https://github.com/org-roam/org-roam/issues/1702
@@ -206,8 +245,28 @@
       :n "gy" #'forge-copy-url-at-point-as-kill
       :n "go" #'forge-browse-dwim)
 
+;; Add some push options to magit
+;; https://docs.gitlab.com/ee/user/project/push_options.html
+;; https://github.com/magit/magit/issues/3717
+(after! magit
+  (setq magit-repository-directories '(("~/src" . 2)))
+  (transient-append-suffix 'magit-push "-u"
+    '(1 "=s" "Skip Gitlab CI pipeline" "--push-option=ci.skip"))
+  (transient-append-suffix 'magit-push "=s"
+    '(1 "=D" "Delete branch when MR is merged" "--push-option=merge_request.remove_source_branch"))
+  (transient-append-suffix 'magit-push "=D"
+    '(1 "=A" "Auto assign MR to me" "--push-option=merge_request.assign='@sescriva'")))
+
 ;; disable some checkers
 (after! flycheck
+  (flycheck-define-checker terraform-tflint
+    "A Terraform checker using tflint.
+     See URL `https://github.com/terraform-linters/tflint'."
+    :command ("tflint" "--format=json" "--force"
+              (option-list "--var-file=" flycheck-tflint-variable-files concat))
+    :error-parser flycheck-parse-tflint-linter
+    :predicate flycheck-buffer-saved-p
+    :modes terraform-mode)
   (add-to-list 'flycheck-disabled-checkers 'chef-foodcritic))
 
 ;; WSL Specific
