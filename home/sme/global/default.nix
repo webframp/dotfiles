@@ -37,7 +37,6 @@ in {
     stateVersion = lib.mkDefault "23.05";
     packages = with pkgs; [
       awscli2
-      azure-cli
       awslogs
       aws-vault
       coreutils
