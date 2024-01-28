@@ -148,7 +148,7 @@
     # Super lightweight browser, small install, fast launch for testing
     dillo
     st
-    firefox-beta
+    firefox
     gnome.gnome-tweaks
 
     # Nix related
