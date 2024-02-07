@@ -58,6 +58,11 @@
     yayb = "brew update && brew upgrade && brew cleanup";
   };
 
+  programs.carapace = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+
   programs.git = {
     enable = true;
     # delta a better pager: https://github.com/dandavison/delta
