@@ -184,6 +184,10 @@ in {
     enable = true;
     enableZshIntegration = true;
     nix-direnv.enable = true;
+    config = {
+      global.load_dotenv = true;
+      whitelist.prefix = ["~/src/o11n"];
+    };
   };
 
   programs.eza = {
