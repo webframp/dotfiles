@@ -79,6 +79,7 @@
   programs.dconf.enable = true;
   environment.noXlibs = false;
   environment.systemPackages = with pkgs; [
+    azure-cli
     man-pages
     man-pages-posix
 
@@ -347,7 +348,7 @@
     podman = {
       enable = true;
       dockerCompat = true;
-      defaultNetwork.settings = {dns_enabled = true;};
+      defaultNetwork.settings.dns_enabled = true;
     };
   };
 
