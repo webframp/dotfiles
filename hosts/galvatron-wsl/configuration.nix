@@ -116,9 +116,6 @@
     kustomize
     go
     clang
-    nodejs
-    nodePackages.npm
-    nodePackages.pnpm
 
     # For various emacs modes
     sqlite
@@ -137,10 +134,6 @@
     shfmt
     shellcheck
     # TODO how do I get rid of needing to write nodePackages here?
-    nodePackages.vscode-json-languageserver-bin
-    nodePackages.bash-language-server
-    nodePackages.cspell
-    nodePackages.prettier
     python3Full
     dotnet-runtime_7
     dotnet-sdk_7

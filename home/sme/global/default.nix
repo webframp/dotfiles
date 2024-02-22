@@ -35,10 +35,15 @@ in {
     username = lib.mkDefault "sme";
     homeDirectory = lib.mkDefault "/home/${config.home.username}";
     stateVersion = lib.mkDefault "23.05";
-    packages = with pkgs; [
+    packages = with pkgs;
+    with nodePackages_latest;
+    with tflint-plugins; [
       awscli2
       awslogs
       aws-vault
+      aws-cdk
+      cdktf-cli
+      cdk8s-cli
       coreutils
       csvkit
       delta
@@ -60,13 +65,14 @@ in {
       yq-go
       keychain
       mob
+      nodejs_20
       nomad
       pry
       ripgrep
       terraform
       terraform-docs
       tflint
-      tflint-plugins.tflint-ruleset-aws
+      tflint-ruleset-aws
       tfsec
       urlscan
       # Instead of: sudo ln -s /mnt/c/WINDOWS/system32/clip.exe /usr/bin/wl-copy
@@ -87,6 +93,12 @@ in {
       nix-index
       nox
       patchelf
+
+      # emacs
+      vscode-json-languageserver-bin
+      bash-language-server
+      cspell
+      prettier
 
       # zplug seems to need
       perl
