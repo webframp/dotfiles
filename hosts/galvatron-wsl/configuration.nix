@@ -24,7 +24,7 @@
     # https://github.com/nix-community/nixos-vscode-server
     (fetchTarball {
       url = "https://github.com/nix-community/nixos-vscode-server/tarball/master";
-      sha256 = "0sz8njfxn5bw89n6xhlzsbxkafb6qmnszj4qxy2w0hw2mgmjp829";
+      sha256 = "1mrc6a1qjixaqkv1zqphgnjjcz9jpsdfs1vq45l1pszs9lbiqfvd";
     })
   ];
 
@@ -128,8 +128,8 @@
     gore
     gotools
     multimarkdown
+    nil
     nixfmt
-    rnix-lsp
     pandoc
     shfmt
     shellcheck
