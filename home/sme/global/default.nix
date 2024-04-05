@@ -47,6 +47,7 @@ in {
       coreutils
       csvkit
       delta
+      devbox
       dig
       fd
       file
