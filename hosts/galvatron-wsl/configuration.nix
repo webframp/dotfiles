@@ -145,13 +145,6 @@
     firefox
     gnome.gnome-tweaks
 
-    # Nix related
-    cachix
-    direnv
-    nix-index
-    nox
-    patchelf
-
     # afterwards run: (these should be automatic somehow)
     # granted browser set -b firefox -p /mnt/c/Users/sme/scoop/shims/firefox.exe (if using non-wsl ff)
     # granted browser set-sso -b firefox
