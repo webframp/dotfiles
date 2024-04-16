@@ -92,6 +92,7 @@ in {
       cachix
       direnv
       nix-index
+
       nox
       patchelf
 
@@ -120,6 +121,8 @@ in {
       extended = true;
       ignoreDups = true;
       ignoreSpace = true;
+      size = 100000;
+      save = 100000;
     };
     envExtra = ''
       export TERM=xterm-24bit
@@ -128,6 +131,9 @@ in {
 
     initExtra = builtins.readFile ./includes/zshrc;
     loginExtra = builtins.readFile ./includes/zlogin;
+    profileExtra = ''
+      WORDCHARS=''${WORDCHARS//\/[&.;]}                                 # Don't consider certain characters part of the word
+    '';
     # https://nixos.wiki/wiki/Zsh#Zplug
     # https://nix-community.github.io/home-manager/options.html#opt-programs.zsh.zplug.enable
     # https://github.com/zplug/zplug#3-tags-for-zplug
@@ -205,6 +211,12 @@ in {
 
   programs.eza = {
     enable = true;
+    # creates these aliases
+    # ls = "eza";
+    # ll = "eza -l";
+    # la = "eza -a";
+    # lt = "eza --tree";
+    # lla = "eza -la";
   };
 
   programs.tmux = {
@@ -271,7 +283,10 @@ in {
     onChange = "tic -x -o ~/.terminfo ~/.xterm-24bit.terminfo";
   };
 
-  home.shellAliases = {
+  home.shellAliases = rec {
+    lls = "${pkgs.eza}/bin/eza --color=auto --group-directories-first --classify";
+    lll = "${lls} --all --long --header --group";
+    cdtemp = "cd `mktemp -df`";
     # git
     gst = "git status";
     gpo = "git push origin HEAD";
