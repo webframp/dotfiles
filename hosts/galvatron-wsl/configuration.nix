@@ -129,7 +129,6 @@
     gotools
     multimarkdown
     nil
-    nixfmt
     pandoc
     shfmt
     shellcheck
