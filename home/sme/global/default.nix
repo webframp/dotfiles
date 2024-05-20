@@ -124,6 +124,12 @@ in {
       size = 100000;
       save = 100000;
     };
+
+    sessionVariables = {
+      GRANTED_ALIAS_CONFIGURED = "true";
+      GRANTED_ENABLE_AUTO_REASSUME = true;
+    };
+
     envExtra = ''
       export TERM=xterm-24bit
       export ZSH_AUTOSUGGEST_USE_ASYNC=true;
