@@ -125,15 +125,17 @@ in {
       save = 100000;
     };
 
-    sessionVariables = {
-      GRANTED_ALIAS_CONFIGURED = "true";
-      GRANTED_ENABLE_AUTO_REASSUME = true;
-    };
+    # sessionVariables = {
+    #   GRANTED_ALIAS_CONFIGURED = true;
+    #   GRANTED_ENABLE_AUTO_REASSUME = false;
+    #   GRANTED_QUIET = true;
+    # };
 
     envExtra = ''
       export TERM=xterm-24bit
       export ZSH_AUTOSUGGEST_USE_ASYNC=true;
     '';
+    # alias assume="source ${pkgs.granted}/bin/.assume-wrapped"
 
     initExtra = builtins.readFile ./includes/zshrc;
     loginExtra = builtins.readFile ./includes/zlogin;
