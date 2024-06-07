@@ -69,6 +69,9 @@
     # Standalone home-manager entrypoints
     # Use: 'home-manager --flake .#username@your-hostname'
     homeConfigurations = {
+      "sme@bluestreak" =
+        mkHome [./home/sme/bluestreak.nix]
+        nixpkgs.legacyPackages."aarch64-darwin";
       "sme@megatron" =
         mkHome [./home/sme/megatron.nix]
         nixpkgs.legacyPackages."x86_64-darwin";
