@@ -242,8 +242,8 @@ capture was not aborted."
 (map! :after forge
       :map magit-status-mode-map
       :n "gp" #'forge-jump-to-pullreqs
-      :n "gy" #'forge-copy-url-at-point-as-kill
-      :n "go" #'forge-browse-dwim)
+      :n "gy" #'forge-copy-url-at-point-as-kill)
+;; :n "go" #'forge-browse-dwim)
 
 ;; Add some push options to magit
 ;; https://docs.gitlab.com/ee/user/project/push_options.html
@@ -255,7 +255,9 @@ capture was not aborted."
   (transient-append-suffix 'magit-push "=s"
     '(1 "=D" "Delete branch when MR is merged" "--push-option=merge_request.remove_source_branch"))
   (transient-append-suffix 'magit-push "=D"
-    '(1 "=A" "Auto assign MR to me" "--push-option=merge_request.assign='@sescriva'")))
+    '(1 "=A" "Auto assign MR to me" "--push-option=merge_request.assign='@sescriva'"))
+  (transient-append-suffix 'magit-push "=A"
+    '(1 "=C" "Auto create MR" "--push-option=merge_request.create")))
 
 ;; disable some checkers
 (after! flycheck
@@ -290,13 +292,13 @@ capture was not aborted."
                (ansi-color-apply-on-region (point-min) (point-max) t))))
 
 ;; accept completion from copilot and fallback to company
-(use-package! copilot
-  :hook (prog-mode . copilot-mode)
-  :bind (:map copilot-completion-map
-              ("<tab>" . 'copilot-accept-completion)
-              ("TAB" . 'copilot-accept-completion)
-              ("C-TAB" . 'copilot-accept-completion-by-word)
-              ("C-<tab>" . 'copilot-accept-completion-by-word)))
+;; (use-package! copilot
+;;   :hook (prog-mode . copilot-mode)
+;;   :bind (:map copilot-completion-map
+;;               ("<tab>" . 'copilot-accept-completion)
+;;               ("TAB" . 'copilot-accept-completion)
+;;               ("C-TAB" . 'copilot-accept-completion-by-word)
+;;               ("C-<tab>" . 'copilot-accept-completion-by-word)))
 
 ;; Popup rules
 ;; https://github.com/hlissner/doom-emacs/tree/develop/modules/ui/popup
