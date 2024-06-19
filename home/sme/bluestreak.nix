@@ -5,14 +5,37 @@
   lib,
   pkgs,
   ...
-}: {
+}: let
+  # Custom tmux theme
+  # Would like to move this to a separate file somehow
+  tmux-tokyo-night = pkgs.tmuxPlugins.mkTmuxPlugin {
+    pluginName = "tmux-tokyo-night";
+    version = "0.0.1";
+    src = pkgs.fetchFromGitHub {
+      owner = "webframp";
+      repo = "tmux-tokyo-night";
+      rev = "156a5a010928ebae45f0d26c3af172e0425fdda8";
+      hash = "sha256-tANO0EyXiplXPitLrwfyOEliHUZkCzDJ6nRjEVps180=";
+    };
+    rtpFilePath = "tmux-tokyo-night.tmux";
+  };
+in {
   # You can import other home-manager modules here
   imports = [
     # If you want to use home-manager modules from other flakes (such as nix-colors):
     # inputs.nix-colors.homeManagerModule
 
+    # Lots of duplication in current config, but global isn't truly global or safe to use cross platform for now
     # ./global/default.nix
   ];
+
+  nix = {
+    package = lib.mkDefault pkgs.nix;
+    settings = {
+      experimental-features = ["nix-command" "flakes" "repl-flake"];
+      warn-dirty = false;
+    };
+  };
 
   nixpkgs = {
     # You can add overlays here
@@ -27,9 +50,7 @@
       #   });
       # })
     ];
-    # Configure your nixpkgs instance
     config = {
-      # Disable if you don't want unfree packages
       allowUnfree = true;
       # Workaround for https://github.com/nix-community/home-manager/issues/2942
       allowUnfreePredicate = _: true;
@@ -40,10 +61,75 @@
     username = "sme";
     homeDirectory = "/Users/sme";
     stateVersion = "24.05";
+    # should be macOS specific packages as needed
+    # but right now is duplicating everything from global because global is busted cross platform
+    packages = with pkgs;
+    with nodePackages_latest;
+    with tflint-plugins; [
+      awscli2
+      awslogs
+      aws-vault
+      aws-cdk
+      # cdktf-cli
+      # cdk8s-cli
+      coreutils
+      delta
+      devbox
+      dig
+      fd
+      file
+      fzf
+      git
+      git-lfs
+      git-extras
+      # gitmux
+      gnumake
+      gnupg
+      htop
+      inetutils
+      ispell
+      jq
+      yq-go
+      tmux
+      keychain
+      mob
+      nodejs_20
+      pry
+      ripgrep
+      terraform
+      terraform-docs
+      tflint
+      tflint-ruleset-aws
+      tfsec
+      urlscan
+      wget
+      unzip
+      vault
+      vale
+      youtube-dl
+      zbar
+      zip
+      zoxide
+
+      # Nix related
+      alejandra
+      cachix
+      direnv
+      nix-index
+
+      nox
+      patchelf
+
+      # emacs
+      vscode-json-languageserver-bin
+      bash-language-server
+      cspell
+      prettier
+
+      # zplug seems to need
+      perl
+    ];
   };
-  #
-  # macOS specific packages as needed
-  home.packages = with pkgs; [tmux];
 
   # Enable home-manager and git
   programs.home-manager.enable = true;
@@ -51,6 +137,95 @@
   home.shellAliases = {
     yay = "home-manager switch --flake .#sme@bluestreak";
     yayb = "brew update && brew upgrade && brew cleanup";
+  };
+
+  # startup speed checking
+  # for i in $(seq 1 5); do /run/current-system/sw/bin/time -p ~/.nix-profile/bin/zsh -i -c exit; done
+  programs.zsh = {
+    enable = true;
+    enableCompletion = true;
+    enableVteIntegration = true;
+    autocd = true;
+    history = {
+      expireDuplicatesFirst = true;
+      extended = true;
+      ignoreDups = true;
+      ignoreSpace = true;
+      size = 100000;
+      save = 100000;
+    };
+
+    # sessionVariables = {
+    #   GRANTED_ALIAS_CONFIGURED = true;
+    #   GRANTED_ENABLE_AUTO_REASSUME = false;
+    #   GRANTED_QUIET = true;
+    # };
+
+    #  export TERM=xterm-24bit
+    envExtra = ''
+      export ZSH_AUTOSUGGEST_USE_ASYNC=true;
+    '';
+
+    # alias assume="source ${pkgs.granted}/bin/.assume-wrapped"
+
+    initExtra = builtins.readFile ./global/includes/zshrc;
+    loginExtra = builtins.readFile ./global/includes/zlogin;
+    profileExtra = ''
+      WORDCHARS=''${WORDCHARS//\/[&.;]}                                 # Don't consider certain characters part of the word
+    '';
+    # https://nixos.wiki/wiki/Zsh#Zplug
+    # https://nix-community.github.io/home-manager/options.html#opt-programs.zsh.zplug.enable
+    # https://github.com/zplug/zplug#3-tags-for-zplug
+    zplug = {
+      enable = true;
+      plugins = [
+        # Plugins live in their own forks that are kept up to date.
+        # I've been bitten by authors removing plugins from upstream before
+        {name = "webframp/zsh-async";}
+        {
+          name = "webframp/zsh-completions";
+          tags = ["defer:0"];
+        }
+        {
+          name = "webframp/zsh-autosuggestions";
+          tags = ["defer:2" "on:'webframp/zsh-completions'"];
+        }
+        {
+          name = "webframp/fast-syntax-highlighting";
+          tags = ["defer:3" "on:'webframp/zsh-autosuggestions'"];
+        }
+        {
+          name = "webframp/powerlevel10k";
+          tags = ["as:theme" "depth:1"];
+        }
+      ];
+    };
+  };
+
+  programs.bat = {
+    enable = true;
+    extraPackages = with pkgs.bat-extras; [batdiff batman batgrep batwatch];
+  };
+
+  programs.fzf = {
+    enable = true;
+    enableZshIntegration = true;
+    # CTRL-T
+    fileWidgetOptions = [
+      "--preview 'bat -n --color=always {}'"
+      " --bind 'ctrl-/:change-preview-window(down|hidden|)'"
+    ];
+    # CTRL-R
+    historyWidgetOptions = [
+      "--preview 'echo {}'"
+      "--preview-window up:3:hidden:wrap"
+      "--bind 'ctrl-/:toggle-preview'"
+    ];
+    # ALT-C
+    changeDirWidgetOptions = ["--preview 'eza --tree --icons=auto --color=always {}'"];
+    # tmux
+    tmux.enableShellIntegration = true;
+    tmux.shellIntegrationOptions = ["-p90%,80%"];
   };
 
   programs.git = {
@@ -86,7 +261,22 @@
     };
   };
 
-  programs.direnv.enable = true;
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+    config = {
+      global.load_dotenv = true;
+      whitelist.prefix = ["~/src/o11n"];
+    };
+  };
+
+  # doom emacs setup is still manual
+  programs.emacs.enable = true;
+  programs.eza.enable = true;
+  programs.zoxide.enable = true;
+
+  programs.carapace.enable = true;
+
   programs.alacritty = {
     enable = true;
     settings = {
@@ -103,22 +293,75 @@
         decorations = "buttonless";
         opacity = 0.8;
         startup_mode = "Maximized";
-	option_as_alt = "OnlyLeft";
+        option_as_alt = "OnlyLeft";
       };
 
       scrolling.history = 10000;
       scrolling.multiplier = 3;
       colors.draw_bold_text_with_bright_colors = true;
 
-      # font = {
-      #   normal.family = "Ioesevka Nerd Font Mono";
-      #   size = 18.0;
-      #   offset.x = 0;
-      #   offset.y = 0;
-      #   glyph_offset.x = 0;
-      #   glyph_offset.y = 0;
-      # };
-
+      font = {
+        normal.family = "EnvyCodeR Nerd Font Mono";
+        size = 18.0;
+        offset.x = 0;
+        offset.y = 0;
+        glyph_offset.x = 0;
+        glyph_offset.y = 0;
+      };
     };
+  };
+
+  programs.tmux = {
+    enable = true;
+    shortcut = "j";
+    baseIndex = 1;
+    # Stop tmux+escape printing nonsense
+    # https://github.com/tmux-plugins/tmux-sensible/issues/61
+    escapeTime = 1;
+    mouse = true;
+    keyMode = "vi";
+
+    newSession = false;
+    # Force tmux to use /tmp for sockets (WSL2 compat)
+    secureSocket = false;
+    clock24 = true;
+    plugins = with pkgs.tmuxPlugins; [
+      # First plugins that adjust the right status bar
+      {
+        plugin = tmux-tokyo-night;
+        extraConfig = ''
+          set -g @theme_plugin_datetime_format '%b %d %H:%M'
+          set -g @theme_left_separator ''
+          set -g @theme_right_separator ''
+        '';
+      }
+      # Then resurrect and continuum pair
+      {
+        plugin = resurrect;
+        extraConfig = ''
+          set -g @resurrect-capture-pane-contents 'on'
+        '';
+      }
+      {
+        plugin = continuum;
+        extraConfig = ''
+          set -g @continuum-restore 'on'
+          set -g @continuum-boot 'on'
+          set -g @continuum-save-interval '15' # minutes
+        '';
+      }
+      sensible
+      better-mouse-mode
+      extrakto # prefix + tab
+      fzf-tmux-url # prefix + u
+      pain-control # sensible splits and movement
+      tmux-thumbs # prefix + space
+      # TODO: add TMUX_FZF_MENU= for custom menu using extraConfig, for assume and pass
+      # https://github.com/sainnhe/tmux-fzf#user-menu
+      tmux-fzf
+      yank
+    ];
+
+    extraConfig = builtins.readFile ./global/includes/tmux.conf;
   };
 }
