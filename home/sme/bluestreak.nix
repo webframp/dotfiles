@@ -10,12 +10,12 @@
   # Would like to move this to a separate file somehow
   tmux-tokyo-night = pkgs.tmuxPlugins.mkTmuxPlugin {
     pluginName = "tmux-tokyo-night";
-    version = "0.0.1";
+    version = "1.5.2";
     src = pkgs.fetchFromGitHub {
       owner = "webframp";
       repo = "tmux-tokyo-night";
-      rev = "156a5a010928ebae45f0d26c3af172e0425fdda8";
-      hash = "sha256-tANO0EyXiplXPitLrwfyOEliHUZkCzDJ6nRjEVps180=";
+      rev = "d814e7c5aa4845edd1cb2c7e5c1f3524ca3ed82d";
+      hash = "sha256-G5SV19811i0GBkXUDiQ5xerfkTxeQ9jdhM7k22XiQCg=";
     };
     rtpFilePath = "tmux-tokyo-night.tmux";
   };
@@ -84,7 +84,6 @@ in {
       git-extras
       # gitmux
       gnumake
-      gnupg
       htop
       inetutils
       ispell
@@ -94,6 +93,10 @@ in {
       keychain
       mob
       nodejs_20
+      (pass.withExtensions
+        (ext: with ext; [pass-genphrase pass-otp pass-update]))
+      pass-git-helper
+      pinentry_mac
       pry
       ripgrep
       terraform
@@ -111,6 +114,15 @@ in {
       zip
       zoxide
 
+      # kubernetes
+      k9s
+      kubectl
+      kubectx
+      kubernetes-helm
+      kustomize
+      go
+      clang
+
       # Nix related
       alejandra
       cachix
@@ -122,9 +134,23 @@ in {
 
       # emacs
       vscode-json-languageserver-bin
-      bash-language-server
+      # bash-language-server
       cspell
       prettier
+      sqlite
+      wordnet
+      editorconfig-checker
+      editorconfig-core-c
+      gopls
+      gomodifytags
+      gotests
+      gore
+      gotools
+      multimarkdown
+      nil
+      pandoc
+      shfmt
+      shellcheck
 
       # zplug seems to need
       perl
@@ -134,9 +160,33 @@ in {
   # Enable home-manager and git
   programs.home-manager.enable = true;
 
-  home.shellAliases = {
+  home.shellAliases = rec {
     yay = "home-manager switch --flake .#sme@bluestreak";
     yayb = "brew update && brew upgrade && brew cleanup";
+    lls = "${pkgs.eza}/bin/eza --color=auto --group-directories-first --classify";
+    lll = "${lls} --all --long --header --group";
+    cdtemp = "cd `mktemp -df`";
+    # git
+    gst = "git status";
+    gpo = "git push origin HEAD";
+    gpu = "git pull --prune --tags --all";
+    repo = "git browse >/dev/null";
+
+    # SSH
+    ssh = "TERM=xterm-256color ssh";
+
+    # nicer man pages
+    man = "batman";
+
+    reload = "exec $SHELL -l";
+
+    # doom
+    doom = "~/.config/emacs/bin/doom";
+
+    # kube
+    k = "kubectl";
+    kx = "kubectx";
+    kn = "kubens";
   };
 
   # startup speed checking
@@ -165,8 +215,6 @@ in {
     envExtra = ''
       export ZSH_AUTOSUGGEST_USE_ASYNC=true;
     '';
-
-    # alias assume="source ${pkgs.granted}/bin/.assume-wrapped"
 
     initExtra = builtins.readFile ./global/includes/zshrc;
     loginExtra = builtins.readFile ./global/includes/zlogin;
@@ -230,6 +278,9 @@ in {
 
   programs.git = {
     enable = true;
+    userName = "Sean Escriva";
+    userEmail = "sean.escriva@gmail.com";
+    signing.key = "BE06ADB38C7F719D";
     # delta a better pager: https://github.com/dandavison/delta
     delta.enable = true;
     delta.options = {
@@ -237,7 +288,6 @@ in {
       fatures = "side-by-side line-numbers decorations";
       syntax-theme = "base16-256";
     };
-
     aliases = {
       "in" = "log ..@{upstream}";
       out = "log @{upstream}..";
@@ -259,6 +309,44 @@ in {
       pos = "push -o ci.skip";
       pmr = "push origin HEAD --force-with-lease -o merge_request.remove_source_branch -o merge_request.create";
     };
+    # Remaining options not specifically available through home-manager module
+    extraConfig = {
+      branch = {autosetuprebase = "always";};
+      color = {ui = true;};
+      credential = {
+        helper = "!pass-git-helper $@";
+        useHttpPath = true;
+      };
+      diff = {colorMoved = "default";};
+      github = {user = "webframp";};
+      gitlab = {user = "webframp";};
+      help = {autocorrect = 1;};
+      merge = {conflictStyle = "diff3";};
+      protocol = {version = 2;};
+      push = {default = "simple";};
+    };
+    #TODO manage excludesfile and attributesfile settings
+    # ignores = {};
+    # attributes = {};
+    # multiple settings to allow emacs forge to work:
+    # [gitlab "git.bethelservice.org/api/v4"]
+    #   user = sescriva
+    # includeIf directives
+  };
+
+  # programs.git-cliff.enable = true;
+
+  programs.gpg = {
+    enable = true;
+    settings = {
+      default-key = "BE06ADB38C7F719D"; # TODO don't love hardcoding this value twice
+      no-tty = true;
+      use-agent = true;
+    };
+    # TODO .gnupg/gpg-agent.conf is not yet managed via home manager
+    # pinentry-program ~/.nix-profile/bin/pinentry-mac
+    # default-cache-ttl 84000
+    # max-cache-ttl 84000
   };
 
   programs.direnv = {
@@ -273,6 +361,8 @@ in {
   # doom emacs setup is still manual
   programs.emacs.enable = true;
   programs.eza.enable = true;
+  programs.fastfetch.enable = true;
+  programs.fd.enable = true;
   programs.zoxide.enable = true;
 
   programs.carapace.enable = true;
@@ -363,5 +453,12 @@ in {
     ];
 
     extraConfig = builtins.readFile ./global/includes/tmux.conf;
+  };
+
+  programs.keychain = {
+    enable = true;
+    enableZshIntegration = true;
+    agents = ["ssh" "gpg"];
+    keys = ["id_ed25519" "BE06ADB38C7F719D"];
   };
 }
