@@ -163,6 +163,7 @@ in {
   home.shellAliases = rec {
     yay = "home-manager switch --flake .#sme@bluestreak";
     yayb = "brew update && brew upgrade && brew cleanup";
+    news = "home-manager news --flake .";
     lls = "${pkgs.eza}/bin/eza --color=auto --group-directories-first --classify";
     lll = "${lls} --all --long --header --group";
     cdtemp = "cd `mktemp -df`";
