@@ -18,6 +18,10 @@
     # NixOS-WSL: https://github.com/nix-community/NixOS-WSL/
     nixos-wsl.url = "github:nix-community/NixOS-WSL";
 
+    # nix-darwin
+    nix-darwin.url = "github:LnL7/nix-darwin/master";
+    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+
     # emacs overlay
     emacs-overlay.url = "github:nix-community/emacs-overlay";
     emacs-overlay.inputs.nixpkgs.follows = "nixpkgs";
@@ -27,6 +31,7 @@
     self,
     nixpkgs,
     home-manager,
+    nix-darwin,
     ...
   } @ inputs: let
     inherit (self) outputs;
