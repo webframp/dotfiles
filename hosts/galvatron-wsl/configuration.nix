@@ -221,7 +221,7 @@
   };
 
   programs.bash = {
-    enableCompletion = true;
+    completion.enable = true;
     enableLsColors = true;
     interactiveShellInit = ''
       # This requires xterm-24bit.terminfo file and
