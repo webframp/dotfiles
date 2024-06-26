@@ -19,8 +19,8 @@
     nixos-wsl.url = "github:nix-community/NixOS-WSL";
 
     # nix-darwin
-    nix-darwin.url = "github:LnL7/nix-darwin/master";
-    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+    darwin.url = "github:LnL7/nix-darwin/master";
+    darwin.inputs.nixpkgs.follows = "nixpkgs";
 
     # emacs overlay
     emacs-overlay.url = "github:nix-community/emacs-overlay";
@@ -31,7 +31,7 @@
     self,
     nixpkgs,
     home-manager,
-    nix-darwin,
+    darwin,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -40,6 +40,11 @@
 
     mkNixos = modules:
       nixpkgs.lib.nixosSystem {
+        inherit modules;
+        specialArgs = {inherit inputs outputs;};
+      };
+    mkDarwin = modules:
+      darwin.lib.darwinSystem {
         inherit modules;
         specialArgs = {inherit inputs outputs;};
       };
@@ -70,6 +75,9 @@
     # NixOS entrypoint
     # Use:'nixos-rebuild --flake .#hostname'
     nixosConfigurations = {galvatron = mkNixos [./hosts/galvatron-wsl];};
+
+    # darwin-rebuild --flake .#hostname
+    darwinConfigurations = {bluestreak = mkDarwin [./darwin/bluestreak];};
 
     # Standalone home-manager entrypoints
     # Use: 'home-manager --flake .#username@your-hostname'
