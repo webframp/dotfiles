@@ -38,29 +38,29 @@ in {
     };
   };
 
-  nixpkgs = {
-    # You can add overlays here
-    overlays = [
-      # If you want to use overlays exported from other flakes:
-      # neovim-nightly-overlay.overlays.default
+  # nixpkgs = {
+  #   # You can add overlays here
+  #   overlays = [
+  #     # If you want to use overlays exported from other flakes:
+  #     # neovim-nightly-overlay.overlays.default
 
-      # Or define it inline, for example:
-      # (final: prev: {
-      #   hi = final.hello.overrideAttrs (oldAttrs: {
-      #     patches = [ ./change-hello-to-hi.patch ];
-      #   });
-      # })
-    ];
-    config = {
-      allowUnfree = true;
-      # Workaround for https://github.com/nix-community/home-manager/issues/2942
-      allowUnfreePredicate = _: true;
-    };
-  };
+  #     # Or define it inline, for example:
+  #     # (final: prev: {
+  #     #   hi = final.hello.overrideAttrs (oldAttrs: {
+  #     #     patches = [ ./change-hello-to-hi.patch ];
+  #     #   });
+  #     # })
+  #   ];
+  #   config = {
+  #     allowUnfree = true;
+  #     # Workaround for https://github.com/nix-community/home-manager/issues/2942
+  #     allowUnfreePredicate = _: true;
+  #   };
+  # };
 
   home = {
     username = "sme";
-    homeDirectory = "/Users/sme";
+    homeDirectory = lib.mkDefault "/Users/sme";
     stateVersion = "24.05";
     # should be macOS specific packages as needed
     # but right now is duplicating everything from global because global is busted cross platform
@@ -105,7 +105,7 @@ in {
       tflint
       tflint-ruleset-aws
       tfsec
-      urlscan
+      # urlscan
       wget
       unzip
       vault
@@ -215,7 +215,8 @@ in {
 
     #  export TERM=xterm-24bit
     envExtra = ''
-      export ZSH_AUTOSUGGEST_USE_ASYNC=true;
+      export ZSH_AUTOSUGGEST_USE_ASYNC=true
+      export PATH="/opt/homebrew/bin:$PATH"
     '';
 
     initExtra = builtins.readFile ./global/includes/zshrc;
