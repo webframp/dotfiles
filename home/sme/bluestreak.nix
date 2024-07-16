@@ -24,8 +24,7 @@ in {
   # You can import other home-manager modules here
   imports = [
     # If you want to use home-manager modules from other flakes (such as nix-colors):
-    # inputs.nix-colors.homeManagerModule
-
+    # inputs.home-manager.darwinModules.home-manager
     # Lots of duplication in current config, but global isn't truly global or safe to use cross platform for now
     # ./global/default.nix
   ];
@@ -60,7 +59,7 @@ in {
 
   home = {
     username = "sme";
-    homeDirectory = lib.mkDefault "/Users/sme";
+    # homeDirectory = lib.mkDefault "/Users/sme";
     stateVersion = "24.05";
     # should be macOS specific packages as needed
     # but right now is duplicating everything from global because global is busted cross platform

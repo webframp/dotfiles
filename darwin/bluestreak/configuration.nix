@@ -40,9 +40,18 @@
   #   yay = "sudo darwin-rebuild switch --flake .#bluestreak";
   # };
 
+  # Avoids:
+  # Error: HOME is set to "/Users/sme" but we expect "/var/empty"
+  users.users.sme.home = "/Users/sme";
+  users.users.sme.name = "sme";
+
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    users.sme = import ../../home/sme/bluestreak.nix;
+    users.sme.imports = [../../home/sme/bluestreak.nix];
   };
+
+  # Avoids:
+  # error: The daemon is not enabled but this is a multi-user install, aborting activation
+  services.nix-daemon.enable = true;
 }
