@@ -214,8 +214,10 @@ in {
     # };
 
     #  export TERM=xterm-24bit
+    #  homebrew is not managed via nix, but a necessary evil on macOS
     envExtra = ''
       export ZSH_AUTOSUGGEST_USE_ASYNC=true;
+      export PATH="/opt/homebrew/bin:$PATH"
     '';
 
     initExtra = builtins.readFile ./global/includes/zshrc;
