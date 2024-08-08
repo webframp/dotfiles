@@ -69,6 +69,7 @@ in {
       nodejs_20
       nomad
       pry
+      rain
       ripgrep
       terraform
       terraform-docs
@@ -82,7 +83,7 @@ in {
       unzip
       vanilla-dmz
       vault
-      youtube-dl
+      yt-dlp
       zbar
       zip
       zoxide
@@ -97,7 +98,7 @@ in {
       patchelf
 
       # emacs
-      vscode-json-languageserver-bin
+      vscode-langservers-extracted
       bash-language-server
       cspell
       prettier
