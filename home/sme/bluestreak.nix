@@ -76,6 +76,7 @@ in {
       coreutils
       delta
       devbox
+      devcontainer
       dig
       fd
       file
@@ -86,6 +87,7 @@ in {
       # gitmux
       gnumake
       htop
+      hyperfine
       inetutils
       ispell
       jq
@@ -110,7 +112,6 @@ in {
       unzip
       vault
       vale
-      youtube-dl
       zbar
       zip
       zoxide
@@ -134,7 +135,7 @@ in {
       patchelf
 
       # emacs
-      vscode-json-languageserver-bin
+      vscode-langservers-extracted
       # bash-language-server
       cspell
       prettier
@@ -216,7 +217,8 @@ in {
     #  export TERM=xterm-24bit
     #  homebrew is not managed via nix, but a necessary evil on macOS
     envExtra = ''
-      export ZSH_AUTOSUGGEST_USE_ASYNC=true;
+      export AWS_VAULT_BACKEND=pass
+      export ZSH_AUTOSUGGEST_USE_ASYNC=true
       export PATH="/opt/homebrew/bin:$PATH"
     '';
 
