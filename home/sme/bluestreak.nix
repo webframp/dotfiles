@@ -33,6 +33,7 @@ in {
   nix = {
     package = lib.mkDefault pkgs.nix;
     settings = {
+      auto-optimise-store = false;
       experimental-features = ["nix-command" "flakes" "repl-flake"];
       warn-dirty = false;
     };
@@ -74,7 +75,7 @@ in {
       # cdktf-cli
       # cdk8s-cli
       coreutils
-      delta
+      # delta
       devbox
       devcontainer
       dig
@@ -110,7 +111,6 @@ in {
       urlscan
       wget
       unzip
-      vault
       vale
       zbar
       zip
@@ -166,6 +166,7 @@ in {
     yay = "home-manager switch --flake .#sme@bluestreak";
     yayb = "brew update && brew upgrade && brew cleanup";
     news = "home-manager news --flake .";
+    nixcleanup = "nix profile wipe-history --older-than 14d && nix-collect-garbage";
     lls = "${pkgs.eza}/bin/eza --color=auto --group-directories-first --classify";
     lll = "${lls} --all --long --header --group";
     cdtemp = "cd `mktemp -df`";
@@ -258,7 +259,7 @@ in {
 
   programs.bat = {
     enable = true;
-    extraPackages = with pkgs.bat-extras; [batdiff batman batgrep batwatch];
+    extraPackages = with pkgs.bat-extras; [batdiff batman batpipe batgrep batwatch];
   };
 
   programs.fzf = {
