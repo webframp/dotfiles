@@ -75,7 +75,7 @@ in {
       # cdktf-cli
       # cdk8s-cli
       coreutils
-      # delta
+      delta
       devbox
       devcontainer
       dig
@@ -259,7 +259,7 @@ in {
 
   programs.bat = {
     enable = true;
-    extraPackages = with pkgs.bat-extras; [batdiff batman batpipe batgrep batwatch];
+    extraPackages = with pkgs.bat-extras; [batman batgrep batwatch];
   };
 
   programs.fzf = {
