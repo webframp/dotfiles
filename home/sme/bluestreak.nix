@@ -86,6 +86,7 @@ in {
       git-lfs
       git-extras
       # gitmux
+      granted
       gnumake
       htop
       hyperfine
