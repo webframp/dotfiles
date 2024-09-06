@@ -80,6 +80,7 @@ in {
       devcontainer
       dig
       fd
+      ffmpeg
       file
       fzf
       git
