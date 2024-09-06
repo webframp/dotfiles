@@ -50,6 +50,7 @@ in {
       devbox
       dig
       fd
+      ffmpeg
       file
       fzf
       git

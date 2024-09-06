@@ -1,5 +1,5 @@
 {inputs, ...}: {
-  imports = [./global];
+  imports = [./global]; #global is a lie
 
   home.shellAliases = {
     yay = "/run/wrappers/bin/sudo nixos-rebuild switch --flake .#galvatron";
