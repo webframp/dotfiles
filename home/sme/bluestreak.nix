@@ -105,6 +105,7 @@ in {
       pinentry_mac
       pry
       ripgrep
+      spotify
       terraform
       terraform-docs
       tflint
