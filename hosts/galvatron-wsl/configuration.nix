@@ -77,7 +77,6 @@
 
   programs.nix-ld.enable = true;
   programs.dconf.enable = true;
-  environment.noXlibs = false;
   environment.systemPackages = with pkgs; [
     azure-cli
     man-pages
