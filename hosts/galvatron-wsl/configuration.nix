@@ -180,7 +180,7 @@
 
     # Mainly for Emacs 28
     # https://github.com/emacs-mirror/emacs/blob/master/etc/NEWS.28#L179-L183
-    COLORTERM = "truecolor";
+    # COLORTERM = "truecolor";
 
     # BAT_THEME = "base16-256";
 
@@ -210,6 +210,9 @@
     # doom
     doom = "~/.config/emacs/bin/doom";
 
+    # git
+    gst = "git status";
+
     # kube
     k = "kubectl";
     kx = "kubectx";
@@ -227,10 +230,7 @@
       # running the command: tic -x -o ~/.terminfo xterm-24bit.terminfo
       # no idea yet how to integrate this into nixos
       # https://github.com/NixOS/nixpkgs/blob/master/pkgs/tools/misc/mtm/default.nix#L24
-      export TERM=xterm-24bit
-
-      # maybe if ssh breaks
-      # alias ssh="TERM=xterm-256color ssh"
+      # export TERM=xterm-24bit
 
       # remove agents arg if using only gpg
       # BE06ADB38C7F719D must exist, not managing gpg setup with nix yet
