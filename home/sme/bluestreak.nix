@@ -34,7 +34,7 @@ in {
     package = lib.mkDefault pkgs.nix;
     settings = {
       auto-optimise-store = false;
-      experimental-features = ["nix-command" "flakes" "repl-flake"];
+      experimental-features = ["nix-command" "flakes"];
       warn-dirty = false;
     };
   };
