@@ -103,7 +103,9 @@ in {
         (ext: with ext; [pass-genphrase pass-otp pass-update]))
       pass-git-helper
       pinentry_mac
+      pipx
       pry
+      python3
       ripgrep
       spotify
       terraform
