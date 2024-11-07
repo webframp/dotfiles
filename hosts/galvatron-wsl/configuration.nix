@@ -24,7 +24,7 @@
     # https://github.com/nix-community/nixos-vscode-server
     (fetchTarball {
       url = "https://github.com/nix-community/nixos-vscode-server/tarball/master";
-      sha256 = "1rq8mrlmbzpcbv9ys0x88alw30ks70jlmvnfr2j8v830yy5wvw7h";
+      sha256 = "09j4kvsxw1d5dvnhbsgih0icbrxqv90nzf0b589rb5z6gnzwjnqf";
     })
   ];
 
@@ -78,7 +78,7 @@
   programs.nix-ld.enable = true;
   programs.dconf.enable = true;
   environment.systemPackages = with pkgs; [
-    azure-cli
+    # azure-cli
     man-pages
     man-pages-posix
 
@@ -87,8 +87,9 @@
     pass-git-helper
     pinentry
     pinentry-curses
-    p4
+    # p4
     speedtest-cli
+    prowler
     wsl-open
     wslu
     xdg-utils
@@ -96,6 +97,7 @@
     emacs29-nox
     podman
     podman-compose
+    hey
 
     neofetch
     nomad
