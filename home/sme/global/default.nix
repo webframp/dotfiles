@@ -69,7 +69,9 @@ in {
       mob
       nodejs_20
       nomad
+      poetry
       pry
+      python3
       rain
       ripgrep
       terraform
