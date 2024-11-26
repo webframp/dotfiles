@@ -42,7 +42,7 @@ in {
       awslogs
       aws-vault
       aws-cdk
-      cdktf-cli
+      # cdktf-cli
       cdk8s-cli
       coreutils
       csvkit
