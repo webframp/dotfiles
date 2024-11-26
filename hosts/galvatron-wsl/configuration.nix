@@ -9,6 +9,7 @@
   ...
 }: {
   # You can import other NixOS modules here
+  #
   imports = [
     "${modulesPath}/profiles/minimal.nix"
     inputs.nixos-wsl.nixosModules.wsl
@@ -43,6 +44,8 @@
     config = {allowUnfree = true;};
   };
 
+  networking.hostName = "galvatron-wsl";
+
   nix = {
     registry = lib.mapAttrs (_: value: {flake = value;}) inputs;
     # make legacy nix commands consistent
@@ -72,8 +75,6 @@
       ];
     };
   };
-
-  networking.hostName = "galvatron-wsl";
 
   programs.nix-ld.enable = true;
   programs.dconf.enable = true;
@@ -143,7 +144,7 @@
     dillo
     st
     firefox
-    gnome.gnome-tweaks
+    gnome-tweaks
 
     # afterwards run: (these should be automatic somehow)
     # granted browser set -b firefox -p /mnt/c/Users/sme/scoop/shims/firefox.exe (if using non-wsl ff)
