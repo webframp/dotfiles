@@ -136,8 +136,8 @@
     shellcheck
     # TODO how do I get rid of needing to write nodePackages here?
     python3Full
-    dotnet-runtime_7
-    dotnet-sdk_7
+    dotnet-runtime
+    dotnet-sdk
     vale
 
     # Super lightweight browser, small install, fast launch for testing
@@ -157,17 +157,14 @@
 
   fonts = {
     fontconfig.enable = true;
-    packages = with pkgs; [
-      (nerdfonts.override {
-        fonts = [
-          "DroidSansMono"
-          "FiraCode"
-          "Hack"
-          "Inconsolata"
-          "Iosevka"
-          "JetBrainsMono"
-        ];
-      })
+    packages = with pkgs.nerd-fonts; [
+      droid-sans-mono
+      envy-code-r
+      fira-code
+      hack
+      iosevka
+      inconsolata
+      jetbrains-mono
     ];
   };
 
