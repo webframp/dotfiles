@@ -382,6 +382,9 @@ in {
   programs.alacritty = {
     enable = true;
     settings = {
+      env = {
+        TERM = "xterm-256color";
+      };
       window = {
         dimensions = {
           columns = 0;
@@ -454,7 +457,6 @@ in {
           set -g @continuum-save-interval '15' # minutes
         '';
       }
-      # sensible
       better-mouse-mode
       extrakto # prefix + tab
       fzf-tmux-url # prefix + u
