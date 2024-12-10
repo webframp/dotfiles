@@ -427,6 +427,7 @@ in {
     # Force tmux to use /tmp for sockets (WSL2 compat)
     secureSocket = false;
     clock24 = true;
+    sensibleOnTop = false;
     plugins = with pkgs.tmuxPlugins; [
       # First plugins that adjust the right status bar
       {
@@ -449,10 +450,11 @@ in {
         extraConfig = ''
           set -g @continuum-restore 'on'
           set -g @continuum-boot 'on'
+          set -g @continuum-boot-options 'alacritty,fullscreen'
           set -g @continuum-save-interval '15' # minutes
         '';
       }
-      sensible
+      # sensible
       better-mouse-mode
       extrakto # prefix + tab
       fzf-tmux-url # prefix + u
