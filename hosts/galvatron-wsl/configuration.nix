@@ -80,6 +80,7 @@
   programs.dconf.enable = true;
   environment.systemPackages = with pkgs; [
     # azure-cli
+    act
     man-pages
     man-pages-posix
 
