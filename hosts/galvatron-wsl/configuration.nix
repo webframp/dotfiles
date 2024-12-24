@@ -120,27 +120,6 @@
     go
     clang
 
-    # For various emacs modes
-    sqlite
-    wordnet
-    editorconfig-checker
-    editorconfig-core-c
-    gopls
-    gomodifytags
-    gotests
-    gore
-    gotools
-    multimarkdown
-    nil
-    pandoc
-    shfmt
-    shellcheck
-    # TODO how do I get rid of needing to write nodePackages here?
-    python3Full
-    dotnet-runtime
-    dotnet-sdk
-    vale
-
     # Super lightweight browser, small install, fast launch for testing
     dillo
     st

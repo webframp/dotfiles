@@ -49,6 +49,7 @@ in {
       delta
       devbox
       dig
+      dotnet-sdk
       fd
       ffmpeg
       file
@@ -100,7 +101,23 @@ in {
       nox
       patchelf
 
-      # emacs
+      # For various emacs modes
+      sqlite
+      wordnet
+      editorconfig-checker
+      editorconfig-core-c
+      gopls
+      gomodifytags
+      gotests
+      gore
+      gotools
+      multimarkdown
+      nil
+      pandoc
+      shfmt
+      shellcheck
+      vale
+      yaml-language-server
       vscode-langservers-extracted
       bash-language-server
       cspell
