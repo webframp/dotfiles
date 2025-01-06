@@ -99,6 +99,7 @@ in {
       keychain
       mob
       nodejs_20
+      ollama
       (pass.withExtensions
         (ext: with ext; [pass-genphrase pass-otp pass-update]))
       pass-git-helper
