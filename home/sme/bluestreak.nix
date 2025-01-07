@@ -417,6 +417,17 @@ in {
     };
   };
 
+  # programs.ghostty = {
+  #   enable = true;
+  #   settings = {
+  #     auto-update = "off";
+  #     background-opacity = 0.8;
+  #     confirm-close-surface = false;
+  #     font-family = "FiraCode Nerd Font Mono";
+  #     font-size = 12;
+  #   };
+  # };
+
   programs.tmux = {
     enable = true;
     shortcut = "j";
