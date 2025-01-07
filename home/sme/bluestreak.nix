@@ -227,6 +227,8 @@ in {
       export AWS_VAULT_BACKEND=pass
       export ZSH_AUTOSUGGEST_USE_ASYNC=true
       export PATH="/opt/homebrew/bin:$PATH"
+      export FORCE_NO_ALIAS=true
+      export JSII_SILENCE_WARNING_UNTESTED_NODE_VERSION=true
     '';
 
     initExtra = builtins.readFile ./global/includes/zshrc;
