@@ -336,7 +336,7 @@ in {
       github = {user = "webframp";};
       gitlab = {user = "webframp";};
       help = {autocorrect = 1;};
-      merge = {conflictStyle = "diff3";};
+      merge = {conflictStyle = "zdiff3";};
       protocol = {version = 2;};
       push = {default = "simple";};
     };
