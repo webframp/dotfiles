@@ -105,6 +105,7 @@ in {
       pass-git-helper
       pinentry_mac
       pipx
+      podman
       pry
       python3
       ripgrep
