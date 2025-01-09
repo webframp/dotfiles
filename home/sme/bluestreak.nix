@@ -119,6 +119,7 @@ in {
       wget
       unzip
       vale
+      vault
       zbar
       zip
       zoxide
