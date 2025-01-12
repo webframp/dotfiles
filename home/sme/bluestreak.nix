@@ -510,7 +510,7 @@ in {
       ms-azuretools.vscode-docker
       oderwat.indent-rainbow
       redhat.vscode-yaml
-      ms-dotnettools.dotnet-interactive-vscode
+      # ms-dotnettools.dotnet-interactive-vscode
       ms-toolsai.jupyter
       ms-dotnettools.csharp
     ];
