@@ -42,7 +42,7 @@ in {
       awslogs
       aws-vault
       aws-cdk
-      # cdktf-cli
+      nodePackages.cdktf-cli #_latest is broken
       cdk8s-cli
       coreutils
       csvkit
