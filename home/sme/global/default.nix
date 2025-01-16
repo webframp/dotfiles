@@ -77,6 +77,7 @@ in {
       ripgrep
       terraform
       terraform-docs
+      terraform-ls
       tflint
       tflint-ruleset-aws
       tfsec
@@ -154,6 +155,7 @@ in {
 
     envExtra = ''
       export ZSH_AUTOSUGGEST_USE_ASYNC=true;
+      export JSII_SILENCE_WARNING_UNTESTED_NODE_VERSION=true
     '';
     # alias assume="source ${pkgs.granted}/bin/.assume-wrapped"
 
