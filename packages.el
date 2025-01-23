@@ -5,8 +5,10 @@
 ;; on the command line, then restart Emacs for the changes to take effect -- or
 ;; use 'M-x doom/reload'.
 
-(package! copilot
-  :recipe (:host github :repo "zerolfx/copilot.el" :files ("*.el" "dist")))
+;; (package! copilot
+;;   :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el")))
+
+(package! gptel)
 
 (package! jsonnet-mode)
 (package! org-super-agenda)
