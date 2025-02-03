@@ -79,6 +79,7 @@ in {
       devbox
       devcontainer
       dig
+      exiftool
       fd
       ffmpeg
       file
@@ -90,8 +91,10 @@ in {
       granted
       gnumake
       htop
+      hugo
       hyperfine
       inetutils
+      imagemagick
       ispell
       jq
       yq-go
@@ -120,6 +123,7 @@ in {
       unzip
       vale
       vault
+      yt-dlp
       zbar
       zip
       zoxide
