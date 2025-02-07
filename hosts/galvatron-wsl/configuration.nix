@@ -100,6 +100,7 @@
     podman
     podman-compose
     hey
+    copilot-node-server
 
     neofetch
     nomad
