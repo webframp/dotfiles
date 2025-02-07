@@ -123,7 +123,6 @@ in {
       bash-language-server
       cspell
       prettier
-      copilot-node-server
 
       # zplug seems to need
       perl
