@@ -91,7 +91,6 @@
     pinentry-curses
     # p4
     speedtest-cli
-    prowler
     wsl-open
     wslu
     xdg-utils
