@@ -90,6 +90,7 @@ in {
       # gitmux
       granted
       gnumake
+      gnused
       htop
       hugo
       hyperfine
