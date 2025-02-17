@@ -1,5 +1,5 @@
 * Dotfiles
-  A bunch of junk you probably don't want to waste time with. Using [[https://zero-to-nix.com/][Nix]] + Flakes
+A bunch of junk you probably don't want to waste time with. Using [[https://zero-to-nix.com/][Nix]] + Flakes
 
   Bootstrap is still WIP. Don't actually try to use this.
 ** Setup
@@ -124,3 +124,10 @@ export LANGUAGE=en_US.UTF-8
 - https://old.reddit.com/r/tmux/comments/mesrci/tmux_2_doesnt_seem_to_use_256_colors/
 - https://github.com/syl20bnr/spacemacs/wiki/Terminal
 - [[https://discourse.nixos.org/t/nix-flakes-nix-store-source-no-such-file-or-directory/17836/9][a bug I also hit]]
+
+* Nix cleanup
+Some useful cleanup commands
+#+begin_src sh
+nix profile wipe-history --profile /nix/var/nix/profiles/system --older-than 30d
+nix-collect-garbage
+#+end_src
