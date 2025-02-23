@@ -337,6 +337,8 @@ capture was not aborted."
 (setq +doom-dashboard-ascii-banner-fn #'sme-dashboard-draw-ascii-banner-fn)
 
 (set-formatter! 'alejandra '("alejandra" "--quiet") :modes '(nix-mode))
+;; fixes doctor check: https://github.com/doomemacs/doomemacs/blob/master/modules/lang/nix/doctor.el#L9
+(setq nix-nixfmt-bin "alejandra")
 
 (after! aphelia
   (push '(alejandra . ("alejandra" "-")) aphelia-formatters)
