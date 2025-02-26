@@ -333,23 +333,54 @@ in {
     };
     # Remaining options not specifically available through home-manager module
     extraConfig = {
-      branch = {autosetuprebase = "always";};
+      branch = {
+        autosetuprebase = "always";
+        sort = "committerdate";
+      };
       color = {ui = true;};
+      column = {ui = auto;};
+      core = {
+        excludesfile = "~/.gitignore";
+        attributesfile = "~/.gitattributes";
+      };
       credential = {
         helper = "!pass-git-helper $@";
         useHttpPath = true;
       };
-      diff = {colorMoved = "default";};
+      diff = {
+        algorithm = "histogram";
+        colorMoved = "plain";
+        mnemonicprefix = true;
+        renames = true;
+      };
+      fetch = {
+        all = true;
+        prune = true;
+        prunetags = true
+      };
       github = {user = "webframp";};
       gitlab = {user = "webframp";};
       help = {autocorrect = 1;};
+      init = {defaultBranch = "main";};
       merge = {conflictStyle = "zdiff3";};
       protocol = {version = 2;};
-      push = {default = "simple";};
+      pull = {rebase = true;};
+      push = {
+        autosetupremote = true;
+        default = "simple";
+        followtags = true;
+      };
+      rebase = {
+        autosquash = true;
+        autostash = true;
+        updaterefs = true;
+      };
+      rerere = {
+        enabled = true;
+        autoupdate = true;
+      };
+      tag = {sort = "version:refname";};
     };
-    #TODO manage excludesfile and attributesfile settings
-    # ignores = {};
-    # attributes = {};
     # multiple settings to allow emacs forge to work:
     # [gitlab "git.bethelservice.org/api/v4"]
     #   user = sescriva
