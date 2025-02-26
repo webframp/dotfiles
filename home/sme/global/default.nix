@@ -38,17 +38,21 @@ in {
     packages = with pkgs;
     with nodePackages_latest;
     with tflint-plugins; [
+      ansible
       awscli2
+      ssm-session-manager-plugin
       awslogs
       aws-vault
       aws-cdk
       nodePackages.cdktf-cli #_latest is broken
       cdk8s-cli
       coreutils
+      csharpier
       csvkit
       delta
       devbox
       dig
+      dockfmt
       dotnet-sdk
       fd
       ffmpeg
@@ -60,11 +64,14 @@ in {
       # gitmux
       gnumake
       gnupg
+      graphviz-nox
+      html-tidy
       htop
       hugo
       inetutils
       ispell
       jq
+      jsbeautifier
       yq-go
       keychain
       mob
@@ -75,19 +82,24 @@ in {
       python3
       rain
       ripgrep
+      ruff
       terraform
       terraform-docs
       terraform-ls
       tflint
       tflint-ruleset-aws
       tfsec
+      stylelint
       urlscan
       # Instead of: sudo ln -s /mnt/c/WINDOWS/system32/clip.exe /usr/bin/wl-copy
       # wl-clipboard
       wget
       unzip
+      uv
       vanilla-dmz
       vault
+      xvfb-run
+      xorg.xvfb
       yt-dlp
       zbar
       zip
