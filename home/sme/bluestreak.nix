@@ -338,7 +338,7 @@ in {
         sort = "committerdate";
       };
       color = {ui = true;};
-      column = {ui = auto;};
+      column = {ui = "auto";};
       core = {
         excludesfile = "~/.gitignore";
         attributesfile = "~/.gitattributes";
@@ -356,7 +356,7 @@ in {
       fetch = {
         all = true;
         prune = true;
-        prunetags = true
+        prunetags = true;
       };
       github = {user = "webframp";};
       gitlab = {user = "webframp";};
