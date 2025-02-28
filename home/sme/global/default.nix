@@ -126,6 +126,7 @@ in {
       gotools
       multimarkdown
       nil
+      openssl
       pandoc
       shfmt
       shellcheck
