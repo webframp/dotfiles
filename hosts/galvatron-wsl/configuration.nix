@@ -95,7 +95,7 @@
     wslu
     xdg-utils
     termdown
-    emacs29-nox
+    emacs-nox
     podman
     podman-compose
     hey
