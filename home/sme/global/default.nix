@@ -168,6 +168,7 @@ in {
 
     envExtra = ''
       export ZSH_AUTOSUGGEST_USE_ASYNC=true;
+      export FORCE_NO_ALIAS=true
       export JSII_SILENCE_WARNING_UNTESTED_NODE_VERSION=true
     '';
     # alias assume="source ${pkgs.granted}/bin/.assume-wrapped"
