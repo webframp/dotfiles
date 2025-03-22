@@ -58,6 +58,7 @@ in {
       ffmpeg
       file
       fzf
+      gh
       git
       git-lfs
       git-extras
@@ -89,6 +90,7 @@ in {
       tflint
       tflint-ruleset-aws
       tfsec
+      typescript-language-server
       stylelint
       urlscan
       # Instead of: sudo ln -s /mnt/c/WINDOWS/system32/clip.exe /usr/bin/wl-copy
