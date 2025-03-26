@@ -95,7 +95,7 @@
     wslu
     xdg-utils
     termdown
-    emacs-nox
+    emacs-pgtk
     podman
     podman-compose
     hey
@@ -107,6 +107,7 @@
     pry
     glibcLocales
     # gui stuff
+    emote # https://github.com/tom-james-watson/emote?tab=readme-ov-file
     material-icons
     shared-mime-info
     super-tiny-icons
@@ -136,8 +137,20 @@
   ];
 
   fonts = {
-    fontconfig.enable = true;
-    packages = with pkgs.nerd-fonts; [
+    fontconfig = {
+      enable = true;
+      defaultFonts = {
+        serif = ["Noto Serif"];
+        sansSerif = ["Noto Sans"];
+        monospace = ["JetBrains Nerd Font Mono"];
+        emoji = ["OpenMoji Color" "OpenMoji" "Noto Color Emoji"];
+      };
+    };
+    packages = with pkgs;
+    with pkgs.nerd-fonts; [
+      noto-fonts
+      noto-fonts-emoji
+      openmoji-color
       droid-sans-mono
       envy-code-r
       fira-code
@@ -146,6 +159,7 @@
       inconsolata
       jetbrains-mono
     ];
+    fontDir.enable = true;
   };
 
   users.users.sme.shell = pkgs.zsh;
