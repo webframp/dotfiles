@@ -265,60 +265,64 @@ in {
     # lla = "eza -la";
   };
 
-  # programs.tmux = {
-  #   enable = true;
-  #   shortcut = "j";
-  #   baseIndex = 1;
-  #   # Stop tmux+escape printing nonsense
-  #   # https://github.com/tmux-plugins/tmux-sensible/issues/61
-  #   escapeTime = 1;
-  #   mouse = true;
-  #   keyMode = "vi";
+  programs.tmux = {
+    enable = true;
+    shortcut = "j";
+    baseIndex = 1;
+    # Stop tmux+escape printing nonsense
+    # https://github.com/tmux-plugins/tmux-sensible/issues/61
+    escapeTime = 1;
+    mouse = true;
+    keyMode = "vi";
 
-  #   newSession = false;
-  #   # Force tmux to use /tmp for sockets (WSL2 compat)
-  #   secureSocket = false;
-  #   terminal = "tmux-256color";
-  #   clock24 = true;
-  #   # plugins = with pkgs.tmuxPlugins; [
-  #   #   # First plugins that adjust the right status bar
-  #   #   # {
-  #   #   #   plugin = tmux-tokyo-night;
-  #   #   #   extraConfig = ''
-  #   #   #     set -g @theme_plugin_datetime_format '%b %d %H:%M'
-  #   #   #     set -g @theme_left_separator ''
-  #   #   #     set -g @theme_right_separator ''
-  #   #   #   '';
-  #   #   # }
-  #   #   # Then resurrect and continuum pair
-  #   #   # {
-  #   #   #   plugin = resurrect;
-  #   #   #   extraConfig = ''
-  #   #   #     set -g @resurrect-capture-pane-contents 'on'
-  #   #   #   '';
-  #   #   # }
-  #   #   # {
-  #   #   #   plugin = continuum;
-  #   #   #   extraConfig = ''
-  #   #   #     set -g @continuum-restore 'on'
-  #   #   #     set -g @continuum-boot 'on'
-  #   #   #     set -g @continuum-save-interval '15' # minutes
-  #   #   #   '';
-  #   #   # }
-  #   #   # sensible
-  #   #   better-mouse-mode
-  #   #   extrakto # prefix + tab
-  #   #   fzf-tmux-url # prefix + u
-  #   #   pain-control # sensible splits and movement
-  #   #   tmux-thumbs # prefix + space
-  #   #   # TODO: add TMUX_FZF_MENU= for custom menu using extraConfig, for assume and pass
-  #   #   # https://github.com/sainnhe/tmux-fzf#user-menu
-  #   #   tmux-fzf
-  #   #   yank
-  #   # ];
+    newSession = false;
+    # Force tmux to use /tmp for sockets (WSL2 compat)
+    secureSocket = false;
+    terminal = "tmux-256color";
+    clock24 = true;
+    plugins = with pkgs.tmuxPlugins; [
+      {
+        plugin = dracula;
+        extraConfig = ''
+          set -g @dracula-show-battery false
+          set -g @dracula-show-powerline true
+          set -g @dracula-refresh-rate 10
+          set -g @dracula-show-left-icon "#S"
+          # for left
+          set -g @dracula-show-left-sep 
+          # for right symbol (can set any symbol you like as separator)
+          set -g @dracula-show-right-sep 
+        '';
+      }
+      # # Then resurrect and continuum pair
+      # {
+      #   plugin = resurrect;
+      #   extraConfig = ''
+      #     set -g @resurrect-capture-pane-contents 'on'
+      #   '';
+      # }
+      # {
+      #   plugin = continuum;
+      #   extraConfig = ''
+      #     set -g @continuum-restore 'on'
+      #     set -g @continuum-boot 'on'
+      #     set -g @continuum-save-interval '15' # minutes
+      #   '';
+      # }
+      sensible
+      better-mouse-mode
+      extrakto # prefix + tab
+      fzf-tmux-url # prefix + u
+      pain-control # sensible splits and movement
+      tmux-thumbs # prefix + space
+      # TODO: add TMUX_FZF_MENU= for custom menu using extraConfig, for assume and pass
+      # https://github.com/sainnhe/tmux-fzf#user-menu
+      tmux-fzf
+      yank
+    ];
 
-  #   extraConfig = builtins.readFile ./includes/tmux.conf;
-  # };
+    extraConfig = builtins.readFile ./includes/tmux.conf;
+  };
 
   home.file.".gemrc".text = "gem: --no-ri --no-rdoc";
   home.file.".p10k.zsh".source = ./includes/p10k.zsh;
