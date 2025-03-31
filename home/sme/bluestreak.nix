@@ -486,11 +486,16 @@ in {
     plugins = with pkgs.tmuxPlugins; [
       # First plugins that adjust the right status bar
       {
-        plugin = tmux-tokyo-night;
+        plugin = dracula;
         extraConfig = ''
-          set -g @theme_plugin_datetime_format '%b %d %H:%M'
-          set -g @theme_left_separator ''
-          set -g @theme_right_separator ''
+          set -g @dracula-show-battery false
+          set -g @dracula-show-powerline true
+          set -g @dracula-refresh-rate 10
+          set -g @dracula-show-left-icon "#S"
+          # for left
+          set -g @dracula-show-left-sep 
+          # for right symbol (can set any symbol you like as separator)
+          set -g @dracula-show-right-sep 
         '';
       }
       # Then resurrect and continuum pair
