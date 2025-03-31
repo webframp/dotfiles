@@ -351,5 +351,28 @@ capture was not aborted."
              (with-silent-modifications
                (ansi-color-apply-on-region (point-min) (point-max) t))))
 
+;; Copilot setup
+;; https://github.com/copilot-emacs/copilot.el
+(use-package! copilot
+  :hook (prog-mode . copilot-mode)
+  :bind (:map copilot-completion-map
+              ("<tab>" . 'copilot-accept-completion)
+              ("TAB" . 'copilot-accept-completion)
+              ("C-TAB" . 'copilot-accept-completion-by-word)
+              ("C-<tab>" . 'copilot-accept-completion-by-word)))
+
+;; Configuration settings for copilot-chat.el
+;; https://github.com/chep/copilot-chat.el
+;; TODO add doom compatible evil bindings
+(use-package! copilot-chat
+  :after copilot
+  :config
+  (setq copilot-chat-open-on-startup nil
+        copilot-chat-window-width 80
+        copilot-chat-window-height 20
+        copilot-chat-window-position 'bottom
+        copilot-chat-window-parameters '((minibuffer . nil)
+                                         (no-other-window . t)
+                                         (no-delete-other-windows . t))))
 ;; Non git tracked setttings
 (load! "+local")
