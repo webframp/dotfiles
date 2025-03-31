@@ -212,6 +212,8 @@ capture was not aborted."
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
+(setq-hook! 'dockerfile-mode-hook +format-inhibit t)
+
 (add-hook 'go-mode-hook #'lsp-deferred)
 ;; make sure other goimports hooks aren't enabled
 (defun lsp-go-install-save-hooks ()
