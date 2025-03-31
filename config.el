@@ -26,14 +26,14 @@
 ;; accept. For example:
 ;;
 
-;; (setq doom-font (font-spec :family "Inconsolata Nerd Font" :size 18 :weight 'semi-light)
-;;       doom-variable-pitch-font (font-spec :family "Inconsolata Nerd Font" :size 16))
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 20 :weight 'semi-light)
+      doom-variable-pitch-font (font-spec :family "Noto Sans" :size 20))
 
 ;; TODO future ideas
 ;; https://github.com/psibi/justl.el
 
 ;; Appearance
-(setq doom-theme 'doom-tokyo-night)
+(setq doom-theme 'doom-dracula)
 (setq display-line-numbers-type 'relative)
 
 (setq org-directory "~/org/")
