@@ -530,10 +530,12 @@ in {
     keys = ["id_ed25519" "BE06ADB38C7F719D"];
   };
 
-  programs.zellij.enable = true;
+  # TODO
+  # programs.jqp
+  # programs.zsh.initContent
 
   # Make sure VSCode is available and configured I guess?
-  programs.vscode = {
+  programs.vscode.profiles.default = {
     enable = true;
     extensions = with pkgs.vscode-extensions; [
       davidanson.vscode-markdownlint
