@@ -376,5 +376,22 @@ capture was not aborted."
         copilot-chat-window-parameters '((minibuffer . nil)
                                          (no-other-window . t)
                                          (no-delete-other-windows . t))))
+
+(defun +keychain-startup-hook ()
+  "Load keychain env after emacs"
+  (let* ((ssh (shell-command-to-string "keychain -q --noask --agents ssh --eval"))
+         (gpg (shell-command-to-string "keychain -q --noask --agents gpg --eval")))
+    (list (and ssh
+               (string-match "SSH_AUTH_SOCK[=\s]\\([^\s;\n]*\\)" ssh)
+               (setenv       "SSH_AUTH_SOCK" (match-string 1 ssh)))
+          (and ssh
+               (string-match "SSH_AGENT_PID[=\s]\\([0-9]*\\)?" ssh)
+               (setenv       "SSH_AGENT_PID" (match-string 1 ssh)))
+          (and gpg
+               (string-match "GPG_AGENT_INFO[=\s]\\([^\s;\n]*\\)" gpg)
+               (setenv       "GPG_AGENT_INFO" (match-string 1 gpg))))))
+
+(add-hook 'after-init-hook #'+keychain-startup-hook)
+
 ;; Non git tracked setttings
 (load! "+local")
