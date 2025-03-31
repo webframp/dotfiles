@@ -281,6 +281,8 @@ in {
     terminal = "tmux-256color";
     clock24 = true;
     plugins = with pkgs.tmuxPlugins; [
+      # https://github.com/dracula/tmux/blob/master/docs/CONFIG.md
+      # TODO: fix plugins. remove heart, Ethernet, weather? Move to module and share with bluestreak
       {
         plugin = dracula;
         extraConfig = ''
