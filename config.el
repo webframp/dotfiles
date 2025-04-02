@@ -372,6 +372,7 @@ capture was not aborted."
   :after copilot
   :config
   (setq copilot-chat-open-on-startup nil
+        copilot-indent-offset-warning-disable t
         copilot-chat-window-width 80
         copilot-chat-window-height 20
         copilot-chat-window-position 'bottom
