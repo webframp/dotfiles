@@ -412,7 +412,12 @@ in {
   };
 
   # doom emacs setup is still manual
-  programs.emacs.enable = true;
+  programs.emacs = {
+    enable = true;
+    package = pkgs.emacs.override { withNativeCompilation = false; };
+  };
+
+
   programs.eza.enable = true;
   programs.fastfetch.enable = true;
   programs.fd.enable = true;
@@ -538,6 +543,7 @@ in {
   # TODO
   # programs.jqp
   # programs.zsh.initContent
+  # services.home-manager.autoExpire.enable
 
   # Make sure VSCode is available and configured I guess?
   programs.vscode.profiles.default = {
