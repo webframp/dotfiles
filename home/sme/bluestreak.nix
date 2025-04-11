@@ -101,6 +101,7 @@ in {
       yq-go
       tmux
       keychain
+      mas
       mob
       nodejs_20
       ollama
@@ -414,9 +415,8 @@ in {
   # doom emacs setup is still manual
   programs.emacs = {
     enable = true;
-    package = pkgs.emacs.override { withNativeCompilation = false; };
+    package = pkgs.emacs.override {withNativeCompilation = false;};
   };
-
 
   programs.eza.enable = true;
   programs.fastfetch.enable = true;
