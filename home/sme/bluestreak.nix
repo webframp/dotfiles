@@ -447,7 +447,7 @@ in {
       colors.draw_bold_text_with_bright_colors = true;
 
       font = {
-        normal.family = "EnvyCodeR Nerd Font Mono";
+        normal.family = "JetBrainsMono Nerd Font Mono";
         size = 18.0;
         offset.x = 0;
         offset.y = 0;
