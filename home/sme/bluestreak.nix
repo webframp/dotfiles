@@ -493,6 +493,8 @@ in {
       {
         plugin = dracula;
         extraConfig = ''
+          set -g @dracula-plugins "weather"
+          set -g @dracula-show-location false
           set -g @dracula-show-battery false
           set -g @dracula-show-powerline true
           set -g @dracula-refresh-rate 10
@@ -501,6 +503,7 @@ in {
           set -g @dracula-show-left-sep 
           # for right symbol (can set any symbol you like as separator)
           set -g @dracula-show-right-sep 
+          bind-key R source-file ~/.config/tmux/tmux.conf \; display "Reloaded!"
         '';
       }
       # Then resurrect and continuum pair
