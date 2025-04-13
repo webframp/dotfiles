@@ -415,6 +415,8 @@ in {
   # doom emacs setup is still manual
   programs.emacs = {
     enable = true;
+    # workaround for https://github.com/NixOS/nixpkgs/issues/395169
+    # can remove possibly after https://github.com/NixOS/nixpkgs/pull/398156
     package = pkgs.emacs.override {withNativeCompilation = false;};
   };
 
@@ -427,6 +429,8 @@ in {
 
   programs.alacritty = {
     enable = true;
+    # https://github.com/alacritty/alacritty-theme/tree/master/themes
+    theme = "dracula";
     settings = {
       env = {
         TERM = "xterm-256color";
