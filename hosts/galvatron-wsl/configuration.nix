@@ -95,7 +95,7 @@
     wslu
     xdg-utils
     termdown
-    emacs-pgtk
+    emacs
     podman
     podman-compose
     hey
