@@ -282,12 +282,14 @@ in {
     clock24 = true;
     plugins = with pkgs.tmuxPlugins; [
       # https://github.com/dracula/tmux/blob/master/docs/CONFIG.md
-      # TODO: fix plugins. remove heart, Ethernet, weather? Move to module and share with bluestreak
+      # TODO: Move to module and share with bluestreak
+      # Weather uses: https://wttr.in/:help
       {
         plugin = dracula;
         extraConfig = ''
           set -g @dracula-plugins "weather"
           set -g @dracula-show-location false
+          set -g @dracula-fixed-location "Wappingers Falls, NY"
           set -g @dracula-show-battery false
           set -g @dracula-show-powerline true
           set -g @dracula-refresh-rate 10
