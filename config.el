@@ -212,6 +212,14 @@ capture was not aborted."
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
+
+;; Only for WSL, needed for screenshots to work
+(if (getenv "WSL_DISTRO_NAME")
+    ;; Only needed for WSL
+    (after! org-download
+      (setq org-download-screenshot-method
+            "powershell.exe -Command \"(Get-Clipboard -Format image).Save('$(wslpath -w %s)')\"")))
+
 (setq-hook! 'dockerfile-mode-hook +format-inhibit t)
 
 (add-hook 'go-mode-hook #'lsp-deferred)
