@@ -214,11 +214,11 @@ capture was not aborted."
 
 
 ;; Only for WSL, needed for screenshots to work
-(if (getenv "WSL_DISTRO_NAME")
-    ;; Only needed for WSL
-    (after! org-download
-      (setq org-download-screenshot-method
-            "powershell.exe -Command \"(Get-Clipboard -Format image).Save('$(wslpath -w %s)')\"")))
+(when (featurep :system 'wsl)
+  ;; Only needed for WSL
+  (after! org-download
+    (setq org-download-screenshot-method
+          "powershell.exe -Command \"(Get-Clipboard -Format image).Save('$(wslpath -w %s)')\"")))
 
 (setq-hook! 'dockerfile-mode-hook +format-inhibit t)
 
@@ -284,9 +284,7 @@ capture was not aborted."
   (add-to-list 'flycheck-disabled-checkers 'chef-foodcritic))
 
 ;; WSL Specific
-(when (and (eq system-type 'gnu/linux)
-           (getenv "WSLENV"))
-
+(when (featurep :system 'wsl)
   ;; open links in default browser
   (let ((cmd-exe "/mnt/c/Windows/System32/cmd.exe")
         (cmd-args '("/c" "start")))
