@@ -110,7 +110,7 @@
        ;;upload            ; map local to remote projects via ssh/ftp
 
        :os
-       (:if IS-MAC macos)  ; improve compatibility with macOS
+       (when (featurep :system 'macos) macos)  ; improve compatibility with macOS
        (tty +osc)               ; improve the terminal Emacs experience
 
        :lang
@@ -145,7 +145,7 @@
        ;;idris             ; a language you can depend on
        (json +tree-sitter)              ; At least it ain't XML
        ;;(java +lsp)       ; the poster child for carpal tunnel syndrome
-       (javascript +tree-sitter)        ; all(hope(abandon(ye(who(enter(here))))))
+       (javascript +lsp +tree-sitter)        ; all(hope(abandon(ye(who(enter(here))))))
        ;;julia             ; a better, faster MATLAB
        ;;kotlin            ; a better, slicker Java(Script)
        ;;latex             ; writing papers in Emacs has never been so fun
@@ -158,6 +158,7 @@
             +lsp)          ; I hereby declare "nix geht mehr!"
        ;;ocaml             ; an objective camel
        (org
+        +dragndrop
         +present
         +pretty
         +roam2)               ; organize your plain life in plain text
@@ -197,7 +198,7 @@
        ;;calendar
        ;;emms
        ;;everywhere        ; *leave* Emacs!? You must be joking
-       ;;irc               ; how neckbeards socialize
+       irc               ; how neckbeards socialize
        (rss +org)        ; emacs as an RSS reader
        ;;twitter           ; twitter client https://twitter.com/vnought
 
