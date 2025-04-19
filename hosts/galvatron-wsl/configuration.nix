@@ -286,7 +286,7 @@
           nvim-web-devicons
           nvim-lspconfig
           (nvim-treesitter.withPlugins
-            (plugins: with plugins; [tree-sitter-go]))
+            (plugins: with plugins; [tree-sitter-go tree-sitter-nix]))
           tokyonight-nvim
           telescope-nvim
           todo-comments-nvim
@@ -295,6 +295,7 @@
           vim-airline-themes
           vim-better-whitespace
           vim-fugitive
+          vim-nix
           vim-repeat
           vim-shellcheck
           vim-surround
