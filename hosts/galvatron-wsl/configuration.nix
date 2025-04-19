@@ -126,6 +126,7 @@
     st
     firefox
     gnome-tweaks
+    gnutls
 
     # afterwards run: (these should be automatic somehow)
     # granted browser set -b firefox -p /mnt/c/Users/sme/scoop/shims/firefox.exe (if using non-wsl ff)
