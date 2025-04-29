@@ -175,7 +175,7 @@ in {
     '';
     # alias assume="source ${pkgs.granted}/bin/.assume-wrapped"
 
-    initExtra = builtins.readFile ./includes/zshrc;
+    initContent = builtins.readFile ./includes/zshrc;
     loginExtra = builtins.readFile ./includes/zlogin;
     profileExtra = ''
       WORDCHARS=''${WORDCHARS//\/[&.;]}                                 # Don't consider certain characters part of the word
