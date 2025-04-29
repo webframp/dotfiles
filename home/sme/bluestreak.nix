@@ -239,7 +239,7 @@ in {
       export JSII_SILENCE_WARNING_UNTESTED_NODE_VERSION=true
     '';
 
-    initExtra = builtins.readFile ./global/includes/zshrc;
+    initContent = builtins.readFile ./global/includes/zshrc;
     loginExtra = builtins.readFile ./global/includes/zlogin;
     profileExtra = ''
       WORDCHARS=''${WORDCHARS//\/[&.;]}                                 # Don't consider certain characters part of the word
