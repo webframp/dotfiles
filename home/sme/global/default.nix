@@ -63,6 +63,7 @@ in {
       git-lfs
       git-extras
       # gitmux
+      glab
       gnumake
       gnupg
       graphviz-nox
