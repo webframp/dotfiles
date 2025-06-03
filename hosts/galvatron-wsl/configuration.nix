@@ -229,14 +229,13 @@
       # https://github.com/NixOS/nixpkgs/blob/master/pkgs/tools/misc/mtm/default.nix#L24
       # export TERM=xterm-24bit
 
-      # remove agents arg if using only gpg
       # BE06ADB38C7F719D must exist, not managing gpg setup with nix yet
       # after copying .gnupg from encrypted backup, run:
       # chown -R $(whoami) ~/.gnupg/
       # find ~/.gnupg -type f -exec chmod 600 {} \;
       # find ~/.gnupg -type d -exec chmod 700 {} \;
-      eval $(keychain --eval --agents ssh,gpg id_ed25519 BE06ADB38C7F719D)
 
+      eval $(keychain --eval id_ed25519 BE06ADB38C7F719D)
       eval "$(zoxide init bash)"
       eval "$(direnv hook bash)"
 
