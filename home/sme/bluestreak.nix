@@ -543,7 +543,6 @@ in {
   programs.keychain = {
     enable = true;
     enableZshIntegration = true;
-    agents = ["ssh" "gpg"];
     keys = ["id_ed25519" "BE06ADB38C7F719D"];
   };
 
