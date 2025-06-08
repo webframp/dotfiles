@@ -46,6 +46,7 @@ in {
       aws-cdk
       nodePackages.cdktf-cli #_latest is broken
       cdk8s-cli
+      claude-code
       coreutils
       csharpier
       csvkit
