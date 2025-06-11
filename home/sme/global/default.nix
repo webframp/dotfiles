@@ -288,7 +288,8 @@ in {
       {
         plugin = dracula;
         extraConfig = ''
-          set -g @dracula-plugins "weather"
+          set -g @dracula-plugins "time"
+          set -g @dracula-show-timezone false
           set -g @dracula-show-location false
           set -g @dracula-fixed-location "Wappingers Falls, NY"
           set -g @dracula-show-battery false
