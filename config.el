@@ -245,12 +245,19 @@ capture was not aborted."
 (global-set-key (kbd "<mouse-4>") 'scroll-down-line)
 (global-set-key (kbd "<mouse-5>") 'scroll-up-line)
 
+<<<<<<< HEAD
 ;; Some generic mappings
 (map! :leader
       :prefix ("o e" . "elfeed")
       "e" #'elfeed
       "u" #'elfeed-update
       "k" #'elfeed-unjam)
+||||||| parent of 77ceb8d (enable elfeed binding and vterm)
+(map! :leader :desc "Copy secret from pass"  "o s" #'+pass/consult)
+=======
+(map! :leader :desc "Copy secret from pass"  "o s" #'+pass/consult)
+(map! :leader :desc "Open elfeed"  "o e" #'elfeed)
+>>>>>>> 77ceb8d (enable elfeed binding and vterm)
 
 (map! :leader :prefix "o" :desc "Copy secret from pass"  "x" #'+pass/consult)
 
