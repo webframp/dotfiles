@@ -47,6 +47,7 @@ in {
       nodePackages.cdktf-cli #_latest is broken
       cdk8s-cli
       claude-code
+      coder
       coreutils
       csharpier
       csvkit
