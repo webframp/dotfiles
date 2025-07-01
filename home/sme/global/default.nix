@@ -60,6 +60,7 @@ in {
       ffmpeg
       file
       fzf
+      gemini-cli
       gh
       git
       git-lfs
