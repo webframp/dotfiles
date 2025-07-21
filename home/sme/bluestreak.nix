@@ -74,6 +74,7 @@ in {
       aws-cdk
       # cdktf-cli
       # cdk8s-cli
+      coder
       coreutils-prefixed
       delta
       devbox
