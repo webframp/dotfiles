@@ -74,7 +74,7 @@ in {
       aws-cdk
       # cdktf-cli
       # cdk8s-cli
-      coreutils
+      coreutils-prefixed
       delta
       devbox
       devcontainer
@@ -87,6 +87,7 @@ in {
       git
       git-lfs
       git-extras
+      gemini-cli
       # gitmux
       granted
       gnumake
@@ -126,7 +127,7 @@ in {
       vale
       vault
       yt-dlp
-      zbar
+      # zbar
       zip
       zoxide
 
@@ -167,6 +168,11 @@ in {
       pandoc
       shfmt
       shellcheck
+      pngpaste
+      graphviz
+      stylelint
+      js-beautify
+      fontconfig
 
       # zplug seems to need
       perl
@@ -184,6 +190,7 @@ in {
     lls = "${pkgs.eza}/bin/eza --color=auto --group-directories-first --classify";
     lll = "${lls} --all --long --header --group";
     cdtemp = "cd `mktemp -df`";
+    docker = "podman";
     # git
     gst = "git status";
     gpo = "git push origin HEAD";
@@ -466,8 +473,10 @@ in {
     };
   };
 
+  # ghosttty is installed via downloads from site
   # programs.ghostty = {
   #   enable = true;
+  #   package = inputs.ghostty.packages.${pkgs.stdenv.hostPlatform.system}.default;
   #   settings = {
   #     auto-update = "off";
   #     background-opacity = 0.8;
