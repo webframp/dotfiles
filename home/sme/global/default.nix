@@ -106,7 +106,7 @@ in {
       xvfb-run
       xorg.xvfb
       yt-dlp
-      zbar
+      # zbar
       zip
       zoxide
 
