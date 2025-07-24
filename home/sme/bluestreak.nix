@@ -114,7 +114,6 @@ in {
       pipx
       podman
       pry
-      python3
       ripgrep
       spotify
       terraform
@@ -136,6 +135,7 @@ in {
       k9s
       kubectl
       kubectx
+      kubeswitch
       kubernetes-helm
       kustomize
       go
@@ -432,60 +432,7 @@ in {
   programs.fastfetch.enable = true;
   programs.fd.enable = true;
   programs.zoxide.enable = true;
-
   programs.carapace.enable = true;
-
-  programs.alacritty = {
-    enable = true;
-    # https://github.com/alacritty/alacritty-theme/tree/master/themes
-    theme = "dracula";
-    settings = {
-      env = {
-        TERM = "xterm-256color";
-      };
-      window = {
-        dimensions = {
-          columns = 0;
-          lines = 0;
-        };
-        padding = {
-          x = 2;
-          y = 2;
-        };
-        dynamic_padding = false;
-        decorations = "buttonless";
-        opacity = 0.8;
-        startup_mode = "Maximized";
-        option_as_alt = "OnlyLeft";
-      };
-
-      scrolling.history = 10000;
-      scrolling.multiplier = 3;
-      colors.draw_bold_text_with_bright_colors = true;
-
-      font = {
-        normal.family = "JetBrainsMono Nerd Font Mono";
-        size = 18.0;
-        offset.x = 0;
-        offset.y = 0;
-        glyph_offset.x = 0;
-        glyph_offset.y = 0;
-      };
-    };
-  };
-
-  # ghosttty is installed via downloads from site
-  # programs.ghostty = {
-  #   enable = true;
-  #   package = inputs.ghostty.packages.${pkgs.stdenv.hostPlatform.system}.default;
-  #   settings = {
-  #     auto-update = "off";
-  #     background-opacity = 0.8;
-  #     confirm-close-surface = false;
-  #     font-family = "FiraCode Nerd Font Mono";
-  #     font-size = 12;
-  #   };
-  # };
 
   programs.tmux = {
     enable = true;
