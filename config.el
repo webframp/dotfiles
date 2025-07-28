@@ -309,16 +309,6 @@ capture was not aborted."
              (with-silent-modifications
                (ansi-color-apply-on-region (point-min) (point-max) t))))
 
-;; TODO remove if not needed
-;; accept completion from copilot and fallback to company
-;; (use-package! copilot
-;;   :hook (prog-mode . copilot-mode)
-;;   :bind (:map copilot-completion-map
-;;               ("<tab>" . 'copilot-accept-completion)
-;;               ("TAB" . 'copilot-accept-completion)
-;;               ("C-TAB" . 'copilot-accept-completion-by-word)
-;;               ("C-<tab>" . 'copilot-accept-completion-by-word)))
-
 ;; Popup rules
 ;; https://github.com/hlissner/doom-emacs/tree/develop/modules/ui/popup
 ;; https://discord.com/channels/406534637242810369/603399769015975996/708468856233918534
@@ -370,7 +360,10 @@ capture was not aborted."
              (with-silent-modifications
                (ansi-color-apply-on-region (point-min) (point-max) t))))
 
-;; TODO disable docker format on save
+(after! gptel
+  (setq gptel-model 'claude-3.7-sonnet
+        gptel-backend (gptel-make-gh-copilot "Copilot")))
 
+;; TODO disable docker format on save
 ;; Non git tracked setttings
 (load! "+local")
