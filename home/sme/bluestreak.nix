@@ -506,7 +506,6 @@ in {
   # TODO
   # programs.jqp
   # programs.zsh.initContent
-  # services.home-manager.autoExpire.enable
 
   # Make sure VSCode is available and configured I guess?
   programs.vscode.profiles.default = {
@@ -546,5 +545,11 @@ in {
           "google chrome"
       ]
     '';
+  };
+
+  services.home-manager.autoExpire = {
+    enable = true;
+    frequency = "weekly";
+    timestamp = "-7 days";
   };
 }
