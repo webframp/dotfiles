@@ -26,14 +26,16 @@
 ;; accept. For example:
 ;;
 
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 20 :weight 'semi-light)
-      doom-variable-pitch-font (font-spec :family "Noto Sans" :size 20))
+;; temp measure to use a good font, need to make a platform dependent decision
+(setq doom-font (font-spec :family "Hack Nerd Font Mono" :size 18)
+      doom-variable-pitch-font (font-spec :family "Hack Nerd Font Mono" :size 16))
+
 
 ;; TODO future ideas
 ;; https://github.com/psibi/justl.el
 
 ;; Appearance
-(setq doom-theme 'doom-dracula)
+(setq doom-theme 'doom-one)
 (setq display-line-numbers-type 'relative)
 
 (setq org-directory "~/org/")
@@ -257,6 +259,11 @@ capture was not aborted."
       :n "gy" #'forge-copy-url-at-point-as-kill)
 ;; :n "go" #'forge-browse-dwim)
 
+(map! :after org-tree-slide
+      :map org-tree-slide-mode-map
+      :n "C-x t l" #'org-tree-slide-move-next-tree
+      :n "C-x t h" #'org-tree-slide-move-previous-tree)
+
 ;; Add some push options to magit
 ;; https://docs.gitlab.com/ee/user/project/push_options.html
 ;; https://github.com/magit/magit/issues/3717
@@ -286,6 +293,7 @@ capture was not aborted."
 ;; WSL Specific
 (when (featurep :system 'wsl)
   ;; open links in default browser
+  ;; TODO detect platform correctly (what does correct mean?)
   (let ((cmd-exe "/mnt/c/Windows/System32/cmd.exe")
         (cmd-args '("/c" "start")))
     (when (file-exists-p cmd-exe)
@@ -301,6 +309,7 @@ capture was not aborted."
              (with-silent-modifications
                (ansi-color-apply-on-region (point-min) (point-max) t))))
 
+;; TODO remove if not needed
 ;; accept completion from copilot and fallback to company
 ;; (use-package! copilot
 ;;   :hook (prog-mode . copilot-mode)
@@ -361,46 +370,7 @@ capture was not aborted."
              (with-silent-modifications
                (ansi-color-apply-on-region (point-min) (point-max) t))))
 
-;; Copilot setup
-;; https://github.com/copilot-emacs/copilot.el
-(use-package! copilot
-  :hook (prog-mode . copilot-mode)
-  :bind (:map copilot-completion-map
-              ("<tab>" . 'copilot-accept-completion)
-              ("TAB" . 'copilot-accept-completion)
-              ("C-TAB" . 'copilot-accept-completion-by-word)
-              ("C-<tab>" . 'copilot-accept-completion-by-word)))
-
-;; Configuration settings for copilot-chat.el
-;; https://github.com/chep/copilot-chat.el
-;; TODO add doom compatible evil bindings
-(use-package! copilot-chat
-  :after copilot
-  :config
-  (setq copilot-chat-open-on-startup nil
-        copilot-indent-offset-warning-disable t
-        copilot-chat-window-width 80
-        copilot-chat-window-height 20
-        copilot-chat-window-position 'bottom
-        copilot-chat-window-parameters '((minibuffer . nil)
-                                         (no-other-window . t)
-                                         (no-delete-other-windows . t))))
-
-(defun +keychain-startup-hook ()
-  "Load keychain env after emacs"
-  (let* ((ssh (shell-command-to-string "keychain -q --noask --agents ssh --eval"))
-         (gpg (shell-command-to-string "keychain -q --noask --agents gpg --eval")))
-    (list (and ssh
-               (string-match "SSH_AUTH_SOCK[=\s]\\([^\s;\n]*\\)" ssh)
-               (setenv       "SSH_AUTH_SOCK" (match-string 1 ssh)))
-          (and ssh
-               (string-match "SSH_AGENT_PID[=\s]\\([0-9]*\\)?" ssh)
-               (setenv       "SSH_AGENT_PID" (match-string 1 ssh)))
-          (and gpg
-               (string-match "GPG_AGENT_INFO[=\s]\\([^\s;\n]*\\)" gpg)
-               (setenv       "GPG_AGENT_INFO" (match-string 1 gpg))))))
-
-(add-hook 'after-init-hook #'+keychain-startup-hook)
+;; TODO disable docker format on save
 
 ;; Non git tracked setttings
 (load! "+local")

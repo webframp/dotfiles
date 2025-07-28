@@ -7,15 +7,18 @@
 
 ;; (package! copilot
 ;;   :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el")))
-
-;; (package! gptel)
+(package! copilot
+  :recipe (:host github :repo "zerolfx/copilot.el" :files ("*.el" "dist")))
 
 (package! jsonnet-mode)
+(package! pkl-mode)
 (package! org-super-agenda)
-(package! pinentry)
 
-(package! copilot
-  :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el")))
+;; https://github.com/tninja/aider.el
+;; TODO setup mu4e + offline imap for o365
+;; https://github.com/UvA-FNWI/M365-IMAP
 
-(package! copilot-chat
-  :recipe (:host github :repo "chep/copilot-chat.el" :files ("*.el")))
+;; Smooth scrolling on macOS: https://github.com/jdtsmith/ultra-scroll
+(when (featurep :system 'macos)
+  (package! ultra-scroll
+    :recipe (:host github :repo "jdtsmith/ultra-scroll" :files ("*.el"))))

@@ -21,7 +21,7 @@
        ;;layout            ; auie,ctsrnm is the superior home row
 
        :completion
-       ;;company           ; the ultimate code completion backend
+       ;;company             ; the ultimate code completion backend
        (corfu +icons +orderless +dabbrev)  ; complete with cap(f), cape and a flying feather!
        ;;helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
@@ -88,6 +88,7 @@
        :tools
        ansible
        ;;biblio            ; Writes a PhD for you (citation needed)
+       ;;collab            ; buffers with friends
        ;;debugger          ; FIXME stepping through code, to help you add bugs
        direnv
        docker
@@ -97,21 +98,20 @@
        ;;gist              ; interacting with github gists
        (lookup
         +dictionary)       ; navigate your code and its documentation
-       (lsp +eglot)                 ; M-x vscode
+       ;;llm               ; when I said you needed friends, I didn't mean...
+       lsp                 ; M-x vscode
        (magit +forge)      ; a git porcelain for Emacs
        make                ; run make tasks from Emacs
        pass                ; password manager for nerds
        ;;pdf               ; pdf enhancements
-       ;;prodigy           ; FIXME managing external services & code builders
-       ;;rgb               ; creating color strings
-       (terraform +lsp)           ; infrastructure as code
+       terraform           ; infrastructure as code
        ;;tmux              ; an API for interacting with tmux
        tree-sitter         ; syntax and parsing, sitting in a tree...
        ;;upload            ; map local to remote projects via ssh/ftp
 
        :os
-       (when (featurep :system 'macos) macos)  ; improve compatibility with macOS
-       (tty +osc)               ; improve the terminal Emacs experience
+       (:if (featurep :system 'macos) macos)  ; improve compatibility with macOS
+       (tty)               ; improve the terminal Emacs experience
 
        :lang
        ;;agda              ; types of types of types of types...
@@ -205,6 +205,4 @@
        :config
        ;;literate
 
-       ;; :sme
-       ;; (outlook) ; Crazy experiment to integrate outlook calendar
        (default +bindings +smartparens))
