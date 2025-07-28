@@ -463,6 +463,8 @@ in {
           # for right symbol (can set any symbol you like as separator)
           set -g @dracula-show-right-sep 
           bind-key R source-file ~/.config/tmux/tmux.conf \; display "Reloaded!"
+          # quick bind for org-capture
+          bind-key O run-shell ~/.config/emacs/bin/org-capture \; display "org-capture launched"
         '';
       }
       # Then resurrect and continuum pair
@@ -529,5 +531,20 @@ in {
       "editor.renderWhitespace" = "all";
       "editor.defaultFormatter" = "esbenp.prettier-vscode";
     };
+  };
+
+  # Services config - experiment
+  services.skhd = {
+    enable = false;
+    config = ''
+      hyper - c : ~/.config/emacs/bin/org-capture
+      hyper - t : ~/test.sh
+
+      # prevent skhd monitoring events for listed processes
+      .blacklist [
+          "ghostty"
+          "google chrome"
+      ]
+    '';
   };
 }
