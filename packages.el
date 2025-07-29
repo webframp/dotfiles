@@ -14,5 +14,9 @@
   (package! ultra-scroll
     :recipe (:host github :repo "jdtsmith/ultra-scroll" :files ("*.el"))))
 
+;; https://github.com/jwiegley/gptel-prompts
+(package! gptel-prompts
+  :recipe (:host github :repo "jwiegley/gptel-prompts" :files ("*.el")))
+
 ;; TODO maybe, setup mu4e + offline imap for o365
 ;; https://github.com/UvA-FNWI/M365-IMAP

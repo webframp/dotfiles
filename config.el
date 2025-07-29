@@ -222,6 +222,7 @@ capture was not aborted."
     (setq org-download-screenshot-method
           "powershell.exe -Command \"(Get-Clipboard -Format image).Save('$(wslpath -w %s)')\"")))
 
+;; disable docker format on save
 (setq-hook! 'dockerfile-mode-hook +format-inhibit t)
 
 (add-hook 'go-mode-hook #'lsp-deferred)
@@ -363,10 +364,29 @@ capture was not aborted."
 ;; TODO investigate
 ;; https://github.com/JDNdeveloper/gptel-autocomplete
 ;; https://github.com/jwiegley/gptel-prompts
+
+;; Predefine custom prompts directory
+(setq gptel-prompts-directory (expand-file-name (concat doom-user-dir "prompts")))
+;; Ensure the prompt directory exists
+(unless (file-directory-p gptel-prompts-directory) (make-directory gptel-prompts-directory))
+
+(defun sme/get-gemini-api-key ()
+  "Retrieve Gemini API key from password store"
+  (require 'auth-source-pass)
+  (auth-source-pass-get 'secret "gemini-api-key"))
+
 (after! gptel
   (setq gptel-model 'claude-3.7-sonnet
-        gptel-backend (gptel-make-gh-copilot "Copilot")))
+        gptel-backend (gptel-make-gh-copilot "Copilot"))
+  (gptel-make-gemini "Gemini" :key #'sme/get-gemini-api-key :stream t))
 
-;; TODO disable docker format on save
+(use-package! gptel-prompts
+  :after (gptel)
+  :demand t
+  :config
+  (gptel-prompts-update)
+  ;; Ensure prompts are updated when files change
+  (gptel-prompts-add-update-watchers))
+
 ;; Non git tracked setttings
 (load! "+local")
