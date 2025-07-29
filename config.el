@@ -360,6 +360,9 @@ capture was not aborted."
              (with-silent-modifications
                (ansi-color-apply-on-region (point-min) (point-max) t))))
 
+;; TODO investigate
+;; https://github.com/JDNdeveloper/gptel-autocomplete
+;; https://github.com/jwiegley/gptel-prompts
 (after! gptel
   (setq gptel-model 'claude-3.7-sonnet
         gptel-backend (gptel-make-gh-copilot "Copilot")))
