@@ -136,7 +136,6 @@ in {
       k9s
       kubectl
       kubectx
-      kubeswitch
       kubernetes-helm
       kustomize
       go
@@ -504,6 +503,8 @@ in {
     enableZshIntegration = true;
     keys = ["id_ed25519" "BE06ADB38C7F719D"];
   };
+
+  programs.kubeswitch.enable = true;
 
   # TODO
   # programs.jqp
