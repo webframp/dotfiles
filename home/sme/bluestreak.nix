@@ -211,8 +211,9 @@ in {
 
     # kube
     k = "kubectl";
-    kx = "kubectx";
-    kn = "kubens";
+    kn = "kswitch ns";
+    ks = "kswitch";
+    kx = "kswitch";
   };
 
   # Explicitly enable shell integration for supported tools
