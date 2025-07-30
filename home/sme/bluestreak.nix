@@ -113,6 +113,7 @@ in {
       pinentry_mac
       pipx
       podman
+      podman-compose
       pry
       ripgrep
       spotify
