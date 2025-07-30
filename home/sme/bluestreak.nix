@@ -134,7 +134,6 @@ in {
       # kubernetes
       k9s
       kubectl
-      kubectx
       kubernetes-helm
       kustomize
       go
