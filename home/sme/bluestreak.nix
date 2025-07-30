@@ -246,6 +246,7 @@ in {
       export PATH="/opt/homebrew/bin:$PATH"
       export FORCE_NO_ALIAS=true
       export JSII_SILENCE_WARNING_UNTESTED_NODE_VERSION=true
+      export PODMAN_COMPOSE_WARNING_LOGS=false
     '';
 
     initContent = builtins.readFile ./global/includes/zshrc;
@@ -465,7 +466,7 @@ in {
           set -g @dracula-show-right-sep 
           bind-key R source-file ~/.config/tmux/tmux.conf \; display "Reloaded!"
           # quick bind for org-capture
-          bind-key O run-shell ~/.config/emacs/bin/org-capture \; display "org-capture launched"
+          bind-key O run-shell -b "sh -c '~/.config/emacs/bin/org-capture' | grep -v '^nil$' || true"
         '';
       }
       # Then resurrect and continuum pair
@@ -531,21 +532,6 @@ in {
       "editor.renderWhitespace" = "all";
       "editor.defaultFormatter" = "esbenp.prettier-vscode";
     };
-  };
-
-  # Services config - experiment
-  services.skhd = {
-    enable = false;
-    config = ''
-      hyper - c : ~/.config/emacs/bin/org-capture
-      hyper - t : ~/test.sh
-
-      # prevent skhd monitoring events for listed processes
-      .blacklist [
-          "ghostty"
-          "google chrome"
-      ]
-    '';
   };
 
   services.home-manager.autoExpire = {
