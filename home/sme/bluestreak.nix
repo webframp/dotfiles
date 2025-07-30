@@ -215,6 +215,9 @@ in {
     kn = "kubens";
   };
 
+  # Explicitly enable shell integration for supported tools
+  home.shell.enableShellIntegration = true;
+
   # startup speed checking
   # for i in $(seq 1 5); do /run/current-system/sw/bin/time -p ~/.nix-profile/bin/zsh -i -c exit; done
   programs.zsh = {
@@ -289,7 +292,6 @@ in {
 
   programs.fzf = {
     enable = true;
-    enableZshIntegration = true;
     # CTRL-T
     fileWidgetOptions = [
       "--preview 'bat -n --color=always {}'"
@@ -500,7 +502,6 @@ in {
 
   programs.keychain = {
     enable = true;
-    enableZshIntegration = true;
     keys = ["id_ed25519" "BE06ADB38C7F719D"];
   };
 
