@@ -90,7 +90,6 @@ in {
       git-extras
       gemini-cli
       # gitmux
-      granted
       gnumake
       gnused
       htop
@@ -247,7 +246,6 @@ in {
       export AWS_VAULT_BACKEND=pass
       export ZSH_AUTOSUGGEST_USE_ASYNC=true
       export PATH="/opt/homebrew/bin:$PATH"
-      export FORCE_NO_ALIAS=true
       export JSII_SILENCE_WARNING_UNTESTED_NODE_VERSION=true
       export PODMAN_COMPOSE_WARNING_LOGS=false
     '';
@@ -507,6 +505,7 @@ in {
   };
 
   programs.kubeswitch.enable = true;
+  programs.granted.enable = true;
 
   # TODO
   # programs.jqp
