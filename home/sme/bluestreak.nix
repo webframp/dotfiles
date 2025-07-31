@@ -132,7 +132,7 @@ in {
       zoxide
 
       # kubernetes
-      k9s
+      kind
       kubectl
       kubernetes-helm
       kustomize
@@ -503,6 +503,7 @@ in {
     keys = ["id_ed25519" "BE06ADB38C7F719D"];
   };
 
+  programs.k9s.enable = true;
   programs.kubeswitch.enable = true;
   programs.granted.enable = true;
 
