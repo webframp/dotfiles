@@ -115,7 +115,6 @@ in {
       podman-compose
       pry
       ripgrep
-      spotify
       terraform
       terraform-docs
       tflint
