@@ -74,6 +74,7 @@ in {
       aws-cdk
       # cdktf-cli
       # cdk8s-cli
+      claude-code
       coder
       coreutils-prefixed
       delta
@@ -246,6 +247,7 @@ in {
       export PATH="/opt/homebrew/bin:$PATH"
       export JSII_SILENCE_WARNING_UNTESTED_NODE_VERSION=true
       export PODMAN_COMPOSE_WARNING_LOGS=false
+      export CLAUDE_CODE_USE_BEDROCK=1
     '';
 
     initContent = builtins.readFile ./global/includes/zshrc;
