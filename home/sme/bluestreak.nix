@@ -484,7 +484,7 @@ in {
         '';
       }
       better-mouse-mode
-      extrakto # prefix + tab
+      # extrakto # prefix + tab
       fzf-tmux-url # prefix + u
       pain-control # sensible splits and movement
       tmux-thumbs # prefix + space
