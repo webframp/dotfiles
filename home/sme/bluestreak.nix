@@ -296,6 +296,10 @@ in {
           tags = ["defer:2" "use:rationalize-dot.plugin.zsh"];
         }
         {name = "webframp/zsh-you-should-use";}
+        {
+          name = "plugins/kubectl";
+          tags = ["defer:2" "from:oh-my-zsh"];
+        }
       ];
     };
   };
