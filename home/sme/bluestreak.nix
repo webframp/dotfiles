@@ -281,6 +281,21 @@ in {
           name = "webframp/powerlevel10k";
           tags = ["as:theme" "depth:1"];
         }
+        {
+          # https://github.com/wfxr/forgit
+          name = "webframp/zsh-forgit";
+          tags = ["defer:0"];
+        }
+        {
+          # https://github.com/hlissner/zsh-autopair
+          name = "webframp/zsh-autopair";
+          tags = ["defer:2"];
+        }
+        {
+          name = "webframp/zsh-plugins";
+          tags = ["defer:2" "use:rationalize-dot.plugin.zsh"];
+        }
+        {name = "webframp/zsh-you-should-use";}
       ];
     };
   };
