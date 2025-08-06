@@ -150,6 +150,7 @@ in {
       patchelf
 
       # emacs
+      emacs-lsp-booster
       vscode-langservers-extracted
       # bash-language-server
       cspell
