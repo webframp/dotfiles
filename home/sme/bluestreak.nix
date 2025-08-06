@@ -139,6 +139,7 @@ in {
       kustomize
       go
       clang
+      mcp-k8s-go # https://github.com/strowk/mcp-k8s-go
 
       # Nix related
       alejandra
