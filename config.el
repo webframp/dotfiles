@@ -247,7 +247,7 @@ capture was not aborted."
 (global-set-key (kbd "<mouse-4>") 'scroll-down-line)
 (global-set-key (kbd "<mouse-5>") 'scroll-up-line)
 
-(map! :leader :desc "Copy secret from pass"  "o s" #'+pass/consult)
+;; (map! :leader :desc "Copy secret from pass"  "o s" #'+pass/consult)
 
 (map! :after forge
       :map forge-post-mode-map
