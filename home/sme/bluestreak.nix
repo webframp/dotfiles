@@ -256,7 +256,7 @@ in {
     initContent = builtins.readFile ./global/includes/zshrc;
     loginExtra = builtins.readFile ./global/includes/zlogin;
     profileExtra = ''
-      WORDCHARS=''${WORDCHARS//\/[&.;]}                                 # Don't consider certain characters part of the word
+      WORDCHARS='*?[]~=&;!#$%^(){}<>'
     '';
     # https://nixos.wiki/wiki/Zsh#Zplug
     # https://nix-community.github.io/home-manager/options.html#opt-programs.zsh.zplug.enable
