@@ -61,7 +61,6 @@
 (setq doom-font (font-spec :family "Hack Nerd Font Mono" :size 18)
       doom-variable-pitch-font (font-spec :family "Hack Nerd Font Mono" :size 16))
 
-
 ;; TODO future ideas
 ;; https://github.com/psibi/justl.el
 
@@ -69,8 +68,8 @@
 (setq doom-theme 'doom-one)
 (setq display-line-numbers-type 'relative)
 
+;; org setup
 (setq org-directory "~/org/")
-
 (after! org
   (setq org-startup-indented t
         org-indent-mode t
@@ -242,8 +241,16 @@ capture was not aborted."
 (global-set-key (kbd "<mouse-4>") 'scroll-down-line)
 (global-set-key (kbd "<mouse-5>") 'scroll-up-line)
 
-;; (map! :leader :desc "Copy secret from pass"  "o s" #'+pass/consult)
+;; Some generic mappings
+(map! :leader
+      :prefix ("o e" . "elfeed")
+      "e" #'elfeed
+      "u" #'elfeed-update
+      "k" #'elfeed-unjam)
 
+(map! :leader :prefix "o" :desc "Copy secret from pass"  "x" #'+pass/consult)
+
+;; Mode specific mappings
 (map! :after forge
       :map forge-post-mode-map
       :n "ZZ" #'forge-post-submit
