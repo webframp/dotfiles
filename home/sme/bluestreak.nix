@@ -125,6 +125,7 @@ in {
       urlscan
       wget
       unzip
+      uv
       vale
       vault
       yt-dlp
