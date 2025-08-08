@@ -68,6 +68,10 @@
 (setq doom-theme 'doom-one)
 (setq display-line-numbers-type 'relative)
 
+;; Always start maximized on macOS
+(if (featurep :system 'macos)
+    (add-hook 'window-setup-hook 'toggle-frame-maximized t))
+
 ;; org setup
 (setq org-directory "~/org/")
 (after! org
