@@ -259,6 +259,11 @@ in {
     profileExtra = ''
       WORDCHARS='*?[]~=&;!#$%^(){}<>'
     '';
+    siteFunctions = {
+      calc = ''
+        printf "%s\n" "$@" | nix run nixpkgs#bc -- -l
+      '';
+    };
     # https://nixos.wiki/wiki/Zsh#Zplug
     # https://nix-community.github.io/home-manager/options.html#opt-programs.zsh.zplug.enable
     # https://github.com/zplug/zplug#3-tags-for-zplug
