@@ -540,31 +540,6 @@ in {
   # programs.jqp
   # programs.zsh.initContent
 
-  # Make sure VSCode is available and configured I guess?
-  programs.vscode.profiles.default = {
-    enable = true;
-    extensions = with pkgs.vscode-extensions; [
-      davidanson.vscode-markdownlint
-      editorconfig.editorconfig
-      esbenp.prettier-vscode
-      continue.continue
-      golang.go
-      hashicorp.hcl
-      hashicorp.terraform
-      ms-azuretools.vscode-docker
-      oderwat.indent-rainbow
-      redhat.vscode-yaml
-      # ms-dotnettools.dotnet-interactive-vscode
-      ms-toolsai.jupyter
-      ms-dotnettools.csharp
-    ];
-    userSettings = {
-      "telemetry.telemetryLevel" = "off";
-      "editor.renderWhitespace" = "all";
-      "editor.defaultFormatter" = "esbenp.prettier-vscode";
-    };
-  };
-
   services.home-manager.autoExpire = {
     enable = true;
     frequency = "weekly";
