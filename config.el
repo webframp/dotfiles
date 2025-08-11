@@ -369,7 +369,6 @@ capture was not aborted."
 
 ;; TODO investigate
 ;; https://github.com/JDNdeveloper/gptel-autocomplete
-;; https://github.com/jwiegley/gptel-prompts
 
 ;; Predefine custom prompts directory
 (setq gptel-prompts-directory (expand-file-name (concat doom-user-dir "prompts")))
@@ -387,12 +386,43 @@ capture was not aborted."
   (gptel-make-gemini "Gemini" :key #'sme/get-gemini-api-key :stream t))
 
 (use-package! gptel-prompts
-  :after (gptel)
+  :after gptel
   :demand t
   :config
   (gptel-prompts-update)
   ;; Ensure prompts are updated when files change
   (gptel-prompts-add-update-watchers))
+
+;; MCP Servers
+(setq mcp-hub-servers
+      '(;; https://github.com/strowk/mcp-k8s-go/
+        ("mcpk8s" . (:command "mcp-k8s-go"
+                     :args ("--readonly")))
+        ;; https://awslabs.github.io/mcp/servers/cdk-mcp-server
+        ("awslabs.cdk-mcp-server" . (:command "uvx"
+                                     :args ("awslabs.cdk-mcp-server@latest")
+                                     :env (
+                                           :FASTMCP_LOG_LEVEL "ERROR")))
+        ;; https://awslabs.github.io/mcp/servers/aws-documentation-mcp-server
+        ("awslabs.aws-documentation-mcp-server" . (:command "uvx"
+                                                   :args ("awslabs.aws-documentation-mcp-server@latest")
+                                                   :env(
+                                                        :AWS_DOCUMENTATION_PARTITION "aws"
+                                                        :FASTMCP_LOG_LEVEL "ERROR")))))
+
+(use-package! mcp
+  :after gptel
+  :demand t
+  :config
+  (require 'mcp-hub))
+
+(use-package! gptel-mcp
+  :bind (:map doom-leader-map
+              ("o l d" . gptel-mcp-dispatch)))
+
+(map! :leader
+      :prefix ("o l")
+      "h" #'mcp-hub)
 
 ;; Non git tracked setttings
 (load! "+local")

@@ -18,5 +18,9 @@
 (package! gptel-prompts
   :recipe (:host github :repo "jwiegley/gptel-prompts" :files ("*.el")))
 
+(package! mcp)
+(package! gptel-mcp
+  :recipe (:host github :repo "lizqwerscott/gptel-mcp.el" :files ("*.el")))
+
 ;; TODO maybe, setup mu4e + offline imap for o365
 ;; https://github.com/UvA-FNWI/M365-IMAP
