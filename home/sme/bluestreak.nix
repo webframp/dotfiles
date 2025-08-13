@@ -536,9 +536,14 @@ in {
   programs.kubeswitch.enable = true;
   programs.granted.enable = true;
 
-  # TODO
-  # programs.jqp
-  # programs.zsh.initContent
+  programs.jqp = {
+    enable = true;
+    settings = {
+      theme = {
+        name = "doom-one";
+      };
+    };
+  };
 
   services.home-manager.autoExpire = {
     enable = true;
