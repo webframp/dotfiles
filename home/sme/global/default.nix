@@ -137,7 +137,7 @@ in {
       shellcheck
       vale
       yaml-language-server
-      vscode-langservers-extracted
+      # vscode-langservers-extracted
       bash-language-server
       cspell
       prettier
