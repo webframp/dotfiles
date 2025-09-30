@@ -47,6 +47,7 @@ in {
       nodePackages.cdktf-cli #_latest is broken
       cdk8s-cli
       claude-code
+      cmake
       coder
       coreutils
       csharpier
@@ -106,7 +107,7 @@ in {
       xvfb-run
       xorg.xvfb
       yt-dlp
-      # zbar
+      zbar
       zip
       zoxide
 
