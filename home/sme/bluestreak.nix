@@ -72,6 +72,7 @@ in {
       awslogs
       aws-vault
       aws-cdk
+      # bash-my-aws
       # cdktf-cli
       # cdk8s-cli
       claude-code
@@ -116,7 +117,7 @@ in {
       podman-compose
       pry
       ripgrep
-      spotify
+      # spotify
       terraform
       terraform-docs
       tflint
