@@ -209,6 +209,9 @@ in {
           name = "webframp/powerlevel10k";
           tags = ["as:theme" "depth:1"];
         }
+        {
+          name = "webframp/calc.plugin.zsh";
+        }
       ];
     };
   };
