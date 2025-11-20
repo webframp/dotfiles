@@ -87,7 +87,6 @@
     (pass.withExtensions
       (ext: with ext; [pass-genphrase pass-otp pass-update]))
     pass-git-helper
-    pinentry
     pinentry-curses
     # p4
     speedtest-cli
@@ -152,7 +151,7 @@
     packages = with pkgs;
     with pkgs.nerd-fonts; [
       noto-fonts
-      noto-fonts-emoji
+      noto-fonts-color-emoji
       openmoji-color
       droid-sans-mono
       envy-code-r
