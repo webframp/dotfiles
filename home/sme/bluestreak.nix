@@ -338,41 +338,44 @@ in {
     tmux.shellIntegrationOptions = ["-p90%,80%"];
   };
 
-  programs.git = {
+  # delta a better pager: https://github.com/dandavison/delta
+  programs.delta = {
     enable = true;
-    userName = "Sean Escriva";
-    userEmail = "sean.escriva@gmail.com";
-    signing.key = "BE06ADB38C7F719D";
-    # delta a better pager: https://github.com/dandavison/delta
-    delta.enable = true;
-    delta.options = {
+    enableGitIntegration = true;
+    options = {
       navigate = true;
       fatures = "side-by-side line-numbers decorations";
       syntax-theme = "base16-256";
     };
-    aliases = {
-      "in" = "log ..@{upstream}";
-      out = "log @{upstream}..";
-      st = "status";
-      co = "checkout";
-      ci = "commit";
-      br = "branch";
-      r = "reset";
-      rh = "reset --hard";
-      rh1 = "reset --hard HEAD~1";
-      rh2 = "reset --hard HEAD~2";
-      stage = "add -p";
-      ls = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";
-      ll = "log --pretty=format:'%Cred%h%C(yellow)%d%Creset -%Creset %s %Cgreen(%cr) %C(bold blue)<%cn>%Creset' --decorate --numstat";
-      dlc = "diff --cached HEAD^";
-      filelog = "log -u";
-      fl = "log -u";
-      serve = "daemon --reuseaddr --base-path=. --export-all --verbose";
-      pos = "push -o ci.skip";
-      pmr = "push origin HEAD --force-with-lease -o merge_request.remove_source_branch -o merge_request.create";
-    };
-    # Remaining options not specifically available through home-manager module
-    extraConfig = {
+  };
+
+  programs.git = {
+    enable = true;
+    signing.key = "BE06ADB38C7F719D";
+    settings = {
+      user.name = "Sean Escriva";
+      user.email = "sean.escriva@gmail.com";
+      alias = {
+        "in" = "log ..@{upstream}";
+        out = "log @{upstream}..";
+        st = "status";
+        co = "checkout";
+        ci = "commit";
+        br = "branch";
+        r = "reset";
+        rh = "reset --hard";
+        rh1 = "reset --hard HEAD~1";
+        rh2 = "reset --hard HEAD~2";
+        stage = "add -p";
+        ls = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";
+        ll = "log --pretty=format:'%Cred%h%C(yellow)%d%Creset -%Creset %s %Cgreen(%cr) %C(bold blue)<%cn>%Creset' --decorate --numstat";
+        dlc = "diff --cached HEAD^";
+        filelog = "log -u";
+        fl = "log -u";
+        serve = "daemon --reuseaddr --base-path=. --export-all --verbose";
+        pos = "push -o ci.skip";
+        pmr = "push origin HEAD --force-with-lease -o merge_request.remove_source_branch -o merge_request.create";
+      };
       branch = {
         autosetuprebase = "always";
         sort = "committerdate";
