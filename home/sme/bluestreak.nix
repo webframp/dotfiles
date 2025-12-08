@@ -539,6 +539,7 @@ in {
   programs.k9s.enable = true;
   programs.kubeswitch.enable = true;
   programs.granted.enable = true;
+  programs.infat.enable = true;
 
   programs.jqp = {
     enable = true;
