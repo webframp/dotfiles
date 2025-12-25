@@ -38,6 +38,7 @@ in {
     packages = with pkgs;
     with nodePackages_latest;
     with tflint-plugins; [
+      adr-tools
       ansible
       awscli2
       ssm-session-manager-plugin
