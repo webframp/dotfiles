@@ -73,7 +73,6 @@ in {
       aws-vault
       aws-cdk
       # bash-my-aws
-      # cdktf-cli
       # cdk8s-cli
       claude-code
       coder
