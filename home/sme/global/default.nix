@@ -45,7 +45,6 @@ in {
       awslogs
       aws-vault
       aws-cdk
-      nodePackages.cdktf-cli #_latest is broken
       cdk8s-cli
       claude-code
       cmake
