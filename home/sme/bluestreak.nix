@@ -75,6 +75,7 @@ in {
       # bash-my-aws
       # cdk8s-cli
       claude-code
+      cmake
       coder
       coreutils-prefixed
       delta
@@ -91,6 +92,7 @@ in {
       git-extras
       gemini-cli
       # gitmux
+      glibtool
       gnumake
       gnused
       htop
