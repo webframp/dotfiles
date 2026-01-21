@@ -24,3 +24,5 @@
 
 ;; TODO maybe, setup mu4e + offline imap for o365
 ;; https://github.com/UvA-FNWI/M365-IMAP
+(package! claude-code-ide
+  :recipe (:host github :repo "manzaltu/claude-code-ide.el" :files ("*.el")))

@@ -381,7 +381,7 @@ capture was not aborted."
   (auth-source-pass-get 'secret "gemini-api-key"))
 
 (after! gptel
-  (setq gptel-model 'claude-3.7-sonnet
+  (setq gptel-model 'claude-4.5-sonnet
         gptel-backend (gptel-make-gh-copilot "Copilot"))
   (gptel-make-gemini "Gemini" :key #'sme/get-gemini-api-key :stream t))
 
@@ -423,6 +423,12 @@ capture was not aborted."
 (map! :leader
       :prefix ("o l")
       "h" #'mcp-hub)
+
+(use-package! claude-code-ide
+  :bind (:map doom-leader-map
+              ("o l c" . claude-code-ide-menu))
+  :config
+  (claude-code-ide-emacs-tools-setup))
 
 ;; Non git tracked setttings
 (load! "+local")
