@@ -231,13 +231,21 @@ capture was not aborted."
 
 (after! lsp-mode
   (setq lsp-go-use-gofumpt t
-        lsp-go-analyses '((fielalignment . t)
+        lsp-go-analyses '((fieldalignment . t)
                           (nilness . t)
                           (shadow . t)
                           (unusedparams . t)
                           (unusedwrite . t)
                           (useany . t)
-                          (unusedvariable . t))))
+                          (unusedvariable . t))
+        ;; nil LSP for Nix
+        ;; uses same formatter as configured for aphelia
+        ;; compatible with +onsave
+        lsp-nix-nil-formatter ["alejandra" "--quiet"]
+        lsp-nix-nil-auto-eval-inputs t
+        lsp-nix-nil-max-mem 4096)
+  (lsp-register-custom-settings
+   '(("nil.nix.flake.autoArchive" t t))))
 
 (after! csharp-mode
   (add-to-list 'auto-mode-alist '("\\.csx\\'" . csharp-mode)))
