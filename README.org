@@ -113,6 +113,35 @@ export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
 #+end_src
 
+** Zsh Configuration
+The zsh configuration is managed via a custom home-manager module at ~modules/home-manager/zsh.nix~.
+
+*** Content Ordering
+Home-manager's zsh module uses ~lib.mkOrder~ to control where content appears in the generated ~.zshrc~.
+Lower priority numbers appear earlier in the file. Key priorities:
+
+| Priority | Section                    |
+|----------|----------------------------|
+| 100      | p10k instant prompt        |
+| 400      | zprof (profiling)          |
+| 600-700  | paths, fpath, NIX_PROFILES |
+| 900      | plugins                    |
+| 950      | compinit                   |
+| 1000+    | user content               |
+
+For p10k's instant prompt to work, it must be at the very top of ~.zshrc~ (before any output).
+We use ~lib.mkOrder 100~ to ensure this.
+
+See: https://github.com/nix-community/home-manager/pull/6479
+
+*** Startup Optimization
+The module includes optimizations for faster shell startup:
+- Powerlevel10k instant prompt (cached prompt display)
+- Daily compinit caching (only regenerates completions once per 24h)
+- Background zcompdump compilation on login
+
+Measure startup time with: ~make zsh-bench~
+
 ** References
 - https://zero-to-nix.com/
 - https://github.com/Misterio77/nix-starter-configs
