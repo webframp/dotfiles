@@ -113,6 +113,36 @@ export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
 #+end_src
 
+** Home-Manager Architecture
+*** Host Configurations
+| Host | Platform | Integration | Config File |
+|------|----------|-------------|-------------|
+| bluestreak | macOS arm64 | home-manager standalone | ~home/sme/bluestreak.nix~ |
+| galvatron-wsl | NixOS x86_64 | home-manager as NixOS module | ~home/sme/galvatron-wsl.nix~ |
+| ubuntu-wsl | Ubuntu x86_64 | home-manager standalone | ~home/sme/ubuntu-wsl.nix~ |
+| generic | Linux x86_64 | home-manager standalone | ~home/sme/generic.nix~ |
+
+*** Module Strategy
+Shared configuration lives in ~modules/home-manager/~. Host-specific files import these modules.
+
+**** Shared Modules (universal)
+- ~zsh.nix~ - Shell configuration, plugins, aliases, optimizations
+
+**** Per-Host Configuration (NOT extractable)
+These intentionally differ per host and should remain in host-specific files:
+- **SSH keys** - Different key IDs per machine identity
+- **GPG configuration** - Per-host signing keys and agent settings
+- **Keychain** - References host-specific SSH/GPG keys
+- **Git signing** - Uses host-specific GPG key
+- **Platform-specific packages** - macOS vs Linux binaries
+
+**** Legacy: ~home/sme/global/~
+Currently used by ubuntu-wsl, galvatron-wsl, and generic as a shared base.
+NOT imported by bluestreak (parallel config).
+
+Goal: Either eliminate global by extracting all shared configs into modules,
+or make global truly universal (importable by all hosts including bluestreak).
+
 ** Zsh Configuration
 The zsh configuration is managed via a custom home-manager module at ~modules/home-manager/zsh.nix~.
 
