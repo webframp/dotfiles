@@ -2,18 +2,22 @@
 # ABOUTME: Primary workstation with full development environment
 {
   inputs,
+  outputs,
   config,
   lib,
   pkgs,
   ...
 }: {
   # You can import other home-manager modules here
-  imports = [
+  imports = with outputs.homeManagerModules; [
     # If you want to use home-manager modules from other flakes (such as nix-colors):
     # inputs.nix-colors.homeManagerModule
 
-    # Shared zsh configuration module
-    ../../modules/home-manager/zsh.nix
+    # Shared configuration modules
+    zsh
+    bat
+    delta
+    fzf
   ];
 
   nix = {
@@ -196,6 +200,11 @@
     kx = "kswitch";
   };
 
+  # Shared module configuration
+  custom.bat.enable = true;
+  custom.delta.enable = true;
+  custom.fzf.enable = true;
+
   # Zsh configuration via shared module
   # startup speed checking: for i in $(seq 1 5); do /run/current-system/sw/bin/time -p ~/.nix-profile/bin/zsh -i -c exit; done
   custom.zsh = {
@@ -231,43 +240,6 @@
         tags = ["defer:2" "from:oh-my-zsh"];
       }
     ];
-  };
-
-  programs.bat = {
-    enable = true;
-    extraPackages = with pkgs.bat-extras; [batman batgrep batwatch];
-  };
-
-  programs.fzf = {
-    enable = true;
-    enableZshIntegration = true;
-    # CTRL-T
-    fileWidgetOptions = [
-      "--preview 'bat -n --color=always {}'"
-      " --bind 'ctrl-/:change-preview-window(down|hidden|)'"
-    ];
-    # CTRL-R
-    historyWidgetOptions = [
-      "--preview 'echo {}'"
-      "--preview-window up:3:hidden:wrap"
-      "--bind 'ctrl-/:toggle-preview'"
-    ];
-    # ALT-C
-    changeDirWidgetOptions = ["--preview 'eza --tree --icons=auto --color=always {}'"];
-    # tmux
-    tmux.enableShellIntegration = true;
-    tmux.shellIntegrationOptions = ["-p90%,80%"];
-  };
-
-  # delta a better pager: https://github.com/dandavison/delta
-  programs.delta = {
-    enable = true;
-    enableGitIntegration = true;
-    options = {
-      navigate = true;
-      fatures = "side-by-side line-numbers decorations";
-      syntax-theme = "base16-256";
-    };
   };
 
   programs.git = {

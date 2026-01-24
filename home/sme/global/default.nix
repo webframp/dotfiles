@@ -8,8 +8,11 @@
   outputs,
   ...
 }: {
-  imports = [
-    ../../../modules/home-manager/zsh.nix
+  imports = with outputs.homeManagerModules; [
+    zsh
+    bat
+    delta
+    fzf
   ];
 
   nix = {
@@ -142,6 +145,11 @@
 
   gtk = {enable = true;};
 
+  # Shared module configuration
+  custom.bat.enable = true;
+  custom.delta.enable = true;
+  custom.fzf.enable = true;
+
   # Zsh configuration via shared module
   # startup speed checking: for i in $(seq 1 5); do /run/current-system/sw/bin/time -p ~/.nix-profile/bin/zsh -i -c exit; done
   custom.zsh = {
@@ -151,32 +159,6 @@
     extraEnvVars = ''
       export FORCE_NO_ALIAS=true
     '';
-  };
-
-  programs.bat = {
-    enable = true;
-    extraPackages = with pkgs.bat-extras; [batman batgrep batwatch];
-  };
-
-  programs.fzf = {
-    enable = true;
-    enableZshIntegration = true;
-    # CTRL-T
-    fileWidgetOptions = [
-      "--preview 'bat -n --color=always {}'"
-      " --bind 'ctrl-/:change-preview-window(down|hidden|)'"
-    ];
-    # CTRL-R
-    historyWidgetOptions = [
-      "--preview 'echo {}'"
-      "--preview-window up:3:hidden:wrap"
-      "--bind 'ctrl-/:toggle-preview'"
-    ];
-    # ALT-C
-    changeDirWidgetOptions = ["--preview 'eza --tree --icons=auto --color=always {}'"];
-    # tmux
-    tmux.enableShellIntegration = true;
-    tmux.shellIntegrationOptions = ["-p90%,80%"];
   };
 
   programs.granted.enable = true;

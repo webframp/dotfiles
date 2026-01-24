@@ -64,8 +64,8 @@
     overlays = import ./overlays {inherit inputs;};
     # Stuff to upstream into nixpkgs
     nixosModules = import ./modules/nixos;
-    # Stuff to upstream into home-manager
-    # homeManagerModules = import ./modules/home-manager;
+    # Reusable home-manager modules
+    homeManagerModules = import ./modules/home-manager;
 
     # NixOS entrypoint
     # Use:'nixos-rebuild --flake .#hostname'
