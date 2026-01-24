@@ -12,6 +12,7 @@
     zsh
     bat
     delta
+    direnv
     fzf
   ];
 
@@ -148,6 +149,10 @@
   # Shared module configuration
   custom.bat.enable = true;
   custom.delta.enable = true;
+  custom.direnv = {
+    enable = true;
+    whitelist = ["~/src/o11n"];
+  };
   custom.fzf.enable = true;
 
   # Zsh configuration via shared module
@@ -164,15 +169,6 @@
   programs.granted.enable = true;
 
   programs.zoxide.enable = true;
-
-  programs.direnv = {
-    enable = true;
-    nix-direnv.enable = true;
-    config = {
-      global.load_dotenv = true;
-      whitelist.prefix = ["~/src/o11n"];
-    };
-  };
 
   programs.eza = {
     enable = true;
@@ -259,11 +255,6 @@
   home.file.".xterm-24bit.terminfo" = {
     source = ./includes/xterm-24bit.terminfo;
     onChange = "tic -x -o ~/.terminfo ~/.xterm-24bit.terminfo";
-  };
-
-  # Global-specific aliases (base aliases come from custom.zsh module)
-  custom.zsh.extraShellAliases = {
-    man = "batman";
   };
 
   # Ensure UTF-8

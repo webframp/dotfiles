@@ -18,5 +18,8 @@ in {
       enable = true;
       extraPackages = with pkgs.bat-extras; [batman batgrep batwatch];
     };
+
+    # Alias man to batman for better man page viewing
+    home.shellAliases.man = "batman";
   };
 }

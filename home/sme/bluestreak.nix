@@ -17,6 +17,7 @@
     zsh
     bat
     delta
+    direnv
     fzf
   ];
 
@@ -188,7 +189,6 @@
 
     # macOS-specific
     docker = "podman";
-    man = "batman";
 
     # Doom Emacs
     doom = "~/.config/emacs/bin/doom";
@@ -203,6 +203,10 @@
   # Shared module configuration
   custom.bat.enable = true;
   custom.delta.enable = true;
+  custom.direnv = {
+    enable = true;
+    whitelist = ["~/src/o11n"];
+  };
   custom.fzf.enable = true;
 
   # Zsh configuration via shared module
@@ -336,15 +340,6 @@
     # pinentry-program ~/.nix-profile/bin/pinentry-mac
     # default-cache-ttl 84000
     # max-cache-ttl 84000
-  };
-
-  programs.direnv = {
-    enable = true;
-    nix-direnv.enable = true;
-    config = {
-      global.load_dotenv = true;
-      whitelist.prefix = ["~/src/o11n"];
-    };
   };
 
   # doom emacs setup is still manual
