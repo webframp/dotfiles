@@ -133,6 +133,7 @@ in {
       yt-dlp
       # zbar
       zip
+      zstd
       zoxide
 
       # kubernetes
