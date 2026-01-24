@@ -117,6 +117,11 @@ in {
         '';
 
         baseConfig = ''
+          # Calculator using zsh's builtin zcalc
+          autoload -U zcalc
+          __calc_fn() { zcalc -f -e "$*" }
+          alias calc="noglob __calc_fn"
+
           # Pass aliases for password store with fzf integration
           alias qp='pass -c "$(find -L "$HOME/.password-store" \( -name .git\* -o -name .gpg-id \) -prune -o $@ -print 2>/dev/null | sed -e "s#''${HOME}/.password-store/\{0,1\}##" -e 's#\.gpg##'|sort|fzf)"'
           alias qpo='pass otp -c "$(find -L "$HOME/.password-store" \( -name .git\* -o -name .gpg-id \) -prune -o $@ -print 2>/dev/null | sed -e "s#''${HOME}/.password-store/\{0,1\}##" -e 's#\.gpg##'|sort|fzf)"'
