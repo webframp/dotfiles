@@ -26,8 +26,8 @@ in {
     # If you want to use home-manager modules from other flakes (such as nix-colors):
     # inputs.nix-colors.homeManagerModule
 
-    # Lots of duplication in current config, but global isn't truly global or safe to use cross platform for now
-    # ./global/default.nix
+    # Shared zsh configuration module
+    ../../modules/home-manager/zsh.nix
   ];
 
   nix = {
@@ -187,33 +187,22 @@ in {
   # Enable home-manager and git
   programs.home-manager.enable = true;
 
-  home.shellAliases = rec {
+  # Bluestreak-specific shell aliases (base aliases come from custom.zsh module)
+  custom.zsh.extraShellAliases = {
+    # Home-manager
     yay = "home-manager switch --flake .#sme@bluestreak";
     yayb = "brew update && brew upgrade && brew cleanup";
     news = "home-manager news --flake .";
     nixcleanup = "nix profile wipe-history --older-than 14d && nix-collect-garbage";
-    lls = "${pkgs.eza}/bin/eza --color=auto --group-directories-first --classify";
-    lll = "${lls} --all --long --header --group";
-    cdtemp = "cd `mktemp -df`";
+
+    # macOS-specific
     docker = "podman";
-    # git
-    gst = "git status";
-    gpo = "git push origin HEAD";
-    gpu = "git pull --prune --tags --all";
-    repo = "git browse >/dev/null";
-
-    # SSH
-    ssh = "TERM=xterm-256color ssh";
-
-    # nicer man pages
     man = "batman";
 
-    reload = "exec $SHELL -l";
-
-    # doom
+    # Doom Emacs
     doom = "~/.config/emacs/bin/doom";
 
-    # kube
+    # Kubernetes
     k = "kubectl";
     kn = "kswitch ns";
     ks = "kswitch";
@@ -223,95 +212,48 @@ in {
   # Explicitly enable shell integration for supported tools
   home.shell.enableShellIntegration = true;
 
-  # startup speed checking
-  # for i in $(seq 1 5); do /run/current-system/sw/bin/time -p ~/.nix-profile/bin/zsh -i -c exit; done
-  programs.zsh = {
+  # Zsh configuration via shared module
+  # startup speed checking: for i in $(seq 1 5); do /run/current-system/sw/bin/time -p ~/.nix-profile/bin/zsh -i -c exit; done
+  custom.zsh = {
     enable = true;
-    enableCompletion = true;
-    enableVteIntegration = true;
-    autocd = true;
-    history = {
-      expireDuplicatesFirst = true;
-      extended = true;
-      ignoreDups = true;
-      ignoreSpace = true;
-      size = 100000;
-      save = 100000;
-    };
+    enableVterm = true;
 
-    # sessionVariables = {
-    #   GRANTED_ALIAS_CONFIGURED = true;
-    #   GRANTED_ENABLE_AUTO_REASSUME = false;
-    #   GRANTED_QUIET = true;
-    # };
-
-    #  export TERM=xterm-24bit
-    #  homebrew is not managed via nix, but a necessary evil on macOS
-    envExtra = ''
+    extraEnvVars = ''
       export AWS_VAULT_BACKEND=pass
-      export ZSH_AUTOSUGGEST_USE_ASYNC=true
-      export PATH="/opt/homebrew/bin:$PATH"
-      export JSII_SILENCE_WARNING_UNTESTED_NODE_VERSION=true
       export PODMAN_COMPOSE_WARNING_LOGS=false
       export CLAUDE_CODE_USE_BEDROCK=1
+      # homebrew is not managed via nix, but a necessary evil on macOS
+      [ -d /opt/homebrew/bin ] && export PATH="/opt/homebrew/bin:$PATH"
     '';
 
-    initContent = builtins.readFile ./global/includes/zshrc;
-    loginExtra = builtins.readFile ./global/includes/zlogin;
-    profileExtra = ''
-      WORDCHARS='*?[]~=&;!#$%^(){}<>'
+    extraZplugPlugins = [
+      {
+        # https://github.com/wfxr/forgit
+        name = "webframp/zsh-forgit";
+        tags = ["defer:0"];
+      }
+      {
+        # https://github.com/hlissner/zsh-autopair
+        name = "webframp/zsh-autopair";
+        tags = ["defer:2"];
+      }
+      {
+        name = "webframp/zsh-plugins";
+        tags = ["defer:2" "use:rationalize-dot.plugin.zsh"];
+      }
+      {name = "webframp/zsh-you-should-use";}
+      {
+        name = "plugins/kubectl";
+        tags = ["defer:2" "from:oh-my-zsh"];
+      }
+    ];
+  };
+
+  # Additional zsh settings not covered by module
+  programs.zsh.siteFunctions = {
+    calc = ''
+      printf "%s\n" "$@" | nix run nixpkgs#bc -- -l
     '';
-    siteFunctions = {
-      calc = ''
-        printf "%s\n" "$@" | nix run nixpkgs#bc -- -l
-      '';
-    };
-    # https://nixos.wiki/wiki/Zsh#Zplug
-    # https://nix-community.github.io/home-manager/options.html#opt-programs.zsh.zplug.enable
-    # https://github.com/zplug/zplug#3-tags-for-zplug
-    zplug = {
-      enable = true;
-      plugins = [
-        # Plugins live in their own forks that are kept up to date.
-        # I've been bitten by authors removing plugins from upstream before
-        {name = "webframp/zsh-async";}
-        {
-          name = "webframp/zsh-completions";
-          tags = ["defer:0"];
-        }
-        {
-          name = "webframp/zsh-autosuggestions";
-          tags = ["defer:2" "on:'webframp/zsh-completions'"];
-        }
-        {
-          name = "webframp/fast-syntax-highlighting";
-          tags = ["defer:3" "on:'webframp/zsh-autosuggestions'"];
-        }
-        {
-          name = "webframp/powerlevel10k";
-          tags = ["as:theme" "depth:1"];
-        }
-        {
-          # https://github.com/wfxr/forgit
-          name = "webframp/zsh-forgit";
-          tags = ["defer:0"];
-        }
-        {
-          # https://github.com/hlissner/zsh-autopair
-          name = "webframp/zsh-autopair";
-          tags = ["defer:2"];
-        }
-        {
-          name = "webframp/zsh-plugins";
-          tags = ["defer:2" "use:rationalize-dot.plugin.zsh"];
-        }
-        {name = "webframp/zsh-you-should-use";}
-        {
-          name = "plugins/kubectl";
-          tags = ["defer:2" "from:oh-my-zsh"];
-        }
-      ];
-    };
   };
 
   programs.bat = {
