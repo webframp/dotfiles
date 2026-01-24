@@ -1,26 +1,12 @@
-# This is your home-manager configuration file
-# Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
+# ABOUTME: Home-manager configuration for bluestreak (macOS Apple Silicon)
+# ABOUTME: Primary workstation with full development environment
 {
   inputs,
   config,
   lib,
   pkgs,
   ...
-}: let
-  # Custom tmux theme
-  # Would like to move this to a separate file somehow
-  tmux-tokyo-night = pkgs.tmuxPlugins.mkTmuxPlugin {
-    pluginName = "tmux-tokyo-night";
-    version = "1.5.2";
-    src = pkgs.fetchFromGitHub {
-      owner = "webframp";
-      repo = "tmux-tokyo-night";
-      rev = "d814e7c5aa4845edd1cb2c7e5c1f3524ca3ed82d";
-      hash = "sha256-G5SV19811i0GBkXUDiQ5xerfkTxeQ9jdhM7k22XiQCg=";
-    };
-    rtpFilePath = "tmux-tokyo-night.tmux";
-  };
-in {
+}: {
   # You can import other home-manager modules here
   imports = [
     # If you want to use home-manager modules from other flakes (such as nix-colors):
