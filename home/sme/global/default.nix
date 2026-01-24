@@ -164,10 +164,6 @@ in {
     extraEnvVars = ''
       export FORCE_NO_ALIAS=true
     '';
-
-    extraZplugPlugins = [
-      {name = "webframp/calc.plugin.zsh";}
-    ];
   };
 
   programs.bat = {

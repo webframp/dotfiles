@@ -249,13 +249,6 @@ in {
     ];
   };
 
-  # Additional zsh settings not covered by module
-  programs.zsh.siteFunctions = {
-    calc = ''
-      printf "%s\n" "$@" | nix run nixpkgs#bc -- -l
-    '';
-  };
-
   programs.bat = {
     enable = true;
     extraPackages = with pkgs.bat-extras; [batman batgrep batwatch];
