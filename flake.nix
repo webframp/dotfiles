@@ -77,9 +77,6 @@
       "sme@bluestreak" =
         mkHome [./home/sme/bluestreak.nix]
         nixpkgs.legacyPackages."aarch64-darwin";
-      "sme@megatron" =
-        mkHome [./home/sme/megatron.nix]
-        nixpkgs.legacyPackages."x86_64-darwin";
       "sme@ubuntu" =
         mkHome [./home/sme/ubuntu-wsl.nix]
         nixpkgs.legacyPackages."x86_64-linux";
