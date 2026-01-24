@@ -209,9 +209,6 @@ in {
     kx = "kswitch";
   };
 
-  # Explicitly enable shell integration for supported tools
-  home.shell.enableShellIntegration = true;
-
   # Zsh configuration via shared module
   # startup speed checking: for i in $(seq 1 5); do /run/current-system/sw/bin/time -p ~/.nix-profile/bin/zsh -i -c exit; done
   custom.zsh = {
@@ -401,7 +398,6 @@ in {
   programs.fastfetch.enable = true;
   programs.fd.enable = true;
   programs.zoxide.enable = true;
-  programs.carapace.enable = true;
 
   programs.tmux = {
     enable = true;
