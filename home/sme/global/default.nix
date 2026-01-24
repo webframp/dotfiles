@@ -1,3 +1,5 @@
+# ABOUTME: Shared home-manager configuration for non-bluestreak hosts
+# ABOUTME: Used by megatron, ubuntu-wsl, and generic linux configurations
 {
   inputs,
   lib,
@@ -7,7 +9,6 @@
   ...
 }: let
   # Custom tmux theme
-  # Would like to move this to a separate file somehow
   tmux-tokyo-night = pkgs.tmuxPlugins.mkTmuxPlugin {
     pluginName = "tmux-tokyo-night";
     version = "0.0.1";
@@ -20,6 +21,10 @@
     rtpFilePath = "tmux-tokyo-night.tmux";
   };
 in {
+  imports = [
+    ../../../modules/home-manager/zsh.nix
+  ];
+
   nix = {
     package = lib.mkDefault pkgs.nix;
     settings = {
@@ -150,70 +155,19 @@ in {
 
   gtk = {enable = true;};
 
-  # startup speed checking
-  # for i in $(seq 1 5); do /run/current-system/sw/bin/time -p ~/.nix-profile/bin/zsh -i -c exit; done
-  programs.zsh = {
+  # Zsh configuration via shared module
+  # startup speed checking: for i in $(seq 1 5); do /run/current-system/sw/bin/time -p ~/.nix-profile/bin/zsh -i -c exit; done
+  custom.zsh = {
     enable = true;
-    enableCompletion = true;
-    enableVteIntegration = true;
-    autocd = true;
-    history = {
-      expireDuplicatesFirst = true;
-      extended = true;
-      ignoreDups = true;
-      ignoreSpace = true;
-      size = 100000;
-      save = 100000;
-    };
+    enableVterm = false; # Enable on hosts that use Emacs
 
-    # sessionVariables = {
-    #   GRANTED_ALIAS_CONFIGURED = true;
-    #   GRANTED_ENABLE_AUTO_REASSUME = false;
-    #   GRANTED_QUIET = true;
-    # };
-
-    envExtra = ''
-      export ZSH_AUTOSUGGEST_USE_ASYNC=true;
+    extraEnvVars = ''
       export FORCE_NO_ALIAS=true
-      export JSII_SILENCE_WARNING_UNTESTED_NODE_VERSION=true
     '';
-    # alias assume="source ${pkgs.granted}/bin/.assume-wrapped"
 
-    initContent = builtins.readFile ./includes/zshrc;
-    loginExtra = builtins.readFile ./includes/zlogin;
-    profileExtra = ''
-      WORDCHARS=''${WORDCHARS//\/[&.;]}                                 # Don't consider certain characters part of the word
-    '';
-    # https://nixos.wiki/wiki/Zsh#Zplug
-    # https://nix-community.github.io/home-manager/options.html#opt-programs.zsh.zplug.enable
-    # https://github.com/zplug/zplug#3-tags-for-zplug
-    zplug = {
-      enable = true;
-      plugins = [
-        # Plugins live in their own forks that are kept up to date.
-        # I've been bitten by authors removing plugins from upstream before
-        {name = "webframp/zsh-async";}
-        {
-          name = "webframp/zsh-completions";
-          tags = ["defer:0"];
-        }
-        {
-          name = "webframp/zsh-autosuggestions";
-          tags = ["defer:2" "on:'webframp/zsh-completions'"];
-        }
-        {
-          name = "webframp/fast-syntax-highlighting";
-          tags = ["defer:3" "on:'webframp/zsh-autosuggestions'"];
-        }
-        {
-          name = "webframp/powerlevel10k";
-          tags = ["as:theme" "depth:1"];
-        }
-        {
-          name = "webframp/calc.plugin.zsh";
-        }
-      ];
-    };
+    extraZplugPlugins = [
+      {name = "webframp/calc.plugin.zsh";}
+    ];
   };
 
   programs.bat = {
@@ -340,7 +294,7 @@ in {
   };
 
   home.file.".gemrc".text = "gem: --no-ri --no-rdoc";
-  home.file.".p10k.zsh".source = ./includes/p10k.zsh;
+  # p10k.zsh is managed by the custom.zsh module
 
   home.file.".icons/default".source = "${pkgs.vanilla-dmz}/share/icons/Vanilla-DMZ";
 
@@ -349,23 +303,9 @@ in {
     onChange = "tic -x -o ~/.terminfo ~/.xterm-24bit.terminfo";
   };
 
-  home.shellAliases = rec {
-    lls = "${pkgs.eza}/bin/eza --color=auto --group-directories-first --classify";
-    lll = "${lls} --all --long --header --group";
-    cdtemp = "cd `mktemp -df`";
-    # git
-    gst = "git status";
-    gpo = "git push origin HEAD";
-    gpu = "git pull --prune --tags --all";
-    repo = "git browse >/dev/null";
-
-    # SSH
-    ssh = "TERM=xterm-256color ssh";
-
-    # nicer man pages
+  # Global-specific aliases (base aliases come from custom.zsh module)
+  custom.zsh.extraShellAliases = {
     man = "batman";
-
-    reload = "exec $SHELL -l";
   };
 
   # Ensure UTF-8
