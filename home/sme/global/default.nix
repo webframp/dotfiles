@@ -1,5 +1,5 @@
 # ABOUTME: Shared home-manager configuration for non-bluestreak hosts
-# ABOUTME: Used by megatron, ubuntu-wsl, and generic linux configurations
+# ABOUTME: Used by ubuntu-wsl and generic linux configurations
 {
   inputs,
   lib,
