@@ -24,7 +24,7 @@ endef
 # Age for generation cleanup (override: make clean-generations AGE=14d)
 AGE ?= 30d
 
-.PHONY: switch build check fmt update clean clean-generations news diff help
+.PHONY: switch build check fmt update clean clean-generations news diff zsh-bench help
 
 ## Primary targets
 
@@ -61,6 +61,12 @@ clean-generations: ## Remove old home-manager generations (default: 30d, overrid
 news: ## Show home-manager news
 	$(call check_host,$@)
 	home-manager news --flake .#$(FLAKE_TARGET)
+
+## Diagnostics
+
+zsh-bench: ## Measure zsh startup time (run 5 times)
+	@echo "Measuring zsh startup time..."
+	@for i in 1 2 3 4 5; do /usr/bin/time zsh -i -c exit 2>&1; done
 
 ## Help
 

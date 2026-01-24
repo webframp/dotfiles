@@ -74,6 +74,16 @@ in {
         WORDCHARS='*?[]~=&;!#$%^(){}<>'
       '';
 
+      # Cache compinit - only regenerate once per day
+      completionInit = ''
+        autoload -Uz compinit
+        if [[ -n ''${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24) ]]; then
+          compinit
+        else
+          compinit -C
+        fi
+      '';
+
       loginExtra = ''
         # Compile zcompdump in background to increase startup speed
         {
@@ -84,7 +94,16 @@ in {
         } &!
       '';
 
+      # Use mkMerge with mkOrder to control content placement
+      # See: https://github.com/nix-community/home-manager/pull/6479
       initContent = let
+        # Priority 100: p10k instant prompt must be at very top (skip in vterm)
+        p10kInstantPrompt = mkOrder 100 ''
+          if [[ "$INSIDE_EMACS" != 'vterm' ]] && [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
+            source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
+          fi
+        '';
+
         vtermIntegration = ''
           # Emacs vterm integration
           # https://github.com/akermu/emacs-libvterm#shell-side-configuration
@@ -113,8 +132,6 @@ in {
           }
 
           if [[ "$INSIDE_EMACS" = 'vterm' ]]; then
-              # Disable p10k instant prompt in vterm (causes display issues)
-              POWERLEVEL9K_INSTANT_PROMPT=off
               # Override clear to work properly in vterm
               alias clear='vterm_printf "51;Evterm-clear-scrollback";tput clear'
               # Directory tracking - append to PROMPT
@@ -136,13 +153,16 @@ in {
           # zsh-autosuggestions keybind
           bindkey '^ ' autosuggest-accept
 
-          # powerlevel10k
+          # powerlevel10k config
           [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
           ${cfg.extraInitContent}
         '';
       in
-        (optionalString cfg.enableVterm vtermIntegration) + baseConfig;
+        mkMerge [
+          p10kInstantPrompt
+          ((optionalString cfg.enableVterm vtermIntegration) + baseConfig)
+        ];
 
       zplug = {
         enable = true;
