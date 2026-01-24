@@ -7,20 +7,7 @@
   config,
   outputs,
   ...
-}: let
-  # Custom tmux theme
-  tmux-tokyo-night = pkgs.tmuxPlugins.mkTmuxPlugin {
-    pluginName = "tmux-tokyo-night";
-    version = "0.0.1";
-    src = pkgs.fetchFromGitHub {
-      owner = "webframp";
-      repo = "tmux-tokyo-night";
-      rev = "156a5a010928ebae45f0d26c3af172e0425fdda8";
-      hash = "sha256-tANO0EyXiplXPitLrwfyOEliHUZkCzDJ6nRjEVps180=";
-    };
-    rtpFilePath = "tmux-tokyo-night.tmux";
-  };
-in {
+}: {
   imports = [
     ../../../modules/home-manager/zsh.nix
   ];
