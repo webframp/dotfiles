@@ -192,19 +192,12 @@ in {
     tmux.shellIntegrationOptions = ["-p90%,80%"];
   };
 
-  programs.granted = {
-    enable = true;
-    enableZshIntegration = true;
-  };
+  programs.granted.enable = true;
 
-  programs.zoxide = {
-    enable = true;
-    enableZshIntegration = true;
-  };
+  programs.zoxide.enable = true;
 
   programs.direnv = {
     enable = true;
-    enableZshIntegration = true;
     nix-direnv.enable = true;
     config = {
       global.load_dotenv = true;

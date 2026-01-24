@@ -44,6 +44,12 @@ in {
   };
 
   config = mkIf cfg.enable {
+    # Enable shell integration for supported tools (direnv, zoxide, etc.)
+    home.shell.enableShellIntegration = true;
+
+    # Multi-shell completion generator
+    programs.carapace.enable = true;
+
     programs.zsh = {
       enable = true;
       enableCompletion = true;
