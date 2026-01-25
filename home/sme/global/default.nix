@@ -14,6 +14,7 @@
     delta
     direnv
     fzf
+    tmux
   ];
 
   nix = {
@@ -154,6 +155,10 @@
     whitelist = ["~/src/o11n"];
   };
   custom.fzf.enable = true;
+  custom.tmux = {
+    enable = true;
+    terminal = "tmux-256color";
+  };
 
   # Zsh configuration via shared module
   # startup speed checking: for i in $(seq 1 5); do /run/current-system/sw/bin/time -p ~/.nix-profile/bin/zsh -i -c exit; done
@@ -178,73 +183,6 @@
     # la = "eza -a";
     # lt = "eza --tree";
     # lla = "eza -la";
-  };
-
-  programs.tmux = {
-    enable = true;
-    shortcut = "j";
-    baseIndex = 1;
-    # Stop tmux+escape printing nonsense
-    # https://github.com/tmux-plugins/tmux-sensible/issues/61
-    escapeTime = 1;
-    mouse = true;
-    keyMode = "vi";
-
-    newSession = false;
-    # Force tmux to use /tmp for sockets (WSL2 compat)
-    secureSocket = false;
-    terminal = "tmux-256color";
-    clock24 = true;
-    plugins = with pkgs.tmuxPlugins; [
-      # https://github.com/dracula/tmux/blob/master/docs/CONFIG.md
-      # TODO: Move to module and share with bluestreak
-      # Weather uses: https://wttr.in/:help
-      {
-        plugin = dracula;
-        extraConfig = ''
-          set -g @dracula-plugins "time"
-          set -g @dracula-show-timezone false
-          set -g @dracula-show-location false
-          set -g @dracula-fixed-location "Wappingers Falls, NY"
-          set -g @dracula-show-battery false
-          set -g @dracula-show-powerline true
-          set -g @dracula-refresh-rate 10
-          set -g @dracula-show-left-icon "#S"
-          # for left
-          set -g @dracula-show-left-sep 
-          # for right symbol (can set any symbol you like as separator)
-          set -g @dracula-show-right-sep 
-          bind-key R source-file ~/.config/tmux/tmux.conf \; display "Reloaded!"
-        '';
-      }
-      # # Then resurrect and continuum pair
-      # {
-      #   plugin = resurrect;
-      #   extraConfig = ''
-      #     set -g @resurrect-capture-pane-contents 'on'
-      #   '';
-      # }
-      # {
-      #   plugin = continuum;
-      #   extraConfig = ''
-      #     set -g @continuum-restore 'on'
-      #     set -g @continuum-boot 'on'
-      #     set -g @continuum-save-interval '15' # minutes
-      #   '';
-      # }
-      sensible
-      better-mouse-mode
-      extrakto # prefix + tab
-      fzf-tmux-url # prefix + u
-      pain-control # sensible splits and movement
-      tmux-thumbs # prefix + space
-      # TODO: add TMUX_FZF_MENU= for custom menu using extraConfig, for assume and pass
-      # https://github.com/sainnhe/tmux-fzf#user-menu
-      tmux-fzf
-      yank
-    ];
-
-    extraConfig = builtins.readFile ./includes/tmux.conf;
   };
 
   home.file.".gemrc".text = "gem: --no-ri --no-rdoc";
