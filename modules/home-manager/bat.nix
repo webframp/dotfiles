@@ -7,9 +7,9 @@
   ...
 }:
 with lib; let
-  cfg = config.custom.bat;
+  cfg = config.webframp.bat;
 in {
-  options.custom.bat = {
+  options.webframp.bat = {
     enable = mkEnableOption "custom bat configuration";
   };
 

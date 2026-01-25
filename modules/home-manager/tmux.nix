@@ -7,9 +7,9 @@
   ...
 }:
 with lib; let
-  cfg = config.custom.tmux;
+  cfg = config.webframp.tmux;
 in {
-  options.custom.tmux = {
+  options.webframp.tmux = {
     enable = mkEnableOption "custom tmux configuration";
 
     enableOrgCapture = mkOption {

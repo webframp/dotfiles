@@ -7,9 +7,9 @@
   ...
 }:
 with lib; let
-  cfg = config.custom.zsh;
+  cfg = config.webframp.zsh;
 in {
-  options.custom.zsh = {
+  options.webframp.zsh = {
     enable = mkEnableOption "custom zsh configuration";
 
     enableVterm = mkOption {

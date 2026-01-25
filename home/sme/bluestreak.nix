@@ -181,8 +181,8 @@
   # Enable home-manager and git
   programs.home-manager.enable = true;
 
-  # Bluestreak-specific shell aliases (base aliases come from custom.zsh module)
-  custom.zsh.extraShellAliases = {
+  # Bluestreak-specific shell aliases (base aliases come from webframp.zsh module)
+  webframp.zsh.extraShellAliases = {
     # Home-manager
     yay = "home-manager switch --flake .#sme@bluestreak";
     yayb = "brew update && brew upgrade && brew cleanup";
@@ -203,25 +203,25 @@
   };
 
   # Shared module configuration
-  custom.bat.enable = true;
-  custom.delta.enable = true;
-  custom.direnv = {
+  webframp.bat.enable = true;
+  webframp.delta.enable = true;
+  webframp.direnv = {
     enable = true;
     whitelist = ["~/src/o11n"];
   };
-  custom.fzf.enable = true;
-  custom.git = {
+  webframp.fzf.enable = true;
+  webframp.git = {
     enable = true;
     credentialHelper = "!pass-git-helper $@";
   };
-  custom.tmux = {
+  webframp.tmux = {
     enable = true;
     enableOrgCapture = true;
   };
 
   # Zsh configuration via shared module
   # startup speed checking: for i in $(seq 1 5); do /run/current-system/sw/bin/time -p ~/.nix-profile/bin/zsh -i -c exit; done
-  custom.zsh = {
+  webframp.zsh = {
     enable = true;
     enableVterm = true;
 

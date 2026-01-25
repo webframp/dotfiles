@@ -7,9 +7,9 @@
   ...
 }:
 with lib; let
-  cfg = config.custom.git;
+  cfg = config.webframp.git;
 in {
-  options.custom.git = {
+  options.webframp.git = {
     enable = mkEnableOption "custom git configuration";
 
     credentialHelper = mkOption {

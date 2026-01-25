@@ -149,22 +149,22 @@
   gtk = {enable = true;};
 
   # Shared module configuration
-  custom.bat.enable = true;
-  custom.delta.enable = true;
-  custom.direnv = {
+  webframp.bat.enable = true;
+  webframp.delta.enable = true;
+  webframp.direnv = {
     enable = true;
     whitelist = ["~/src/o11n"];
   };
-  custom.fzf.enable = true;
-  custom.git.enable = true;
-  custom.tmux = {
+  webframp.fzf.enable = true;
+  webframp.git.enable = true;
+  webframp.tmux = {
     enable = true;
     terminal = "tmux-256color";
   };
 
   # Zsh configuration via shared module
   # startup speed checking: for i in $(seq 1 5); do /run/current-system/sw/bin/time -p ~/.nix-profile/bin/zsh -i -c exit; done
-  custom.zsh = {
+  webframp.zsh = {
     enable = true;
     enableVterm = false; # Enable on hosts that use Emacs
 
@@ -188,7 +188,7 @@
   };
 
   home.file.".gemrc".text = "gem: --no-ri --no-rdoc";
-  # p10k.zsh is managed by the custom.zsh module
+  # p10k.zsh is managed by the webframp.zsh module
 
   home.file.".icons/default".source = "${pkgs.vanilla-dmz}/share/icons/Vanilla-DMZ";
 
