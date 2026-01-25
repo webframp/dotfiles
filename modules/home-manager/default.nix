@@ -3,6 +3,8 @@
 {
   bat = import ./bat.nix;
   delta = import ./delta.nix;
+  direnv = import ./direnv.nix;
   fzf = import ./fzf.nix;
+  tmux = import ./tmux.nix;
   zsh = import ./zsh.nix;
 }
