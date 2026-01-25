@@ -14,6 +14,7 @@
     delta
     direnv
     fzf
+    git
     tmux
   ];
 
@@ -155,6 +156,7 @@
     whitelist = ["~/src/o11n"];
   };
   custom.fzf.enable = true;
+  custom.git.enable = true;
   custom.tmux = {
     enable = true;
     terminal = "tmux-256color";
