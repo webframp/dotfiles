@@ -7,9 +7,9 @@
   ...
 }:
 with lib; let
-  cfg = config.custom.fzf;
+  cfg = config.webframp.fzf;
 in {
-  options.custom.fzf = {
+  options.webframp.fzf = {
     enable = mkEnableOption "custom fzf configuration";
   };
 

@@ -7,9 +7,9 @@
   ...
 }:
 with lib; let
-  cfg = config.custom.direnv;
+  cfg = config.webframp.direnv;
 in {
-  options.custom.direnv = {
+  options.webframp.direnv = {
     enable = mkEnableOption "custom direnv configuration";
 
     whitelist = mkOption {

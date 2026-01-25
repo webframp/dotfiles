@@ -7,9 +7,9 @@
   ...
 }:
 with lib; let
-  cfg = config.custom.delta;
+  cfg = config.webframp.delta;
 in {
-  options.custom.delta = {
+  options.webframp.delta = {
     enable = mkEnableOption "custom delta configuration";
   };
 
