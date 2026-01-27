@@ -16,6 +16,9 @@
 
     # Import home-manager module
     inputs.home-manager.nixosModules.home-manager
+    {
+      home-manager.extraSpecialArgs = {inherit inputs outputs;};
+    }
 
     # Generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
