@@ -5,7 +5,10 @@
   pkgs,
   ...
 }: {
-  imports = [./global];
+  imports = [
+    ./global
+    ./linux.nix
+  ];
 
   home.shellAliases = {yay = "home-manager switch --flake .#sme@ubuntu";};
 
