@@ -19,15 +19,13 @@
     username = "sme";
     homeDirectory = "/Users/sme";
     stateVersion = "24.05";
-    packages =
-      import ./packages.nix {inherit lib pkgs;}
-      ++ (with pkgs; [
-        # bluestreak-specific extras
-        aws-doctor # custom package
-        devcontainer
-        emacs-lsp-booster
-        mcp-k8s-go # https://github.com/strowk/mcp-k8s-go
-      ]);
+    # Extra packages beyond base.nix (lists merge automatically)
+    packages = with pkgs; [
+      aws-doctor # custom package
+      devcontainer
+      emacs-lsp-booster
+      mcp-k8s-go # https://github.com/strowk/mcp-k8s-go
+    ];
   };
 
   # Bluestreak-specific webframp overrides

@@ -1,5 +1,5 @@
 # ABOUTME: Base home-manager configuration shared across all platforms
-# ABOUTME: Provides common module imports and webframp module defaults
+# ABOUTME: Provides common module imports, packages, and webframp module defaults
 {
   lib,
   pkgs,
@@ -31,6 +31,9 @@
   nixpkgs.config.allowUnfreePredicate = _: true;
   programs.home-manager.enable = true;
 
+  # Common packages for all platforms (hosts can add more via home.packages)
+  home.packages = import ./packages.nix {inherit lib pkgs;};
+
   # Shared webframp module configuration
   # Hosts can override specific options as needed
   webframp.bat.enable = true;
@@ -43,4 +46,8 @@
   webframp.git.enable = true;
   webframp.tmux.enable = true;
   webframp.zsh.enable = true;
+
+  # Linux-specific defaults (can be overridden by hosts)
+  webframp.tmux.terminal = lib.mkIf pkgs.stdenv.isLinux "tmux-256color";
+  webframp.zsh.enableVterm = lib.mkIf pkgs.stdenv.isLinux (lib.mkDefault false);
 }
