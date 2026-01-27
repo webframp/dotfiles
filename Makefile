@@ -33,7 +33,7 @@ SYSTEM := $(shell nix eval --impure --raw --expr 'builtins.currentSystem')
 PACKAGES := $(shell nix eval .#packages.$(SYSTEM) --apply 'builtins.attrNames' --json 2>/dev/null | jq -r '.[]')
 
 .PHONY: switch build check fmt update clean clean-generations news diff zsh-bench help
-.PHONY: pkg-list pkg-build-all $(PACKAGES)
+.PHONY: pkg-list pkg-build-all pkg-bump $(PACKAGES)
 
 ## Primary targets
 
@@ -90,6 +90,14 @@ pkg-build-all: ## Build all custom packages
 		nix build .#$$pkg || exit 1; \
 	done
 	@echo "All packages built successfully"
+
+pkg-bump: ## Bump package to latest GitHub release (PKG=name)
+ifndef PKG
+	@echo "Usage: make pkg-bump PKG=<package-name>"
+	@echo "Run 'make pkg-list' to see available packages"
+	@exit 1
+endif
+	@./scripts/bump-pkg.sh $(PKG)
 
 # Generate a target for each package (e.g., make aws-doctor, make iamlive)
 define pkg_target
