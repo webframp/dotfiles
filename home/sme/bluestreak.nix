@@ -9,19 +9,20 @@
   ...
 }: {
   # You can import other home-manager modules here
-  imports = with outputs.homeManagerModules; [
-    # If you want to use home-manager modules from other flakes (such as nix-colors):
-    # inputs.nix-colors.homeManagerModule
-
-    # Shared configuration modules
-    zsh
-    bat
-    delta
-    direnv
-    fzf
-    git
-    tmux
-  ];
+  imports =
+    [
+      ./programs.nix
+    ]
+    ++ (with outputs.homeManagerModules; [
+      # Shared configuration modules
+      zsh
+      bat
+      delta
+      direnv
+      fzf
+      git
+      tmux
+    ]);
 
   nix = {
     package = lib.mkDefault pkgs.nix;
@@ -157,28 +158,9 @@
     package = pkgs.emacs.override {withNativeCompilation = true;};
   };
 
-  programs.eza.enable = true;
-  programs.fastfetch.enable = true;
-  programs.fd.enable = true;
-  programs.zoxide.enable = true;
-
   programs.keychain = {
     enable = true;
     keys = ["id_ed25519" "BE06ADB38C7F719D"];
-  };
-
-  programs.k9s.enable = true;
-  programs.kubeswitch.enable = true;
-  programs.granted.enable = true;
-  programs.infat.enable = true;
-
-  programs.jqp = {
-    enable = true;
-    settings = {
-      theme = {
-        name = "doom-one";
-      };
-    };
   };
 
   services.home-manager.autoExpire = {

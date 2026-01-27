@@ -8,15 +8,19 @@
   outputs,
   ...
 }: {
-  imports = with outputs.homeManagerModules; [
-    zsh
-    bat
-    delta
-    direnv
-    fzf
-    git
-    tmux
-  ];
+  imports =
+    [
+      ../programs.nix
+    ]
+    ++ (with outputs.homeManagerModules; [
+      zsh
+      bat
+      delta
+      direnv
+      fzf
+      git
+      tmux
+    ]);
 
   nix = {
     package = lib.mkDefault pkgs.nix;
@@ -59,20 +63,6 @@
     extraEnvVars = ''
       export FORCE_NO_ALIAS=true
     '';
-  };
-
-  programs.granted.enable = true;
-
-  programs.zoxide.enable = true;
-
-  programs.eza = {
-    enable = true;
-    # creates these aliases
-    # ls = "eza";
-    # ll = "eza -l";
-    # la = "eza -a";
-    # lt = "eza --tree";
-    # lla = "eza -la";
   };
 
 }
