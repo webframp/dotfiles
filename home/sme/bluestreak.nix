@@ -1,48 +1,19 @@
 # ABOUTME: Home-manager configuration for bluestreak (macOS Apple Silicon)
 # ABOUTME: Primary workstation with full development environment
 {
-  inputs,
   outputs,
-  config,
   lib,
   pkgs,
   ...
 }: {
-  # You can import other home-manager modules here
-  imports =
-    [
-      ./programs.nix
-    ]
-    ++ (with outputs.homeManagerModules; [
-      # Shared configuration modules
-      zsh
-      bat
-      delta
-      direnv
-      fzf
-      git
-      tmux
-    ]);
+  imports = [./base.nix];
 
-  nix = {
-    package = lib.mkDefault pkgs.nix;
-    settings = {
-      auto-optimise-store = false;
-      experimental-features = ["nix-command" "flakes"];
-      warn-dirty = false;
-    };
-  };
+  # macOS-specific nix settings
+  nix.settings.auto-optimise-store = false;
 
-  nixpkgs = {
-    overlays = [
-      outputs.overlays.additions
-    ];
-    config = {
-      allowUnfree = true;
-      # Workaround for https://github.com/nix-community/home-manager/issues/2942
-      allowUnfreePredicate = _: true;
-    };
-  };
+  nixpkgs.overlays = [
+    outputs.overlays.additions
+  ];
 
   home = {
     username = "sme";
@@ -59,52 +30,32 @@
       ]);
   };
 
-  # Enable home-manager and git
-  programs.home-manager.enable = true;
+  # Bluestreak-specific webframp overrides
+  webframp.git.credentialHelper = "!pass-git-helper $@";
+  webframp.tmux.enableOrgCapture = true;
 
-  # Bluestreak-specific shell aliases (base aliases come from webframp.zsh module)
-  webframp.zsh.extraShellAliases = {
-    # Home-manager
-    yay = "home-manager switch --flake .#sme@bluestreak";
-    yayb = "brew update && brew upgrade && brew cleanup";
-    news = "home-manager news --flake .";
-    nixcleanup = "nix profile wipe-history --older-than 14d && nix-collect-garbage";
-
-    # macOS-specific
-    docker = "podman";
-
-    # Doom Emacs
-    doom = "~/.config/emacs/bin/doom";
-
-    # Kubernetes
-    k = "kubectl";
-    kn = "kswitch ns";
-    ks = "kswitch";
-    kx = "kswitch";
-  };
-
-  # Shared module configuration
-  webframp.bat.enable = true;
-  webframp.delta.enable = true;
-  webframp.direnv = {
-    enable = true;
-    whitelist = ["~/src/o11n"];
-  };
-  webframp.fzf.enable = true;
-  webframp.git = {
-    enable = true;
-    credentialHelper = "!pass-git-helper $@";
-  };
-  webframp.tmux = {
-    enable = true;
-    enableOrgCapture = true;
-  };
-
-  # Zsh configuration via shared module
-  # startup speed checking: for i in $(seq 1 5); do /run/current-system/sw/bin/time -p ~/.nix-profile/bin/zsh -i -c exit; done
   webframp.zsh = {
-    enable = true;
     enableVterm = true;
+
+    extraShellAliases = {
+      # Home-manager
+      yay = "home-manager switch --flake .#sme@bluestreak";
+      yayb = "brew update && brew upgrade && brew cleanup";
+      news = "home-manager news --flake .";
+      nixcleanup = "nix profile wipe-history --older-than 14d && nix-collect-garbage";
+
+      # macOS-specific
+      docker = "podman";
+
+      # Doom Emacs
+      doom = "~/.config/emacs/bin/doom";
+
+      # Kubernetes
+      k = "kubectl";
+      kn = "kswitch ns";
+      ks = "kswitch";
+      kx = "kswitch";
+    };
 
     extraEnvVars = ''
       export AWS_VAULT_BACKEND=pass
