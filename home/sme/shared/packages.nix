@@ -47,7 +47,6 @@ with tflint-plugins;
     fontconfig
     fzf
 
-    gcc
     gemini-cli
     gh
     git
@@ -159,6 +158,7 @@ with tflint-plugins;
   # Linux-specific packages
   ++ lib.optionals stdenv.isLinux [
     coreutils
+    gcc # Linux uses gcc; macOS uses clang
     glibcLocales
     graphviz-nox # graphviz without X dependencies
     libtool
