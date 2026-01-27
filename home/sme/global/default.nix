@@ -12,9 +12,4 @@
     homeDirectory = lib.mkDefault "/home/${config.home.username}";
     stateVersion = lib.mkDefault "23.05";
   };
-
-  # Linux-specific zsh extras (tmux.terminal and zsh.enableVterm are in base.nix)
-  webframp.zsh.extraEnvVars = ''
-    export FORCE_NO_ALIAS=true
-  '';
 }

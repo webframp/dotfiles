@@ -12,6 +12,11 @@
     onChange = "tic -x -o ~/.terminfo ~/.xterm-24bit.terminfo";
   };
 
+  # Linux-specific zsh settings
+  webframp.zsh.extraEnvVars = ''
+    export FORCE_NO_ALIAS=true
+  '';
+
   # Ensure UTF-8
   home.language = {
     base = "en_US.UTF-8";
