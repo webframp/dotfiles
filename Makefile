@@ -106,9 +106,8 @@ news: ## Show home-manager news
 
 ## Diagnostics
 
-zsh-bench: ## Measure zsh startup time (run 5 times)
-	@echo "Measuring zsh startup time..."
-	@for i in 1 2 3 4 5; do /usr/bin/time zsh -i -c exit 2>&1; done
+zsh-bench: ## Measure zsh startup time
+	hyperfine --warmup 2 'zsh -i -c exit'
 
 ## Custom packages (pkgs/)
 ## Individual package targets are generated dynamically (e.g., make aws-doctor)
