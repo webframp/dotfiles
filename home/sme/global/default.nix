@@ -65,9 +65,11 @@
       git-lfs
       git-extras
       # gitmux
+      gcc
       glab
       gnumake
       gnupg
+      google-cloud-sdk
       graphviz-nox
       html-tidy
       htop
@@ -78,6 +80,7 @@
       jsbeautifier
       yq-go
       keychain
+      libtool
       mob
       nodejs_20
       nomad
