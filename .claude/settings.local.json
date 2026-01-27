@@ -17,7 +17,8 @@
       "Bash(git add:*)",
       "Bash(make help:*)",
       "Bash(make pkg-bump:*)",
-      "Skill(superpowers:systematic-debugging)"
+      "Skill(superpowers:systematic-debugging)",
+      "Skill(superpowers:brainstorming)"
     ]
   }
 }

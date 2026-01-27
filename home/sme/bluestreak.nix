@@ -47,127 +47,15 @@
     username = "sme";
     homeDirectory = "/Users/sme";
     stateVersion = "24.05";
-    # should be macOS specific packages as needed
-    # but right now is duplicating everything from global because global is busted cross platform
-    packages = with pkgs;
-    with nodePackages_latest;
-    with tflint-plugins; [
-      aws-doctor
-      awscli2
-      awslogs
-      aws-vault
-      aws-cdk
-      # bash-my-aws
-      # cdk8s-cli
-      claude-code
-      cmake
-      coder
-      coreutils-prefixed
-      delta
-      devbox
-      devcontainer
-      dig
-      exiftool
-      fd
-      ffmpeg
-      file
-      fzf
-      git
-      git-lfs
-      git-extras
-      gemini-cli
-      # gitmux
-      glibtool
-      gnumake
-      gnused
-      htop
-      hugo
-      hyperfine
-      inetutils
-      imagemagick
-      ispell
-      jq
-      yq-go
-      tmux
-      keychain
-      mas
-      mob
-      nodejs_20
-      # ollama
-      (pass.withExtensions
-        (ext: with ext; [pass-genphrase pass-otp pass-update]))
-      pass-git-helper
-      pinentry_mac
-      pipx
-      podman
-      podman-compose
-      pry
-      ripgrep
-      # spotify
-      terraform
-      terraform-docs
-      tflint
-      tflint-ruleset-aws
-      tfsec
-      urlscan
-      wget
-      unzip
-      uv
-      vale
-      vault
-      yt-dlp
-      # zbar
-      zip
-      zstd
-      zoxide
-
-      # kubernetes
-      kind
-      kubectl
-      kubernetes-helm
-      kustomize
-      go
-      clang
-      mcp-k8s-go # https://github.com/strowk/mcp-k8s-go
-
-      # Nix related
-      alejandra
-      cachix
-      direnv
-      nix-index
-
-      nox
-      patchelf
-
-      # emacs
-      emacs-lsp-booster
-      vscode-langservers-extracted
-      # bash-language-server
-      cspell
-      prettier
-      sqlite
-      wordnet
-      editorconfig-checker
-      editorconfig-core-c
-      gopls
-      gomodifytags
-      gotests
-      gore
-      gotools
-      multimarkdown
-      nil
-      pandoc
-      shfmt
-      shellcheck
-      pngpaste
-      graphviz
-      stylelint
-      js-beautify
-      fontconfig
-
-      # zplug seems to need
-      perl
-    ];
+    packages =
+      import ./packages.nix {inherit lib pkgs;}
+      ++ (with pkgs; [
+        # bluestreak-specific extras
+        aws-doctor # custom package
+        devcontainer
+        emacs-lsp-booster
+        mcp-k8s-go # https://github.com/strowk/mcp-k8s-go
+      ]);
   };
 
   # Enable home-manager and git
