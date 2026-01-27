@@ -24,7 +24,16 @@ endef
 # Age for generation cleanup (override: make clean-generations AGE=14d)
 AGE ?= 30d
 
+# Current system for package builds
+SYSTEM := $(shell nix eval --impure --raw --expr 'builtins.currentSystem')
+
+# Dynamic package discovery from pkgs/
+# Note: Adds ~0.5s startup overhead due to nix eval at parse time.
+# This is a fixed cost (evaluates attribute names only, not package contents).
+PACKAGES := $(shell nix eval .#packages.$(SYSTEM) --apply 'builtins.attrNames' --json 2>/dev/null | jq -r '.[]')
+
 .PHONY: switch build check fmt update clean clean-generations news diff zsh-bench help
+.PHONY: pkg-list pkg-build-all $(PACKAGES)
 
 ## Primary targets
 
@@ -67,6 +76,27 @@ news: ## Show home-manager news
 zsh-bench: ## Measure zsh startup time (run 5 times)
 	@echo "Measuring zsh startup time..."
 	@for i in 1 2 3 4 5; do /usr/bin/time zsh -i -c exit 2>&1; done
+
+## Custom packages (pkgs/)
+## Individual package targets are generated dynamically (e.g., make aws-doctor)
+
+pkg-list: ## List available custom packages
+	@echo "Available packages (build with 'make <name>'):"
+	@for pkg in $(PACKAGES); do echo "  $$pkg"; done
+
+pkg-build-all: ## Build all custom packages
+	@for pkg in $(PACKAGES); do \
+		echo "Building $$pkg..."; \
+		nix build .#$$pkg || exit 1; \
+	done
+	@echo "All packages built successfully"
+
+# Generate a target for each package (e.g., make aws-doctor, make iamlive)
+define pkg_target
+$(1): ## Build $(1) package
+	nix build .#$(1)
+endef
+$(foreach pkg,$(PACKAGES),$(eval $(call pkg_target,$(pkg))))
 
 ## Help
 
