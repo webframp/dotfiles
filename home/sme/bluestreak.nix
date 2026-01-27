@@ -33,17 +33,8 @@
   };
 
   nixpkgs = {
-    # You can add overlays here
     overlays = [
-      # If you want to use overlays exported from other flakes:
-      # neovim-nightly-overlay.overlays.default
-
-      # Or define it inline, for example:
-      # (final: prev: {
-      #   hi = final.hello.overrideAttrs (oldAttrs: {
-      #     patches = [ ./change-hello-to-hi.patch ];
-      #   });
-      # })
+      outputs.overlays.additions
     ];
     config = {
       allowUnfree = true;
@@ -61,6 +52,7 @@
     packages = with pkgs;
     with nodePackages_latest;
     with tflint-plugins; [
+      aws-doctor
       awscli2
       awslogs
       aws-vault
