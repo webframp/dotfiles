@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(xargs ls:*)",
+      "Bash(tree:*)",
+      "Bash(aws bedrock list-foundation-models:*)",
+      "Bash(git -C /Users/sme/src/webframp/dotfiles log --oneline -20 -- home/sme/global/includes/zshrc)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:htr3n.github.io)",
+      "WebFetch(domain:carlosbecker.com)",
+      "Bash(nix-instantiate:*)",
+      "WebFetch(domain:nix-community.github.io)",
+      "Bash(home-manager option:*)",
+      "Bash(nix build:*)",
+      "mcp__fetch__fetch",
+      "Bash(git add:*)",
+      "Bash(make help:*)",
+      "Bash(make pkg-bump:*)"
+    ]
+  }
+}
