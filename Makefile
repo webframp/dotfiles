@@ -1,8 +1,11 @@
-# ABOUTME: Common targets for managing this nix flake home-manager configuration
+# ABOUTME: Common targets for managing nix flake configurations (home-manager and NixOS)
 # ABOUTME: Auto-detects hostname for switch/build targets
 
 # Valid hostnames with configurations
 VALID_HOSTS := bluestreak ubuntu generic
+
+# NixOS hosts (hostname -> config name mapping via -wsl suffix removal)
+VALID_NIXOS_HOSTS := galvatron-wsl
 
 HOSTNAME := $(shell hostname -s)
 USER := sme
@@ -10,11 +13,25 @@ USER := sme
 HOST ?= $(HOSTNAME)
 FLAKE_TARGET := $(USER)@$(HOST)
 
-# Check if host has a configuration
+# NixOS config name (strips -wsl suffix: galvatron-wsl -> galvatron)
+NIXOS_CONFIG := $(subst -wsl,,$(HOST))
+
+# Check if host has a home-manager configuration
 define check_host
 	@if ! echo "$(VALID_HOSTS)" | grep -qw "$(HOST)"; then \
 		echo "Error: No configuration for host '$(HOST)'"; \
 		echo "Valid hosts: $(VALID_HOSTS)"; \
+		echo ""; \
+		echo "To use a specific config: make $(1) HOST=<hostname>"; \
+		exit 1; \
+	fi
+endef
+
+# Check if host has a NixOS configuration
+define check_nixos_host
+	@if ! echo "$(VALID_NIXOS_HOSTS)" | grep -qw "$(HOST)"; then \
+		echo "Error: No NixOS configuration for host '$(HOST)'"; \
+		echo "Valid NixOS hosts: $(VALID_NIXOS_HOSTS)"; \
 		echo ""; \
 		echo "To use a specific config: make $(1) HOST=<hostname>"; \
 		exit 1; \
@@ -33,6 +50,7 @@ SYSTEM := $(shell nix eval --impure --raw --expr 'builtins.currentSystem')
 PACKAGES := $(shell nix eval .#packages.$(SYSTEM) --apply 'builtins.attrNames' --json 2>/dev/null | jq -r '.[]')
 
 .PHONY: switch build check fmt update clean clean-generations news diff zsh-bench help
+.PHONY: nixos-switch nixos-build nixos-diff
 .PHONY: pkg-list pkg-build-all pkg-bump $(PACKAGES)
 
 ## Primary targets
@@ -49,6 +67,21 @@ diff: ## Show what will change before switching
 	$(call check_host,$@)
 	home-manager build --flake .#$(FLAKE_TARGET)
 	nix store diff-closures ~/.local/state/nix/profiles/home-manager ./result
+
+## NixOS targets
+
+nixos-switch: ## Apply NixOS configuration
+	$(call check_nixos_host,$@)
+	sudo nixos-rebuild switch --flake .#$(NIXOS_CONFIG)
+
+nixos-build: ## Dry-run NixOS build to verify changes
+	$(call check_nixos_host,$@)
+	nix build .#nixosConfigurations.$(NIXOS_CONFIG).config.system.build.toplevel --dry-run
+
+nixos-diff: ## Show what will change before NixOS switch
+	$(call check_nixos_host,$@)
+	nix build .#nixosConfigurations.$(NIXOS_CONFIG).config.system.build.toplevel
+	nix store diff-closures /run/current-system ./result
 
 ## Maintenance
 
