@@ -23,7 +23,6 @@ with tflint-plugins;
     bash-language-server
     cachix
     cdk8s-cli
-    clang
     claude-code
     cmake
     coder
@@ -148,6 +147,7 @@ with tflint-plugins;
   ]
   # Darwin-specific packages
   ++ lib.optionals stdenv.isDarwin [
+    clang # macOS uses clang; Linux uses gcc
     coreutils-prefixed # prefixed to avoid conflicts with macOS builtins
     glibtool # macOS version of libtool
     gnused # GNU sed (macOS sed is BSD)
