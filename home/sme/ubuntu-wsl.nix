@@ -1,13 +1,7 @@
-# Pull in globals
-{
-  inputs,
-  lib,
-  pkgs,
-  ...
-}: {
+{...}: {
   imports = [
-    ./global
-    ./linux.nix
+    ./shared/base.nix
+    ./shared/linux.nix
   ];
 
   home.shellAliases = {yay = "home-manager switch --flake .#sme@ubuntu";};

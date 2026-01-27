@@ -1,6 +1,7 @@
 # ABOUTME: Base home-manager configuration shared across all platforms
 # ABOUTME: Provides common module imports, packages, and webframp module defaults
 {
+  config,
   lib,
   pkgs,
   outputs,
@@ -31,8 +32,18 @@
   nixpkgs.config.allowUnfreePredicate = _: true;
   programs.home-manager.enable = true;
 
-  # Common packages for all platforms (hosts can add more via home.packages)
-  home.packages = import ./packages.nix {inherit lib pkgs;};
+  # Home defaults with platform-appropriate paths
+  home = {
+    username = lib.mkDefault "sme";
+    homeDirectory = lib.mkDefault (
+      if pkgs.stdenv.isDarwin
+      then "/Users/${config.home.username}"
+      else "/home/${config.home.username}"
+    );
+    stateVersion = lib.mkDefault "24.05";
+    # Common packages for all platforms (hosts can add more via home.packages)
+    packages = import ./packages.nix {inherit lib pkgs;};
+  };
 
   # Shared webframp module configuration
   # Hosts can override specific options as needed

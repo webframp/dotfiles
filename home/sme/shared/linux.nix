@@ -8,7 +8,7 @@
   home.file.".icons/default".source = "${pkgs.vanilla-dmz}/share/icons/Vanilla-DMZ";
 
   home.file.".xterm-24bit.terminfo" = {
-    source = ./global/includes/xterm-24bit.terminfo;
+    source = ./includes/xterm-24bit.terminfo;
     onChange = "tic -x -o ~/.terminfo ~/.xterm-24bit.terminfo";
   };
 

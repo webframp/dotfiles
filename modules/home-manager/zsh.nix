@@ -214,6 +214,6 @@ in {
       // cfg.extraShellAliases;
 
     # Powerlevel10k configuration file
-    home.file.".p10k.zsh".source = ../../home/sme/global/includes/p10k.zsh;
+    home.file.".p10k.zsh".source = ../../home/sme/shared/includes/p10k.zsh;
   };
 }
