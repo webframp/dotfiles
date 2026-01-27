@@ -74,6 +74,7 @@
       html-tidy
       htop
       hugo
+      hyperfine
       inetutils
       ispell
       jq
