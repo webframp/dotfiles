@@ -7,13 +7,13 @@
 }:
 buildGoModule rec {
   pname = "iamlive";
-  version = "0.53.0";
+  version = "1.1.27";
 
   src = fetchFromGitHub {
     owner = "iann0036";
     repo = "iamlive";
     rev = "v${version}";
-    hash = "sha256-0ly/egfzpbjyp4U2aFxW7cwaLkiV+sjwyjQHY62NHr4=";
+    hash = "sha256-xSftr7K3nRr8pgj0tzJjhH/SUnu4YTyMya+3vGK2qCY=";
   };
 
   vendorHash = null;
