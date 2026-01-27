@@ -6,7 +6,7 @@
   pkgs,
   ...
 }: {
-  imports = [./base.nix];
+  imports = [./shared/base.nix];
 
   # macOS-specific nix settings
   nix.settings.auto-optimise-store = false;

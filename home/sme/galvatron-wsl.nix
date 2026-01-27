@@ -1,7 +1,7 @@
-{inputs, ...}: {
+{...}: {
   imports = [
-    ./global
-    ./linux.nix
+    ./shared/base.nix
+    ./shared/linux.nix
   ];
 
   home.shellAliases = {

@@ -2,8 +2,8 @@
 # ABOUTME: Provides base zsh setup and essential tools as a starting point
 {...}: {
   imports = [
-    ./global
-    ./linux.nix
+    ./shared/base.nix
+    ./shared/linux.nix
   ];
 
   home.shellAliases = {

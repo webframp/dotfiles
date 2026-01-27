@@ -18,7 +18,8 @@
       "Bash(make help:*)",
       "Bash(make pkg-bump:*)",
       "Skill(superpowers:systematic-debugging)",
-      "Skill(superpowers:brainstorming)"
+      "Skill(superpowers:brainstorming)",
+      "Bash(nix flake metadata:*)"
     ]
   }
 }

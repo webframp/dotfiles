@@ -87,7 +87,7 @@ in {
         yank
       ];
 
-      extraConfig = builtins.readFile ../../home/sme/global/includes/tmux.conf;
+      extraConfig = builtins.readFile ../../home/sme/shared/includes/tmux.conf;
     };
   };
 }
