@@ -16,7 +16,8 @@
       "mcp__fetch__fetch",
       "Bash(git add:*)",
       "Bash(make help:*)",
-      "Bash(make pkg-bump:*)"
+      "Bash(make pkg-bump:*)",
+      "Skill(superpowers:systematic-debugging)"
     ]
   }
 }
