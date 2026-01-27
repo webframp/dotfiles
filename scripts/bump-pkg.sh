@@ -43,9 +43,16 @@ if [[ -z "$LATEST_TAG" ]]; then
     exit 1
 fi
 
-# Strip leading 'v' if present
-LATEST_VERSION="${LATEST_TAG#v}"
-echo "Latest version: $LATEST_VERSION"
+# Detect if upstream uses 'v' prefix
+if [[ "$LATEST_TAG" == v* ]]; then
+    HAS_V_PREFIX=true
+    LATEST_VERSION="${LATEST_TAG#v}"
+    echo "Latest version: $LATEST_VERSION (tag: $LATEST_TAG, v-prefixed)"
+else
+    HAS_V_PREFIX=false
+    LATEST_VERSION="$LATEST_TAG"
+    echo "Latest version: $LATEST_VERSION (tag: $LATEST_TAG, no prefix)"
+fi
 
 if [[ "$CURRENT_VERSION" == "$LATEST_VERSION" ]]; then
     echo "Already at latest version"
@@ -54,6 +61,27 @@ fi
 
 echo ""
 echo "Updating $CURRENT_VERSION -> $LATEST_VERSION"
+
+# Check current rev pattern in nix file
+CURRENT_REV_LINE=$(grep 'rev = ' "$PKG_FILE" | head -1)
+
+# Determine expected rev pattern based on upstream tag format
+if [[ "$HAS_V_PREFIX" == true ]]; then
+    # Upstream uses v-prefix, rev should be: rev = "v${version}";
+    EXPECTED_REV_PATTERN='rev = "v\${version}";'
+    if ! echo "$CURRENT_REV_LINE" | grep -q 'v\${version}'; then
+        echo "Updating rev pattern to use v-prefix..."
+        # Handle various patterns: rev = version; or rev = "${version}"; -> rev = "v${version}";
+        sed -i '' 's/rev = version;/rev = "v\${version}";/' "$PKG_FILE"
+        sed -i '' 's/rev = "\${version}";/rev = "v\${version}";/' "$PKG_FILE"
+    fi
+else
+    # Upstream has no v-prefix, rev should be: rev = version; or rev = "${version}";
+    if echo "$CURRENT_REV_LINE" | grep -q 'v\${version}'; then
+        echo "Updating rev pattern to remove v-prefix..."
+        sed -i '' 's/rev = "v\${version}";/rev = version;/' "$PKG_FILE"
+    fi
+fi
 
 # Update version
 sed -i '' "s/version = \"$CURRENT_VERSION\"/version = \"$LATEST_VERSION\"/" "$PKG_FILE"

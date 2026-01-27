@@ -1,22 +1,23 @@
+# ABOUTME: Nix package for go-jwlm CLI tool
+# ABOUTME: Merges JW Library backups
 {
   lib,
-  stdenv,
   buildGoModule,
   fetchFromGitHub,
   ...
 }:
 buildGoModule rec {
-  pname = "jwlm";
-  version = "0.5.6-beta";
+  pname = "go-jwlm";
+  version = "0.5.7-beta";
 
   src = fetchFromGitHub {
     owner = "AndreasSko";
     repo = "go-jwlm";
-    rev = "${version}";
-    hash = "";
+    rev = version;
+    hash = "sha256-2nwYBLHRDQwwvF5ULgaYcbnqSWW6QUa9Bt4SVLiGzSA=";
   };
 
-  vendorHash = null;
+  vendorHash = "sha256-jC5B3gLM0QA9KqqN0HGx9xlActcjyI3YAzI/M6POVjQ=";
 
   meta = with lib; {
     description = "A command line tool to easily merge JW Library backups, written in Go.";
