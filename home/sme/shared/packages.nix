@@ -26,7 +26,6 @@ with tflint-plugins;
     claude-code
     cmake
     coder
-    csharpier
     cspell
     csvkit
 
@@ -35,7 +34,6 @@ with tflint-plugins;
     dig
     direnv
     dockfmt
-    dotnet-sdk
 
     editorconfig-checker
     editorconfig-core-c
@@ -158,6 +156,8 @@ with tflint-plugins;
   # Linux-specific packages
   ++ lib.optionals stdenv.isLinux [
     coreutils
+    csharpier
+    dotnet-sdk
     gcc # Linux uses gcc; macOS uses clang
     glibcLocales
     graphviz-nox # graphviz without X dependencies
