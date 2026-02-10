@@ -28,7 +28,7 @@
     # https://github.com/nix-community/nixos-vscode-server
     (fetchTarball {
       url = "https://github.com/nix-community/nixos-vscode-server/tarball/master";
-      sha256 = "1rdn70jrg5mxmkkrpy2xk8lydmlc707sk0zb35426v1yxxka10by";
+      sha256 = "0xjal4zcbmdjdaspfkjbpx1680q7390wfzmj7iad04kp3pc9syf8";
     })
   ];
 
@@ -231,13 +231,11 @@
       # https://github.com/NixOS/nixpkgs/blob/master/pkgs/tools/misc/mtm/default.nix#L24
       # export TERM=xterm-24bit
 
-      # BE06ADB38C7F719D must exist, not managing gpg setup with nix yet
-      # after copying .gnupg from encrypted backup, run:
+      # GPG private keys must be manually restored from encrypted backup:
       # chown -R $(whoami) ~/.gnupg/
       # find ~/.gnupg -type f -exec chmod 600 {} \;
       # find ~/.gnupg -type d -exec chmod 700 {} \;
 
-      eval $(keychain --eval id_ed25519 BE06ADB38C7F719D)
       eval "$(zoxide init bash)"
       eval "$(direnv hook bash)"
 

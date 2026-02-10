@@ -1,4 +1,6 @@
-{...}: {
+{pkgs, ...}: let
+  gpgKey = "BE06ADB38C7F719D";
+in {
   imports = [
     ./shared/base.nix
     ./shared/linux.nix
@@ -8,10 +10,26 @@
     yay = "/run/wrappers/bin/sudo nixos-rebuild switch --flake .#galvatron";
   };
 
-  # TODO these files need to exist but it's manual for now
+  programs.gpg = {
+    enable = true;
+    settings = {
+      default-key = gpgKey;
+      no-tty = true;
+      use-agent = true;
+    };
+  };
+
+  services.gpg-agent = {
+    enable = true;
+    defaultCacheTtl = 84000;
+    maxCacheTtl = 84000;
+    pinentry.package = pkgs.pinentry-curses;
+  };
+
   programs.keychain = {
     enable = true;
     enableZshIntegration = true;
-    keys = ["id_ed25519" "BE06ADB38C7F719D"];
+    extraFlags = ["--nogui" "--noask" "--quiet"];
+    keys = ["id_ed25519" gpgKey];
   };
 }

@@ -35,6 +35,11 @@ with tflint-plugins;
     direnv
     dockfmt
 
+    wails
+    pkg-config
+    gtk3
+    webkitgtk_4_1
+
     editorconfig-checker
     editorconfig-core-c
     exiftool

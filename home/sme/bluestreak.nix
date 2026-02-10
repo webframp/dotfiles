@@ -5,7 +5,9 @@
   lib,
   pkgs,
   ...
-}: {
+}: let
+  gpgKey = "BE06ADB38C7F719D";
+in {
   imports = [./shared/base.nix];
 
   # macOS-specific nix settings
@@ -91,14 +93,17 @@
   programs.gpg = {
     enable = true;
     settings = {
-      default-key = "BE06ADB38C7F719D"; # TODO don't love hardcoding this value twice
+      default-key = gpgKey;
       no-tty = true;
       use-agent = true;
     };
-    # TODO .gnupg/gpg-agent.conf is not yet managed via home manager
-    # pinentry-program ~/.nix-profile/bin/pinentry-mac
-    # default-cache-ttl 84000
-    # max-cache-ttl 84000
+  };
+
+  services.gpg-agent = {
+    enable = true;
+    defaultCacheTtl = 84000;
+    maxCacheTtl = 84000;
+    pinentry.package = pkgs.pinentry_mac;
   };
 
   # doom emacs setup is still manual
@@ -109,7 +114,8 @@
 
   programs.keychain = {
     enable = true;
-    keys = ["id_ed25519" "BE06ADB38C7F719D"];
+    extraFlags = ["--nogui" "--noask" "--quiet"];
+    keys = ["id_ed25519" gpgKey];
   };
 
   services.home-manager.autoExpire = {
