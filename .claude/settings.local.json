@@ -19,7 +19,31 @@
       "Bash(make pkg-bump:*)",
       "Skill(superpowers:systematic-debugging)",
       "Skill(superpowers:brainstorming)",
-      "Bash(nix flake metadata:*)"
+      "Bash(nix flake metadata:*)",
+      "Bash(ssh-add:*)",
+      "Bash(gpg-connect-agent:*)",
+      "Bash(env)",
+      "Bash(git -C /home/sme/src/webframp/dotfiles log --oneline -10 --all -- '*.nix')",
+      "Bash(git -C /home/sme/src/webframp/dotfiles show 37dc630 --stat)",
+      "Bash(git -C /home/sme/src/webframp/dotfiles diff 37dc630~1..37dc630)",
+      "Bash(keychain:*)",
+      "Bash(echo:*)",
+      "Bash(nix flake show:*)",
+      "Bash(make build:*)",
+      "Bash(gpgconf:*)",
+      "Bash(systemctl --user status:*)",
+      "Bash(systemctl --user list-units:*)",
+      "Bash(grep:*)",
+      "Bash(zsh -l -c:*)",
+      "Bash(systemctl --user show-environment:*)",
+      "Bash(unset:*)",
+      "Bash(XDG_RUNTIME_DIR=/run/user/1000:*)",
+      "Bash(export XDG_RUNTIME_DIR)",
+      "Bash(source:*)",
+      "Bash(env -i HOME=$HOME USER=$USER SHELL=/bin/zsh PATH=$PATH XDG_RUNTIME_DIR=/run/user/1000 zsh:*)",
+      "Bash(exec zsh -l -c 'echo \"\"SSH_AUTH_SOCK=$SSH_AUTH_SOCK\"\"; ssh-add -l 2>&1 || true')",
+      "Bash(zsh -l -x -c 'echo done')",
+      "Bash(env -i HOME=$HOME USER=$USER SHELL=/bin/zsh PATH=$PATH XDG_RUNTIME_DIR=/run/user/1000 bash -c:*)"
     ]
   }
 }
