@@ -43,7 +43,9 @@
       "Bash(env -i HOME=$HOME USER=$USER SHELL=/bin/zsh PATH=$PATH XDG_RUNTIME_DIR=/run/user/1000 zsh:*)",
       "Bash(exec zsh -l -c 'echo \"\"SSH_AUTH_SOCK=$SSH_AUTH_SOCK\"\"; ssh-add -l 2>&1 || true')",
       "Bash(zsh -l -x -c 'echo done')",
-      "Bash(env -i HOME=$HOME USER=$USER SHELL=/bin/zsh PATH=$PATH XDG_RUNTIME_DIR=/run/user/1000 bash -c:*)"
+      "Bash(env -i HOME=$HOME USER=$USER SHELL=/bin/zsh PATH=$PATH XDG_RUNTIME_DIR=/run/user/1000 bash -c:*)",
+      "Bash(make pkg-build-all:*)",
+      "Bash(aws-doctor:*)"
     ]
   }
 }
