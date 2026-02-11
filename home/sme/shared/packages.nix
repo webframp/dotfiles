@@ -16,6 +16,7 @@ with tflint-plugins;
     alejandra
     ansible
     aws-cdk
+    aws-doctor
     aws-vault
     awscli2
     awslogs
