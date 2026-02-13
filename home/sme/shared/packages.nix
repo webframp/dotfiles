@@ -36,11 +36,6 @@ with tflint-plugins;
     direnv
     dockfmt
 
-    wails
-    pkg-config
-    gtk3
-    webkitgtk_4_1
-
     editorconfig-checker
     editorconfig-core-c
     exiftool
@@ -162,6 +157,12 @@ with tflint-plugins;
   # Linux-specific packages
   ++ lib.optionals stdenv.isLinux [
     coreutils
+
+    # Wails (Go desktop framework) dependencies
+    gtk3
+    pkg-config
+    wails
+    webkitgtk_4_1
     csharpier
     dotnet-sdk
     gcc # Linux uses gcc; macOS uses clang
