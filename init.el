@@ -207,5 +207,8 @@
        (default +bindings +smartparens)
 
        :private
+       git-workflow      ; Magit GitLab push options, Forge keybindings
        llm               ; gptel, MCP servers, claude-code-ide
-       ms-office)        ; MS Teams & SharePoint URL parsing
+       ms-office         ; MS Teams & SharePoint URL parsing
+       org-workflow      ; org-super-agenda, org-roam templates
+       wsl)              ; WSL browser integration
