@@ -204,5 +204,7 @@
 
        :config
        ;;literate
+       (default +bindings +smartparens)
 
-       (default +bindings +smartparens))
+       :private
+       ms-office)         ; MS Teams & SharePoint URL parsing
