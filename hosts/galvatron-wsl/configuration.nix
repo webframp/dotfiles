@@ -164,6 +164,7 @@
       iosevka
       inconsolata
       jetbrains-mono
+      symbola
     ];
     fontDir.enable = true;
   };
