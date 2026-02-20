@@ -30,8 +30,8 @@ Extracts teamName, channelName, and createdTime from URL query params."
 ;;;###autoload
 (defun sme/teams-url-from-clipboard ()
   "Get Teams URL from clipboard, return it if valid."
-  (let ((clip (current-kill 0 t)))
-    (when (and clip (string-match-p "teams\\.microsoft\\.com" clip))
+  (let ((clip (string-trim (or (current-kill 0 t) ""))))
+    (when (string-match-p "teams\\.microsoft\\.com" clip)
       clip)))
 
 ;;;###autoload
@@ -83,8 +83,8 @@ Extracts document type and owner from URL path."
 ;;;###autoload
 (defun sme/sharepoint-url-from-clipboard ()
   "Get SharePoint URL from clipboard, return it if valid."
-  (let ((clip (current-kill 0 t)))
-    (when (and clip (string-match-p "sharepoint\\.com" clip))
+  (let ((clip (string-trim (or (current-kill 0 t) ""))))
+    (when (string-match-p "sharepoint\\.com" clip)
       clip)))
 
 ;;;###autoload
