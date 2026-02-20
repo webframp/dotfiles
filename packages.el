@@ -6,8 +6,9 @@
 ;; use 'M-x doom/reload'.
 
 (package! jsonnet-mode)
-(package! pkl-mode)
+(package! just-mode)
 (package! org-super-agenda)
+(package! pkl-mode)
 
 ;; Smooth scrolling on macOS: https://github.com/jdtsmith/ultra-scroll
 (when (featurep :system 'macos)
