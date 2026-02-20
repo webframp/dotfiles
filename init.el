@@ -207,4 +207,5 @@
        (default +bindings +smartparens)
 
        :private
-       ms-office)         ; MS Teams & SharePoint URL parsing
+       llm               ; gptel, MCP servers, claude-code-ide
+       ms-office)        ; MS Teams & SharePoint URL parsing
