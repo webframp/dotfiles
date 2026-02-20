@@ -44,6 +44,7 @@
       company-idle-delay 0.1
       auth-sources '("~/.authinfo.gpg"))
 
+(setq epg-gpg-args '("--pinentry-mode" "loopback"))
 ;; Doom exposes five (optional) variables for controlling fonts in Doom:
 ;;
 ;; - `doom-font' -- the primary font to use
@@ -71,6 +72,10 @@
 ;; Always start maximized on macOS
 (if (featurep :system 'macos)
     (add-hook 'window-setup-hook 'toggle-frame-maximized t))
+
+
+(setq epg-pinentry-mode 'loopback)
+;; maybe: https://github.com/emacsorphanage/keychain-environment/tree/main
 
 ;; org setup
 (setq org-directory "~/org/")
@@ -368,16 +373,25 @@ capture was not aborted."
   (push '(alejandra . ("alejandra" "-")) aphelia-formatters)
   (setf (alist-get 'nix aphelia-mode-alist) 'alejandra))
 
-;; Display ansi color codes, only possible with emacs 28+
-(after! text-mode
-  (add-hook! 'text-mode-hook
-             ;; Apply ANSI color codes
-             (with-silent-modifications
-               (ansi-color-apply-on-region (point-min) (point-max) t))))
-
 ;; TODO investigate
 ;; https://github.com/JDNdeveloper/gptel-autocomplete
 
+;;;; LLM Customization and setup
+;;
+;; Mental model: "Thinking vs Doing"
+;;
+;; | Situation                    | Tool        | Binding     |
+;; |------------------------------|-------------|-------------|
+;; | "Refactor this function"     | Claude Code | SPC o l c   |
+;; | "Add tests for X"            | Claude Code | SPC o l c   |
+;; | "Fix this bug"               | Claude Code | SPC o l c   |
+;; | "Why does this code do X?"   | gptel       | SPC o l d   |
+;; | "Review this approach"       | gptel       | SPC o l d   |
+;; | "Explain this error"         | gptel       | SPC o l d   |
+;; | "Draft a commit message"     | gptel       | SPC o l d   |
+;;
+;; Rule: Expect file changes or commands → Claude Code
+;;       Want a response to read → gptel
 ;; Predefine custom prompts directory
 (setq gptel-prompts-directory (expand-file-name (concat doom-user-dir "prompts")))
 ;; Ensure the prompt directory exists
@@ -402,21 +416,19 @@ capture was not aborted."
   (gptel-prompts-add-update-watchers))
 
 ;; MCP Servers
+;; Note: AWS CDK, documentation, and cost tools are provided by Claude Code CLI plugins
+;; (aws-cdk@aws-skills, aws-cost-ops@aws-skills) - no need to duplicate here
 (setq mcp-hub-servers
-      '(;; https://github.com/strowk/mcp-k8s-go/
-        ("mcpk8s" . (:command "mcp-k8s-go"
-                     :args ("--readonly")))
-        ;; https://awslabs.github.io/mcp/servers/cdk-mcp-server
-        ("awslabs.cdk-mcp-server" . (:command "uvx"
-                                     :args ("awslabs.cdk-mcp-server@latest")
-                                     :env (
-                                           :FASTMCP_LOG_LEVEL "ERROR")))
-        ;; https://awslabs.github.io/mcp/servers/aws-documentation-mcp-server
-        ("awslabs.aws-documentation-mcp-server" . (:command "uvx"
-                                                   :args ("awslabs.aws-documentation-mcp-server@latest")
-                                                   :env(
-                                                        :AWS_DOCUMENTATION_PARTITION "aws"
-                                                        :FASTMCP_LOG_LEVEL "ERROR")))))
+      '(;; https://github.com/modelcontextprotocol/servers/tree/main/src/fetch
+        ("fetch" . (:command "uvx"
+                    :args ("mcp-server-fetch")))
+        ;; https://awslabs.github.io/mcp/servers/terraform-mcp-server
+        ("awslabs.terraform-mcp-server" . (:command "uvx"
+                                           :args ("awslabs.terraform-mcp-server@latest")
+                                           :env (:FASTMCP_LOG_LEVEL "ERROR")))
+        ;; https://github.com/strowk/mcp-k8s-go
+        ("mcp-k8s" . (:command "npx"
+                      :args ("-y" "@strowk/mcp-k8s" "--readonly")))))
 
 (use-package! mcp
   :after gptel
@@ -433,10 +445,14 @@ capture was not aborted."
       "h" #'mcp-hub)
 
 (use-package! claude-code-ide
+  ;; :bind ("C-c C-'" . claude-code-ide-menu) ; Set your favorite keybinding
   :bind (:map doom-leader-map
               ("o l c" . claude-code-ide-menu))
   :config
-  (claude-code-ide-emacs-tools-setup))
+  (claude-code-ide-emacs-tools-setup)) ; Optionally enable Emacs MCP tools
+
+;; TODO
+;; https://github.com/eraschle/komorebi.el
 
 ;; Non git tracked setttings
 (load! "+local")
