@@ -7,4 +7,5 @@
 
 ;; Register module's snippets directory with yasnippet
 (after! yasnippet
-  (add-to-list 'yas-snippet-dirs (expand-file-name "snippets" (file-name-directory load-file-name))))
+  (add-to-list 'yas-snippet-dirs
+               (expand-file-name "modules/private/ms-office/snippets" doom-user-dir)))
