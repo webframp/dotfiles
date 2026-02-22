@@ -135,6 +135,7 @@ with tflint-plugins;
     wordnet
 
     yaml-language-server
+    yarn
     yq-go
     yt-dlp
 
