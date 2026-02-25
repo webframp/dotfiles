@@ -83,7 +83,7 @@ with tflint-plugins;
     mob
     multimarkdown
 
-    nil
+    nixd
     nix-index
     nodejs_20
     nomad
