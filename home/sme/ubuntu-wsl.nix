@@ -4,6 +4,8 @@
     ./shared/linux.nix
   ];
 
+  nixpkgs.config.allowUnfreePredicate = _: true;
+
   home.shellAliases = {yay = "home-manager switch --flake .#sme@ubuntu";};
 
   programs.keychain = {

@@ -29,7 +29,8 @@
     };
   };
 
-  nixpkgs.config.allowUnfreePredicate = _: true;
+  # Note: nixpkgs.config is set per-host for standalone home-manager configs.
+  # NixOS hosts using useGlobalPkgs inherit nixpkgs config from NixOS.
   programs.home-manager.enable = true;
 
   # Home defaults with platform-appropriate paths
