@@ -13,9 +13,10 @@ in {
   # macOS-specific nix settings
   nix.settings.auto-optimise-store = false;
 
-  nixpkgs.overlays = [
-    outputs.overlays.additions
-  ];
+  nixpkgs = {
+    config.allowUnfreePredicate = _: true;
+    overlays = [outputs.overlays.additions];
+  };
 
   home = {
     username = "sme";

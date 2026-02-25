@@ -172,6 +172,6 @@ with tflint-plugins;
     libtool
     pinentry-curses
     vanilla-dmz # cursor theme
-    xorg.xvfb
+    xvfb
     xvfb-run
   ]

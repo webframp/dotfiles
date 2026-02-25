@@ -28,7 +28,9 @@ in {
     enable = true;
     enableSshSupport = true;
     defaultCacheTtl = 84000;
+    defaultCacheTtlSsh = 84000;
     maxCacheTtl = 84000;
+    maxCacheTtlSsh = 84000;
     pinentry.package = pkgs.pinentry-curses;
   };
 
