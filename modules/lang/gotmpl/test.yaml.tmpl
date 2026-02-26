@@ -1,0 +1,44 @@
+# Test file for gotmpl tree-sitter exploration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .name }}
+  namespace: {{ .namespace }}
+  labels:
+    cluster: {{ $.clustername }}
+    account: {{ $.accountid }}
+data:
+  # Simple variable
+  simple: {{ .value }}
+
+  # Quoted in YAML
+  quoted: '{{ .something }}'
+
+  # Pipeline with function
+  piped: {{ .value | quote }}
+
+  # Conditional
+  {{- if .enabled }}
+  enabled: true
+  {{- else }}
+  enabled: false
+  {{- end }}
+
+  # Range loop
+  {{- range .items }}
+  - {{ . }}
+  {{- end }}
+
+  # With block
+  {{- with .config }}
+  setting: {{ .key }}
+  {{- end }}
+
+  # Function call
+  encoded: {{ b64enc .secret }}
+
+  # Nested field access
+  deep: {{ .spec.containers.image }}
+
+  # Comment
+  {{/* this is a comment */}}

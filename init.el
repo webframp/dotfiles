@@ -187,6 +187,7 @@
        (web +html +css
             +tree-sitter)               ; the tubes
        (yaml +tree-sitter)              ; JSON, but readable
+       gotmpl                           ; Go templates + YAML (custom module)
        ;;zig               ; C, but simpler
 
        :email
