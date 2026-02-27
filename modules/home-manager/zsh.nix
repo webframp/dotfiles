@@ -47,6 +47,11 @@ in {
     # Enable shell integration for supported tools (direnv, zoxide, etc.)
     home.shell.enableShellIntegration = true;
 
+    # Environment variables shared across all hosts
+    home.sessionVariables = {
+      AWS_VAULT_BACKEND = "pass";
+    };
+
     # Multi-shell completion generator
     programs.carapace.enable = true;
 

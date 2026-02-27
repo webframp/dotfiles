@@ -59,7 +59,6 @@ in {
     };
 
     extraEnvVars = ''
-      export AWS_VAULT_BACKEND=pass
       export PODMAN_COMPOSE_WARNING_LOGS=false
       export CLAUDE_CODE_USE_BEDROCK=1
       # homebrew is not managed via nix, but a necessary evil on macOS
