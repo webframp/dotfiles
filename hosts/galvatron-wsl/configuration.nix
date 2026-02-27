@@ -159,7 +159,6 @@
   environment.variables = {
     MOZ_ENABLE_WAYLAND = "1";
     LESSCHARSET = "utf-8";
-    AWS_VAULT_BACKEND = "pass";
     BROWSER = "firefox";
 
     # Mainly for Emacs 28
