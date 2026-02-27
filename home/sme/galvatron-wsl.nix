@@ -27,10 +27,10 @@ in {
   services.gpg-agent = {
     enable = true;
     enableSshSupport = true;
-    defaultCacheTtl = 84000;
-    defaultCacheTtlSsh = 84000;
-    maxCacheTtl = 84000;
-    maxCacheTtlSsh = 84000;
+    defaultCacheTtl = 7776000; # 90 days
+    defaultCacheTtlSsh = 7776000;
+    maxCacheTtl = 7776000;
+    maxCacheTtlSsh = 7776000;
     pinentry.package = pkgs.pinentry-curses;
   };
 

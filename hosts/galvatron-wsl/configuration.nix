@@ -82,46 +82,35 @@
 
   programs.nix-ld.enable = true;
   programs.dconf.enable = true;
+  # Packages here are NixOS-specific or not available via home-manager's shared/packages.nix
   environment.systemPackages = with pkgs; [
-    # azure-cli
     act
     man-pages
     man-pages-posix
-
-    (pass.withExtensions
-      (ext: with ext; [pass-genphrase pass-otp pass-update]))
-    pass-git-helper
-    pinentry-curses
-    # p4
     speedtest-cli
+
+    # WSL-specific
     wsl-open
     wslu
     xdg-utils
+
     termdown
     emacs
-    podman
-    podman-compose
     hey
     copilot-node-server
 
     neofetch
-    nomad
     onefetch
-    pry
-    glibcLocales
-    # gui stuff
+
+    # GUI stuff
     emote # https://github.com/tom-james-watson/emote?tab=readme-ov-file
     material-icons
     shared-mime-info
     super-tiny-icons
 
-    # kubernetes
+    # Kubernetes (k9s and kubectx not in shared/packages.nix)
     k9s
-    kubectl
     kubectx
-    kubernetes-helm
-    kustomize
-    go
     clang
 
     # Super lightweight browser, small install, fast launch for testing
