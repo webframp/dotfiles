@@ -25,12 +25,6 @@
     ./hardware-configuration.nix
 
     ../common/users/sme
-
-    # https://github.com/nix-community/nixos-vscode-server
-    (fetchTarball {
-      url = "https://github.com/nix-community/nixos-vscode-server/tarball/master";
-      sha256 = "0xjal4zcbmdjdaspfkjbpx1680q7390wfzmj7iad04kp3pc9syf8";
-    })
   ];
 
   wsl = {
@@ -313,8 +307,6 @@
   #  '';
   #  wantedBy = [ "multi-user.target" ];
   #};
-
-  services.vscode-server.enable = false;
 
   virtualisation = {
     podman = {
