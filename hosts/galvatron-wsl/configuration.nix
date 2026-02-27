@@ -186,23 +186,17 @@
   };
 
   environment.shellAliases = {
-    # clipboard stuff
+    # WSL-specific clipboard integration (macOS-compatible names)
     pbpaste = "powershell.exe -noprofile Get-Clipboard";
     pbcopy = "clip.exe";
 
-    # doom
+    # Host-specific: doom emacs
     doom = "~/.config/emacs/bin/doom";
 
-    # git
-    gst = "git status";
-
-    # kube
+    # Host-specific: kubernetes (galvatron uses kubectx/kubens, not kswitch)
     k = "kubectl";
     kx = "kubectx";
     kn = "kubens";
-
-    # local term uses 24bit color terminfo, remote does not
-    ssh = "TERM=xterm-256color ssh";
   };
 
   programs.bash = {
