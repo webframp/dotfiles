@@ -42,13 +42,15 @@
       '(;; https://github.com/modelcontextprotocol/servers/tree/main/src/fetch
         ("fetch" . (:command "uvx"
                     :args ("mcp-server-fetch")))
+        ;; https://awslabs.github.io/mcp/servers/eks-mcp-server
+        ("awslabs.eks-mcp-server" . (:command "uvx"
+                                     :args ("awslabs.eks-mcp-server@latest"
+                                            "--allow-sensitive-data-access")
+                                     :env (:FASTMCP_LOG_LEVEL "ERROR")))
         ;; https://awslabs.github.io/mcp/servers/terraform-mcp-server
         ("awslabs.terraform-mcp-server" . (:command "uvx"
                                            :args ("awslabs.terraform-mcp-server@latest")
-                                           :env (:FASTMCP_LOG_LEVEL "ERROR")))
-        ;; https://github.com/strowk/mcp-k8s-go
-        ("mcp-k8s" . (:command "npx"
-                      :args ("-y" "@strowk/mcp-k8s" "--readonly")))))
+                                           :env (:FASTMCP_LOG_LEVEL "ERROR")))))
 
 (use-package! mcp
   :after gptel
