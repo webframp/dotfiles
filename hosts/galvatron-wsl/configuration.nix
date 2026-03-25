@@ -93,7 +93,7 @@
     hey
     copilot-node-server
 
-    neofetch
+    fastfetch
     onefetch
 
     # GUI stuff

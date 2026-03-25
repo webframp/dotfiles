@@ -76,6 +76,7 @@ with tflint-plugins;
 
     keychain
     kind
+    kiro-cli
     kubectl
     kubernetes-helm
     kustomize

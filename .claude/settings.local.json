@@ -45,7 +45,15 @@
       "Bash(zsh -l -x -c 'echo done')",
       "Bash(env -i HOME=$HOME USER=$USER SHELL=/bin/zsh PATH=$PATH XDG_RUNTIME_DIR=/run/user/1000 bash -c:*)",
       "Bash(make pkg-build-all:*)",
-      "Bash(aws-doctor:*)"
+      "Bash(aws-doctor:*)",
+      "Bash(systemd-run:*)",
+      "Bash(dbus-launch:*)",
+      "Bash(nix eval:*)",
+      "Bash(SSH_AUTH_SOCK=/run/user/1000/gnupg/S.gpg-agent.ssh ssh-add:*)",
+      "Bash(SSH_AUTH_SOCK=/run/user/1000/gnupg/S.gpg-agent.ssh ssh:*)",
+      "Bash(nix-locate:*)",
+      "Bash(nix search:*)",
+      "Bash(git -C /home/sme/src/webframp/dotfiles status)"
     ]
   }
 }
