@@ -5,4 +5,5 @@
   coder = pkgs.callPackage ./coder {};
   go-jwlm = pkgs.callPackage ./go-jwlm {};
   iamlive = pkgs.callPackage ./iamlive {};
+  swamp = pkgs.callPackage ./swamp {};
 }

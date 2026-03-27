@@ -51,7 +51,7 @@ PACKAGES := $(shell nix eval .#packages.$(SYSTEM) --apply 'builtins.attrNames' -
 
 .PHONY: switch build check fmt update clean clean-generations news diff zsh-bench help
 .PHONY: nixos-switch nixos-build nixos-diff
-.PHONY: pkg-list pkg-build-all pkg-bump coder-update $(PACKAGES)
+.PHONY: pkg-list pkg-build-all pkg-bump coder-update swamp-update $(PACKAGES)
 
 ## Primary targets
 
@@ -133,6 +133,9 @@ endif
 
 coder-update: ## Update coder to latest or specific version (VERSION=x.y.z)
 	@./scripts/update-coder.sh $(VERSION)
+
+swamp-update: ## Update swamp to latest or specific version (VERSION=x.y.z)
+	@./scripts/update-swamp.sh $(VERSION)
 
 # Generate a target for each package (e.g., make aws-doctor, make iamlive)
 define pkg_target

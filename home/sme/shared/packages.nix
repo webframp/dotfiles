@@ -114,6 +114,7 @@ with tflint-plugins;
     sqlite
     ssm-session-manager-plugin
     stylelint
+    swamp
 
     terraform
     terraform-docs
