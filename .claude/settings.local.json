@@ -53,7 +53,9 @@
       "Bash(SSH_AUTH_SOCK=/run/user/1000/gnupg/S.gpg-agent.ssh ssh:*)",
       "Bash(nix-locate:*)",
       "Bash(nix search:*)",
-      "Bash(git -C /home/sme/src/webframp/dotfiles status)"
+      "Bash(git -C /home/sme/src/webframp/dotfiles status)",
+      "Bash(./result/bin/coder version)",
+      "Read(//nix/store/7m2yynijz8m4c2mr6v9fm2sbvsz5j2d7-coder-2.31.1/share/**)"
     ]
   }
 }
