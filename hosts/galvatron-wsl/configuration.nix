@@ -107,8 +107,6 @@
     kubectx
     clang
 
-    # Super lightweight browser, small install, fast launch for testing
-    dillo
     st
     firefox
     gnome-tweaks
