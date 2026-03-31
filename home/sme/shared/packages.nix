@@ -31,6 +31,7 @@ with tflint-plugins;
     csvkit
 
     delta
+    deno
     devbox
     dig
     direnv
