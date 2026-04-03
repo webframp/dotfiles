@@ -31,16 +31,14 @@ echo ""
 echo "Updating $CURRENT -> $VERSION"
 echo ""
 
-# Platform configs: system -> binary suffix
-declare -A PLATFORMS=(
-    ["x86_64-linux"]="linux-x86_64"
-    ["aarch64-darwin"]="darwin-aarch64"
-)
+# Platform configs: system and binary suffix (parallel arrays for bash 3.2 compatibility)
+SYSTEMS=("x86_64-linux" "aarch64-darwin")
+SUFFIXES=("linux-x86_64" "darwin-aarch64")
+HASHES=()
 
-declare -A HASHES
-
-for system in "${!PLATFORMS[@]}"; do
-    suffix="${PLATFORMS[$system]}"
+for i in "${!SYSTEMS[@]}"; do
+    system="${SYSTEMS[$i]}"
+    suffix="${SUFFIXES[$i]}"
     url="https://github.com/$REPO/releases/download/v${VERSION}/swamp-${suffix}"
 
     echo "Fetching hash for $system..."
@@ -54,19 +52,20 @@ for system in "${!PLATFORMS[@]}"; do
     # Get hash (no --unpack since these are plain binaries)
     base32_hash=$(nix-prefetch-url "$url" 2>/dev/null)
     sri_hash=$(nix hash convert --hash-algo sha256 --to sri "$base32_hash")
-    HASHES[$system]="$sri_hash"
+    HASHES+=("$sri_hash")
     echo "  $system: $sri_hash"
 done
 
 echo ""
 echo "Updating $PKG_FILE..."
 
-# Update version
-sed -i "s/version = \"$CURRENT\"/version = \"$VERSION\"/" "$PKG_FILE"
+# Update version (use temp file for BSD/GNU sed compatibility)
+sed "s/version = \"$CURRENT\"/version = \"$VERSION\"/" "$PKG_FILE" > "$PKG_FILE.tmp" && mv "$PKG_FILE.tmp" "$PKG_FILE"
 
 # Update hashes for each platform
-for system in "${!HASHES[@]}"; do
-    hash="${HASHES[$system]}"
+for i in "${!SYSTEMS[@]}"; do
+    system="${SYSTEMS[$i]}"
+    hash="${HASHES[$i]}"
     # Match the hash line within the system's block
     awk -v sys="$system" -v hash="$hash" '
         /'"$system"'/ { in_block=1 }
