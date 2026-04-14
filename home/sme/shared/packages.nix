@@ -91,6 +91,7 @@ with tflint-plugins;
     nomad
     nox
 
+    opencode
     openssl
 
     pandoc
