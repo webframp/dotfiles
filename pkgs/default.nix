@@ -5,5 +5,6 @@
   coder = pkgs.callPackage ./coder {};
   go-jwlm = pkgs.callPackage ./go-jwlm {};
   iamlive = pkgs.callPackage ./iamlive {};
+  kiro-cli = pkgs.callPackage ./kiro-cli {};
   swamp = pkgs.callPackage ./swamp {};
 }
