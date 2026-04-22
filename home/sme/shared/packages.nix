@@ -22,6 +22,7 @@ with tflint-plugins;
     awslogs
 
     bash-language-server
+    bun
     cachix
     cdk8s-cli
     claude-code
