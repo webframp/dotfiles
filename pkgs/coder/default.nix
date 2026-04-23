@@ -8,17 +8,17 @@
   ...
 }:
 let
-  version = "2.31.1";
+  version = "2.31.9";
 
   sources = {
     x86_64-linux = {
       url = "https://github.com/coder/coder/releases/download/v${version}/coder_${version}_linux_amd64.tar.gz";
-      hash = "sha256-yZGSHbXslBUDH/MozeREaIvx9nEZtpgCQ+ScRk5EcNo=";
+      hash = "sha256-q7Y98Ow2rvDu5c1uqIgzNf8wDdHNEeLmtlRZUHg6wuA=";
       extension = "tar.gz";
     };
     aarch64-darwin = {
       url = "https://github.com/coder/coder/releases/download/v${version}/coder_${version}_darwin_arm64.zip";
-      hash = "sha256-x2uLurW8kGtzdXSQf+FSvQT0TlQSM4ogcOl5OT5zgsg=";
+      hash = "sha256-zpSb6Tr4togLLFrn13zc9JhNIcahkyYXJE4MpPirXfA=";
       extension = "zip";
     };
   };
