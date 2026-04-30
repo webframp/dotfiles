@@ -8,16 +8,16 @@
   ...
 }:
 let
-  version = "20260428.142235.0-sha.a4bae133";
+  version = "20260430.144448.0-sha.466fa0fb";
 
   sources = {
     x86_64-linux = {
       url = "https://github.com/systeminit/swamp/releases/download/v${version}/swamp-linux-x86_64";
-      hash = "sha256-5mbVwiaEpE6vrY6iojE58oFEHM+lKpoKuc2NT3MNSDE=";
+      hash = "sha256-8t8BElBnI247UiAPHw5kyW/pyU4BpS4dfOY7YcOcZgU=";
     };
     aarch64-darwin = {
       url = "https://github.com/systeminit/swamp/releases/download/v${version}/swamp-darwin-aarch64";
-      hash = "sha256-+SJleL4MGc0eCGPenWKeKm4XFvlUqaBx8ekbexl7QCw=";
+      hash = "sha256-Xx6bheatNDQws2oDO8sJfHb9kAAGayD4YJVfX9wIuJg=";
     };
   };
 
