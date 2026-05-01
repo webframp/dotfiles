@@ -85,7 +85,6 @@
 
     # WSL-specific
     wsl-open
-    wslu
     xdg-utils
 
     termdown
