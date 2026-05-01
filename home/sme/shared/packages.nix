@@ -7,7 +7,6 @@
 }:
 
 with pkgs;
-with nodePackages_latest;
 with tflint-plugins;
 
   # Common packages (all platforms)
@@ -15,7 +14,7 @@ with tflint-plugins;
     adr-tools
     alejandra
     ansible
-    aws-cdk
+    aws-cdk-cli
     aws-doctor
     aws-vault
     awscli2
