@@ -60,7 +60,7 @@ with tflint-plugins;
     gopls
     gore
     gomodifytags
-    gotools
+    (lib.lowPrio gotools)
     gotests
 
     html-tidy

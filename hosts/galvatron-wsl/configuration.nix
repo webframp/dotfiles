@@ -256,11 +256,11 @@
           neovim-sensible
           nvim-autopairs
           nvim-colorizer-lua
-          nvim-treesitter.withAllGrammars
+          nvim-treesitter
+          nvim-treesitter-parsers.go
+          nvim-treesitter-parsers.nix
           nvim-web-devicons
           nvim-lspconfig
-          (nvim-treesitter.withPlugins
-            (plugins: with plugins; [tree-sitter-go tree-sitter-nix]))
           tokyonight-nvim
           telescope-nvim
           todo-comments-nvim
