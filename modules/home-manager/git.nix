@@ -22,6 +22,7 @@ in {
   config = mkIf cfg.enable {
     programs.git = {
       enable = true;
+      signing.format = "openpgp";
       signing.key = "BE06ADB38C7F719D";
       settings = {
         user.name = "Sean Escriva";
