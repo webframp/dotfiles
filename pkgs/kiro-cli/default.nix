@@ -11,16 +11,16 @@
   ...
 }:
 let
-  version = "2.0.0";
+  version = "2.2.0";
 
   sources = {
     x86_64-linux = {
       url = "https://prod.download.cli.kiro.dev/stable/${version}/kirocli-x86_64-linux.tar.gz";
-      hash = "sha256-SNDsdF45BfrokL/6ZCl4u+AX5uUC90b2cyPurlPiiG8=";
+      hash = "sha256-z11ujzGvSdt++9KF3xx+nUqjbzIg+ZGyMt+dEemiCq8=";
     };
     aarch64-darwin = {
       url = "https://prod.download.cli.kiro.dev/stable/${version}/Kiro%20CLI.dmg";
-      hash = "sha256-v5+Z/+vFd2Aj0n0YhIQFZqi/KByPwVCesyZ85lKF8iM=";
+      hash = "sha256-upHmDcqQ57aZCnxtfvaPZ7NEnyNgStRHV1Nbo3ND9ZM=";
     };
   };
 
@@ -32,7 +32,7 @@ stdenv.mkDerivation {
   pname = "kiro-cli";
   inherit version src;
 
-  sourceRoot = lib.optionalString stdenv.isLinux "kirocli";
+  sourceRoot = if stdenv.isLinux then "kirocli" else ".";
 
   nativeBuildInputs =
     lib.optionals stdenv.isLinux [autoPatchelfHook]
