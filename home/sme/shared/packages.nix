@@ -161,6 +161,7 @@ with tflint-plugins;
   ]
   # Linux-specific packages
   ++ lib.optionals stdenv.isLinux [
+    azure-cli
     coreutils
 
     # Wails (Go desktop framework) dependencies
