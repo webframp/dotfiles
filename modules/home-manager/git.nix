@@ -17,11 +17,19 @@ in {
       default = null;
       description = "Git credential helper command (e.g., pass-git-helper)";
     };
+
+    # TODO: explore sops-nix or agenix for managing forge credentials declaratively
+    extraIncludes = mkOption {
+      type = types.listOf types.attrs;
+      default = [];
+      description = "Additional git include directives (e.g., for forge instance configs)";
+    };
   };
 
   config = mkIf cfg.enable {
     programs.git = {
       enable = true;
+      includes = cfg.extraIncludes;
       signing.format = "openpgp";
       signing.key = "BE06ADB38C7F719D";
       settings = {
