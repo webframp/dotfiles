@@ -55,7 +55,10 @@
     whitelist = ["~/src/o11n"];
   };
   webframp.fzf.enable = true;
-  webframp.git.enable = true;
+  webframp.git = {
+    enable = true;
+    extraIncludes = [{path = "~/.config/git/forge.conf";}];
+  };
   webframp.tmux.enable = true;
   webframp.zsh.enable = true;
 
