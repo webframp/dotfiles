@@ -7,14 +7,19 @@ set -euo pipefail
 PKG_FILE="pkgs/coder/default.nix"
 REPO="coder/coder"
 
-# Get version from argument or fetch latest
+# Get version from argument or fetch from server
 if [[ -n "${1:-}" ]]; then
     VERSION="$1"
     echo "Target version: $VERSION"
 else
-    echo "Fetching latest release..."
-    VERSION=$(curl -s "https://api.github.com/repos/$REPO/releases/latest" | jq -r '.tag_name' | sed 's/^v//')
-    echo "Latest version: $VERSION"
+    CODER_URL=$(cat ~/.config/coderv2/url 2>/dev/null || true)
+    if [[ -z "$CODER_URL" ]]; then
+        echo "Error: No version specified and no Coder server URL found in ~/.config/coderv2/url"
+        exit 1
+    fi
+    echo "Fetching server version from $CODER_URL..."
+    VERSION=$(curl -s "$CODER_URL/api/v2/buildinfo" | jq -r '.version' | sed 's/^v//; s/+.*//')
+    echo "Server version: $VERSION"
 fi
 
 # Current version
