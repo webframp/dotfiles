@@ -212,4 +212,5 @@
        llm               ; gptel, MCP servers, claude-code-ide
        ms-office         ; MS Teams & SharePoint URL parsing
        org-workflow      ; org-super-agenda, org-roam templates
-       wsl)              ; WSL browser integration
+       wsl               ; WSL browser integration
+       swamp)            ; swamp CLI transient dispatch interface

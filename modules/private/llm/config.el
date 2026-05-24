@@ -35,6 +35,10 @@
   ;; Ensure prompts are updated when files change
   (gptel-prompts-add-update-watchers))
 
+;; Use simpler commit message style (Zed-style) instead of conventional commits
+(after! gptel-magit
+  (setq gptel-magit-commit-prompt gptel-magit-prompt-zed))
+
 ;; MCP Servers
 ;; Note: AWS CDK, documentation, and cost tools are provided by Claude Code CLI plugins
 ;; (aws-cdk@aws-skills, aws-cost-ops@aws-skills) - no need to duplicate here
@@ -64,7 +68,10 @@
 
 (map! :leader
       :prefix ("o l")
-      "h" #'mcp-hub)
+      "h" #'mcp-hub
+      "t" #'sme/tmux-send-context
+      "r" #'sme/tmux-send-region
+      "T" #'sme/tmux-set-target)
 
 (use-package! claude-code-ide
   ;; :bind ("C-c C-'" . claude-code-ide-menu) ; Set your favorite keybinding
