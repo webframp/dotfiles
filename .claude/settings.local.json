@@ -57,7 +57,10 @@
       "Bash(./result/bin/coder version)",
       "Read(//nix/store/7m2yynijz8m4c2mr6v9fm2sbvsz5j2d7-coder-2.31.1/share/**)",
       "Bash(nix-prefetch-url:*)",
-      "Bash(nix hash:*)"
+      "Bash(nix hash:*)",
+      "Bash(curl:*)",
+      "Bash(nix:*)",
+      "Bash(printf hello:*)"
     ]
   }
 }
