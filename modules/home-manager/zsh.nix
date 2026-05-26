@@ -72,6 +72,7 @@ in {
       envExtra = ''
         export ZSH_AUTOSUGGEST_USE_ASYNC=true
         export JSII_SILENCE_WARNING_UNTESTED_NODE_VERSION=true
+        export GPG_TTY=''${GPG_TTY:-$(tty 2>/dev/null)}
         ${cfg.extraEnvVars}
       '';
 

@@ -15,6 +15,13 @@ in {
     yay = "/run/wrappers/bin/sudo nixos-rebuild switch --flake .#galvatron";
   };
 
+  programs.keychain = {
+    enable = true;
+    enableZshIntegration = true;
+    keys = [gpgKey];
+    extraFlags = ["--nogui" "--quiet"];
+  };
+
   programs.gpg = {
     enable = true;
     settings = {
