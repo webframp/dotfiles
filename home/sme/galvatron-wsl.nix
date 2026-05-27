@@ -8,7 +8,12 @@ in {
 
   home.shellAliases = {
     yay = "/run/wrappers/bin/sudo nixos-rebuild switch --flake .#galvatron";
+    # WSLg Wayland clipboard bridge corrupts non-ASCII; force X11 fallback
+    # aka: mojibake
+    kiro-cli = "WAYLAND_DISPLAY= command kiro-cli";
   };
+
+  webframp.tmux.copyCommand = "win32yank.exe -i";
 
   programs.keychain = {
     enable = true;

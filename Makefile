@@ -52,6 +52,7 @@ PACKAGES := $(shell nix eval .#packages.$(SYSTEM) --apply 'builtins.attrNames' -
 .PHONY: switch build check fmt update clean clean-generations news diff zsh-bench help
 .PHONY: nixos-switch nixos-build nixos-diff
 .PHONY: pkg-list pkg-build-all pkg-bump coder-update kiro-update swamp-update $(PACKAGES)
+.PHONY: alacritty-sync wezterm-sync
 
 ## Primary targets
 
@@ -103,6 +104,21 @@ clean-generations: ## Remove old home-manager generations (default: 30d, overrid
 news: ## Show home-manager news
 	$(call check_host,$@)
 	home-manager news --flake .#$(FLAKE_TARGET)
+
+## Windows/WSL
+
+ALACRITTY_SRC := home/sme/shared/includes/alacritty.toml
+ALACRITTY_DST := /mnt/c/Users/sme/AppData/Roaming/alacritty/alacritty.toml
+WEZTERM_SRC := home/sme/shared/includes/wezterm.lua
+WEZTERM_DST := /mnt/c/Users/sme/.wezterm.lua
+
+alacritty-sync: ## Sync alacritty.toml to Windows AppData
+	@cp $(ALACRITTY_SRC) $(ALACRITTY_DST)
+	@echo "Synced alacritty config (auto-reloads)"
+
+wezterm-sync: ## Sync wezterm.lua to Windows home
+	@cp $(WEZTERM_SRC) $(WEZTERM_DST)
+	@echo "Synced wezterm config (auto-reloads)"
 
 ## Diagnostics
 

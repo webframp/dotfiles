@@ -18,6 +18,12 @@ in {
       description = "Enable org-capture keybinding (macOS/Emacs)";
     };
 
+    copyCommand = mkOption {
+      type = types.nullOr types.str;
+      default = null;
+      description = "Override tmux-yank copy command (e.g., win32yank.exe -i --crlf for WSL)";
+    };
+
     terminal = mkOption {
       type = types.nullOr types.str;
       default = null;
@@ -79,12 +85,17 @@ in {
             set -g @continuum-save-interval '15'
           '';
         }
+        {
+          plugin = yank;
+          extraConfig = optionalString (cfg.copyCommand != null) ''
+            set -g @override_copy_command '${cfg.copyCommand}'
+          '';
+        }
         better-mouse-mode
         fzf-tmux-url
         pain-control
         tmux-thumbs
         tmux-fzf
-        yank
       ];
 
       extraConfig = builtins.readFile ../../home/sme/shared/includes/tmux.conf;
