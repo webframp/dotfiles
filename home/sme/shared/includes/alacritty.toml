@@ -1,0 +1,22 @@
+[general]
+working_directory = '\\wsl.localhost\NixOS\home\sme'
+import = ["dracula.toml"]
+
+[window]
+
+[terminal.shell]
+args = ["-d NixOS --cd ~"]
+program = 'C:\Windows\System32\wsl.exe'
+
+[font]
+size = 16
+normal.family = "Hack Nerd Font Mono"
+
+[env]
+TERM = "xterm-256color"
+
+[[keyboard.bindings]]
+# Fix for C-Space binding (sends NUL)
+key = "Space"
+mods = "Control"
+chars = "\u0000"
