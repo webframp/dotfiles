@@ -46,6 +46,11 @@
     packages = import ./packages.nix {inherit lib pkgs;};
   };
 
+  home.file.".local/bin/tmux-jump-bell" = {
+    source = ../shared/includes/tmux-jump-bell.sh;
+    executable = true;
+  };
+
   # Shared webframp module configuration
   # Hosts can override specific options as needed
   webframp.bat.enable = true;
