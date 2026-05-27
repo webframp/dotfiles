@@ -17,4 +17,13 @@ config.keys = {
   { key = 'Space', mods = 'CTRL', action = wezterm.action.SendString('\x00') },
 }
 
+config.audible_bell = "Disabled"
+config.notification_handling = "SuppressFromFocusedWindow"
+
+-- Native Windows toast notification on bell (only when unfocused)
+wezterm.on('bell', function(window, pane)
+  if window:is_focused() then return end
+  window:toast_notification('Task Complete', 'A task has finished', nil, 4000)
+end)
+
 return config
