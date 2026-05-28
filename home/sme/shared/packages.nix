@@ -88,7 +88,6 @@ with tflint-plugins;
     nixd
     nix-index
     nodejs_20
-    nomad
     nox
 
     opencode

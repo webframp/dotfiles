@@ -11,16 +11,16 @@
   ...
 }:
 let
-  version = "2.4.1";
+  version = "2.4.2";
 
   sources = {
     x86_64-linux = {
       url = "https://prod.download.cli.kiro.dev/stable/${version}/kirocli-x86_64-linux.tar.gz";
-      hash = "sha256-fXTKu1lO5hPZn1YwRkHI6B+edNatR4KJGqHXzi9Epa8=";
+      hash = "sha256-k15Mio1MzCaL5LFZ5wi5qb3WYtZKENU32h9p0rl8iII=";
     };
     aarch64-darwin = {
       url = "https://prod.download.cli.kiro.dev/stable/${version}/Kiro%20CLI.dmg";
-      hash = "sha256-rJaKbNhNlSL3CfTRY4Fin5CUhrvjhOJrUuqGCTlRXkQ=";
+      hash = "sha256-ZPo6FWGLD35Q6CszO96xaNpnP0N/1hLQ78l7hV1t5y8=";
     };
   };
 
