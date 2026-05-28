@@ -16,7 +16,7 @@
 
 ;;;###autoload
 (defun sme/tmux-set-target ()
-  "Interactively select a tmux session and window as the send target."
+  "Interactively select a tmux session, window, and pane as the send target."
   (interactive)
   (let* ((sessions (split-string
                     (shell-command-to-string
@@ -29,8 +29,19 @@
                             (shell-quote-argument session)))
                    "\n" t))
          (window (completing-read "tmux window: " windows nil t))
-         (window-index (car (split-string window ":"))))
-    (setq sme/tmux-target (format "%s:%s" session window-index))
+         (window-index (car (split-string window ":")))
+         (panes (split-string
+                 (shell-command-to-string
+                  (format "tmux list-panes -t %s:%s -F '#{pane_index}:#{pane_current_command}'"
+                          (shell-quote-argument session)
+                          window-index))
+                 "\n" t))
+         (target (if (> (length panes) 1)
+                     (let* ((pane (completing-read "tmux pane: " panes nil t))
+                            (pane-index (car (split-string pane ":"))))
+                       (format "%s:%s.%s" session window-index pane-index))
+                   (format "%s:%s" session window-index))))
+    (setq sme/tmux-target target)
     (message "tmux target set to %s" sme/tmux-target)))
 
 (defun sme/tmux--send (text)
