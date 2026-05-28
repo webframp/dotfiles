@@ -75,7 +75,10 @@
 
 
 (setq epg-pinentry-mode 'loopback)
-;; maybe: https://github.com/emacsorphanage/keychain-environment/tree/main
+
+(use-package! keychain-environment
+  :config
+  (keychain-refresh-environment))
 
 ;; disable docker format on save
 (setq-hook! 'dockerfile-mode-hook +format-inhibit t)
