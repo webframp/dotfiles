@@ -59,8 +59,8 @@
 ;;
 
 ;; temp measure to use a good font, need to make a platform dependent decision
-(setq doom-font (font-spec :family "Hack Nerd Font Mono" :size 18)
-      doom-variable-pitch-font (font-spec :family "Hack Nerd Font Mono" :size 16))
+(setq doom-font (font-spec :family "Hack Nerd Font Mono" :size 16.0)
+      doom-variable-pitch-font (font-spec :family "Hack Nerd Font Mono" :size 16.0))
 
 ;; TODO future ideas
 ;; https://github.com/psibi/justl.el
