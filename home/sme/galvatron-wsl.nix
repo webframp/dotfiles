@@ -36,4 +36,27 @@ in {
     pinentry.package = pkgs.pinentry-curses;
   };
 
+  programs.emacs = {
+    enable = true;
+    package = pkgs.emacs-pgtk;
+    extraPackages = epkgs: [
+      epkgs.mu4e
+      epkgs.vterm
+    ];
+  };
+
+  webframp.mail = {
+    enable = true;
+    accounts.proton = {
+      address = "webframp@protonmail.com";
+      primary = true;
+      passEntry = "email/protonmail.com/bridge";
+      gpgKey = gpgKey;
+      aliases = [
+        "sean@webframp.com"
+        "me@webframp.com"
+        "web@webframp.com"
+      ];
+    };
+  };
 }

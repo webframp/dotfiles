@@ -18,6 +18,7 @@
       direnv
       fzf
       git
+      mail
       tmux
     ]);
 
