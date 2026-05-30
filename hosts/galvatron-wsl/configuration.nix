@@ -38,6 +38,7 @@
     overlays = [
       outputs.overlays.additions
       outputs.overlays.modifications
+      inputs.emacs-overlay.overlays.default
     ];
     config = {allowUnfree = true;};
   };
@@ -88,7 +89,6 @@
     xdg-utils
 
     termdown
-    emacs
     hey
     copilot-node-server
 
