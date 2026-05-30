@@ -190,6 +190,34 @@
   (push '(alejandra . ("alejandra" "-")) aphelia-formatters)
   (setf (alist-get 'nix aphelia-mode-alist) 'alejandra))
 
+;; mail setup
+(setq +org-msg-accent-color "#3b82a0")
+
+(after! mu4e
+  (setq sendmail-program (executable-find "msmtp")
+        send-mail-function #'smtpmail-send-it
+        message-sendmail-f-is-evil t
+        message-sendmail-extra-arguments '("--read-envelope-from")
+        message-send-mail-function #'message-send-mail-with-sendmail
+        mu4e-get-mail-command "mbsync proton"
+        mu4e-update-interval 300)
+
+  (setq mu4e-maildir-shortcuts
+        '(("/proton/Inbox"   . ?i)
+          ("/proton/Sent"    . ?s)
+          ("/proton/Drafts"  . ?d)
+          ("/proton/Archive" . ?a)
+          ("/proton/Starred" . ?f)
+          ("/proton/Trash"   . ?t)
+          ("/proton/Spam"    . ?j)))
+
+  (add-hook 'org-msg-edit-mode-hook #'org-tempo-setup)
+
+  (map! :after org-msg
+        :map org-msg-edit-mode-map
+        :n "ZZ" #'org-msg-ctrl-c-ctrl-c
+        :n "ZQ" #'org-msg-edit-kill-buffer))
+
 ;; TODO
 ;; https://github.com/eraschle/komorebi.el
 
