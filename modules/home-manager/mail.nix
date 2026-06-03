@@ -157,8 +157,8 @@ in {
       myAddressFlags = lib.concatMapStringsSep " " (a: "--my-address ${a}") allAddresses;
     in
       lib.hm.dag.entryAfter ["writeBoundary"] ''
-        run ${pkgs.mu}/bin/mu init --maildir ~/Mail ${myAddressFlags} 2>/dev/null || true
-        run ${pkgs.mu}/bin/mu index 2>/dev/null || true
+        ${pkgs.mu}/bin/mu init --maildir $HOME/Mail ${myAddressFlags} 2>/dev/null || true
+        ${pkgs.mu}/bin/mu index 2>/dev/null || true
       '';
 
     systemd.user.services.protonmail-bridge = mkIf pkgs.stdenv.isLinux {
