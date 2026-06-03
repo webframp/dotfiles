@@ -5,7 +5,7 @@
 set -euo pipefail
 
 PKG_FILE="pkgs/swamp/default.nix"
-REPO="systeminit/swamp"
+REPO="swamp-club/swamp"
 
 # Get version from argument or fetch latest
 if [[ -n "${1:-}" ]]; then
