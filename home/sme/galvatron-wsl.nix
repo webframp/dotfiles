@@ -14,6 +14,9 @@ in {
   };
 
   webframp.tmux.copyCommand = "win32yank.exe -i";
+  webframp.zsh.extraEnvVars = ''
+    [ -f ~/.keychain/$(hostname)-sh ] && source ~/.keychain/$(hostname)-sh
+  '';
 
   programs.keychain = {
     enable = true;

@@ -82,6 +82,7 @@ with tflint-plugins;
     kubernetes-helm
     kustomize
 
+    marksman
     mob
     multimarkdown
 
