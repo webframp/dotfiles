@@ -168,6 +168,21 @@ in {
       };
       Service = {
         ExecStart = "${pkgs.protonmail-bridge}/bin/protonmail-bridge --noninteractive";
+        ExecStartPost = let
+          exportCert = pkgs.writeShellScript "export-bridge-cert" ''
+            cert_file="${cfg.bridgeCert}"
+            port="${toString cfg.imapPort}"
+            for i in $(${pkgs.coreutils}/bin/seq 1 60); do
+              if echo | ${pkgs.openssl}/bin/openssl s_client -connect 127.0.0.1:$port -starttls imap 2>/dev/null | ${pkgs.openssl}/bin/openssl x509 -outform PEM > /dev/null 2>&1; then
+                echo | ${pkgs.openssl}/bin/openssl s_client -connect 127.0.0.1:$port -starttls imap 2>/dev/null | ${pkgs.openssl}/bin/openssl x509 -outform PEM > "$cert_file"
+                exit 0
+              fi
+              ${pkgs.coreutils}/bin/sleep 1
+            done
+            echo "bridge did not expose TLS within 60s" >&2
+            exit 1
+          '';
+        in "-${exportCert}";
         Restart = "always";
         RestartSec = 5;
         Environment = [
