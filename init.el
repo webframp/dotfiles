@@ -152,7 +152,7 @@
        ;;lean              ; for folks with too much to prove
        ;;ledger            ; be audit you can be
        ;;lua               ; one-based indices? one-based indices
-       markdown            ; writing docs for people to ignore
+       (markdown +lsp)     ; writing docs for people to ignore
        ;;nim               ; python + lisp at the speed of c
        (nix +tree-sitter
             +lsp)          ; I hereby declare "nix geht mehr!"
