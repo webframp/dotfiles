@@ -221,5 +221,8 @@
 ;; TODO
 ;; https://github.com/eraschle/komorebi.el
 
+;; WSL clipboard encoding fixes
+(load! "+wsl-clipboard")
+
 ;; Non git tracked setttings
 (load! "+local")
