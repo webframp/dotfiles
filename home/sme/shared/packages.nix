@@ -39,6 +39,7 @@ with tflint-plugins;
 
     editorconfig-checker
     editorconfig-core-c
+    emacsPackages.cask
     exiftool
 
     fd
