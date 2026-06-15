@@ -88,7 +88,7 @@ with tflint-plugins;
 
     nixd
     nix-index
-    nodejs_20
+    nodejs_22
     nox
 
     opencode
