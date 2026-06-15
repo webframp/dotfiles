@@ -6,6 +6,8 @@
 ;; that got decoded as their Unicode codepoint equivalents rather than
 ;; mapped to their intended glyphs.
 
+;; Uses translate-region with a char-table rather than search-forward because
+;; "\xNN" string literals are unibyte and silently fail to match in multibyte buffers.
 (defvar sme/cp1252-char-table
   (let ((table (make-char-table 'translation-table)))
     (aset table #x80 #x20AC)  ; €
