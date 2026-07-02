@@ -52,7 +52,7 @@ PACKAGES := $(shell nix eval .#packages.$(SYSTEM) --apply 'builtins.attrNames' -
 .PHONY: switch build check fmt update clean clean-generations news diff zsh-bench help
 .PHONY: nixos-switch nixos-build nixos-diff
 .PHONY: pkg-list pkg-build-all pkg-bump coder-update kiro-update swamp-update $(PACKAGES)
-.PHONY: alacritty-sync wezterm-sync
+.PHONY: alacritty-sync wezterm-sync claude-sync
 
 ## Primary targets
 
@@ -119,6 +119,17 @@ alacritty-sync: ## Sync alacritty.toml to Windows AppData
 wezterm-sync: ## Sync wezterm.lua to Windows home
 	@cp $(WEZTERM_SRC) $(WEZTERM_DST)
 	@echo "Synced wezterm config (auto-reloads)"
+
+CLAUDE_SRC := $(HOME)/.claude
+CLAUDE_DST := /mnt/c/Users/sme/.claude
+
+claude-sync: ## Sync Claude Code config (CLAUDE.md, settings.json, commands, skills, hooks) to Windows
+	@cp $(CLAUDE_SRC)/CLAUDE.md $(CLAUDE_DST)/CLAUDE.md
+	@cp $(CLAUDE_SRC)/settings.json $(CLAUDE_DST)/settings.json
+	@cp -r $(CLAUDE_SRC)/commands $(CLAUDE_DST)/
+	@cp -r $(CLAUDE_SRC)/skills $(CLAUDE_DST)/
+	@cp -r $(CLAUDE_SRC)/hooks $(CLAUDE_DST)/
+	@echo "Synced Claude Code config to Windows (settings.local.json intentionally excluded)"
 
 ## Diagnostics
 
