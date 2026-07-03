@@ -8,6 +8,20 @@
 }:
 with lib; let
   cfg = config.webframp.git;
+  # gpg wrapper for non-interactive AI-agent sessions (Claude Code, etc.).
+  # A cold gpg-agent cache would otherwise launch pinentry-curses to prompt
+  # for the signing passphrase; in an agent-driven shell no human answers it,
+  # the curses UI seizes the tty, and the session wedges. --pinentry-mode error
+  # makes gpg fail fast instead: a warm cache still signs silently, a cold one
+  # returns a clean error so the agent reports failure rather than hanging.
+  # Interactive shells (no CLAUDECODE/AI_AGENT) fall through to plain gpg and
+  # keep prompting via pinentry as usual.
+  gpgForAgents = pkgs.writeShellScript "gpg-agent-safe" ''
+    if [ -n "$CLAUDECODE" ] || [ -n "$AI_AGENT" ]; then
+      exec ${pkgs.gnupg}/bin/gpg --pinentry-mode error "$@"
+    fi
+    exec ${pkgs.gnupg}/bin/gpg "$@"
+  '';
 in {
   options.webframp.git = {
     enable = mkEnableOption "custom git configuration";
@@ -33,6 +47,7 @@ in {
       signing.format = "openpgp";
       signing.key = "BE06ADB38C7F719D";
       settings = {
+        gpg.program = "${gpgForAgents}";
         user.name = "Sean Escriva";
         user.email = "sean.escriva@gmail.com";
         alias = {
