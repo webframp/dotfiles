@@ -29,6 +29,7 @@
 
   wsl = {
     enable = true;
+    useWindowsDriver = true;
     wslConf.automount.root = "/mnt";
     defaultUser = "sme";
     startMenuLaunchers = true;
@@ -157,6 +158,11 @@
     MOZ_ENABLE_WAYLAND = "1";
     LESSCHARSET = "utf-8";
     BROWSER = "firefox";
+
+    # AMD GPU not yet supported via WSL2 GPU-PV / D3D12 translation layer.
+    # Remove once AMD's WSL driver works with Mesa's dzn/d3d12 path.
+    # See: https://github.com/nix-community/NixOS-WSL/issues/623
+    LIBGL_ALWAYS_SOFTWARE = "1";
 
     # Mainly for Emacs 28
     # https://github.com/emacs-mirror/emacs/blob/master/etc/NEWS.28#L179-L183
