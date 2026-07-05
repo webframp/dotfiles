@@ -23,9 +23,12 @@
 (unless (file-directory-p gptel-prompts-directory) (make-directory gptel-prompts-directory))
 
 (after! gptel
-  (setq gptel-model 'claude-4.5-sonnet
-        gptel-backend (gptel-make-gh-copilot "Copilot"))
-  (gptel-make-gemini "Gemini" :key #'sme/get-gemini-api-key :stream t))
+  (setq gptel-model 'claude-sonnet-4-6
+        gptel-backend (gptel-make-anthropic "Anthropic"
+                        :key #'sme/get-anthropic-api-key
+                        :stream t))
+  (gptel-make-gemini "Gemini" :key #'sme/get-gemini-api-key :stream t)
+  (add-hook 'gptel-post-response-functions #'sme/gptel-wrap-response-in-ai-block))
 
 (use-package! gptel-prompts
   :after gptel
