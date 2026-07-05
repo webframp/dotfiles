@@ -200,6 +200,9 @@
     k = "kubectl";
     kx = "kubectx";
     kn = "kubens";
+
+    # Restart WSLg compositor without full wsl --shutdown
+    restart-wslg = ''wsl.exe --system sh -c "pkill -9 weston"'';
   };
 
   programs.bash = {
