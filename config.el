@@ -157,30 +157,22 @@
 ;; taken from: https://github.com/jsilve24/kisses
 ;; other ideas: https://github.com/emacs-dashboard/emacs-dashboard/
 (defun sme-dashboard-draw-ascii-banner-fn ()
-  (let* ((banner
-          '("@@@@@@@@  @@@@@@@@@@    @@@@@@    @@@@@@@   @@@@@@ "
-            "@@@@@@@@  @@@@@@@@@@@  @@@@@@@@  @@@@@@@@  @@@@@@@ "
-            "@@!       @@! @@! @@!  @@!  @@@  !@@       !@@     "
-            "!@!       !@! !@! !@!  !@!  @!@  !@!       !@!     "
-            "@!!!:!    @!! !!@ @!@  @!@!@!@!  !@!       !!@@!!  "
-            "!!!!!:    !@!   ! !@!  !!!@!!!!  !!!        !!@!!! "
-            "!!:       !!:     !!:  !!:  !!!  :!!            !:!"
-            ":!:       :!:     :!:  :!:  !:!  :!:           !:! "
-            ":: ::::   :::     ::   ::   :::   ::: :::  :::: :: "
-            ": :: ::    :      :     :   : :   :: :: :  :: : :  "))
-         (longest-line (apply #'max (mapcar #'length banner))))
-    (put-text-property
-     (point)
-     (dolist (line banner (point))
-       (insert (+doom-dashboard--center
-                +doom-dashboard--width
-                (concat
-                 line (make-string (max 0 (- longest-line (length line)))
-                                   32)))
-               "\n"))
-     'face 'doom-dashboard-banner)))
+  (propertize
+   (string-join
+    '("@@@@@@@@  @@@@@@@@@@    @@@@@@    @@@@@@@   @@@@@@ "
+      "@@@@@@@@  @@@@@@@@@@@  @@@@@@@@  @@@@@@@@  @@@@@@@ "
+      "@@!       @@! @@! @@!  @@!  @@@  !@@       !@@     "
+      "!@!       !@! !@! !@!  !@!  @!@  !@!       !@!     "
+      "@!!!:!    @!! !!@ @!@  @!@!@!@!  !@!       !!@@!!  "
+      "!!!!!:    !@!   ! !@!  !!!@!!!!  !!!        !!@!!! "
+      "!!:       !!:     !!:  !!:  !!!  :!!            !:!"
+      ":!:       :!:     :!:  :!:  !:!  :!:           !:! "
+      ":: ::::   :::     ::   ::   :::   ::: :::  :::: :: "
+      ": :: ::    :      :     :   : :   :: :: :  :: : :  ")
+    "\n")
+   'face '+dashboard-banner))
 
-(setq +doom-dashboard-ascii-banner-fn #'sme-dashboard-draw-ascii-banner-fn)
+(setq +dashboard-ascii-banner-fn #'sme-dashboard-draw-ascii-banner-fn)
 
 (set-formatter! 'alejandra '("alejandra" "--quiet") :modes '(nix-mode))
 ;; fixes doctor check: https://github.com/doomemacs/doomemacs/blob/master/modules/lang/nix/doctor.el#L9
