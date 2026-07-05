@@ -18,18 +18,18 @@ in {
       enable = true;
       enableZshIntegration = true;
       # CTRL-T
-      fileWidgetOptions = [
+      fileWidget.options = [
         "--preview 'bat -n --color=always {}'"
         " --bind 'ctrl-/:change-preview-window(down|hidden|)'"
       ];
       # CTRL-R
-      historyWidgetOptions = [
+      historyWidget.options = [
         "--preview 'echo {}'"
         "--preview-window up:3:hidden:wrap"
         "--bind 'ctrl-/:toggle-preview'"
       ];
       # ALT-C
-      changeDirWidgetOptions = ["--preview 'eza --tree --icons=auto --color=always {}'"];
+      changeDirWidget.options = ["--preview 'eza --tree --icons=auto --color=always {}'"];
       # tmux
       tmux.enableShellIntegration = true;
       tmux.shellIntegrationOptions = ["-p90%,80%"];
