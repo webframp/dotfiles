@@ -73,6 +73,11 @@
 (if (featurep :system 'macos)
     (add-hook 'window-setup-hook 'toggle-frame-maximized t))
 
+(use-package! exec-path-from-shell
+  :when (featurep :system 'macos)
+  :config
+  (exec-path-from-shell-initialize))
+
 
 (setq epg-pinentry-mode 'loopback)
 
