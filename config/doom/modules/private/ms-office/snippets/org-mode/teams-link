@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: teams-link
+# key: mst
+# --
+[[`(sme/teams-url-from-clipboard)`][`(sme/teams-url-build-title)`${1:description}]]

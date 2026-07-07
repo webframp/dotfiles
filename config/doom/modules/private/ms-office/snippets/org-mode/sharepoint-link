@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: sharepoint-link
+# key: msp
+# --
+[[`(sme/sharepoint-url-from-clipboard)`][`(sme/sharepoint-url-build-title)`${1:description}]]
