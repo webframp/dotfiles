@@ -3,6 +3,7 @@
 {
   bat = import ./bat.nix;
   delta = import ./delta.nix;
+  doom = import ./doom.nix;
   direnv = import ./direnv.nix;
   fzf = import ./fzf.nix;
   git = import ./git.nix;
