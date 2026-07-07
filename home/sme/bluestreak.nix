@@ -60,7 +60,6 @@ in {
 
     extraEnvVars = ''
       export PODMAN_COMPOSE_WARNING_LOGS=false
-      export CLAUDE_CODE_USE_BEDROCK=1
       # homebrew is not managed via nix, but a necessary evil on macOS
       [ -d /opt/homebrew/bin ] && export PATH="/opt/homebrew/bin:$PATH"
     '';
