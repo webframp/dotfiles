@@ -1,5 +1,5 @@
 # ABOUTME: Shared tmux configuration module with dracula theme
-# ABOUTME: Provides resurrect/continuum and common plugins across hosts
+# ABOUTME: Provides common plugins across hosts
 {
   config,
   lib,
@@ -71,21 +71,7 @@ in {
               bind-key O run-shell -b "sh -c '~/.config/emacs/bin/org-capture' | grep -v '^nil$' || true"
             '';
         }
-        {
-          plugin = resurrect;
-          extraConfig = ''
-            set -g @resurrect-capture-pane-contents 'on'
-          '';
-        }
-        {
-          plugin = continuum;
-          extraConfig = ''
-            set -g @continuum-restore 'on'
-            set -g @continuum-boot 'on'
-            set -g @continuum-save-interval '15'
-          '';
-        }
-        {
+{
           plugin = yank;
           extraConfig = optionalString (cfg.copyCommand != null) ''
             set -g @override_copy_command '${cfg.copyCommand}'
