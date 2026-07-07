@@ -14,7 +14,8 @@
 ;; Smooth scrolling on macOS: https://github.com/jdtsmith/ultra-scroll
 (when (featurep :system 'macos)
   (package! ultra-scroll
-    :recipe (:host github :repo "jdtsmith/ultra-scroll" :files ("*.el"))))
+    :recipe (:host github :repo "jdtsmith/ultra-scroll" :files ("*.el")))
+  (package! exec-path-from-shell))
 
 ;; https://github.com/jwiegley/gptel-prompts
 (package! gptel-prompts
