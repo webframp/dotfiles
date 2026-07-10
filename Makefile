@@ -16,6 +16,13 @@ FLAKE_TARGET := $(USER)@$(HOST)
 # NixOS config name (strips -wsl suffix: galvatron-wsl -> galvatron)
 NIXOS_CONFIG := $(subst -wsl,,$(HOST))
 
+# Converge target for this host: nixos-switch for NixOS hosts, switch otherwise
+ifeq ($(filter $(HOST),$(VALID_NIXOS_HOSTS)),)
+  SWITCH_TARGET := switch
+else
+  SWITCH_TARGET := nixos-switch
+endif
+
 # Check if host has a home-manager configuration
 define check_host
 	@if ! echo "$(VALID_HOSTS)" | grep -qw "$(HOST)"; then \
@@ -51,7 +58,7 @@ PACKAGES := $(shell nix eval .#packages.$(SYSTEM) --apply 'builtins.attrNames' -
 
 .PHONY: switch build check fmt update clean clean-generations news diff zsh-bench help
 .PHONY: nixos-switch nixos-build nixos-diff
-.PHONY: pkg-list pkg-build-all pkg-bump coder-update kiro-update swamp-update $(PACKAGES)
+.PHONY: pkg-list pkg-build-all pkg-bump bump coder-update kiro-update swamp-update $(PACKAGES)
 .PHONY: alacritty-sync wezterm-sync claude-sync
 
 ## Primary targets
@@ -166,6 +173,28 @@ kiro-update: ## Update kiro-cli to latest or specific version (VERSION=x.y.z)
 
 swamp-update: ## Update swamp to latest or specific version (VERSION=x.y.z)
 	@./scripts/update-swamp.sh $(VERSION)
+
+bump: ## Bump PKG to latest & converge host (make bump PKG=swamp [VERSION=x.y.z] [CLEAN=<age>])
+ifndef PKG
+	@echo "Usage: make bump PKG=<name> [VERSION=x.y.z] [CLEAN=<age>]"
+	@echo "Bumps pkgs/<name> via scripts/update-<name>.sh, then runs '$(SWITCH_TARGET)' if it changed."
+	@exit 1
+endif
+	@test -f scripts/update-$(PKG).sh || { \
+		echo "Error: no update script for '$(PKG)' (expected scripts/update-$(PKG).sh)"; \
+		exit 1; \
+	}
+	@./scripts/update-$(PKG).sh $(VERSION)
+	@if git diff HEAD --quiet -- pkgs/$(PKG); then \
+		echo ">> $(PKG) already current -- skipping $(SWITCH_TARGET)"; \
+	else \
+		git add pkgs/$(PKG); \
+		$(MAKE) $(SWITCH_TARGET); \
+	fi
+ifdef CLEAN
+	@$(MAKE) clean-generations AGE=$(CLEAN)
+	@$(MAKE) clean
+endif
 
 # Generate a target for each package (e.g., make aws-doctor, make iamlive)
 define pkg_target
