@@ -53,6 +53,19 @@
     executable = true;
   };
 
+  # Claude Code guardrail hook scripts, placed globally. Registration lives in
+  # each consuming repo's project .claude/settings.json PreToolUse (currently the
+  # devsecops swamp repo), so the guardrails are scoped to that repo rather than
+  # global. See swamp Lab feature #1075 for the intended in-binary replacement.
+  home.file.".claude/hooks/no-python-pipes.py" = {
+    source = ../shared/includes/claude-hooks/no-python-pipes.py;
+    executable = true;
+  };
+  home.file.".claude/hooks/no-shell-parsing.py" = {
+    source = ../shared/includes/claude-hooks/no-shell-parsing.py;
+    executable = true;
+  };
+
   # Shared webframp module configuration
   # Hosts can override specific options as needed
   webframp.bat.enable = true;
