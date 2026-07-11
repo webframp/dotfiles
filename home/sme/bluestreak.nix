@@ -62,6 +62,7 @@ in {
       export PODMAN_COMPOSE_WARNING_LOGS=false
       # homebrew is not managed via nix, but a necessary evil on macOS
       [ -d /opt/homebrew/bin ] && export PATH="/opt/homebrew/bin:$PATH"
+      [ -d "$HOME/.local/bin" ] && export PATH="$HOME/.local/bin:$PATH"
     '';
 
     extraZplugPlugins = [
