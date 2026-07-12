@@ -102,9 +102,27 @@ Once enough is extracted to modules, global may have no remaining purpose and ca
 make switch          # Apply config (auto-detects hostname)
 make build           # Dry-run build
 make diff            # Show what will change
+make bump PKG=swamp  # Bump a package to latest and converge the host
 make zsh-bench       # Measure zsh startup time
 make clean-generations AGE=14d  # Clean old generations
 ```
+
+## Conventions & Gotchas
+
+### Updating pinned packages
+
+Run `make bump PKG=<name>` to update a prebuilt-binary package and converge in one step. It runs `scripts/update-<name>.sh`, and when the pin actually changes it stages `pkgs/<name>` and runs the host-appropriate switch (`nixos-switch` on hosts in `VALID_NIXOS_HOSTS`, `switch` otherwise). It skips the rebuild when already current, and it stages without committing.
+
+- `VERSION=x.y.z` pins a specific release instead of latest.
+- `CLEAN=<age>` runs `clean-generations` + `clean` afterward (e.g. `make bump PKG=swamp CLEAN=5d`).
+
+Adding a new prebuilt-binary package means adding a matching `scripts/update-<name>.sh`. The `swamp`/`coder`/`kiro` scripts are the pattern: they fetch release-asset hashes per platform and edit portably. The generic `pkg-bump` (`scripts/bump-pkg.sh`) is a different tool — it assumes a `fetchFromGitHub` source build and uses BSD `sed`, so it is macOS-only and does not apply to these binary packages.
+
+### Doom `+local.el` is per-machine
+
+`~/.config/doom` is a whole-directory out-of-store symlink to `config/doom/` (see `modules/home-manager/doom.nix`), so any file in `config/doom/` surfaces there — including git-ignored ones. `+local.el` holds sensitive values, so it is git-ignored and never committed. Each host needs its own copy placed at `config/doom/+local.el` (canonical source: `~/src/sescriva/doom.d/<host>/+local.el`).
+
+If it is missing, `(load! "+local")` fails at startup. That is intentional — fail loud rather than silently drop settings — so the fix is to place the file, not to make the load tolerant.
 
 ## Refactoring Configs with Special Characters
 
