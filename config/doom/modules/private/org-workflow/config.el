@@ -156,4 +156,5 @@ capture was not aborted."
   ;; Only needed for WSL
   (after! org-download
     (setq org-download-screenshot-method
-          "powershell.exe -Command \"(Get-Clipboard -Format image).Save('$(wslpath -w %s)')\"")))
+          ;; Absolute path: interop PATH is not appended under systemd mode.
+          "/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -Command \"(Get-Clipboard -Format image).Save('$(wslpath -w %s)')\"")))

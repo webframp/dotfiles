@@ -151,9 +151,12 @@ in {
           __calc_fn() { zcalc -f -e "$*" }
           alias calc="noglob __calc_fn"
 
-          # Pass aliases for password store with fzf integration
-          alias qp='pass -c "$(find -L "$HOME/.password-store" \( -name .git\* -o -name .gpg-id \) -prune -o $@ -print 2>/dev/null | sed -e "s#''${HOME}/.password-store/\{0,1\}##" -e 's#\.gpg##'|sort|fzf)"'
-          alias qpo='pass otp -c "$(find -L "$HOME/.password-store" \( -name .git\* -o -name .gpg-id \) -prune -o $@ -print 2>/dev/null | sed -e "s#''${HOME}/.password-store/\{0,1\}##" -e 's#\.gpg##'|sort|fzf)"'
+          # Pass aliases for password store with fzf integration.
+          # WAYLAND_DISPLAY= forces pass's clip() down the xclip/X11 branch:
+          # WSLg exports WAYLAND_DISPLAY, which makes pass reach for wl-copy
+          # (not installed, and its bridge mangles non-ASCII). Empty on non-WSL.
+          alias qp='WAYLAND_DISPLAY= pass -c "$(find -L "$HOME/.password-store" \( -name .git\* -o -name .gpg-id \) -prune -o $@ -print 2>/dev/null | sed -e "s#''${HOME}/.password-store/\{0,1\}##" -e 's#\.gpg##'|sort|fzf)"'
+          alias qpo='WAYLAND_DISPLAY= pass otp -c "$(find -L "$HOME/.password-store" \( -name .git\* -o -name .gpg-id \) -prune -o $@ -print 2>/dev/null | sed -e "s#''${HOME}/.password-store/\{0,1\}##" -e 's#\.gpg##'|sort|fzf)"'
           alias qpe='EDITOR=vim pass edit "$(find -L "$HOME/.password-store" \( -name .git\* -o -name .gpg-id \) -prune -o $@ -print 2>/dev/null | sed -e "s#''${HOME}/.password-store/\{0,1\}##" -e 's#\.gpg##'|sort|fzf)"'
 
           # zsh-autosuggestions keybind

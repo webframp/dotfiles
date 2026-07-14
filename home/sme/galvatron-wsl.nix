@@ -13,7 +13,9 @@ in {
     kiro-cli = "WAYLAND_DISPLAY= command kiro-cli";
   };
 
-  webframp.tmux.copyCommand = "win32yank.exe -i";
+  # xclip → WSLg bridges to the Windows clipboard with correct UTF-8, so no
+  # win32yank.exe (Windows interop) dependency. See tmux.conf clipboard notes.
+  webframp.tmux.copyCommand = "xclip -selection clipboard -i";
   webframp.zsh.extraEnvVars = ''
     [ -f ~/.keychain/$(hostname)-sh ] && source ~/.keychain/$(hostname)-sh
   '';

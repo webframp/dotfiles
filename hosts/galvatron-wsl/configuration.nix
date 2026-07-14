@@ -189,9 +189,10 @@
   };
 
   environment.shellAliases = {
-    # WSL-specific clipboard integration (macOS-compatible names)
-    pbpaste = "powershell.exe -noprofile Get-Clipboard";
-    pbcopy = "clip.exe";
+    # macOS-compatible clipboard names via xclip; WSLg bridges the X11
+    # clipboard to Windows with correct UTF-8, so no Windows-interop binaries.
+    pbpaste = "xclip -selection clipboard -out";
+    pbcopy = "xclip -selection clipboard -in";
 
     # Host-specific: doom emacs
     doom = "~/.config/emacs/bin/doom";
@@ -202,7 +203,9 @@
     kn = "kubens";
 
     # Restart WSLg compositor without full wsl --shutdown
-    restart-wslg = ''wsl.exe --system sh -c "pkill -9 weston"'';
+    # Absolute path: wsl.exe is a Windows binary and the interop PATH is not
+    # appended under systemd mode, so bare "wsl.exe" does not resolve.
+    restart-wslg = ''/mnt/c/Windows/System32/wsl.exe --system sh -c "pkill -9 weston"'';
   };
 
   programs.bash = {
