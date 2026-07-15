@@ -102,7 +102,6 @@ with tflint-plugins;
     patchelf
     perl
     pipx
-    plocate
     podman
     podman-compose
     prettier

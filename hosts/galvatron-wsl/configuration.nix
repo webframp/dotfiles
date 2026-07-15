@@ -208,6 +208,39 @@
     restart-wslg = ''/mnt/c/Windows/System32/wsl.exe --system sh -c "pkill -9 weston"'';
   };
 
+  # plocate `locate`, updated on a systemd timer (Persistent, so a missed
+  # overnight run catches up on next boot — this box is often off at 02:15).
+  services.locate = {
+    enable = true;
+    package = pkgs.plocate;
+
+    # Defaults ++ /mnt: never index the Windows drives (9p/drvfs — huge, slow).
+    prunePaths = [
+      "/tmp"
+      "/var/tmp"
+      "/var/cache"
+      "/var/lock"
+      "/var/run"
+      "/var/spool"
+      "/nix/store"
+      "/nix/var/log/nix"
+      "/mnt"
+    ];
+
+    # plocate defaults to the VCS/cache set; add the dev-tree noise makers.
+    pruneNames = [
+      ".bzr"
+      ".cache"
+      ".git"
+      ".hg"
+      ".svn"
+      "node_modules"
+      ".devbox"
+      ".direnv"
+      ".terraform"
+    ];
+  };
+
   programs.bash = {
     completion.enable = true;
     enableLsColors = true;
