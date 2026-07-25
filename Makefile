@@ -17,10 +17,16 @@ FLAKE_TARGET := $(USER)@$(HOST)
 NIXOS_CONFIG := $(subst -wsl,,$(HOST))
 
 # Converge target for this host: nixos-switch for NixOS hosts, switch otherwise
+# Clean targets follow the same split: NixOS hosts keep their generations in
+# the root-owned system profile, so cleanup needs sudo and a different profile path.
 ifeq ($(filter $(HOST),$(VALID_NIXOS_HOSTS)),)
   SWITCH_TARGET := switch
+  CLEAN_TARGET := clean-home
+  CLEAN_GENERATIONS_TARGET := clean-generations-home
 else
   SWITCH_TARGET := nixos-switch
+  CLEAN_TARGET := clean-nixos
+  CLEAN_GENERATIONS_TARGET := clean-generations-nixos
 endif
 
 # Check if host has a home-manager configuration
@@ -58,6 +64,7 @@ PACKAGES := $(shell nix eval .#packages.$(SYSTEM) --apply 'builtins.attrNames' -
 
 .PHONY: switch build check fmt update clean clean-generations news diff zsh-bench help
 .PHONY: nixos-switch nixos-build nixos-diff
+.PHONY: clean-home clean-generations-home clean-nixos clean-generations-nixos
 .PHONY: pkg-list pkg-build-all pkg-bump bump coder-update kiro-update swamp-update $(PACKAGES)
 .PHONY: alacritty-sync wezterm-sync claude-sync
 
@@ -102,11 +109,23 @@ fmt: ## Format nix files with alejandra
 check: ## Validate flake
 	nix flake check
 
-clean: ## Garbage collect old generations
+clean: ## Garbage collect old generations (dispatches to clean-home/clean-nixos by host)
+	$(MAKE) $(CLEAN_TARGET)
+
+clean-generations: ## Remove old generations (default: 30d, override: AGE=14d; dispatches by host)
+	$(MAKE) $(CLEAN_GENERATIONS_TARGET) AGE=$(AGE)
+
+clean-home: ## Garbage collect old generations (standalone home-manager profile)
 	nix-collect-garbage -d
 
-clean-generations: ## Remove old home-manager generations (default: 30d, override: AGE=14d)
+clean-generations-home: ## Remove old home-manager generations (default: 30d, override: AGE=14d)
 	nix profile wipe-history --profile ~/.local/state/nix/profiles/home-manager --older-than $(AGE)
+
+clean-nixos: ## Garbage collect old generations (NixOS system profile, requires sudo)
+	sudo nix-collect-garbage -d
+
+clean-generations-nixos: ## Remove old NixOS system generations (default: 30d, override: AGE=14d)
+	sudo nix-env -p /nix/var/nix/profiles/system --delete-generations $(AGE)
 
 news: ## Show home-manager news
 	$(call check_host,$@)
