@@ -25,6 +25,7 @@ with tflint-plugins;
     cachix
     cdk8s-cli
     claude-code
+    chromium
     cmake
     coder
     cspell
