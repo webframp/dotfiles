@@ -205,7 +205,10 @@
     # Restart WSLg compositor without full wsl --shutdown
     # Absolute path: wsl.exe is a Windows binary and the interop PATH is not
     # appended under systemd mode, so bare "wsl.exe" does not resolve.
-    restart-wslg = ''/mnt/c/Windows/System32/wsl.exe --system sh -c "pkill -9 weston"'';
+    # --cd / : wsl.exe otherwise tries to translate the caller's cwd (a NixOS-
+    # distro path) into a UNC path for the --system distro, which has no such
+    # mapping and fails with "Failed to translate '\\wsl.localhost\...'".
+    restart-wslg = ''/mnt/c/Windows/System32/wsl.exe --system --cd / sh -c "pkill -9 weston"'';
   };
 
   # plocate `locate`, updated on a systemd timer (Persistent, so a missed
