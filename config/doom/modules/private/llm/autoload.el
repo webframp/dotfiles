@@ -1,12 +1,6 @@
 ;;; private/llm/autoload.el -*- lexical-binding: t; -*-
 
 ;;;###autoload
-(defun sme/get-anthropic-api-key ()
-  "Retrieve Anthropic API key from password store."
-  (require 'auth-source-pass)
-  (auth-source-pass-get 'secret "anthropic-api-key"))
-
-;;;###autoload
 (defun sme/gptel-wrap-response-in-ai-block (beg end)
   "Wrap gptel response between BEG and END in a #+begin_ai block."
   (when (and (derived-mode-p 'org-mode)

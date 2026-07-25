@@ -22,10 +22,23 @@
 ;; Ensure the prompt directory exists
 (unless (file-directory-p gptel-prompts-directory) (make-directory gptel-prompts-directory))
 
+;; AWS profile gptel signs Bedrock requests with (SigV4, via curl --aws-sigv4).
+;; The actual profile name lives in `+local.el' (git-ignored) since it embeds
+;; account/role names that don't belong in a public repo.
+(defvar sme/gptel-bedrock-aws-profile nil
+  "AWS profile for gptel's Bedrock backend. Set in `+local.el'.")
+
+(require 'gptel-bedrock)
+
 (after! gptel
+  (unless sme/gptel-bedrock-aws-profile
+    (message "gptel: `sme/gptel-bedrock-aws-profile' is unset; set it in +local.el"))
   (setq gptel-model 'claude-sonnet-4-6
-        gptel-backend (gptel-make-anthropic "Anthropic"
-                        :key #'sme/get-anthropic-api-key
+        gptel-backend (gptel-make-bedrock "Bedrock-Claude"
+                        :region "us-east-1"
+                        :aws-profile sme/gptel-bedrock-aws-profile
+                        :models '(claude-opus-4-8 claude-opus-4-7 claude-sonnet-4-6
+                                  claude-haiku-4-5-20251001)
                         :stream t))
   (gptel-make-gemini "Gemini" :key #'sme/get-gemini-api-key :stream t)
   (add-hook 'gptel-post-response-functions #'sme/gptel-wrap-response-in-ai-block))
