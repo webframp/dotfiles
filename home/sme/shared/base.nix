@@ -73,4 +73,21 @@
   # Linux-specific defaults (can be overridden by hosts)
   webframp.tmux.terminal = lib.mkIf pkgs.stdenv.isLinux "tmux-256color";
   webframp.zsh.enableVterm = lib.mkIf pkgs.stdenv.isLinux (lib.mkDefault false);
+
+  # Prune stale zcompdump files weekly (they accumulate per-PID on NixOS rebuilds)
+  systemd.user.services.zcompdump-cleanup = lib.mkIf pkgs.stdenv.isLinux {
+    Unit.Description = "Remove stale zcompdump files older than 7 days";
+    Service = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.findutils}/bin/find ${config.home.homeDirectory} -maxdepth 1 -name '.zcompdump.*' -mtime +7 -delete";
+    };
+  };
+  systemd.user.timers.zcompdump-cleanup = lib.mkIf pkgs.stdenv.isLinux {
+    Unit.Description = "Weekly zcompdump cleanup";
+    Timer = {
+      OnCalendar = "weekly";
+      Persistent = true;
+    };
+    Install.WantedBy = ["timers.target"];
+  };
 }
