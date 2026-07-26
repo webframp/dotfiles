@@ -330,7 +330,10 @@
 
   programs.bash-my-aws.enable = true;
 
-  programs.zsh = {enable = true;};
+  programs.zsh = {
+    enable = true;
+    enableCompletion = false; # home-manager handles compinit with 24h cache
+  };
 
   # Also include man pages for system docs
   documentation.enable = true;
