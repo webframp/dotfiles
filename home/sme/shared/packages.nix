@@ -13,7 +13,6 @@ with tflint-plugins;
   [
     adr-tools
     alejandra
-    ansible
     aws-cdk-cli
     aws-doctor
     aws-vault
@@ -31,11 +30,9 @@ with tflint-plugins;
     cspell
     csvkit
 
-    delta
     deno
     devbox
     dig
-    direnv
     dockfmt
 
     editorconfig-checker
@@ -43,15 +40,12 @@ with tflint-plugins;
     emacsPackages.cask
     exiftool
 
-    fd
     ffmpeg
     file
     fontconfig
-    fzf
 
     gemini-cli
     gh
-    git
     git-extras
     git-lfs
     glab
@@ -77,7 +71,6 @@ with tflint-plugins;
     jq
     jsbeautifier
 
-    keychain
     kind
     kiro-cli
     kubectl
@@ -126,7 +119,6 @@ with tflint-plugins;
     tflint
     tflint-ruleset-aws
     tfsec
-    tmux
     typescript-language-server
 
     unzip
@@ -147,7 +139,6 @@ with tflint-plugins;
 
     zbar
     zip
-    zoxide
     zstd
   ]
   # Darwin-specific packages

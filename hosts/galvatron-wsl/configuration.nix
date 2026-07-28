@@ -93,7 +93,6 @@
     hey
     copilot-node-server
 
-    fastfetch
     onefetch
 
     # GUI stuff
@@ -102,8 +101,7 @@
     shared-mime-info
     super-tiny-icons
 
-    # Kubernetes (k9s and kubectx not in shared/packages.nix)
-    k9s
+    # Kubernetes
     kubectx
     clang
 
