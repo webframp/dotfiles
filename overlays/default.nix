@@ -7,9 +7,11 @@
   # You can change versions, add patches, set compilation flags, anything really.
   # https://nixos.wiki/wiki/Overlays
   modifications = final: prev: {
-    # example = prev.example.overrideAttrs (oldAttrs: rec {
-    # ...
-    # });
+    # pipx 1.14.0's test_inject.py uses comma-separated parametrize values that
+    # pytest 9 rejects at collection time, before the -k deselects can apply.
+    pipx = prev.pipx.overrideAttrs (oldAttrs: {
+      disabledTestPaths = (oldAttrs.disabledTestPaths or []) ++ ["tests/test_inject.py"];
+    });
   };
 
   # When applied, the unstable nixpkgs set (declared in the flake inputs) will

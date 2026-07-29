@@ -15,7 +15,7 @@ in {
 
   nixpkgs = {
     config.allowUnfreePredicate = _: true;
-    overlays = [outputs.overlays.additions];
+    overlays = [outputs.overlays.additions outputs.overlays.modifications];
   };
 
   home = {
