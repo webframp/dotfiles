@@ -24,7 +24,6 @@ with tflint-plugins;
     cachix
     cdk8s-cli
     claude-code
-    chromium
     cmake
     coder
     cspell
@@ -162,6 +161,7 @@ with tflint-plugins;
     pkg-config
     wails
     webkitgtk_4_1
+    chromium
     csharpier
     dotnet-sdk
     gcc # Linux uses gcc; macOS uses clang
