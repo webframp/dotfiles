@@ -23,7 +23,7 @@ with tflint-plugins;
     bun
     cachix
     cdk8s-cli
-    claude-code
+    claude
     cmake
     coder
     cspell
