@@ -65,7 +65,7 @@ PACKAGES := $(shell nix eval .#packages.$(SYSTEM) --apply 'builtins.attrNames' -
 .PHONY: switch build check fmt update clean clean-generations news diff zsh-bench help
 .PHONY: nixos-switch nixos-build nixos-diff
 .PHONY: clean-home clean-generations-home clean-nixos clean-generations-nixos
-.PHONY: pkg-list pkg-build-all pkg-bump bump coder-update kiro-update swamp-update $(PACKAGES)
+.PHONY: pkg-list pkg-build-all pkg-bump bump claude-update coder-update kiro-update swamp-update $(PACKAGES)
 .PHONY: alacritty-sync wezterm-sync claude-sync
 
 ## Primary targets
@@ -183,6 +183,9 @@ ifndef PKG
 	@exit 1
 endif
 	@./scripts/bump-pkg.sh $(PKG)
+
+claude-update: ## Update claude to latest or specific version (VERSION=x.y.z)
+	@./scripts/update-claude.sh $(VERSION)
 
 coder-update: ## Update coder to latest or specific version (VERSION=x.y.z)
 	@./scripts/update-coder.sh $(VERSION)
