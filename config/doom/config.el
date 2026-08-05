@@ -81,9 +81,10 @@
 
 (setq epg-pinentry-mode 'loopback)
 
-(use-package! keychain-environment
-  :config
-  (keychain-refresh-environment))
+(unless (featurep :system 'windows)
+  (use-package! keychain-environment
+    :config
+    (keychain-refresh-environment)))
 
 ;; disable docker format on save
 (setq-hook! 'dockerfile-mode-hook +format-inhibit t)
@@ -220,6 +221,10 @@
 
 ;; WSL clipboard encoding fixes
 (load! "+wsl-clipboard")
+
+;; Windows-native fixes (no-ops under WSL/Linux)
+(when (featurep :system 'windows)
+  (load! "+windows"))
 
 ;; Non git tracked setttings
 (load! "+local")

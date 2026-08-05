@@ -66,7 +66,7 @@ PACKAGES := $(shell nix eval .#packages.$(SYSTEM) --apply 'builtins.attrNames' -
 .PHONY: nixos-switch nixos-build nixos-diff
 .PHONY: clean-home clean-generations-home clean-nixos clean-generations-nixos
 .PHONY: pkg-list pkg-build-all pkg-bump bump claude-update coder-update kiro-update swamp-update $(PACKAGES)
-.PHONY: alacritty-sync wezterm-sync claude-sync
+.PHONY: alacritty-sync wezterm-sync claude-sync doom-sync
 
 ## Primary targets
 
@@ -137,10 +137,22 @@ ALACRITTY_SRC := home/sme/shared/includes/alacritty.toml
 ALACRITTY_DST := /mnt/c/Users/sme/AppData/Roaming/alacritty/alacritty.toml
 WEZTERM_SRC := home/sme/shared/includes/wezterm.lua
 WEZTERM_DST := /mnt/c/Users/sme/.wezterm.lua
+DOOM_SRC := config/doom
+DOOM_DST := /mnt/c/Users/sme/.doom.d
 
 alacritty-sync: ## Sync alacritty.toml to Windows AppData
 	@cp $(ALACRITTY_SRC) $(ALACRITTY_DST)
 	@echo "Synced alacritty config (auto-reloads)"
+
+doom-sync: ## Sync Doom Emacs config to Windows .doom.d (skips +local.el: per-machine, not git-tracked)
+	@rm -rf $(DOOM_DST)/modules $(DOOM_DST)/prompts
+	@for f in $(DOOM_SRC)/*.el; do \
+		[ "$$(basename $$f)" = "+local.el" ] && continue; \
+		cp $$f $(DOOM_DST)/; \
+	done
+	@cp -r $(DOOM_SRC)/modules $(DOOM_DST)/
+	@cp -r $(DOOM_SRC)/prompts $(DOOM_DST)/
+	@echo "Synced Doom config to Windows (.doom.d). Run 'doom sync' on Windows next."
 
 wezterm-sync: ## Sync wezterm.lua to Windows home
 	@cp $(WEZTERM_SRC) $(WEZTERM_DST)

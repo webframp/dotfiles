@@ -78,7 +78,7 @@
        ;;eshell            ; the elisp shell that works everywhere
        ;;shell             ; simple shell REPL for Emacs
        ;;term              ; basic terminal emulator for Emacs
-       vterm             ; the best terminal emulation in Emacs
+       (:if (not (featurep :system 'windows)) vterm) ; the best terminal emulation in Emacs
 
        :checkers
        syntax              ; tasing you for every semicolon you forget
@@ -86,11 +86,11 @@
        ;;grammar           ; tasing grammar mistake every you make
 
        :tools
-       ansible
+       (:if (not (featurep :system 'windows)) ansible)
        ;;biblio            ; Writes a PhD for you (citation needed)
        ;;collab            ; buffers with friends
        ;;debugger          ; FIXME stepping through code, to help you add bugs
-       direnv
+       (:if (not (featurep :system 'windows)) direnv)
        docker
        editorconfig        ; let someone else argue about tabs vs spaces
        ;;ein               ; tame Jupyter notebooks with emacs
@@ -102,9 +102,9 @@
        lsp                 ; M-x vscode
        (magit +forge)      ; a git porcelain for Emacs
        make                ; run make tasks from Emacs
-       pass                ; password manager for nerds
+       (:if (not (featurep :system 'windows)) pass) ; password manager for nerds
        ;;pdf               ; pdf enhancements
-       terraform           ; infrastructure as code
+       (:if (not (featurep :system 'windows)) terraform) ; infrastructure as code
        ;;tmux              ; an API for interacting with tmux
        tree-sitter         ; syntax and parsing, sitting in a tree...
        ;;upload            ; map local to remote projects via ssh/ftp
@@ -191,7 +191,7 @@
        ;;zig               ; C, but simpler
 
        :email
-       (mu4e +org)
+       (:if (not (featurep :system 'windows)) (mu4e +org))
        ;;notmuch
        ;;(wanderlust +gmail)
 
@@ -214,4 +214,4 @@
        org-workflow      ; org-super-agenda, org-roam templates
        wsl               ; WSL browser integration
        swamp             ; swamp CLI transient dispatch interface
-       ai-coach)         ; AI coding session analytics and coaching
+       (:if (not (featurep :system 'windows)) ai-coach)) ; AI coding session analytics and coaching
