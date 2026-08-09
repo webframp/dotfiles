@@ -70,7 +70,6 @@ in {
       };
 
       envExtra = ''
-        export ZSH_AUTOSUGGEST_USE_ASYNC=true
         export JSII_SILENCE_WARNING_UNTESTED_NODE_VERSION=true
         export GPG_TTY=''${GPG_TTY:-$(tty 2>/dev/null)}
         ${cfg.extraEnvVars}
@@ -161,6 +160,26 @@ in {
 
           # zsh-autosuggestions keybind
           bindkey '^ ' autosuggest-accept
+
+          # zsh-autosuggestions unconditionally re-enables its async mode at
+          # plugin-load time (it only checks whether this var is *set*, not
+          # its value, and sets it itself for any zsh >= 5.0.8). Async mode
+          # forks a subprocess per keystroke to compute the suggestion, which
+          # is expensive enough on WSL2 to be felt as input lag. Since this
+          # check is dynamic (re-evaluated on every keystroke, not just once
+          # at load), unsetting it here — after zplug has already loaded the
+          # plugin and made its own assignment — sticks for the rest of the
+          # session. Must not be set in envExtra/.zshenv: that runs before
+          # zplug load and gets overwritten right back.
+          unset ZSH_AUTOSUGGEST_USE_ASYNC
+
+          # fast-syntax-highlighting's git/docker/hub/lab chromas shell out on
+          # every keystroke (5s cache) to colorize subcommands/branches/refs.
+          # WSL2 process-spawn overhead makes that a visible stall when you
+          # start typing those commands. Disable just those chromas; the rest
+          # of the highlighter (commands, strings, brackets, etc.) stays fast.
+          unset "FAST_HIGHLIGHT[chroma-git]" "FAST_HIGHLIGHT[chroma-docker]" \
+                "FAST_HIGHLIGHT[chroma-hub]" "FAST_HIGHLIGHT[chroma-lab]"
 
           # powerlevel10k config
           [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
