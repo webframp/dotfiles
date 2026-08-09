@@ -14,6 +14,7 @@
     ++ (with outputs.homeManagerModules; [
       zsh
       bat
+      claudeCode
       delta
       direnv
       doom
@@ -56,6 +57,7 @@
   # Shared webframp module configuration
   # Hosts can override specific options as needed
   webframp.bat.enable = true;
+  webframp.claudeCode.enable = true;
   webframp.doom.enable = true;
   webframp.delta.enable = true;
   webframp.direnv = {

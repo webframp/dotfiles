@@ -2,6 +2,7 @@
 # ABOUTME: Import these modules in home configurations to share common settings
 {
   bat = import ./bat.nix;
+  claudeCode = import ./claude-code.nix;
   delta = import ./delta.nix;
   doom = import ./doom.nix;
   direnv = import ./direnv.nix;

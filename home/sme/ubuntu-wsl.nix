@@ -1,10 +1,13 @@
-{...}: {
+{outputs, ...}: {
   imports = [
     ./shared/base.nix
     ./shared/linux.nix
   ];
 
-  nixpkgs.config.allowUnfreePredicate = _: true;
+  nixpkgs = {
+    config.allowUnfreePredicate = _: true;
+    overlays = [outputs.overlays.additions outputs.overlays.modifications];
+  };
 
   home.shellAliases = {yay = "home-manager switch --flake .#sme@ubuntu";};
 

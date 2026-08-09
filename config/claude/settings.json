@@ -1,0 +1,38 @@
+{
+  "model": "sonnet",
+  "statusLine": {
+    "type": "command",
+    "command": "/home/sme/.claude/claude-code-status/statusline.sh"
+  },
+  "enabledPlugins": {
+    "superpowers@superpowers-marketplace": false,
+    "impeccable@impeccable": true,
+    "claude-code-status@webframp": true
+  },
+  "extraKnownMarketplaces": {
+    "impeccable": {
+      "source": {
+        "source": "github",
+        "repo": "pbakaus/impeccable"
+      }
+    },
+    "honeycomb-plugins": {
+      "source": {
+        "source": "github",
+        "repo": "honeycombio/agent-skill"
+      }
+    },
+    "webframp": {
+      "source": {
+        "source": "github",
+        "repo": "webframp/claude-code-status"
+      }
+    }
+  },
+  "effortLevel": "low",
+  "skipDangerousModePermissionPrompt": true,
+  "skipWorkflowUsageWarning": true,
+  "theme": "dark-ansi",
+  "autoCompactEnabled": true,
+  "agentPushNotifEnabled": true
+}
