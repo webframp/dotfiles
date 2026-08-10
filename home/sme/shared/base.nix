@@ -21,6 +21,7 @@
       fzf
       git
       mail
+      pi
       tmux
     ]);
 
@@ -59,6 +60,7 @@
   webframp.bat.enable = true;
   webframp.claudeCode.enable = true;
   webframp.doom.enable = true;
+  webframp.pi.enable = true;
   webframp.delta.enable = true;
   webframp.direnv = {
     enable = true;

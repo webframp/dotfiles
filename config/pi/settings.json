@@ -1,0 +1,12 @@
+{
+  "lastChangelogVersion": "0.83.0",
+  "defaultProvider": "amazon-bedrock",
+  "defaultModel": "us.anthropic.claude-sonnet-5",
+  "defaultThinkingLevel": "high",
+  "theme": "dark",
+  "skills": [
+    "~/.claude/skills",
+    "~/.kiro/skills",
+    "~/.config/opencode/skills"
+  ]
+}
