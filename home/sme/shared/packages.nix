@@ -94,6 +94,7 @@ with tflint-plugins;
     pass-git-helper
     patchelf
     perl
+    pi-coding-agent
     pipx
     podman
     podman-compose
