@@ -11,6 +11,13 @@ in {
     # WSLg Wayland clipboard bridge corrupts non-ASCII; force X11 fallback
     # aka: mojibake
     kiro-cli = "WAYLAND_DISPLAY= command kiro-cli";
+
+    # wsl.interop.includePath is disabled (see hosts/galvatron-wsl/configuration.nix)
+    # to keep the ~40 slow /mnt/c/... 9p-backed dirs out of $PATH, so the few
+    # Windows binaries we do use interactively are referenced by absolute path.
+    "clip.exe" = "/mnt/c/Windows/System32/clip.exe";
+    "explorer.exe" = "/mnt/c/Windows/explorer.exe";
+    "powershell.exe" = "/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe";
   };
 
   # xclip → WSLg bridges to the Windows clipboard with correct UTF-8, so no

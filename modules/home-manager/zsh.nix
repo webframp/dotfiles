@@ -18,6 +18,17 @@ in {
       description = "Enable Emacs vterm shell integration";
     };
 
+    promptTheme = mkOption {
+      type = types.enum ["p10k" "simple"];
+      default = "p10k";
+      description = ''
+        Which prompt to use. "p10k" enables Powerlevel10k (instant prompt,
+        zplug theme, and ~/.p10k.zsh). "simple" uses a minimal built-in
+        zsh prompt (path + git branch via vcs_info, no extra plugin/forks)
+        for comparing startup performance without p10k in the loop.
+      '';
+    };
+
     extraZplugPlugins = mkOption {
       type = types.listOf types.attrs;
       default = [];
@@ -103,11 +114,11 @@ in {
       # See: https://github.com/nix-community/home-manager/pull/6479
       initContent = let
         # Priority 100: p10k instant prompt must be at very top (skip in vterm)
-        p10kInstantPrompt = mkOrder 100 ''
+        p10kInstantPrompt = mkOrder 100 (optionalString (cfg.promptTheme == "p10k") ''
           if [[ "$INSIDE_EMACS" != 'vterm' ]] && [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
             source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
           fi
-        '';
+        '');
 
         vtermIntegration = ''
           # Emacs vterm integration
@@ -181,8 +192,21 @@ in {
           unset "FAST_HIGHLIGHT[chroma-git]" "FAST_HIGHLIGHT[chroma-docker]" \
                 "FAST_HIGHLIGHT[chroma-hub]" "FAST_HIGHLIGHT[chroma-lab]"
 
-          # powerlevel10k config
-          [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+          ${
+            if cfg.promptTheme == "p10k"
+            then ''
+              # powerlevel10k config
+              [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+            ''
+            else ''
+              # Minimal prompt: cwd + git branch, no theme engine/plugin overhead.
+              autoload -Uz vcs_info
+              precmd_functions+=( vcs_info )
+              zstyle ':vcs_info:git:*' formats ' (%b)'
+              setopt PROMPT_SUBST
+              PROMPT='%B%F{blue}%~%f%b%F{green}''${vcs_info_msg_0_}%f %# '
+            ''
+          }
 
           ${cfg.extraInitContent}
         '';
@@ -210,11 +234,11 @@ in {
               name = "webframp/fast-syntax-highlighting";
               tags = ["defer:3" "on:'webframp/zsh-autosuggestions'"];
             }
-            {
-              name = "webframp/powerlevel10k";
-              tags = ["as:theme" "depth:1"];
-            }
           ]
+          ++ optional (cfg.promptTheme == "p10k") {
+            name = "webframp/powerlevel10k";
+            tags = ["as:theme" "depth:1"];
+          }
           ++ cfg.extraZplugPlugins;
       };
     };
@@ -242,6 +266,8 @@ in {
       // cfg.extraShellAliases;
 
     # Powerlevel10k configuration file
-    home.file.".p10k.zsh".source = ../../home/sme/shared/includes/p10k.zsh;
+    home.file = mkIf (cfg.promptTheme == "p10k") {
+      ".p10k.zsh".source = ../../home/sme/shared/includes/p10k.zsh;
+    };
   };
 }

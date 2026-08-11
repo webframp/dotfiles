@@ -33,6 +33,18 @@
     wslConf.automount.root = "/mnt";
     defaultUser = "sme";
     startMenuLaunchers = true;
+
+    # Windows %PATH% otherwise gets appended to $PATH wholesale (see
+    # nixos-wsl's modules/interop.nix), adding ~40 /mnt/c/... entries backed
+    # by the slow 9p/drvfs interop filesystem. fast-syntax-highlighting does
+    # a command-validity check on every keystroke, which for any unrecognized
+    # word means scanning all of $PATH to conclude "not found" -- walking
+    # those slow Windows dirs made every such keystroke cost ~250ms (profiled
+    # via zprof + a wrapped self-insert ZLE widget + tmux round-trip timing).
+    # The handful of Windows binaries actually used interactively (clip.exe,
+    # explorer.exe, powershell.exe, wsl.exe) are referenced by absolute path
+    # instead (see home/sme/galvatron-wsl.nix and restart-wslg below).
+    interop.includePath = false;
   };
 
   nixpkgs = {
