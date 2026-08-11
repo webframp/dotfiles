@@ -29,6 +29,7 @@ with tflint-plugins;
     cspell
     csvkit
 
+    databricks-cli
     deno
     devbox
     dig
