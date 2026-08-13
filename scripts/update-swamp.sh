@@ -1,21 +1,30 @@
 #!/usr/bin/env bash
 # ABOUTME: Updates swamp package to a specific or latest version
-# ABOUTME: Fetches prebuilt binary hashes for all supported platforms
+# ABOUTME: Fetches prebuilt binary tarball hashes for all supported platforms
 
 set -euo pipefail
 
 PKG_FILE="pkgs/swamp/default.nix"
-REPO="swamp-club/swamp"
+BASE_URL="https://artifacts.swamp-club.com/swamp"
 
-# Get version from argument or fetch latest
+# Get version from argument or resolve the "stable" alias
 if [[ -n "${1:-}" ]]; then
     VERSION="$1"
     echo "Target version: $VERSION"
 else
-    echo "Fetching latest release..."
-    # Strip leading 'v' from tag
-    VERSION=$(curl -s "https://api.github.com/repos/$REPO/releases/latest" | jq -r '.tag_name' | sed 's/^v//')
-    echo "Latest version: $VERSION"
+    echo "Resolving stable version..."
+    # The "stable" asset is an S3 website-redirect object; its real
+    # (CalVer) version is exposed via this response header rather than
+    # any JSON/API endpoint.
+    REDIRECT=$(curl -sSI "$BASE_URL/stable/binary/linux/x86_64/swamp-stable-binary-linux-x86_64.tar.gz" \
+        | grep -i '^x-amz-meta-x-amz-website-redirect-location:' \
+        | tr -d '\r')
+    VERSION=$(echo "$REDIRECT" | sed -E 's#.*/swamp/([^/]+)/binary/.*#\1#')
+    if [[ -z "$VERSION" ]]; then
+        echo "Error: Could not resolve stable version from redirect header"
+        exit 1
+    fi
+    echo "Stable version: $VERSION"
 fi
 
 # Current version
@@ -31,15 +40,18 @@ echo ""
 echo "Updating $CURRENT -> $VERSION"
 echo ""
 
-# Platform configs: system and binary suffix (parallel arrays for bash 3.2 compatibility)
+# Platform configs: system and os/cpu path components (parallel arrays for bash 3.2 compatibility)
 SYSTEMS=("x86_64-linux" "aarch64-darwin")
-SUFFIXES=("linux-x86_64" "darwin-aarch64")
+OS_TYPES=("linux" "darwin")
+CPU_TYPES=("x86_64" "aarch64")
 HASHES=()
 
 for i in "${!SYSTEMS[@]}"; do
     system="${SYSTEMS[$i]}"
-    suffix="${SUFFIXES[$i]}"
-    url="https://github.com/$REPO/releases/download/v${VERSION}/swamp-${suffix}"
+    os_type="${OS_TYPES[$i]}"
+    cpu_type="${CPU_TYPES[$i]}"
+    platform="${os_type}-${cpu_type}"
+    url="$BASE_URL/${VERSION}/binary/${os_type}/${cpu_type}/swamp-${VERSION}-binary-${platform}.tar.gz"
 
     echo "Fetching hash for $system..."
 
@@ -49,7 +61,8 @@ for i in "${!SYSTEMS[@]}"; do
         exit 1
     fi
 
-    # Get hash (no --unpack since these are plain binaries)
+    # Get hash of the tarball itself (no --unpack: the derivation fetches
+    # the raw archive and unpacks it during the build, via fetchurl)
     base32_hash=$(nix-prefetch-url "$url" 2>/dev/null)
     sri_hash=$(nix hash convert --hash-algo sha256 --to sri "$base32_hash")
     HASHES+=("$sri_hash")
