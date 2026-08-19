@@ -11,16 +11,16 @@
   ...
 }:
 let
-  version = "2.14.0";
+  version = "2.15.2";
 
   sources = {
     x86_64-linux = {
       url = "https://prod.download.cli.kiro.dev/stable/${version}/kirocli-x86_64-linux.tar.gz";
-      hash = "sha256-MLtai6MR+fmxxngE57vb7jl+eDcAhg4MI1yUpt5NTIA=";
+      hash = "sha256-SjrYjr+mw0sLg0nwcFjXZUSKplofMmlmXvhhP2wQl48=";
     };
     aarch64-darwin = {
       url = "https://prod.download.cli.kiro.dev/stable/${version}/Kiro%20CLI.dmg";
-      hash = "sha256-6ewALk1VOsVG/ai6MG8rCuPDq+bKJfrt8jj2n1IIbuM=";
+      hash = "sha256-F/q0ZmLydY4LXSCT4wt90qh55lUJFar12kpDyVYklEk=";
     };
   };
 
@@ -53,6 +53,8 @@ stdenv.mkDerivation {
     install -Dm755 bin/kiro-cli-term $out/bin/kiro-cli-term
   '' + lib.optionalString stdenv.isDarwin ''
     install -Dm755 "Kiro CLI.app/Contents/MacOS/kiro-cli" $out/bin/kiro-cli
+    install -Dm755 "Kiro CLI.app/Contents/MacOS/kiro-cli-chat" $out/bin/kiro-cli-chat
+    install -Dm755 "Kiro CLI.app/Contents/MacOS/kiro-cli-term" $out/bin/kiro-cli-term
   '' + ''
     runHook postInstall
   '';
