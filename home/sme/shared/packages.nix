@@ -72,7 +72,7 @@ with tflint-plugins;
     jsbeautifier
 
     kind
-    # kiro-cli
+    kiro-cli
     kubectl
     kubernetes-helm
     kustomize

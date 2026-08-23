@@ -1,12 +1,14 @@
 {
+  "env": {
+    "CLAUDE_CODE_DISABLE_EXPLORE_PLAN_AGENTS": "1"
+  },
   "model": "sonnet",
   "statusLine": {
     "type": "command",
     "command": "/home/sme/.claude/claude-code-status/statusline.sh"
   },
   "enabledPlugins": {
-    "superpowers@superpowers-marketplace": false,
-    "impeccable@impeccable": true,
+    "impeccable@impeccable": false,
     "claude-code-status@webframp": true
   },
   "extraKnownMarketplaces": {
