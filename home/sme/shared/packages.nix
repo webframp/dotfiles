@@ -45,6 +45,7 @@ with tflint-plugins;
     fontconfig
 
     antigravity-cli
+    codex
     gh
     git-extras
     git-lfs
