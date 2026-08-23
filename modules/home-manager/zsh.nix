@@ -71,7 +71,7 @@ in {
           [[ -f "''${HOME}/Library/Application Support/kiro-cli/shell/zprofile.pre.zsh" ]] && builtin source "''${HOME}/Library/Application Support/kiro-cli/shell/zprofile.pre.zsh"
 
           # Environment variables
-          . "''${config.home.profileDirectory}/etc/profile.d/hm-session-vars.sh"
+          . "${config.home.profileDirectory}/etc/profile.d/hm-session-vars.sh"
 
           # Only source this once
           if [[ -z "''${__HM_ZSH_SESS_VARS_SOURCED-}" ]]; then
