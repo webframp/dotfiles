@@ -25,6 +25,7 @@ in {
     # Extra packages beyond base.nix (lists merge automatically)
     packages = with pkgs; [
       aws-doctor # custom package
+      curl # macOS ships an old system curl; gptel-bedrock requires >= 8.9
       devcontainer
       emacs-lsp-booster
       mcp-k8s-go # https://github.com/strowk/mcp-k8s-go
