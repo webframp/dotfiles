@@ -5,7 +5,7 @@
   "model": "sonnet",
   "statusLine": {
     "type": "command",
-    "command": "/home/sme/.claude/claude-code-status/statusline.sh"
+    "command": "~/.claude/claude-code-status/statusline.sh"
   },
   "enabledPlugins": {
     "impeccable@impeccable": false,

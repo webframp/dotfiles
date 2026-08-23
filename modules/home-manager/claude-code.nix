@@ -25,5 +25,13 @@ in {
       run mkdir -p "$HOME/.claude"
       run ln -sfn "${target}" "$HOME/.claude/settings.json"
     '';
+
+    # settings.json's statusLine points at this stable, machine-portable
+    # path (~/.claude/claude-code-status/statusline.sh) rather than the
+    # versioned plugin cache path, which changes on every plugin update.
+    home.file.".claude/claude-code-status/statusline.sh" = {
+      source = ../../home/sme/shared/includes/claude-code-status-dispatcher.sh;
+      executable = true;
+    };
   };
 }
