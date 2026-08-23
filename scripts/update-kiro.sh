@@ -35,7 +35,9 @@ VERSIONED_MANIFEST_URL="https://prod.download.cli.kiro.dev/stable/${VERSION}/man
 echo "Fetching manifest for v${VERSION}..."
 MANIFEST=$(curl -s "$VERSIONED_MANIFEST_URL")
 
-if [[ "$(echo "$MANIFEST" | jq -r '.version // empty')" != "$VERSION" ]]; then
+# Validate response is JSON before parsing (versioned URL may return XML error)
+if ! echo "$MANIFEST" | jq -e '.version // empty' >/dev/null 2>&1 || \
+   [[ "$(echo "$MANIFEST" | jq -r '.version // empty')" != "$VERSION" ]]; then
     # Fall back to latest manifest if versioned one doesn't work
     MANIFEST=$(curl -s "$MANIFEST_URL")
     MANIFEST_VERSION=$(echo "$MANIFEST" | jq -r '.version')

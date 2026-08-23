@@ -44,7 +44,7 @@ with tflint-plugins;
     file
     fontconfig
 
-    gemini-cli
+    antigravity-cli
     gh
     git-extras
     git-lfs

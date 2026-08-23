@@ -24,7 +24,7 @@ let
     };
   };
 
-  src = fetchurl (sources.${stdenv.system} // lib.optionalAttrs stdenv.isDarwin {
+  src = fetchurl (sources.${stdenv.system} // lib.optionalAttrs stdenv.hostPlatform.isDarwin {
     name = "kiro-cli-${version}.dmg";
   });
 in
@@ -32,13 +32,13 @@ stdenv.mkDerivation {
   pname = "kiro-cli";
   inherit version src;
 
-  sourceRoot = if stdenv.isLinux then "kirocli" else ".";
+  sourceRoot = if stdenv.hostPlatform.isLinux then "kirocli" else ".";
 
   nativeBuildInputs =
-    lib.optionals stdenv.isLinux [autoPatchelfHook]
-    ++ lib.optionals stdenv.isDarwin [undmg];
+    lib.optionals stdenv.hostPlatform.isLinux [autoPatchelfHook]
+    ++ lib.optionals stdenv.hostPlatform.isDarwin [undmg];
 
-  buildInputs = lib.optionals stdenv.isLinux [
+  buildInputs = lib.optionals stdenv.hostPlatform.isLinux [
     glibc
     gcc.cc.lib
   ];
@@ -47,11 +47,11 @@ stdenv.mkDerivation {
 
   installPhase = ''
     runHook preInstall
-  '' + lib.optionalString stdenv.isLinux ''
+  '' + lib.optionalString stdenv.hostPlatform.isLinux ''
     install -Dm755 bin/kiro-cli $out/bin/kiro-cli
     install -Dm755 bin/kiro-cli-chat $out/bin/kiro-cli-chat
     install -Dm755 bin/kiro-cli-term $out/bin/kiro-cli-term
-  '' + lib.optionalString stdenv.isDarwin ''
+  '' + lib.optionalString stdenv.hostPlatform.isDarwin ''
     install -Dm755 "Kiro CLI.app/Contents/MacOS/kiro-cli" $out/bin/kiro-cli
     install -Dm755 "Kiro CLI.app/Contents/MacOS/kiro-cli-chat" $out/bin/kiro-cli-chat
     install -Dm755 "Kiro CLI.app/Contents/MacOS/kiro-cli-term" $out/bin/kiro-cli-term

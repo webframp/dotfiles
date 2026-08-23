@@ -41,7 +41,7 @@ stdenv.mkDerivation {
     tar -xzf $src -O > swamp
     install -Dm755 swamp $out/libexec/swamp
     makeWrapper $out/libexec/swamp $out/bin/swamp \
-      ${lib.optionalString stdenv.isLinux "--prefix LD_LIBRARY_PATH : ${stdenv.cc.cc.lib}/lib"}
+      ${lib.optionalString stdenv.hostPlatform.isLinux "--prefix LD_LIBRARY_PATH : ${stdenv.cc.cc.lib}/lib"}
     runHook postInstall
   '';
 
