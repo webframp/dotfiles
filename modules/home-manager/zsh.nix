@@ -63,8 +63,32 @@ in {
       AWS_VAULT_BACKEND = "pass";
     };
 
-    # Multi-shell completion generator
-    programs.carapace.enable = true;
+    # Override .zprofile so Kiro CLI pre block is placed first
+    home.file = mkMerge [
+      {
+        ".zprofile".text = mkForce ''
+          # Kiro CLI pre block. Keep at the top of this file.
+          [[ -f "''${HOME}/Library/Application Support/kiro-cli/shell/zprofile.pre.zsh" ]] && builtin source "''${HOME}/Library/Application Support/kiro-cli/shell/zprofile.pre.zsh"
+
+          # Environment variables
+          . "''${config.home.profileDirectory}/etc/profile.d/hm-session-vars.sh"
+
+          # Only source this once
+          if [[ -z "''${__HM_ZSH_SESS_VARS_SOURCED-}" ]]; then
+            export __HM_ZSH_SESS_VARS_SOURCED=1
+          fi
+
+          WORDCHARS='*?[]~=&;!#$%^(){}<>'
+
+          # Kiro CLI post block. Keep at the bottom of this file.
+          [[ -f "''${HOME}/Library/Application Support/kiro-cli/shell/zprofile.post.zsh" ]] && builtin source "''${HOME}/Library/Application Support/kiro-cli/shell/zprofile.post.zsh"
+        '';
+      }
+      # Powerlevel10k configuration file
+      (mkIf (cfg.promptTheme == "p10k") {
+        ".p10k.zsh".source = ../../home/sme/shared/includes/p10k.zsh;
+      })
+    ];
 
     programs.zsh = {
       enable = true;
@@ -84,10 +108,6 @@ in {
         export JSII_SILENCE_WARNING_UNTESTED_NODE_VERSION=true
         export GPG_TTY=''${GPG_TTY:-$(tty 2>/dev/null)}
         ${cfg.extraEnvVars}
-      '';
-
-      profileExtra = ''
-        WORDCHARS='*?[]~=&;!#$%^(){}<>'
       '';
 
       # Cache compinit - only regenerate once per day
@@ -113,6 +133,11 @@ in {
       # Use mkMerge with mkOrder to control content placement
       # See: https://github.com/nix-community/home-manager/pull/6479
       initContent = let
+        kiroPreBlock = mkOrder 50 ''
+          # Kiro CLI pre block. Keep at the top of this file.
+          [[ -f "''${HOME}/Library/Application Support/kiro-cli/shell/zshrc.pre.zsh" ]] && builtin source "''${HOME}/Library/Application Support/kiro-cli/shell/zshrc.pre.zsh"
+        '';
+
         # Priority 100: p10k instant prompt must be at very top (skip in vterm)
         p10kInstantPrompt = mkOrder 100 (optionalString (cfg.promptTheme == "p10k") ''
           if [[ "$INSIDE_EMACS" != 'vterm' ]] && [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
@@ -210,10 +235,17 @@ in {
 
           ${cfg.extraInitContent}
         '';
+
+        kiroPostBlock = mkOrder 2000 ''
+          # Kiro CLI post block. Keep at the bottom of this file.
+          [[ -f "''${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh" ]] && builtin source "''${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh"
+        '';
       in
         mkMerge [
+          kiroPreBlock
           p10kInstantPrompt
           ((optionalString cfg.enableVterm vtermIntegration) + baseConfig)
+          kiroPostBlock
         ];
 
       zplug = {
@@ -264,10 +296,5 @@ in {
         reload = "exec $SHELL -l";
       }
       // cfg.extraShellAliases;
-
-    # Powerlevel10k configuration file
-    home.file = mkIf (cfg.promptTheme == "p10k") {
-      ".p10k.zsh".source = ../../home/sme/shared/includes/p10k.zsh;
-    };
   };
 }

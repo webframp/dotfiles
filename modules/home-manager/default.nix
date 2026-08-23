@@ -8,6 +8,7 @@
   direnv = import ./direnv.nix;
   fzf = import ./fzf.nix;
   git = import ./git.nix;
+  kiroCli = import ./kiro-cli.nix;
   mail = import ./mail.nix;
   pi = import ./pi.nix;
   tmux = import ./tmux.nix;

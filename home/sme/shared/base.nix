@@ -20,6 +20,7 @@
       doom
       fzf
       git
+      kiroCli
       mail
       pi
       tmux
@@ -60,6 +61,7 @@
   webframp.bat.enable = true;
   webframp.claudeCode.enable = true;
   webframp.doom.enable = true;
+  webframp.kiroCli.enable = true;
   webframp.pi.enable = true;
   webframp.delta.enable = true;
   webframp.direnv = {
