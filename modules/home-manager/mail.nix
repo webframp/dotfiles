@@ -161,7 +161,7 @@ in {
         ${pkgs.mu}/bin/mu index 2>/dev/null || true
       '';
 
-    systemd.user.services.protonmail-bridge = mkIf pkgs.stdenv.isLinux {
+    systemd.user.services.protonmail-bridge = mkIf pkgs.stdenv.hostPlatform.isLinux {
       Unit = {
         Description = "Proton Mail Bridge";
         After = ["network-online.target" "gpg-agent.service"];
@@ -194,7 +194,7 @@ in {
       };
     };
 
-    launchd.agents.protonmail-bridge = mkIf pkgs.stdenv.isDarwin {
+    launchd.agents.protonmail-bridge = mkIf pkgs.stdenv.hostPlatform.isDarwin {
       enable = true;
       config = {
         ProgramArguments = ["${pkgs.protonmail-bridge}/bin/protonmail-bridge" "--noninteractive"];

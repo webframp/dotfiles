@@ -39,7 +39,7 @@ in {
   '');
 
   # Darwin-only programs
-  programs.infat.enable = lib.mkIf pkgs.stdenv.isDarwin true;
+  programs.infat.enable = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin true;
 
   programs.jqp = {
     enable = true;

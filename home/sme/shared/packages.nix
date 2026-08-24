@@ -144,7 +144,7 @@ with tflint-plugins;
     zstd
   ]
   # Darwin-specific packages
-  ++ lib.optionals stdenv.isDarwin [
+  ++ lib.optionals stdenv.hostPlatform.isDarwin [
     clang # macOS uses clang; Linux uses gcc
     coreutils-prefixed # prefixed to avoid conflicts with macOS builtins
     glibtool # macOS version of libtool
@@ -155,7 +155,7 @@ with tflint-plugins;
     pngpaste # paste images from clipboard
   ]
   # Linux-specific packages
-  ++ lib.optionals stdenv.isLinux [
+  ++ lib.optionals stdenv.hostPlatform.isLinux [
     azure-cli
     coreutils
 
