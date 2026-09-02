@@ -37,10 +37,11 @@
     fsType = "tmpfs";
   };
 
-  fileSystems."/mnt/wslg/doc" = {
-    device = "none";
-    fsType = "overlay";
-  };
+  # /mnt/wslg/doc is an overlay mount that WSLg sets up itself at boot with
+  # its own lowerdir/upperdir/workdir. A static fstab "overlay/defaults" line
+  # cannot reproduce it (no overlay options => "wrong fs type/bad superblock"),
+  # so declaring it here only produced a failed mount unit and a non-zero
+  # switch-to-configuration exit. Leave it to WSLg.
 
   fileSystems."/mnt/c" = {
     device = "drvfs";
