@@ -32,6 +32,7 @@ in {
     home.file.".claude/claude-code-status/statusline.sh" = {
       source = ../../home/sme/shared/includes/claude-code-status-dispatcher.sh;
       executable = true;
+      force = true;
     };
   };
 }
