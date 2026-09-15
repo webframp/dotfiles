@@ -1,4 +1,8 @@
-{pkgs, ...}: let
+{
+  config,
+  pkgs,
+  ...
+}: let
   gpgKey = "BE06ADB38C7F719D";
 in {
   imports = [
@@ -23,6 +27,16 @@ in {
   # xclip → WSLg bridges to the Windows clipboard with correct UTF-8, so no
   # win32yank.exe (Windows interop) dependency. See tmux.conf clipboard notes.
   webframp.tmux.copyCommand = "xclip -selection clipboard -i";
+
+  # twitch-watcher daemon: runs from the ~/src/webframp/twitch-watcher checkout
+  # (npm install + npm run build required there). Restart=always turns the
+  # daemon's heap-watchdog self-recycle into a clean restart. Non-sensitive env
+  # (HONEYCOMB_API_KEY, browser path overrides) can go in the EnvironmentFile.
+  webframp.twitchWatcher = {
+    enable = true;
+    # winUser defaults to config.home.username ("sme"), which matches C:\Users\sme.
+    environmentFile = "${config.home.homeDirectory}/.config/twitch-watcher/env";
+  };
   webframp.zsh.extraEnvVars = ''
     [ -f ~/.keychain/$(hostname)-sh ] && source ~/.keychain/$(hostname)-sh
   '';

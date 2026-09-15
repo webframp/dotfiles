@@ -24,6 +24,7 @@
       mail
       pi
       tmux
+      twitchWatcher
     ]);
 
   nix = {

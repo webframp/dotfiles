@@ -12,5 +12,6 @@
   mail = import ./mail.nix;
   pi = import ./pi.nix;
   tmux = import ./tmux.nix;
+  twitchWatcher = import ./twitch-watcher.nix;
   zsh = import ./zsh.nix;
 }
