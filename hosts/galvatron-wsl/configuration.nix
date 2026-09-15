@@ -73,7 +73,7 @@
 
     settings = {
       # enable flakes + nix
-      experimental-features = "nix-command flakes";
+      experimental-features = [ "nix-command" "flakes" ];
       auto-optimise-store = true;
       trusted-users = ["root" "sme"];
 
