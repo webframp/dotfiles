@@ -56,8 +56,8 @@
   (setq gptel-magit-commit-prompt gptel-magit-prompt-zed))
 
 ;; MCP Servers
-;; Note: AWS CDK, documentation, and cost tools are provided by Claude Code CLI plugins
-;; (aws-cdk@aws-skills, aws-cost-ops@aws-skills) - no need to duplicate here
+;; Note: documentation and cost tools are provided by Claude Code CLI plugins
+;; (aws-cost-ops@aws-skills) - no need to duplicate here
 (setq mcp-hub-servers
       '(;; https://github.com/modelcontextprotocol/servers/tree/main/src/fetch
         ("fetch" . (:command "uvx"

@@ -13,7 +13,6 @@ with tflint-plugins;
   [
     adr-tools
     alejandra
-    aws-cdk-cli
     aws-doctor
     aws-vault
     awscli2
@@ -22,7 +21,6 @@ with tflint-plugins;
     bash-language-server
     bun
     cachix
-    cdk8s-cli
     claude
     cmake
     coder
