@@ -2,7 +2,7 @@
   "env": {
     "CLAUDE_CODE_DISABLE_EXPLORE_PLAN_AGENTS": "1"
   },
-  "model": "sonnet",
+  "model": "claude-sonnet-5-5",
   "statusLine": {
     "type": "command",
     "command": "~/.claude/claude-code-status/statusline.sh"
