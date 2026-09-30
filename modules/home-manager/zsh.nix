@@ -68,7 +68,8 @@ in {
       {
         ".zprofile".text = mkForce ''
           # Kiro CLI pre block. Keep at the top of this file.
-          [[ -f "''${HOME}/Library/Application Support/kiro-cli/shell/zprofile.pre.zsh" ]] && builtin source "''${HOME}/Library/Application Support/kiro-cli/shell/zprofile.pre.zsh"
+          # Skipped inside tmux: kiro-cli-term hides the running process from tmux window names.
+          [[ -z "$TMUX" && -f "''${HOME}/Library/Application Support/kiro-cli/shell/zprofile.pre.zsh" ]] && builtin source "''${HOME}/Library/Application Support/kiro-cli/shell/zprofile.pre.zsh"
 
           # Environment variables
           . "${config.home.profileDirectory}/etc/profile.d/hm-session-vars.sh"
@@ -81,7 +82,8 @@ in {
           WORDCHARS='*?[]~=&;!#$%^(){}<>'
 
           # Kiro CLI post block. Keep at the bottom of this file.
-          [[ -f "''${HOME}/Library/Application Support/kiro-cli/shell/zprofile.post.zsh" ]] && builtin source "''${HOME}/Library/Application Support/kiro-cli/shell/zprofile.post.zsh"
+          # Skipped inside tmux: kiro-cli-term hides the running process from tmux window names.
+          [[ -z "$TMUX" && -f "''${HOME}/Library/Application Support/kiro-cli/shell/zprofile.post.zsh" ]] && builtin source "''${HOME}/Library/Application Support/kiro-cli/shell/zprofile.post.zsh"
         '';
       }
       # Powerlevel10k configuration file
@@ -135,7 +137,8 @@ in {
       initContent = let
         kiroPreBlock = mkOrder 50 ''
           # Kiro CLI pre block. Keep at the top of this file.
-          [[ -f "''${HOME}/Library/Application Support/kiro-cli/shell/zshrc.pre.zsh" ]] && builtin source "''${HOME}/Library/Application Support/kiro-cli/shell/zshrc.pre.zsh"
+          # Skipped inside tmux: kiro-cli-term hides the running process from tmux window names.
+          [[ -z "$TMUX" && -f "''${HOME}/Library/Application Support/kiro-cli/shell/zshrc.pre.zsh" ]] && builtin source "''${HOME}/Library/Application Support/kiro-cli/shell/zshrc.pre.zsh"
         '';
 
         # Priority 100: p10k instant prompt must be at very top (skip in vterm)
@@ -238,7 +241,8 @@ in {
 
         kiroPostBlock = mkOrder 2000 ''
           # Kiro CLI post block. Keep at the bottom of this file.
-          [[ -f "''${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh" ]] && builtin source "''${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh"
+          # Skipped inside tmux: kiro-cli-term hides the running process from tmux window names.
+          [[ -z "$TMUX" && -f "''${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh" ]] && builtin source "''${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh"
         '';
       in
         mkMerge [
