@@ -4,12 +4,14 @@
   config,
   lib,
   pkgs,
+  inputs,
   outputs,
   ...
 }: {
   imports =
     [
       ./programs.nix
+      inputs.shelly-herdr.homeManagerModules.default
     ]
     ++ (with outputs.homeManagerModules; [
       zsh
@@ -20,6 +22,7 @@
       doom
       fzf
       git
+      herdr
       kiroCli
       mail
       pi
@@ -62,6 +65,8 @@
   webframp.bat.enable = true;
   webframp.claudeCode.enable = true;
   webframp.doom.enable = true;
+  webframp.herdr.enable = true;
+  programs.shelly-herdr.enable = true;
   webframp.kiroCli.enable = true;
   webframp.pi.enable = true;
   webframp.delta.enable = true;
