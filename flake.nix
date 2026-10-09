@@ -25,6 +25,13 @@
     # emacs overlay
     emacs-overlay.url = "github:nix-community/emacs-overlay";
     emacs-overlay.inputs.nixpkgs.follows = "nixpkgs";
+
+    # herdr: terminal workspace manager for AI coding agents
+    herdr.url = "github:herdrdev/herdr/v0.9.3";
+
+    # shelly-herdr: exe.dev Shelley conversations as native herdr agents
+    shelly-herdr.url = "github:webframp/shelly-herdr";
+    shelly-herdr.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = {
