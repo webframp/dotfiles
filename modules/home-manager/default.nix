@@ -1,6 +1,7 @@
 # ABOUTME: Reusable home-manager modules for this flake
 # ABOUTME: Import these modules in home configurations to share common settings
 {
+  agentSkills = import ./agent-skills.nix;
   bat = import ./bat.nix;
   claudeCode = import ./claude-code.nix;
   delta = import ./delta.nix;

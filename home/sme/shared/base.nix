@@ -15,6 +15,7 @@
     ]
     ++ (with outputs.homeManagerModules; [
       zsh
+      agentSkills
       bat
       claudeCode
       delta
@@ -62,6 +63,10 @@
 
   # Shared webframp module configuration
   # Hosts can override specific options as needed
+  webframp.agentSkills = {
+    enable = true;
+    skills = ["writing-editorial"];
+  };
   webframp.bat.enable = true;
   webframp.claudeCode.enable = true;
   webframp.doom.enable = true;
