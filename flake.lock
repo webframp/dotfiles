@@ -209,7 +209,7 @@
         "nix-darwin": "nix-darwin",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs_3",
-        "shelly-herdr": "shelly-herdr"
+        "shelley-herdr": "shelley-herdr"
       }
     },
     "rust-overlay": {
@@ -233,23 +233,23 @@
         "type": "github"
       }
     },
-    "shelly-herdr": {
+    "shelley-herdr": {
       "inputs": {
         "nixpkgs": [
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1791579000,
-        "narHash": "sha256-YX1EGAhtNsZznSY4qm/FkjT9NUY6JI/NdpqpqZe2Hn0=",
+        "lastModified": 1791602967,
+        "narHash": "sha256-40N78gMxx8wFO3sjtGh/NseYEz/Y5rCCP36VM5IKljc=",
         "owner": "webframp",
-        "repo": "shelly-herdr",
-        "rev": "2a00130f4e6d86c91a2b56737a4013e50455a551",
+        "repo": "shelley-herdr",
+        "rev": "8cf9e41e6f585015ad1e887c68aa8d8ccadcdf09",
         "type": "github"
       },
       "original": {
         "owner": "webframp",
-        "repo": "shelly-herdr",
+        "repo": "shelley-herdr",
         "type": "github"
       }
     },

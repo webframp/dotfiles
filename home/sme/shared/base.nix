@@ -11,7 +11,7 @@
   imports =
     [
       ./programs.nix
-      inputs.shelly-herdr.homeManagerModules.default
+      inputs.shelley-herdr.homeManagerModules.default
     ]
     ++ (with outputs.homeManagerModules; [
       zsh
@@ -66,7 +66,7 @@
   webframp.claudeCode.enable = true;
   webframp.doom.enable = true;
   webframp.herdr.enable = true;
-  programs.shelly-herdr.enable = true;
+  programs.shelley-herdr.enable = true;
   webframp.kiroCli.enable = true;
   webframp.pi.enable = true;
   webframp.delta.enable = true;

@@ -70,10 +70,10 @@ width = "80%"
 height = "60%"
 command = "\"$HERDR_BIN_PATH\" pane read \"$HERDR_ACTIVE_PANE_ID\" --source recent-unwrapped --lines 2000 | grep -oE 'https?://[^[:space:]\"<>]+' | sort -u | fzf --tac | xargs -r @opener@"
 
-# Shelley on exe.dev VMs (webframp/shelly-herdr plugin): VM/conversation picker.
+# Shelley on exe.dev VMs (webframp/shelley-herdr plugin): VM/conversation picker.
 # Needs the plugin registered once: `herdr plugin link <path to plugin>`.
 [[keys.command]]
 key = "prefix+a"
 type = "plugin_action"
-command = "webframp.shelly.open"
+command = "webframp.shelley.open"
 description = "Shelley on an exe.dev VM"
