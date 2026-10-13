@@ -1,5 +1,5 @@
 # ABOUTME: Herdr terminal workspace manager package and config.toml
-# ABOUTME: Generates config.toml from Nix and templates the URL opener per host
+# ABOUTME: Generates config.toml from Nix, including fzf project and agent-worktree popups
 {
   config,
   lib,
@@ -9,6 +9,21 @@
 }: let
   cfg = config.webframp.herdr;
   toml = pkgs.formats.toml {};
+
+  herdr-launch = pkgs.writeShellApplication {
+    name = "herdr-launch";
+    runtimeInputs = with pkgs; [coreutils fd fzf git jq zoxide];
+    text = builtins.readFile ../../home/sme/shared/includes/herdr-launch.sh;
+  };
+
+  # Popup commands run through a shell, so export the module's settings inline.
+  launch = args:
+    lib.concatStringsSep " " [
+      "HERDR_PROJECT_ROOTS=${lib.escapeShellArg (lib.concatStringsSep ":" cfg.projectRoots)}"
+      "HERDR_WORKTREES_DIR=${lib.escapeShellArg cfg.worktreesDirectory}"
+      (lib.getExe herdr-launch)
+      args
+    ];
 in {
   options.webframp.herdr = {
     enable = lib.mkEnableOption "herdr terminal workspace manager";
@@ -20,6 +35,24 @@ in {
         then "open"
         else "xdg-open";
       description = "Command the prefix+u URL popup passes selected URLs to (e.g. wslview for WSL)";
+    };
+
+    projectRoots = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = ["~/src"];
+      description = "Directories searched for git repos by the prefix+f project picker, after zoxide's history";
+    };
+
+    agentKinds = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = ["claude" "codex" "kiro" "pi"];
+      description = "herdr agent kinds offered by prefix+shift+a, first is preselected";
+    };
+
+    worktreesDirectory = lib.mkOption {
+      type = lib.types.str;
+      default = "~/.herdr/worktrees";
+      description = "Root for herdr-created git worktrees (<dir>/<repo>/<branch-slug>)";
     };
 
     settings = lib.mkOption {
@@ -41,6 +74,8 @@ in {
       theme.name = "dracula"; # built-in; replaces the dracula tmux plugin
 
       terminal.new_cwd = "follow";
+
+      worktrees.directory = cfg.worktreesDirectory;
 
       ui = {
         tab_bar_position = "bottom"; # tmux status line position
@@ -104,6 +139,24 @@ in {
             width = "80%";
             height = "60%";
             command = ''"$HERDR_BIN_PATH" pane read "$HERDR_ACTIVE_PANE_ID" --source recent-unwrapped --lines 2000 | grep -oE 'https?://[^[:space:]"<>]+' | sort -u | fzf --tac | xargs -r ${cfg.urlOpener}'';
+          }
+          # Project workspace from a recency-ranked fzf list (zoxide, then projectRoots).
+          {
+            key = "prefix+f";
+            type = "popup";
+            description = "open project workspace";
+            width = "80%";
+            height = "60%";
+            command = launch "project";
+          }
+          # New agent in its own git worktree, grouped under the active repo.
+          {
+            key = "prefix+shift+a";
+            type = "popup";
+            description = "agent in new worktree";
+            width = "60%";
+            height = "40%";
+            command = launch "agent ${lib.escapeShellArgs cfg.agentKinds}";
           }
           # Shelley on exe.dev VMs (webframp/shelley-herdr plugin): VM/conversation picker.
           # Needs the plugin registered once: `herdr plugin link <path to plugin>`.
