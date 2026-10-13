@@ -2,8 +2,8 @@
 
 ## Starter prompt (paste this to begin the next session)
 
-> I'm replacing tmux with herdr (v0.9.3). The config lives in
-> `home/sme/shared/includes/herdr.toml` and `modules/home-manager/herdr.nix`
+> I'm replacing tmux with herdr (v0.9.3). The config is generated from
+> `webframp.herdr.settings` in `modules/home-manager/herdr.nix`
 > (ported from `modules/home-manager/tmux.nix` and
 > `home/sme/shared/includes/tmux.conf`). `prefix+u` (URL popup) is tested and
 > works. I don't care about resurrect-style session restore. Copy/paste is the
@@ -68,7 +68,7 @@
 - No `tmux-thumbs` equivalent (hint-based copy of paths, hashes, IPs).
 - No `prefix+y`.
 - No rectangle selection found.
-- Current herdr.toml remaps: prefix `ctrl+j`, detach `prefix+d`, resize on
+- Current herdr config remaps: prefix `ctrl+j`, detach `prefix+d`, resize on
   `prefix+shift+hjkl`, swap on `prefix+alt+hjkl`. herdr's docs and `prefix+?`
   show the defaults, so they will disagree with this config.
 
@@ -112,7 +112,7 @@ Use text with unicode, e.g. `héllo → 世界`.
 
 ## Files
 
-- `home/sme/shared/includes/herdr.toml` — herdr config (staged)
-- `modules/home-manager/herdr.nix` — module, with `webframp.herdr.urlOpener`
+- `modules/home-manager/herdr.nix` — module; config.toml is generated from `webframp.herdr.settings`
+- `home/sme/shared/includes/herdr-launch.sh` — `prefix+f` project picker and `prefix+shift+a` agent-worktree popups
 - `home/sme/shared/includes/tmux.conf`, `modules/home-manager/tmux.nix` — what's
   being ported (clipboard section: lines 16–17, 38–45, 66–72)

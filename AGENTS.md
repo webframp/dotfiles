@@ -50,6 +50,7 @@ This namespace is defined in each module via `options.webframp.<module>` and `co
 | `fzf.nix` | Fuzzy finding with bat/eza previews | `enable` only |
 | `git.nix` | Git config with aliases, signing, user identity | `enable`, `credentialHelper` (optional) |
 | `tmux.nix` | Tmux with dracula theme, resurrect/continuum | `enable`, `enableOrgCapture` (macOS), `terminal` (WSL/NixOS) |
+| `herdr.nix` | Herdr workspace manager; generates `config.toml` from Nix, plus fzf project and agent-worktree popups | `enable`, `settings`, `urlOpener`, `projectRoots`, `agentKinds`, `worktreesDirectory` |
 
 ### Per-Host Configuration (NOT extractable)
 
@@ -117,6 +118,10 @@ Run `make bump PKG=<name>` to update a prebuilt-binary package and converge in o
 - `CLEAN=<age>` runs `clean-generations` + `clean` afterward (e.g. `make bump PKG=swamp CLEAN=5d`).
 
 Adding a new prebuilt-binary package means adding a matching `scripts/update-<name>.sh`. The `swamp`/`coder`/`kiro` scripts are the pattern: they fetch release-asset hashes per platform and edit portably. The generic `pkg-bump` (`scripts/bump-pkg.sh`) is a different tool — it assumes a `fetchFromGitHub` source build and uses BSD `sed`, so it is macOS-only and does not apply to these binary packages.
+
+### Herdr keybindings are documented in README.org
+
+`README.org` has a Herdr section with a table of the custom bindings: only those that differ from herdr's defaults. When you add, remove, or remap a binding in `modules/home-manager/herdr.nix`, update that table in the same change. Apply config changes to a running herdr with `herdr server reload-config`; no restart is needed.
 
 ### Doom `+local.el` is per-machine
 

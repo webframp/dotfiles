@@ -172,6 +172,39 @@ The module includes optimizations for faster shell startup:
 
 Measure startup time with: ~make zsh-bench~
 
+** Herdr
+~modules/home-manager/herdr.nix~ generates ~config.toml~ from ~webframp.herdr.settings~; the popup scripts live in ~home/sme/shared/includes/herdr-launch.sh~.
+After ~make switch~ (or ~make nixos-switch~), run ~herdr server reload-config~ to apply changes without restarting panes, and ~herdr config check~ if a binding doesn't appear.
+
+Herdr organizes work as workspace → tab → pane. A workspace is the per-project unit, roughly a tmux session; a herdr "session" is a separate server.
+Git worktrees open as child workspaces grouped under their repo's workspace.
+
+*** Custom keybindings
+The prefix is ~C-j~. This table lists only bindings that differ from herdr's defaults; ~prefix ?~ shows the full live list.
+Update it whenever the bindings in ~herdr.nix~ change.
+
+| Key                            | Action                        | tmux origin           | Notes                                                        |
+|--------------------------------+-------------------------------+-----------------------+--------------------------------------------------------------|
+| ~C-j~                          | prefix                        | ~shortcut = "j"~      | herdr default is ~C-b~                                       |
+| ~prefix d~                     | detach                        | tmux default          | herdr default is ~q~                                         |
+| ~prefix \vert~ ~\~ ~v~         | split side by side            | pain-control          |                                                              |
+| ~prefix -~ ~_~                 | split stacked                 | pain-control          |                                                              |
+| ~prefix H~ ~J~ ~K~ ~L~         | resize pane                   | pain-control          | herdr puts swap here by default                              |
+| ~prefix M-h~ ~M-j~ ~M-k~ ~M-l~ | swap pane                     | none                  | moved off ~shift+hjkl~                                       |
+| ~prefix C-h~ ~C-l~             | previous / next tab           | ~bind -r C-h~ / ~C-l~ | also ~p~ / ~n~; no key repeat                                |
+| ~prefix Tab~                   | last pane                     | ~last-window~         | crosses tabs and workspaces                                  |
+| ~prefix Space~ ~M-Space~       | cycle panes forward / back    | none                  |                                                              |
+| ~prefix o~ ~S-Tab~             | jump to notification          | ~BTab~ tmux-jump-bell |                                                              |
+| ~prefix g~ ~B~                 | agent picker                  | ~B~ tmux-jump-bell    | press ~b~ to filter blocked agents                           |
+| ~prefix u~                     | open URL from pane            | fzf-tmux-url          | opener is ~webframp.herdr.urlOpener~                         |
+| ~prefix f~                     | open project workspace        | none                  | zoxide recency, then repos under ~projectRoots~              |
+| ~prefix A~                     | new agent in its own worktree | none                  | kinds from ~agentKinds~; checkout under ~worktreesDirectory~ |
+| ~prefix a~                     | Shelley on an exe.dev VM      | none                  | needs ~herdr plugin link~ once                               |
+
+~prefix f~ focuses the repo's workspace if one is already open.
+~prefix A~ works from the main checkout or any of its worktrees.
+Closing a worktree workspace leaves the checkout and branch on disk; remove the checkout with "Delete worktree checkout..." in the sidebar or ~herdr worktree remove --workspace ID~. Branches are never deleted.
+
 ** References
 - https://zero-to-nix.com/
 - https://github.com/Misterio77/nix-starter-configs
