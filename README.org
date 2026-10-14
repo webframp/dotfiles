@@ -203,7 +203,7 @@ Update it whenever the bindings in ~herdr.nix~ change.
 | ~prefix a~                     | Shelley on an exe.dev VM      | none                  | needs ~herdr plugin link~ once                               |
 
 ~prefix f~ focuses the repo's workspace if one is already open.
-~prefix A~ works from the main checkout or any of its worktrees.
+~prefix A~ works from the main checkout or any of its worktrees. Its ~args:~ prompt is prefilled from ~webframp.herdr.agentArgs~; clear or extend it per launch.
 Closing a worktree workspace leaves the checkout and branch on disk; remove the checkout with "Delete worktree checkout..." in the sidebar or ~herdr worktree remove --workspace ID~. Branches are never deleted.
 
 ** References

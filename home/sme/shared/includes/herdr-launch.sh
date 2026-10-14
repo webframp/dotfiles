@@ -4,9 +4,10 @@
 #   herdr-launch project   pick a directory (zoxide frecency first, then git
 #                          repos under HERDR_PROJECT_ROOTS) and focus or open
 #                          a workspace on it
-#   herdr-launch agent KIND...
+#   herdr-launch agent 'KIND [ARG...]'...
 #                          pick an agent kind, create a git worktree off the
-#                          active repo, and start the agent in it
+#                          active repo, and start the agent in it with ARGs
+#                          (editable before launch)
 #   herdr-launch attention focus the unfocused agent that most recently
 #                          became blocked, else most recently finished
 #   herdr-launch paste     paste stdin into the active pane, bracketed so
@@ -73,8 +74,9 @@ cmd_project() {
 }
 
 cmd_agent() {
-  [ $# -gt 0 ] || fail "usage: herdr-launch agent KIND..."
-  local cwd common root kind default branch name out pane
+  [ $# -gt 0 ] || fail "usage: herdr-launch agent 'KIND [ARG...]'..."
+  local cwd common root pick kind args default branch name out pane
+  local -a argv
   cwd=${HERDR_ACTIVE_PANE_CWD:-$PWD}
 
   # herdr only creates worktrees from the primary checkout, so resolve it
@@ -84,10 +86,16 @@ cmd_agent() {
   [ "$(basename "$common")" = .git ] || fail "unsupported repository layout: $common"
   root=$(dirname "$common")
 
-  kind=$(printf '%s\n' "$@" | fzf --prompt="agent in $(basename "$root")> " --no-sort) || exit 0
+  pick=$(printf '%s\n' "$@" | fzf --prompt="agent in $(basename "$root")> " --no-sort) || exit 0
+  kind=${pick%% *}
+  args=
+  [[ $pick == *' '* ]] && args=${pick#* }
   default="$kind/$(date +%m%d-%H%M)"
   read -rei "$default" -p 'branch: ' branch || exit 0
   branch=${branch:-$default}
+  # Split on whitespace: enough for flags, no quoted arguments.
+  read -rei "$args" -p 'args: ' args || exit 0
+  read -ra argv <<<"$args"
 
   # Agent names must match [a-z][a-z0-9_-]{0,31}.
   name=$(printf '%s' "$branch" | tr '[:upper:]' '[:lower:]' | tr -c 'a-z0-9_-' '-')
@@ -96,7 +104,7 @@ cmd_agent() {
 
   out=$(call worktree create --cwd "$root" --branch "$branch" --label "$branch" --focus)
   pane=$(jq -r '.result.root_pane.pane_id' <<<"$out")
-  call agent start "$name" --kind "$kind" --pane "$pane" >/dev/null
+  call agent start "$name" --kind "$kind" --pane "$pane" -- "${argv[@]}" >/dev/null
 }
 
 # Runs detached (type = "shell"), so report through herdr, not the terminal.
@@ -127,5 +135,5 @@ case ${1:-} in
   agent) shift; cmd_agent "$@" ;;
   attention) cmd_attention ;;
   paste) cmd_paste ;;
-  *) fail "usage: herdr-launch {project|agent KIND...|attention|paste}" ;;
+  *) fail "usage: herdr-launch {project|agent 'KIND [ARG...]'...|attention|paste}" ;;
 esac

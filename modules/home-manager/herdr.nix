@@ -58,6 +58,17 @@ in {
       description = "herdr agent kinds offered by prefix+shift+a, first is preselected";
     };
 
+    agentArgs = lib.mkOption {
+      type = lib.types.attrsOf (lib.types.listOf lib.types.str);
+      default = {
+        claude = ["--dangerously-skip-permissions"];
+        codex = ["--dangerously-bypass-approvals-and-sandbox"];
+        kiro = ["--v3"];
+        pi = ["--approve"]; # pi never gates tools; this skips the project-local trust prompt
+      };
+      description = "Default CLI args per agent kind, prefilled in the prefix+shift+a popup's editable args prompt";
+    };
+
     worktreesDirectory = lib.mkOption {
       type = lib.types.str;
       default = "~/.herdr/worktrees";
@@ -172,7 +183,7 @@ in {
             description = "agent in new worktree";
             width = "60%";
             height = "40%";
-            command = launch "agent ${lib.escapeShellArgs cfg.agentKinds}";
+            command = launch "agent ${lib.escapeShellArgs (map (k: lib.concatStringsSep " " ([k] ++ cfg.agentArgs.${k} or [])) cfg.agentKinds)}";
           }
           # tmux-jump-bell replacement: latest blocked agent, else latest finished one.
           # open_notification_target only sees in-app toasts, which ui.toast.delivery skips.
