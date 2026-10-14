@@ -65,7 +65,7 @@
   # Hosts can override specific options as needed
   webframp.agentSkills = {
     enable = true;
-    skills = ["writing-editorial"];
+    skills = ["writing-editorial" "hostile-code-analysis" "pre-push-review" "triage"];
   };
   webframp.bat.enable = true;
   webframp.claudeCode.enable = true;
