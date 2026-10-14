@@ -37,6 +37,15 @@ in {
       description = "Command the prefix+u URL popup passes selected URLs to (e.g. wslview for WSL)";
     };
 
+    pasteCommand = lib.mkOption {
+      type = lib.types.str;
+      default =
+        if pkgs.stdenv.hostPlatform.isDarwin
+        then "pbpaste"
+        else "xclip -o -selection clipboard";
+      description = "Command that prints the system clipboard for the prefix+] paste binding";
+    };
+
     projectRoots = lib.mkOption {
       type = lib.types.listOf lib.types.str;
       default = ["~/src"];
@@ -126,8 +135,8 @@ in {
         cycle_pane_previous = "prefix+alt+space";
 
         # bind B / BTab tmux-jump-bell -> herdr's native agent attention model.
-        # BTab jumps to the visible notification; B opens the picker (press `b` for blocked).
-        open_notification_target = ["prefix+o" "prefix+shift+tab"];
+        # B opens the picker (press `b` for blocked); BTab is the attention command below.
+        open_notification_target = "prefix+o";
         goto = ["prefix+g" "prefix+B"];
 
         command = [
@@ -139,6 +148,13 @@ in {
             width = "80%";
             height = "60%";
             command = ''"$HERDR_BIN_PATH" pane read "$HERDR_ACTIVE_PANE_ID" --source recent-unwrapped --lines 2000 | grep -oE 'https?://[^[:space:]"<>]+' | sort -u | fzf --tac | xargs -r ${cfg.urlOpener}'';
+          }
+          # tmux paste-buffer habit. herdr has no paste buffer, so paste the system clipboard.
+          {
+            key = "prefix+]";
+            type = "shell";
+            description = "paste clipboard";
+            command = "${cfg.pasteCommand} | ${launch "paste"}";
           }
           # Project workspace from a recency-ranked fzf list (zoxide, then projectRoots).
           {
@@ -157,6 +173,14 @@ in {
             width = "60%";
             height = "40%";
             command = launch "agent ${lib.escapeShellArgs cfg.agentKinds}";
+          }
+          # tmux-jump-bell replacement: latest blocked agent, else latest finished one.
+          # open_notification_target only sees in-app toasts, which ui.toast.delivery skips.
+          {
+            key = "prefix+shift+tab";
+            type = "shell";
+            description = "jump to agent needing attention";
+            command = launch "attention";
           }
           # Shelley on exe.dev VMs (webframp/shelley-herdr plugin): VM/conversation picker.
           # Needs the plugin registered once: `herdr plugin link <path to plugin>`.

@@ -7,6 +7,10 @@
 #   herdr-launch agent KIND...
 #                          pick an agent kind, create a git worktree off the
 #                          active repo, and start the agent in it
+#   herdr-launch attention focus the unfocused agent that most recently
+#                          became blocked, else most recently finished
+#   herdr-launch paste     paste stdin into the active pane, bracketed so
+#                          shells and agents treat it as one paste
 
 herdr=${HERDR_BIN_PATH:-herdr}
 project_roots=${HERDR_PROJECT_ROOTS:-$HOME/src}
@@ -95,8 +99,33 @@ cmd_agent() {
   call agent start "$name" --kind "$kind" --pane "$pane" >/dev/null
 }
 
+# Runs detached (type = "shell"), so report through herdr, not the terminal.
+cmd_attention() {
+  local target
+  target=$("$herdr" agent list 2>/dev/null | jq -r '
+    [.result.agents[]? | select((.focused | not) and (.agent_status == "blocked" or .agent_status == "done"))]
+    | sort_by([.agent_status == "blocked", .state_change_seq]) | last | .pane_id // empty') || true
+  if [ -n "$target" ]; then
+    "$herdr" agent focus "$target" >/dev/null
+  else
+    "$herdr" notification show "No agents need attention" >/dev/null
+  fi
+}
+
+# Runs detached (type = "shell") with the clipboard on stdin.
+cmd_paste() {
+  local text
+  text=$(cat)
+  [ -n "$text" ] || return 0
+  # Drop an embedded end marker so pasted text can't end the paste early.
+  text=${text//$'\e[201~'/}
+  "$herdr" pane send-text "${HERDR_ACTIVE_PANE_ID:?}" $'\e[200~'"$text"$'\e[201~' >/dev/null
+}
+
 case ${1:-} in
   project) shift; cmd_project "$@" ;;
   agent) shift; cmd_agent "$@" ;;
-  *) fail "usage: herdr-launch {project|agent KIND...}" ;;
+  attention) cmd_attention ;;
+  paste) cmd_paste ;;
+  *) fail "usage: herdr-launch {project|agent KIND...|attention|paste}" ;;
 esac
