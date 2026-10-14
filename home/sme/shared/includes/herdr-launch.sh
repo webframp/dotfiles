@@ -12,6 +12,10 @@
 #                          became blocked, else most recently finished
 #   herdr-launch paste     paste stdin into the active pane, bracketed so
 #                          shells and agents treat it as one paste
+#   herdr-launch tab-name SEQ LABEL [KNOWN...]
+#                          rename the active pane's tab to LABEL unless a
+#                          later SEQ already ran, or the tab has a manual name:
+#                          neither its default number nor KNOWN
 
 herdr=${HERDR_BIN_PATH:-herdr}
 project_roots=${HERDR_PROJECT_ROOTS:-$HOME/src}
@@ -130,10 +134,39 @@ cmd_paste() {
   "$herdr" pane send-text "${HERDR_ACTIVE_PANE_ID:?}" $'\e[200~'"$text"$'\e[201~' >/dev/null
 }
 
+# Runs detached from zsh hooks (herdr-tab-name.zsh), so failures stay silent.
+# Hooks fire faster than renames finish, so a per-pane lock and the hook's
+# timestamp (SEQ) drop renames that a later hook already superseded.
+cmd_tab_name() {
+  local seq=$1 new=$2 state last tab label known ours=
+  shift 2
+  state=${XDG_RUNTIME_DIR:-${TMPDIR:-/tmp}}/herdr-tab-name
+  mkdir -p "$state"
+  state=$state/${HERDR_PANE_ID//[^A-Za-z0-9]/_}
+  exec 9>>"$state.lock"
+  flock 9
+  last=$(cat "$state" 2>/dev/null || true)
+  [ "${last:-0}" -lt "$seq" ] || return 0
+  printf '%s\n' "$seq" >"$state"
+
+  tab=$("$herdr" pane get "${HERDR_PANE_ID:-}" 2>/dev/null | jq -r '.result.pane.tab_id // empty') || return 0
+  [ -n "$tab" ] || return 0
+  label=$("$herdr" tab get "$tab" 2>/dev/null | jq -r '.result.tab.label // empty') || return 0
+  [ "$label" != "$new" ] || return 0
+  if ! [[ $label =~ ^[0-9]+$ ]]; then
+    for known; do
+      if [ "$label" = "$known" ]; then ours=1; fi
+    done
+    [ -n "$ours" ] || return 0
+  fi
+  "$herdr" tab rename "$tab" "$new" >/dev/null 2>&1 || true
+}
+
 case ${1:-} in
   project) shift; cmd_project "$@" ;;
   agent) shift; cmd_agent "$@" ;;
   attention) cmd_attention ;;
   paste) cmd_paste ;;
-  *) fail "usage: herdr-launch {project|agent 'KIND [ARG...]'...|attention|paste}" ;;
+  tab-name) shift; cmd_tab_name "$@" ;;
+  *) fail "usage: herdr-launch {project|agent 'KIND [ARG...]'...|attention|paste|tab-name SEQ LABEL [KNOWN...]}" ;;
 esac

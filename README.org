@@ -204,6 +204,7 @@ Update it whenever the bindings in ~herdr.nix~ change.
 
 ~prefix f~ focuses the repo's workspace if one is already open.
 ~prefix A~ works from the main checkout or any of its worktrees. Its ~args:~ prompt is prefilled from ~webframp.herdr.agentArgs~; clear or extend it per launch.
+Tabs take the name of the command running in their zsh pane, and ~zsh~ at an idle prompt, like tmux ~automatic-rename~ (~webframp.herdr.autoRenameTabs~). A tab you rename with ~prefix T~ keeps its name.
 Closing a worktree workspace leaves the checkout and branch on disk; remove the checkout with "Delete worktree checkout..." in the sidebar or ~herdr worktree remove --workspace ID~. Branches are never deleted.
 
 ** References

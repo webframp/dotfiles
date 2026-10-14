@@ -12,7 +12,7 @@
 
   herdr-launch = pkgs.writeShellApplication {
     name = "herdr-launch";
-    runtimeInputs = with pkgs; [coreutils fd fzf git jq zoxide];
+    runtimeInputs = with pkgs; [coreutils fd flock fzf git jq zoxide];
     text = builtins.readFile ../../home/sme/shared/includes/herdr-launch.sh;
   };
 
@@ -67,6 +67,12 @@ in {
         pi = ["--approve"]; # pi never gates tools; this skips the project-local trust prompt
       };
       description = "Default CLI args per agent kind, prefilled in the prefix+shift+a popup's editable args prompt";
+    };
+
+    autoRenameTabs = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Name tabs after the command running in their zsh panes, and \"zsh\" at an idle prompt. Manually named tabs are left alone";
     };
 
     worktreesDirectory = lib.mkOption {
@@ -204,6 +210,12 @@ in {
         ];
       };
     };
+
+    # tmux automatic-rename has no herdr equivalent, so zsh hooks rename the tab.
+    programs.zsh.initContent = lib.mkIf cfg.autoRenameTabs (
+      builtins.replaceStrings ["@herdr_launch@"] [(lib.getExe herdr-launch)]
+      (builtins.readFile ../../home/sme/shared/includes/herdr-tab-name.zsh)
+    );
 
     xdg.configFile."herdr/config.toml".source = toml.generate "herdr-config.toml" cfg.settings;
   };
