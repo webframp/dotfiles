@@ -37,6 +37,15 @@ in {
       description = "Command the prefix+u URL popup passes selected URLs to (e.g. wslview for WSL)";
     };
 
+    copyCommand = lib.mkOption {
+      type = lib.types.str;
+      default =
+        if pkgs.stdenv.hostPlatform.isDarwin
+        then "pbcopy"
+        else "xclip -i -selection clipboard";
+      description = "Command that writes stdin to the system clipboard, for the prefix+Y yank binding";
+    };
+
     pasteCommand = lib.mkOption {
       type = lib.types.str;
       default =
@@ -172,6 +181,13 @@ in {
             type = "shell";
             description = "paste clipboard";
             command = "${cfg.pasteCommand} | ${launch "paste"}";
+          }
+          # Yank the active pane's directory. xclip lingers to serve the selection, so detach its output.
+          {
+            key = "prefix+shift+y";
+            type = "shell";
+            description = "copy pane directory";
+            command = ''dir=''${HERDR_ACTIVE_PANE_CWD:-$PWD}; printf '%s' "$dir" | ${cfg.copyCommand} >/dev/null 2>&1 && "$HERDR_BIN_PATH" notification show "Copied $dir" >/dev/null'';
           }
           # Project workspace from a recency-ranked fzf list (zoxide, then projectRoots).
           {

@@ -197,6 +197,7 @@ Update it whenever the bindings in ~herdr.nix~ change.
 | ~prefix S-Tab~                 | jump to agent needing attention | ~BTab~ tmux-jump-bell | latest blocked, else latest done; ~prefix o~ needs an in-app toast |
 | ~prefix g~ ~B~                 | agent picker                  | ~B~ tmux-jump-bell    | press ~b~ to filter blocked agents                           |
 | ~prefix ]~                     | paste clipboard               | ~paste-buffer~        | herdr has no paste buffer; command is ~webframp.herdr.pasteCommand~ |
+| ~prefix Y~                     | copy pane directory           | none                  | command is ~webframp.herdr.copyCommand~                      |
 | ~prefix u~                     | open URL from pane            | fzf-tmux-url          | opener is ~webframp.herdr.urlOpener~                         |
 | ~prefix f~                     | open project workspace        | none                  | zoxide recency, then repos under ~projectRoots~              |
 | ~prefix A~                     | new agent in its own worktree | none                  | kinds from ~agentKinds~; checkout under ~worktreesDirectory~ |
