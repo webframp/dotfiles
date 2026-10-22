@@ -2,4 +2,4 @@
 (package! swamp
   :recipe (:host github
            :repo "webframp/emacs-swamp"
-           :files ("swamp.el")))
+           :files ("swamp.el" "swamp-present.el")))
