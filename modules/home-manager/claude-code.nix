@@ -34,5 +34,12 @@ in {
       executable = true;
       force = true;
     };
+
+    # settings.json's Stop hook runs this script.
+    home.file.".claude/hooks/no-unilateral-deferral.py" = {
+      source = ../../config/claude/hooks/no-unilateral-deferral.py;
+      executable = true;
+      force = true;
+    };
   };
 }

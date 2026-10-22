@@ -205,6 +205,16 @@ The subagent's review instructions MUST include these specific probes
    parameters, `0` is often a valid value. For optional strings, `""`
    may be meaningful.
 
+7. **Check for deferred work.** Does the change exclude, skip, stub, or
+   TODO something the author identified as broken? Does the PR description
+   or a code comment contain "follow-up", "until X handles it", "known
+   limitation", or "out of scope" for a defect in the code being touched or
+   sharing its root cause? A fix that avoids the defect (exclusion list,
+   feature flag off, narrowed scope) instead of fixing it is a HIGH finding
+   unless the user explicitly approved the deferral. Verify each claim the
+   description makes about why the work was not done against the actual
+   spec/code; a deferral rationale that is factually wrong is CRITICAL.
+
 ### Verdict Format
 
 Require the subagent to produce:

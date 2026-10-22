@@ -166,7 +166,7 @@ claude-sync: ## Sync Claude Code config (CLAUDE.md, settings.json, commands, ski
 	@cp $(CLAUDE_SRC)/settings.json $(CLAUDE_DST)/settings.json
 	@cp -r $(CLAUDE_SRC)/commands $(CLAUDE_DST)/
 	@cp -r $(CLAUDE_SRC)/skills $(CLAUDE_DST)/
-	@cp -r $(CLAUDE_SRC)/hooks $(CLAUDE_DST)/
+	@cp -rL $(CLAUDE_SRC)/hooks $(CLAUDE_DST)/
 	@echo "Synced Claude Code config to Windows (settings.local.json intentionally excluded)"
 
 ## Diagnostics
