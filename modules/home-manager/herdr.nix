@@ -117,6 +117,7 @@ in {
         prompt_new_tab_name = false; # tmux `c` doesn't prompt
         pane_gaps = false; # tmux-style shared dividers
         pane_outer_borders = false;
+        host_cursor = "drawn"; # render Evil cursor shapes inside Herdr panes
         show_agent_labels_on_pane_borders = true;
         window_title = "{terminal_title} / {tab}"; # set-titles-string "#T / #W"
         tab_bar_right = [
