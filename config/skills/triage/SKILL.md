@@ -100,13 +100,28 @@ creation. Operates in a dedicated worktree to keep the main tree clean.
     ```
     All must pass before proceeding. Fix any failures.
 
-13. **Commit** with a Conventional Commits message scoped to the extension(s):
+13. **Commit** with a Conventional Commits message scoped to the extension(s).
+    When the issue author (or anyone other than you) supplied a diagnosis,
+    reference fix, or linked fork commit that shaped the change, credit them in
+    the **commit itself** — not only in the PR body. Add a `Co-authored-by:`
+    trailer with their name and the email from their reference commit
+    (`gh api repos/<fork>/commits/<sha> --jq '{name: .commit.author.name,
+    email: .commit.author.email}'`), and name them in the body:
     ```bash
     git add <specific files>
-    git commit -m "feat(scope): description
+    git commit -F - <<'EOF'
+    feat(scope): description
 
-    Closes #<number>"
+    The diagnosis and a reference fix came from @<user> in #<number>; this
+    change reviews and reimplements that work.
+
+    Closes #<number>
+
+    Co-authored-by: <Name> <email>
+    EOF
     ```
+    The PR body credit is additional, never a substitute. Commit attribution is
+    permanent and links to the contributor's account; a PR description does not.
 
 ### Phase 5: Pre-Push Review
 
@@ -141,6 +156,9 @@ creation. Operates in a dedicated worktree to keep the main tree clean.
     - Files/extensions affected
     - What was tested (gate results, test counts)
     - `Closes #<number>` or `Ref #<number>`
+    - When the issue author supplied a diagnosis or reference fix, name them
+      here too — but this is in addition to the commit `Co-authored-by:`
+      trailer (step 13), never a replacement for it.
 
 18. **Report completion** to the human with the PR URL.
 
@@ -157,6 +175,10 @@ creation. Operates in a dedicated worktree to keep the main tree clean.
   contributor code or touches auth/secrets/CI. Do not block implementation
   waiting for an answer on routine issues.
 - NEVER force-push over existing PR commits.
+- ALWAYS attribute an external contributor's diagnosis or reference fix in the
+  **commit** via a `Co-authored-by:` trailer, not just the PR body. The commit
+  is the permanent, account-linked record; the PR description is not. If an
+  issue's reference fix inspired the change, the contributor is a co-author.
 - NEVER auto-merge. The human merges (or comments `/lgtm`/`/shipit`) after CI
   passes and any adversarial review findings are addressed.
 - If the pre-push review fails 3 times, stop and ask the human for guidance.
