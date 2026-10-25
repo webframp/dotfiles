@@ -228,3 +228,91 @@
 
 ;; Non git tracked setttings
 (load! "+local")
+
+
+;; Herdr re-encodes semantic key events as CSI-u after a pane negotiates
+;; Kitty Keyboard Protocol. Emacs's xterm decoder may already own the
+;; ESC[1..9 prefixes, which prevents kkp.el from installing its handlers.
+(after! kkp
+  (defun sme/kkp-process-keys-from-input (prefix &optional _prompt)
+    "Decode PREFIX while ignoring the input decoder prompt argument."
+    (kkp--process-keys prefix))
+
+  (defun sme/kkp-reinstall-input-decode-map-h ()
+    "Install KKP handlers over conflicting xterm input prefixes in Herdr."
+    (when (and (string= (getenv "TERM_PROGRAM") "herdr")
+               (bound-and-true-p global-kkp-mode)
+               (kkp--this-terminal-has-active-kkp-p))
+      (dolist (prefix kkp--key-prefixes)
+        (let ((key (kkp--csi-escape (string prefix))))
+          (define-key input-decode-map key nil)
+          (define-key input-decode-map key
+            (apply-partially #'sme/kkp-process-keys-from-input prefix))))))
+
+  (add-hook 'kkp-terminal-setup-complete-hook
+            #'sme/kkp-reinstall-input-decode-map-h)
+
+  ;; Doom's config can load before or after the initial TTY negotiation.
+  (when (kkp--this-terminal-has-active-kkp-p)
+    (sme/kkp-reinstall-input-decode-map-h))
+  (run-with-timer 3 nil #'sme/kkp-reinstall-input-decode-map-h))
+
+
+;; Doom's tty setup hook can run before this config loads. Install the cursor
+;; updates locally because buffers with local pre/post-command hooks can shadow
+;; the cursor changer's global hooks.
+(after! evil-terminal-cursor-changer
+  (defun sme/etcc-install-local-hooks-h ()
+    "Update the terminal cursor for Evil state and command changes."
+    (when (not (display-graphic-p))
+      (dolist (hook '(pre-command-hook
+                      post-command-hook
+                      evil-normal-state-entry-hook
+                      evil-insert-state-entry-hook
+                      evil-visual-state-entry-hook
+                      evil-replace-state-entry-hook
+                      evil-emacs-state-entry-hook
+                      evil-motion-state-entry-hook
+                      evil-operator-state-entry-hook))
+        (add-hook hook #'etcc--set-cursor nil t))
+      (etcc--set-cursor)))
+
+  (add-hook 'evil-local-mode-hook #'sme/etcc-install-local-hooks-h)
+  (when (bound-and-true-p evil-local-mode)
+    (sme/etcc-install-local-hooks-h)))
+
+;; Replace Doom's compact modal indicator with a Neovim-style state segment.
+;; Keeping the segment named `modals' preserves Doom's existing modeline layouts.
+(after! doom-modeline
+  (doom-modeline-def-segment modals
+    "Display the current Evil state as a colored status segment."
+    (when (bound-and-true-p evil-local-mode)
+      (let* ((state evil-state)
+             (label (cond ((eq state 'normal) "NORMAL")
+                          ((eq state 'insert) "INSERT")
+                          ((eq state 'visual) "VISUAL")
+                          ((eq state 'motion) "MOTION")
+                          ((eq state 'operator) "OPERATOR")
+                          ((eq state 'replace) "REPLACE")
+                          ((eq state 'emacs) "EMACS")
+                          (t (upcase (symbol-name state)))))
+             (background (cond ((eq state 'normal) "#1c3b4f")
+                              ((eq state 'insert) "#30451f")
+                              ((eq state 'visual) "#41244a")
+                              ((eq state 'motion) "#1d4149")
+                              ((eq state 'operator) "#4a321f")
+                              ((eq state 'replace) "#4b2627")
+                              ((eq state 'emacs) "#3a3f4b")
+                              (t "#4a321f")))
+             (foreground (cond ((eq state 'normal) "#8ec7ef")
+                              ((eq state 'insert) "#b8e18a")
+                              ((eq state 'visual) "#e3b4f0")
+                              ((eq state 'motion) "#a9ebf5")
+                              ((eq state 'operator) "#f1c08a")
+                              ((eq state 'replace) "#ff9b9a")
+                              ((eq state 'emacs) "#d5d8e0")
+                              (t "#f1c08a"))))
+        (propertize (format " %s " label)
+                    'face (list :foreground foreground
+                                :background background
+                                :weight 'bold))))))
