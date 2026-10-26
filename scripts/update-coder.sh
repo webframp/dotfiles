@@ -12,9 +12,20 @@ if [[ -n "${1:-}" ]]; then
     VERSION="$1"
     echo "Target version: $VERSION"
 else
-    CODER_URL=$(cat ~/.config/coderv2/url 2>/dev/null || true)
+    # Resolve the coder CLI config dir the way coder does (Go os.UserConfigDir):
+    # $CODER_CONFIG_DIR override, then ~/Library/Application Support on macOS,
+    # else $XDG_CONFIG_HOME/~/.config on Linux.
+    if [[ -n "${CODER_CONFIG_DIR:-}" ]]; then
+        CODER_DIR="$CODER_CONFIG_DIR"
+    elif [[ "$(uname -s)" == "Darwin" ]]; then
+        CODER_DIR="$HOME/Library/Application Support/coderv2"
+    else
+        CODER_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/coderv2"
+    fi
+    CODER_URL=$(cat "$CODER_DIR/url" 2>/dev/null || true)
     if [[ -z "$CODER_URL" ]]; then
-        echo "Error: No version specified and no Coder server URL found in ~/.config/coderv2/url"
+        echo "Error: No version specified and no Coder server URL found in $CODER_DIR/url"
+        echo "Run 'coder login <url>' first, or pass a version explicitly."
         exit 1
     fi
     echo "Fetching server version from $CODER_URL..."
@@ -35,16 +46,14 @@ echo ""
 echo "Updating $CURRENT -> $VERSION"
 echo ""
 
-# Platform configs: system -> (url_suffix, extension)
-declare -A PLATFORMS=(
-    ["x86_64-linux"]="linux_amd64.tar.gz"
-    ["aarch64-darwin"]="darwin_arm64.zip"
-)
+# Platform configs: system and release-asset suffix (parallel arrays for bash 3.2 compatibility)
+SYSTEMS=("x86_64-linux" "aarch64-darwin")
+SUFFIXES=("linux_amd64.tar.gz" "darwin_arm64.zip")
+HASHES=()
 
-declare -A HASHES
-
-for system in "${!PLATFORMS[@]}"; do
-    suffix="${PLATFORMS[$system]}"
+for i in "${!SYSTEMS[@]}"; do
+    system="${SYSTEMS[$i]}"
+    suffix="${SUFFIXES[$i]}"
     url="https://github.com/$REPO/releases/download/v${VERSION}/coder_${VERSION}_${suffix}"
 
     echo "Fetching hash for $system..."
@@ -58,19 +67,20 @@ for system in "${!PLATFORMS[@]}"; do
     # Get hash (--unpack to match fetchzip behavior)
     base32_hash=$(nix-prefetch-url --unpack "$url" 2>/dev/null)
     sri_hash=$(nix hash convert --hash-algo sha256 --to sri "$base32_hash")
-    HASHES[$system]="$sri_hash"
+    HASHES+=("$sri_hash")
     echo "  $system: $sri_hash"
 done
 
 echo ""
 echo "Updating $PKG_FILE..."
 
-# Update version
-sed -i "s/version = \"$CURRENT\"/version = \"$VERSION\"/" "$PKG_FILE"
+# Update version (use temp file for BSD/GNU sed compatibility)
+sed "s/version = \"$CURRENT\"/version = \"$VERSION\"/" "$PKG_FILE" > "$PKG_FILE.tmp" && mv "$PKG_FILE.tmp" "$PKG_FILE"
 
 # Update hashes for each platform
-for system in "${!HASHES[@]}"; do
-    hash="${HASHES[$system]}"
+for i in "${!SYSTEMS[@]}"; do
+    system="${SYSTEMS[$i]}"
+    hash="${HASHES[$i]}"
     # Match the hash line within the system's block
     # Use awk to find the right section and update the hash
     awk -v sys="$system" -v hash="$hash" '
