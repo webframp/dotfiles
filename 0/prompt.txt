@@ -1,0 +1,1 @@
+Already committed. Next I want a binding prefix+Y that yanks the current working directory to the clipboard
