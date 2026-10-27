@@ -1,0 +1,1 @@
+I'll skip it for now, we don't have an enterprise agreement with typesafe so I shouldn't send work product to their api just yet
