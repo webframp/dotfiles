@@ -1,0 +1,1 @@
+I'll come back to this one, save local markdown file with a hint prompt about what we've learned and where to go next in refining keybindings, with specific questions to start the next session. Save it to docs/plans/ with a prompt at the start
