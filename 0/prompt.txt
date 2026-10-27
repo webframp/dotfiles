@@ -1,0 +1,1 @@
+we recently added a custom binding for herder: prefix + shift+a, but when launching agents it doesn't allow passing arguments to the agents, I usually run claude for example with claude --dangerously-skip-permissions, similar for the other available agents. That should be supported somehow. What do you recommend?
