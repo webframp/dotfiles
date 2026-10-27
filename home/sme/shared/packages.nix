@@ -36,6 +36,7 @@ with tflint-plugins;
     editorconfig-checker
     editorconfig-core-c
     emacsPackages.cask
+    entire
     exiftool
 
     ffmpeg
