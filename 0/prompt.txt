@@ -1,0 +1,1 @@
+there is a herdr.toml in the root of this repo that is the config I want to use, validate that it is accurate and in the correct location for following repo patterns for managing config files. If it needs adjustments stop and ask me
