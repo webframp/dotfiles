@@ -1,0 +1,1 @@
+it should be fixed now, WSLg was stuck and I had to restart wslgd weston and the msrdc-relay components
