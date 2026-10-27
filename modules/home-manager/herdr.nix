@@ -16,12 +16,28 @@
     text = builtins.readFile ../../home/sme/shared/includes/herdr-launch.sh;
   };
 
+  herdr-record = pkgs.writeShellApplication {
+    name = "herdr-record";
+    runtimeInputs = with pkgs; [asciinema coreutils gnused jq];
+    text = builtins.readFile ../../home/sme/shared/includes/herdr-record.sh;
+  };
+
   # Popup commands run through a shell, so export the module's settings inline.
   launch = args:
     lib.concatStringsSep " " [
       "HERDR_PROJECT_ROOTS=${lib.escapeShellArg (lib.concatStringsSep ":" cfg.projectRoots)}"
       "HERDR_WORKTREES_DIR=${lib.escapeShellArg cfg.worktreesDirectory}"
       (lib.getExe herdr-launch)
+      args
+    ];
+
+  # The recording popup needs its own env: where casts go and which font the
+  # recorded shell's companion renderer expects.
+  record = args:
+    lib.concatStringsSep " " [
+      "HERDR_RECORDINGS_DIR=${lib.escapeShellArg cfg.recordingsDirectory}"
+      "HERDR_ASCIINEMA_BIN=${lib.escapeShellArg (lib.getExe pkgs.asciinema)}"
+      (lib.getExe herdr-record)
       args
     ];
 in {
@@ -90,6 +106,18 @@ in {
       description = "Root for herdr-created git worktrees (<dir>/<repo>/<branch-slug>)";
     };
 
+    recordingsDirectory = lib.mkOption {
+      type = lib.types.str;
+      default = "~/recordings";
+      description = "Directory the prefix+shift+s recording binding writes asciinema .cast files into. The @webframp/screencast swamp behavior renders them to MP4";
+    };
+
+    recordingFontFamily = lib.mkOption {
+      type = lib.types.str;
+      default = "JetBrainsMono Nerd Font Mono";
+      description = "Monospace font the screencast behavior passes to agg when rendering. Must match an installed font; agg fails otherwise";
+    };
+
     settings = lib.mkOption {
       inherit (toml) type;
       default = {};
@@ -98,7 +126,13 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = [inputs.herdr.packages.${pkgs.stdenv.hostPlatform.system}.default];
+    home.packages = [
+      inputs.herdr.packages.${pkgs.stdenv.hostPlatform.system}.default
+      # Screencast pipeline: record sessions, render casts to MP4 for YouTube.
+      pkgs.asciinema # terminal session recorder (prefix+shift+s binding)
+      pkgs.asciinema-agg # `agg`: cast -> animated GIF
+      pkgs.ffmpeg # GIF -> H.264 MP4
+    ];
 
     # Port of modules/home-manager/tmux.nix, targeting herdr v0.9.3. Invalid
     # keys fall back to defaults with a startup warning, so check `prefix+?`
@@ -207,6 +241,16 @@ in {
             width = "60%";
             height = "40%";
             command = launch "agent ${lib.escapeShellArgs (map (k: lib.concatStringsSep " " ([k] ++ cfg.agentArgs.${k} or [])) cfg.agentKinds)}";
+          }
+          # Start an asciinema-recorded shell in a new tab (prompt for a title).
+          # Exit the shell to finalize the cast; render it with @webframp/screencast.
+          {
+            key = "prefix+shift+s";
+            type = "popup";
+            description = "record a session (asciinema)";
+            width = "60%";
+            height = "20%";
+            command = record "start";
           }
           # tmux-jump-bell replacement: latest blocked agent, else latest finished one.
           # open_notification_target only sees in-app toasts, which ui.toast.delivery skips.
