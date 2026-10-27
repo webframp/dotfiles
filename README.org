@@ -202,6 +202,7 @@ Update it whenever the bindings in ~herdr.nix~ change.
 | ~prefix f~                     | open project workspace        | none                  | zoxide recency, then repos under ~projectRoots~              |
 | ~prefix A~                     | new agent in its own worktree | none                  | kinds from ~agentKinds~; checkout under ~worktreesDirectory~ |
 | ~prefix a~                     | Shelley on an exe.dev VM      | none                  | needs ~herdr plugin link~ once                               |
+| ~prefix S-s~                   | record a session (asciinema)  | none                  | opens a recorded shell; exit to finalize; render with ~@webframp/screencast~ |
 
 ~prefix f~ focuses the repo's workspace if one is already open.
 ~prefix A~ works from the main checkout or any of its worktrees. Its ~args:~ prompt is prefilled from ~webframp.herdr.agentArgs~; clear or extend it per launch.
