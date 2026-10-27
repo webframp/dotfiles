@@ -1,0 +1,1 @@
+Then we're ready to commit logically grouped commits
