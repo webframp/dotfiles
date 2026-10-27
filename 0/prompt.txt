@@ -1,0 +1,1 @@
+for kiro I usually run: kiro-cli --v3, for pi I don't have any options but I want to use whatever is similar for that harness
