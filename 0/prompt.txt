@@ -1,0 +1,1 @@
+Yes, implement it, keep it in the herdr module so zsh module is untouched, idle prompt shows zsh not directory name since we'd run out of space quickly for long paths
