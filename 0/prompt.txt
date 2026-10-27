@@ -1,0 +1,1 @@
+prefix+u works I tested, resurrect I don't care about. Copy paste is really important, how does it work via keybindings in herdr vs tmux?
