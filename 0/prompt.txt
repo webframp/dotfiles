@@ -1,0 +1,1 @@
+before committing, audit these skills for any potentially sensitive information disclosure and let me know what you find BEFORE you make any modifications
