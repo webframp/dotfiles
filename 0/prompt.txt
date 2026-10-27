@@ -1,0 +1,1 @@
+I'm deeply tied to tmux bindings so I always try to use prefix+] to paste, it seems unbound in herdr can we make that work and is there a default paste binding?
