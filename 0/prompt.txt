@@ -1,0 +1,1 @@
+is there a way with herdr for terminal tabs to take the name of the foreground process automatically?
