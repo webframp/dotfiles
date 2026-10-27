@@ -1,0 +1,1 @@
+still get héllo → 世界, that's odd because xclip isn't a daemon process, it's not long lived
