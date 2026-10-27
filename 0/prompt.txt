@@ -1,0 +1,1 @@
+I'm considering using herdr https://herdr.dev/llms.txt this is my nix dotfiles repo. The Herdr repo ships a flake, so add herdr.url = "github:herdrdev/herdr/v0.9.3" as an input. Add inputs.herdr.packages.${system}.default to your packages, and point xdg.configFile."herdr/config.toml".source at this file in shared/includes/.
