@@ -1,0 +1,1 @@
+good work, I've got a running herdr session we're in right now I want to reconfigure with the new module, how can I do it without restarting?
