@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 # ABOUTME: Updates kiro-cli package to a specific or latest version
-# ABOUTME: Fetches version and hashes from the kiro CLI manifest
+# ABOUTME: Fetches standalone archive hashes from the Kiro CLI manifest
 
 set -euo pipefail
 
 PKG_FILE="pkgs/kiro-cli/default.nix"
 MANIFEST_URL="https://prod.download.cli.kiro.dev/stable/latest/manifest.json"
+RELEASE_BASE_URL="https://desktop-release.q.us-east-1.amazonaws.com"
 
 # Get version from argument or fetch latest from manifest
 if [[ -n "${1:-}" ]]; then
@@ -47,21 +48,29 @@ if ! echo "$MANIFEST" | jq -e '.version // empty' >/dev/null 2>&1 || \
     fi
 fi
 
-# Platform configs: nix system -> manifest query
-# x86_64-linux: headless tar.gz
-# aarch64-darwin: universal DMG
+# Platform configs: nix system -> standalone archive name
+# x86_64-linux: headless GNU tar.gz
+# aarch64-darwin: universal standalone tar.gz
 SYSTEMS=("x86_64-linux" "aarch64-darwin")
+ASSETS=("kirocli-x86_64-linux.tar.gz" "kirocli-universal-darwin.tar.gz")
 HASHES=()
 
-for system in "${SYSTEMS[@]}"; do
+for i in "${!SYSTEMS[@]}"; do
+    system="${SYSTEMS[$i]}"
     if [[ "$system" == "x86_64-linux" ]]; then
         hex_hash=$(echo "$MANIFEST" | jq -r '.packages[] | select(.architecture == "x86_64" and .os == "linux" and .fileType == "tarGz" and .variant == "headless" and (.targetTriple | test("gnu"))) | .sha256')
     elif [[ "$system" == "aarch64-darwin" ]]; then
-        hex_hash=$(echo "$MANIFEST" | jq -r '.packages[] | select(.os == "macos" and .fileType == "dmg") | .sha256')
+        hex_hash=$(echo "$MANIFEST" | jq -r '.packages[] | select(.architecture == "universal" and .os == "macos" and .fileType == "tarGz" and .variant == "standalone") | .sha256')
     fi
 
     if [[ -z "$hex_hash" ]]; then
         echo "Error: Could not find hash for $system in manifest"
+        exit 1
+    fi
+
+    asset_url="$RELEASE_BASE_URL/${VERSION}/${ASSETS[$i]}"
+    if ! curl -sfI "$asset_url" > /dev/null; then
+        echo "Error: Release asset not found: $asset_url"
         exit 1
     fi
 
@@ -95,6 +104,8 @@ done
 echo ""
 echo "Verifying build..."
 if nix build .#kiro-cli 2>&1; then
+    ./result/bin/kiro-cli --version
+    ./result/bin/kiro-cli chat --help | grep -q -- '--agent-engine'
     echo ""
     echo "Successfully updated kiro-cli: $CURRENT -> $VERSION"
     rm -f result

@@ -10,7 +10,6 @@
   fzf = import ./fzf.nix;
   git = import ./git.nix;
   herdr = import ./herdr.nix;
-  kiroCli = import ./kiro-cli.nix;
   mail = import ./mail.nix;
   pi = import ./pi.nix;
   tmux = import ./tmux.nix;

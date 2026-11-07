@@ -24,7 +24,6 @@
       fzf
       git
       herdr
-      kiroCli
       mail
       pi
       tmux
@@ -72,7 +71,6 @@
   webframp.doom.enable = true;
   webframp.herdr.enable = true;
   programs.shelley-herdr.enable = true;
-  webframp.kiroCli.enable = true;
   webframp.pi.enable = true;
   webframp.delta.enable = true;
   webframp.direnv = {

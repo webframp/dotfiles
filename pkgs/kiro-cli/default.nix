@@ -1,69 +1,50 @@
 # ABOUTME: Kiro CLI - AI-powered development assistant from AWS
-# ABOUTME: Fetches prebuilt binaries from prod.download.cli.kiro.dev
+# ABOUTME: Fetches standalone prebuilt archives from desktop-release.q.us-east-1.amazonaws.com
 {
   lib,
   stdenv,
   fetchurl,
   autoPatchelfHook,
-  glibc,
-  gcc,
-  undmg,
   ...
-}:
-let
-  version = "2.33.1";
+}: let
+  version = "3.1.0";
 
   sources = {
     x86_64-linux = {
-      url = "https://prod.download.cli.kiro.dev/stable/${version}/kirocli-x86_64-linux.tar.gz";
-      hash = "sha256-WZMVir6xowhqWR1cfdd+PbPIiaPA2LQUGLxqGveUAPs=";
+      url = "https://desktop-release.q.us-east-1.amazonaws.com/${version}/kirocli-x86_64-linux.tar.gz";
+      hash = "sha256-AGg1svT0M/VbsCYBzTBTzLEL09QIR4cZwz0yDxjka6U=";
     };
     aarch64-darwin = {
-      url = "https://prod.download.cli.kiro.dev/stable/${version}/Kiro%20CLI.dmg";
-      hash = "sha256-9US0+d5RpFfh7QhJ/98r57a3CvSRMwAGsBy3H6IRH0Q=";
+      url = "https://desktop-release.q.us-east-1.amazonaws.com/${version}/kirocli-universal-darwin.tar.gz";
+      hash = "sha256-yQemqrk+BASnXbZnQSrAmgEWPu/E8dc059IhpuA4cPA=";
     };
   };
 
-  src = fetchurl (sources.${stdenv.system} // lib.optionalAttrs stdenv.hostPlatform.isDarwin {
-    name = "kiro-cli-${version}.dmg";
-  });
+  src = fetchurl (sources.${stdenv.hostPlatform.system} or (throw "Unsupported system: ${stdenv.hostPlatform.system}"));
 in
-stdenv.mkDerivation {
-  pname = "kiro-cli";
-  inherit version src;
+  stdenv.mkDerivation {
+    pname = "kiro-cli";
+    inherit version src;
 
-  sourceRoot = if stdenv.hostPlatform.isLinux then "kirocli" else ".";
+    sourceRoot = "kirocli";
 
-  nativeBuildInputs =
-    lib.optionals stdenv.hostPlatform.isLinux [autoPatchelfHook]
-    ++ lib.optionals stdenv.hostPlatform.isDarwin [undmg];
+    nativeBuildInputs = lib.optionals stdenv.hostPlatform.isLinux [autoPatchelfHook];
 
-  buildInputs = lib.optionals stdenv.hostPlatform.isLinux [
-    glibc
-    gcc.cc.lib
-  ];
+    buildInputs = lib.optionals stdenv.hostPlatform.isLinux [stdenv.cc.cc.lib];
 
-  dontStrip = true;
+    dontStrip = true;
 
-  installPhase = ''
-    runHook preInstall
-  '' + lib.optionalString stdenv.hostPlatform.isLinux ''
-    install -Dm755 bin/kiro-cli $out/bin/kiro-cli
-    install -Dm755 bin/kiro-cli-chat $out/bin/kiro-cli-chat
-    install -Dm755 bin/kiro-cli-term $out/bin/kiro-cli-term
-  '' + lib.optionalString stdenv.hostPlatform.isDarwin ''
-    install -Dm755 "Kiro CLI.app/Contents/MacOS/kiro-cli" $out/bin/kiro-cli
-    install -Dm755 "Kiro CLI.app/Contents/MacOS/kiro-cli-chat" $out/bin/kiro-cli-chat
-    install -Dm755 "Kiro CLI.app/Contents/MacOS/kiro-cli-term" $out/bin/kiro-cli-term
-  '' + ''
-    runHook postInstall
-  '';
+    installPhase = ''
+      runHook preInstall
+      install -Dm755 bin/kiro-cli $out/bin/kiro-cli
+      runHook postInstall
+    '';
 
-  meta = with lib; {
-    description = "Kiro CLI - AI-powered development assistant";
-    homepage = "https://kiro.dev";
-    license = licenses.unfree;
-    platforms = builtins.attrNames sources;
-    mainProgram = "kiro-cli";
-  };
-}
+    meta = with lib; {
+      description = "Kiro CLI - AI-powered development assistant";
+      homepage = "https://kiro.dev";
+      license = licenses.unfree;
+      platforms = builtins.attrNames sources;
+      mainProgram = "kiro-cli";
+    };
+  }
