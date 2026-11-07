@@ -63,14 +63,10 @@ in {
       AWS_VAULT_BACKEND = "pass";
     };
 
-    # Override .zprofile so Kiro CLI pre block is placed first
+    # Override .zprofile to control its generated ordering.
     home.file = mkMerge [
       {
         ".zprofile".text = mkForce ''
-          # Kiro CLI pre block. Keep at the top of this file.
-          # Skipped inside tmux: kiro-cli-term hides the running process from tmux window names.
-          [[ -z "$TMUX" && -f "''${HOME}/Library/Application Support/kiro-cli/shell/zprofile.pre.zsh" ]] && builtin source "''${HOME}/Library/Application Support/kiro-cli/shell/zprofile.pre.zsh"
-
           # Environment variables
           . "${config.home.profileDirectory}/etc/profile.d/hm-session-vars.sh"
 
@@ -80,10 +76,6 @@ in {
           fi
 
           WORDCHARS='*?[]~=&;!#$%^(){}<>'
-
-          # Kiro CLI post block. Keep at the bottom of this file.
-          # Skipped inside tmux: kiro-cli-term hides the running process from tmux window names.
-          [[ -z "$TMUX" && -f "''${HOME}/Library/Application Support/kiro-cli/shell/zprofile.post.zsh" ]] && builtin source "''${HOME}/Library/Application Support/kiro-cli/shell/zprofile.post.zsh"
         '';
       }
       # Powerlevel10k configuration file
@@ -135,12 +127,6 @@ in {
       # Use mkMerge with mkOrder to control content placement
       # See: https://github.com/nix-community/home-manager/pull/6479
       initContent = let
-        kiroPreBlock = mkOrder 50 ''
-          # Kiro CLI pre block. Keep at the top of this file.
-          # Skipped inside tmux: kiro-cli-term hides the running process from tmux window names.
-          [[ -z "$TMUX" && -f "''${HOME}/Library/Application Support/kiro-cli/shell/zshrc.pre.zsh" ]] && builtin source "''${HOME}/Library/Application Support/kiro-cli/shell/zshrc.pre.zsh"
-        '';
-
         # Priority 100: p10k instant prompt must be at very top (skip in vterm)
         p10kInstantPrompt = mkOrder 100 (optionalString (cfg.promptTheme == "p10k") ''
           if [[ "$INSIDE_EMACS" != 'vterm' ]] && [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
@@ -238,18 +224,10 @@ in {
 
           ${cfg.extraInitContent}
         '';
-
-        kiroPostBlock = mkOrder 2000 ''
-          # Kiro CLI post block. Keep at the bottom of this file.
-          # Skipped inside tmux: kiro-cli-term hides the running process from tmux window names.
-          [[ -z "$TMUX" && -f "''${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh" ]] && builtin source "''${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh"
-        '';
       in
         mkMerge [
-          kiroPreBlock
           p10kInstantPrompt
           ((optionalString cfg.enableVterm vtermIntegration) + baseConfig)
-          kiroPostBlock
         ];
 
       zplug = {
