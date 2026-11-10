@@ -1,0 +1,25 @@
+fix local merge conflicts and get rebased against upstream origin/main but keep the latest changes
+
+---
+
+repo rules now prevent pushing to main, I don't like that. You have the gh cli. Fix it
+
+---
+
+likely good enough for now, I pushed it
+
+---
+
+take this article, examine the source code referenced and how I should integrate into my own config: https://blog.sntxrr.dev/herdr-swamp-club-theme/
+
+---
+
+inline it and drop dracula, brightness I'm ok with intense and will refine later perhaps leave a comment as future hint that this needs to be considered. the sounds are not optional and need be integrated as well
+
+---
+
+port it to wezterm
+
+---
+
+excellent, I have 2 pending changes to commit: a swamp upgrade and this recent theme work. stage in logical groups and commit
