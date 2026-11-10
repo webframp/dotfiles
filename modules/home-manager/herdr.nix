@@ -10,6 +10,15 @@
   cfg = config.webframp.herdr;
   toml = pkgs.formats.toml {};
 
+  # Swamp Club theme and notification sounds (MIT), vendored from upstream
+  # rather than run through its install.sh, which edits config.toml in place.
+  swampClub = pkgs.fetchFromGitHub {
+    owner = "sntxrr";
+    repo = "herdr-swamp-club";
+    rev = "4af7e6198a62c27a75e610768a9f7d7571c3acde";
+    hash = "sha256-/k8BBhQE8F0UfbMx6+myVCke/7eLmKM24S2xnGABvsg=";
+  };
+
   herdr-launch = pkgs.writeShellApplication {
     name = "herdr-launch";
     runtimeInputs = with pkgs; [coreutils fd flock fzf git jq zoxide];
@@ -140,7 +149,36 @@ in {
     webframp.herdr.settings = {
       onboarding = false;
 
-      theme.name = "dracula"; # built-in; replaces the dracula tmux plugin
+      # Swamp Club palette from github.com/sntxrr/herdr-swamp-club. Catppuccin is
+      # only the base: herdr's token names come from it, and every token is overridden.
+      # The WezTerm color scheme should share this palette so panes match the chrome.
+      # TODO(brightness): accent #39ff14 is deliberately intense. If it's too much,
+      # swap accent and green (#05df72), or set panel_bg = "reset" to follow the terminal.
+      theme = {
+        name = "catppuccin";
+        auto_switch = false;
+        custom = {
+          panel_bg = "#080808";
+          sidebar_bg = "#000000";
+          surface_dim = "#0d0d0d";
+          surface0 = "#1a1a1a";
+          surface1 = "#262626";
+          active_row_bg = "#071b0f";
+          selection_bg = "#062e16";
+          overlay0 = "#4b5563";
+          overlay1 = "#6b7280";
+          text = "#d1d5db";
+          subtext0 = "#9ca3af";
+          accent = "#39ff14";
+          green = "#05df72";
+          teal = "#00d3f2";
+          blue = "#60a5fa";
+          mauve = "#e879f9";
+          peach = "#ff8904";
+          yellow = "#fde047";
+          red = "#ff003c";
+        };
+      };
 
       terminal.new_cwd = "follow";
 
@@ -161,6 +199,12 @@ in {
             format = "%H:%M";
           } # clock24 + @dracula-plugins "time"
         ];
+        # Paths are relative to the config directory; herdr plays these only for
+        # agents in background workspaces.
+        sound = {
+          done_path = "sounds/swamp-club-done.mp3";
+          request_path = "sounds/swamp-club-request.mp3";
+        };
         toast.delivery = "terminal"; # outer-terminal notification; may replace the WezTerm bell->toast hook
       };
 
@@ -277,6 +321,9 @@ in {
       builtins.replaceStrings ["@herdr_launch@"] [(lib.getExe herdr-launch)]
       (builtins.readFile ../../home/sme/shared/includes/herdr-tab-name.zsh)
     );
+
+    xdg.configFile."herdr/sounds/swamp-club-done.mp3".source = "${swampClub}/sounds/done.mp3";
+    xdg.configFile."herdr/sounds/swamp-club-request.mp3".source = "${swampClub}/sounds/request.mp3";
 
     xdg.configFile."herdr/config.toml".source = toml.generate "herdr-config.toml" cfg.settings;
   };
