@@ -22,6 +22,7 @@
       direnv
       doom
       fzf
+      ghostty
       git
       herdr
       mail

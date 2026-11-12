@@ -8,6 +8,7 @@
   doom = import ./doom.nix;
   direnv = import ./direnv.nix;
   fzf = import ./fzf.nix;
+  ghostty = import ./ghostty.nix;
   git = import ./git.nix;
   herdr = import ./herdr.nix;
   mail = import ./mail.nix;

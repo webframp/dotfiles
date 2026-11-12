@@ -33,6 +33,7 @@ in {
   };
 
   # Bluestreak-specific webframp overrides
+  webframp.ghostty.enable = true;
   webframp.git.credentialHelper = "!pass-git-helper $@";
   webframp.tmux.enableOrgCapture = true;
 
