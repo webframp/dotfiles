@@ -1,0 +1,9 @@
+in commit 8a9bc0993ad1c7216ead54756e43a82e4eb98415 I introduced theme changes for herdr and wezterm but forgot to have a similar corresponding fix for my use of ghostty on macos. Suggest possible fixes
+
+---
+
+good plan, 2 + 4 and yes keep the bg opacity value
+
+---
+
+I did it, already applied
