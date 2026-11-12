@@ -1,0 +1,14 @@
+ok, I have a mix of uncommitted changes in my dotfiles, inspect, then logically group the commits
+
+---
+
+every time I launch a new terminal in herdr now I get a weird "}}" artifact, looks like this (with the prompt): ╭─   ~/src/webframp/dotfiles   main ⇡4 ⇢4 *2 :-·············································  10:46:07
+}}╰─❯
+
+---
+
+that fixed it, what do I loose possibly?
+
+---
+
+ok, commit the fix
