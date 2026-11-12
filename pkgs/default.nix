@@ -4,7 +4,6 @@
   aws-doctor = pkgs.callPackage ./aws-doctor {};
   claude = pkgs.callPackage ./claude {};
   coder = pkgs.callPackage ./coder {};
-  entire = pkgs.callPackage ./entire {};
   go-jwlm = pkgs.callPackage ./go-jwlm {};
   iamlive = pkgs.callPackage ./iamlive {};
   kiro-cli = pkgs.callPackage ./kiro-cli {};
