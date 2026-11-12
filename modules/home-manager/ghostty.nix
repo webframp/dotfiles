@@ -27,6 +27,10 @@ in {
       enable = true;
       # The macOS app is installed outside nix; nixpkgs does not build it for darwin.
       package = null;
+      # Ghostty injects its own zsh integration into shells it launches. Sourcing
+      # it from .zshrc as well would also run it in herdr panes, which inherit
+      # GHOSTTY_RESOURCES_DIR, and leak its prompt marks into the p10k prompt.
+      enableZshIntegration = false;
       settings = {
         theme = "swamp-club";
         background-opacity = 0.8;
