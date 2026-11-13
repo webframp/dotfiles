@@ -51,5 +51,6 @@
   "skipWorkflowUsageWarning": true,
   "theme": "dark-ansi",
   "autoCompactEnabled": true,
-  "agentPushNotifEnabled": true
+  "agentPushNotifEnabled": true,
+  "model": "sonnet"
 }
