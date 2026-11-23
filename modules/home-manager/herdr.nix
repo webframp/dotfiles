@@ -239,6 +239,12 @@ in {
         cycle_pane_next = "prefix+space";
         cycle_pane_previous = "prefix+alt+space";
 
+        # Workspace and agent-panel stepping; both are unset in herdr by default.
+        previous_workspace = "prefix+{";
+        next_workspace = "prefix+}";
+        previous_agent = "prefix+(";
+        next_agent = "prefix+)";
+
         # bind B / BTab tmux-jump-bell -> herdr's native agent attention model.
         # B opens the picker (press `b` for blocked); BTab is the attention command below.
         open_notification_target = "prefix+o";

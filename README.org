@@ -192,7 +192,9 @@ Update it whenever the bindings in ~herdr.nix~ change.
 | ~prefix H~ ~J~ ~K~ ~L~         | resize pane                   | pain-control          | herdr puts swap here by default                              |
 | ~prefix M-h~ ~M-j~ ~M-k~ ~M-l~ | swap pane                     | none                  | moved off ~shift+hjkl~                                       |
 | ~prefix C-h~ ~C-l~             | previous / next tab           | ~bind -r C-h~ / ~C-l~ | also ~p~ / ~n~; no key repeat                                |
-| ~prefix Tab~                   | last pane                     | ~last-window~         | crosses tabs and workspaces                                  |
+| ~prefix {~ ~}~                 | previous / next workspace     | none                  | unset in herdr by default                                    |
+| ~prefix (~ ~)~                 | previous / next agent         | none                  | steps through the sidebar agent panel; unset by default      |
+| ~prefix Tab~                   | last pane                    | ~last-window~         | crosses tabs and workspaces                                  |
 | ~prefix Space~ ~M-Space~       | cycle panes forward / back    | none                  |                                                              |
 | ~prefix S-Tab~                 | jump to agent needing attention | ~BTab~ tmux-jump-bell | latest blocked, else latest done; ~prefix o~ needs an in-app toast |
 | ~prefix g~ ~B~                 | agent picker                  | ~B~ tmux-jump-bell    | press ~b~ to filter blocked agents                           |
