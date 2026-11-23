@@ -77,6 +77,13 @@ Discover gates from the project's config files:
 | `package.json` | `npm run lint && npm run build && npm test` |
 | `Cargo.toml` | `cargo check && cargo clippy && cargo test` |
 
+For a swamp extension (a `deno.json` beside a `manifest.yaml`), run the
+`extension-quality-gate` workflow instead of the `deno.json` row, using the
+command from the "Swamp extension quality gate" section of `~/.claude/CLAUDE.md`
+with the repo or worktree path as `repoRoot` and the extension directory as
+`filter`. It runs check, lint, fmt:check and test, plus items 3 and 4 of 2c, and
+never rewrites files. Items 1, 2 and 5 of 2c still run here.
+
 If gates fail, fix them first. Do not send broken code to the reviewer.
 
 ### 2b. Repo-Specific CI Gates

@@ -93,12 +93,16 @@ creation. Operates in a dedicated worktree to keep the main tree clean.
 
 ### Phase 4: Verify
 
-12. **Run quality gates** for each affected extension:
+12. **Run quality gates** for each affected extension. Format first, then run
+    the gate, which checks formatting without rewriting files:
     ```bash
-    deno task check && deno task lint && deno task fmt && deno task test
-    swamp extension quality manifest.yaml --json
+    (cd <extension directory> && deno task fmt)
     ```
-    All must pass before proceeding. Fix any failures.
+    Then run the `extension-quality-gate` workflow with the command from the
+    "Swamp extension quality gate" section of `~/.claude/CLAUDE.md`, passing the
+    worktree path as `repoRoot` and the extension directory as `filter`. It runs
+    check, lint, fmt:check, test, the manifest format check and the quality
+    rubric. All must pass before proceeding. Fix any failures.
 
 13. **Commit** with a Conventional Commits message scoped to the extension(s).
     When the issue author (or anyone other than you) supplied a diagnosis,
